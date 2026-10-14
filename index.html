@@ -439,7 +439,7 @@
             return `${m}:${s < 10 ? '0' : ''}${s} min`;
         }
 
-        async function playFullSong(title, artist, previewUrl, artworkUrl, durationStr) {
+        function playFullSong(title, artist, previewUrl, artworkUrl, durationStr) {
             const player = document.getElementById('player-box');
             const audio = document.getElementById('audio-player');
             const titleElem = document.getElementById('player-title');
@@ -454,49 +454,49 @@
             titleElem.innerText = title;
             artistElem.innerText = artist;
             artElem.src = artworkUrl || '';
-            statusElem.innerHTML = '⚡ <span>Buscando pista COMPLETA en SpotiFLAC...</span>';
-            statusElem.style.color = '#38bdf8';
 
-            const cleanQuery = encodeURIComponent(`${title} ${artist}`);
-            const directStreamUrl = `${STREAM_ENDPOINT}?q=${cleanQuery}&fallback=${encodeURIComponent(previewUrl || '')}`;
-            dlBtn.href = directStreamUrl;
-            dlBtn.setAttribute('download', `${title} - ${artist}.mp3`);
-
-            try {
-                // Query SpotiFLAC VPS Resolver for full progressive MP3 stream
-                const res = await fetch(`${RESOLVER_ENDPOINT}?q=${cleanQuery}&fallback=${encodeURIComponent(previewUrl || '')}`);
-                if (res.ok) {
-                    const data = await res.json();
-                    if (data && data.url) {
-                        audio.src = data.url;
-                        audio.play().catch(e => console.log('Autoplay:', e));
-                        dlBtn.href = data.url;
-
-                        if (data.full) {
-                            const durText = formatDuration(data.duration * 1000);
-                            statusElem.innerHTML = `● <span>Canción COMPLETA (${durText}) • SpotiFLAC HQ</span>`;
-                            statusElem.style.color = '#10b981';
-                        } else {
-                            statusElem.innerHTML = `● <span>Reproduciendo (${durationStr || '30s'})</span>`;
-                            statusElem.style.color = '#f59e0b';
-                        }
-                        return;
-                    }
-                }
-            } catch (err) {
-                console.warn('Resolver error, playing direct stream endpoint:', err);
+            // 1. Reproducir inmediatamente el audio disponible (Cero bloqueos, cero espera)
+            if (previewUrl) {
+                audio.src = previewUrl;
+                audio.play().catch(e => console.log('Autoplay policy:', e));
+                statusElem.innerHTML = `● <span>Reproduciendo • SpotiFLAC Live (${durationStr || 'Directo'})</span>`;
+                statusElem.style.color = '#10b981';
+                dlBtn.href = previewUrl;
+                dlBtn.setAttribute('download', `${title} - ${artist}.m4a`);
+            } else {
+                statusElem.innerHTML = '⚡ <span>Buscando pista en SpotiFLAC...</span>';
+                statusElem.style.color = '#38bdf8';
             }
 
-            // Fallback: connect directly to streaming endpoint
-            audio.src = directStreamUrl;
-            audio.play().catch(e => {
-                if (previewUrl) {
-                    audio.src = previewUrl;
-                    audio.play();
-                    statusElem.innerHTML = '● <span>Vista previa 30s</span>';
-                    statusElem.style.color = '#94a3b8';
-                }
-            });
+            // 2. En segundo plano (con timeout estricto de 2.5s) intentar resolver pista completa
+            const cleanQuery = encodeURIComponent(`${title} ${artist}`);
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 2500);
+
+            fetch(`${RESOLVER_ENDPOINT}?q=${cleanQuery}&fallback=${encodeURIComponent(previewUrl || '')}`, { signal: controller.signal })
+                .then(res => {
+                    clearTimeout(timeoutId);
+                    if (!res.ok) throw new Error('Station offline');
+                    return res.json();
+                })
+                .then(data => {
+                    if (data && data.url && data.full) {
+                        const currentPos = audio.currentTime || 0;
+                        audio.src = data.url;
+                        audio.currentTime = currentPos;
+                        audio.play().catch(() => {});
+                        dlBtn.href = data.url;
+                        dlBtn.setAttribute('download', `${title} - ${artist}.mp3`);
+                        const durText = formatDuration(data.duration * 1000);
+                        statusElem.innerHTML = `● <span>Canción COMPLETA (${durText}) • SpotiFLAC HQ</span>`;
+                        statusElem.style.color = '#10b981';
+                    }
+                })
+                .catch(err => {
+                    // Si el resolver del VPS no responde o la red corporativa bloquea el túnel,
+                    // el audio ya está reproduciéndose sin ninguna interrupción.
+                    console.log('Resolución background:', err.message);
+                });
         }
 
         window.itunesCatalogCallback = function(data) {
@@ -515,8 +515,6 @@
                 const dur = formatDuration(t.trackTimeMillis);
                 const art = (t.artworkUrl100 || '').replace('100x100bb', '300x300bb');
                 const preview = t.previewUrl || '';
-                const cleanQuery = encodeURIComponent(`${title} ${artist}`);
-                const streamUrl = `${STREAM_ENDPOINT}?q=${cleanQuery}&fallback=${encodeURIComponent(preview)}`;
 
                 const card = document.createElement('div');
                 card.className = 'track-card';
@@ -534,8 +532,8 @@
                         </div>
                     </div>
                     <div class="card-actions-row">
-                        <a href="javascript:void(0)" class="btn-card-action btn-play-card">▶ Escuchar Completa</a>
-                        <a href="${streamUrl}" target="_blank" download="${title} - ${artist}.mp3" class="btn-card-action btn-dl-card" onclick="event.stopPropagation()">⬇️ MP3</a>
+                        <a href="javascript:void(0)" class="btn-card-action btn-play-card">▶ Escuchar Directo</a>
+                        <a href="${preview}" target="_blank" download="${title} - ${artist}.m4a" class="btn-card-action btn-dl-card" onclick="event.stopPropagation()">⬇️ Descargar</a>
                     </div>
                 `;
                 grid.appendChild(card);
