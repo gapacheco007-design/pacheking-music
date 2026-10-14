@@ -1,5 +1,5 @@
 {
- "updated": 1791954596,
+ "updated": 1791955571,
  "tracks": [
   {
    "id": "track-mana-huele-a-tristeza",
@@ -898,6 +898,20 @@
    "url": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/queen--somebody-to-love--test-somebody-to-lov.mp3",
    "source": "spotdl",
    "added": 1791953177
+  },
+  {
+   "id": "itunes-423021874",
+   "title": "Rap vs. Racismo (Con Lírico, Santo, El Langui, Kase.O, Nach, Locus, Ose, Nervizzo, Sho Hai, Zatu, Gitano Anton, Titó y Xhelazz)",
+   "artist": "El Chojin",
+   "album": "El Ataque de los Que Observaban",
+   "genre": "Hip-Hop / Rap",
+   "duration": 355,
+   "dur_str": "5:54 min",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music/39/d5/05/mzi.rzqsnffs.jpg/600x600bb.jpg",
+   "url": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/el-chojin--rap-vs-racismo--itunes-423021874.mp3",
+   "format": "FLAC / MP3 320k Master",
+   "source": "soundcloud",
+   "added": 1791955571
   }
  ]
 }
