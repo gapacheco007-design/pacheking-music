@@ -393,12 +393,28 @@
         <!-- SEARCH BOX -->
         <div class="search-card">
             <form id="search-form" class="search-group" onsubmit="handleSearch(event)">
-                <input type="text" id="query-input" placeholder="Escribe canción o artista (ej: Calle 13, Bad Bunny, Coldplay)..." required autocomplete="off">
+                <input type="text" id="query-input" placeholder="Escribe canción o artista (ej: Calle 13, Ricardo Arjona, Bad Bunny)..." required autocomplete="off">
                 <button type="submit" class="btn-search">
                     <span>Buscar</span>
                     <span>🔍</span>
                 </button>
             </form>
+        </div>
+
+        <!-- QUICK FILTER PILLS -->
+        <div class="filter-pills-row" style="display: flex; gap: 0.6rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+            <button type="button" class="btn-pill" onclick="showLocalCatalog(event)" style="background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; color: #10b981; padding: 0.45rem 1rem; border-radius: 20px; font-weight: 700; cursor: pointer; font-size: 0.85rem;">
+                🔥 Pistas COMPLETAS en GitHub (10)
+            </button>
+            <button type="button" class="btn-pill" onclick="quickSearch('Calle 13')" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.15); color: var(--text-sub); padding: 0.45rem 1rem; border-radius: 20px; font-weight: 600; cursor: pointer; font-size: 0.85rem;">
+                Calle 13
+            </button>
+            <button type="button" class="btn-pill" onclick="quickSearch('Ricardo Arjona')" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.15); color: var(--text-sub); padding: 0.45rem 1rem; border-radius: 20px; font-weight: 600; cursor: pointer; font-size: 0.85rem;">
+                Ricardo Arjona
+            </button>
+            <button type="button" class="btn-pill" onclick="quickSearch('Bad Bunny')" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.15); color: var(--text-sub); padding: 0.45rem 1rem; border-radius: 20px; font-weight: 600; cursor: pointer; font-size: 0.85rem;">
+                Bad Bunny
+            </button>
         </div>
 
         <!-- REPRODUCTOR NATIVO SPOTIFLAC (FULL TRACKS - CANCIÓN COMPLETA) -->
@@ -423,13 +439,111 @@
         <div id="results-grid" class="results-grid"></div>
 
         <footer>
-            SpotiFLAC Mobile Web &bull; Extension Provider: soundcloud.sflx &bull; PacheKing ARM64 Station
+            SpotiFLAC Mobile Web &bull; Servido directamente desde GitHub &bull; PacheKing Station
         </footer>
     </div>
 
     <script>
-        const RESOLVER_ENDPOINT = 'https://counts-infant-appearing-greene.trycloudflare.com/api/music/resolve';
-        const STREAM_ENDPOINT = 'https://counts-infant-appearing-greene.trycloudflare.com/api/music/stream';
+        const GITHUB_CATALOG = [
+            {
+                keywords: ['muerte en hawaii', 'muerte hawai', 'muerte'],
+                file: 'music/calle-13-muerte-en-hawaii.mp3',
+                title: 'Muerte en Hawaii',
+                artist: 'Calle 13',
+                dur: '3:09 min',
+                art: 'https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/bf/25/7f/bf257f00-3490-67c7-c7ba-4baec8d1c073/886443180424.jpg/300x300bb.jpg'
+            },
+            {
+                keywords: ['la vuelta al mundo', 'vuelta mundo'],
+                file: 'music/calle-13-la-vuelta-al-mundo.mp3',
+                title: 'La Vuelta al Mundo',
+                artist: 'Calle 13',
+                dur: '3:54 min',
+                art: 'https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/bf/25/7f/bf257f00-3490-67c7-c7ba-4baec8d1c073/886443180424.jpg/300x300bb.jpg'
+            },
+            {
+                keywords: ['latinoamerica', 'latino america'],
+                file: 'music/calle-13-latinoamerica.mp3',
+                title: 'Latinoamérica',
+                artist: 'Calle 13',
+                dur: '5:01 min',
+                art: 'https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/bf/25/7f/bf257f00-3490-67c7-c7ba-4baec8d1c073/886443180424.jpg/300x300bb.jpg'
+            },
+            {
+                keywords: ['fiesta de locos', 'locos'],
+                file: 'music/calle-13-fiesta-de-locos.mp3',
+                title: 'Fiesta de Locos',
+                artist: 'Calle 13',
+                dur: '4:27 min',
+                art: 'https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/bf/25/7f/bf257f00-3490-67c7-c7ba-4baec8d1c073/886443180424.jpg/300x300bb.jpg'
+            },
+            {
+                keywords: ['desnuda'],
+                file: 'music/ricardo-arjona-desnuda.mp3',
+                title: 'Desnuda',
+                artist: 'Ricardo Arjona',
+                dur: '4:14 min',
+                art: 'https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/37/e5/22/37e5225c-091f-0e98-2e06-d98f79d9e4a8/00743216259021.rgb.jpg/300x300bb.jpg'
+            },
+            {
+                keywords: ['el problema', 'problema'],
+                file: 'music/ricardo-arjona-el-problema.mp3',
+                title: 'El Problema',
+                artist: 'Ricardo Arjona',
+                dur: '5:30 min',
+                art: 'https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/4a/12/32/4a12328d-1fa0-82a6-cb4b-1481b03eecb2/886443360215.jpg/300x300bb.jpg'
+            },
+            {
+                keywords: ['historia de taxi', 'taxi'],
+                file: 'music/ricardo-arjona-historia-de-taxi.mp3',
+                title: 'Historia de Taxi',
+                artist: 'Ricardo Arjona',
+                dur: '6:42 min',
+                art: 'https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/37/e5/22/37e5225c-091f-0e98-2e06-d98f79d9e4a8/00743216259021.rgb.jpg/300x300bb.jpg'
+            },
+            {
+                keywords: ['fuiste tu'],
+                file: 'music/ricardo-arjona-fuiste-tu.mp3',
+                title: 'Fuiste Tú (feat. Gaby Moreno)',
+                artist: 'Ricardo Arjona',
+                dur: '4:25 min',
+                art: 'https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/4a/12/32/4a12328d-1fa0-82a6-cb4b-1481b03eecb2/886443360215.jpg/300x300bb.jpg'
+            },
+            {
+                keywords: ['cuatro decadas', 'senora de las cuatro decadas', 'cuatro'],
+                file: 'music/ricardo-arjona-senora-de-las-cuatro-decadas.mp3',
+                title: 'Señora de las Cuatro Décadas',
+                artist: 'Ricardo Arjona',
+                dur: '5:06 min',
+                art: 'https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/37/e5/22/37e5225c-091f-0e98-2e06-d98f79d9e4a8/00743216259021.rgb.jpg/300x300bb.jpg'
+            },
+            {
+                keywords: ['ojitos lindos', 'ojitos'],
+                file: 'music/bad-bunny-ojitos-lindos.mp3',
+                title: 'Ojitos Lindos',
+                artist: 'Bad Bunny & Bomba Estéreo',
+                dur: '4:18 min',
+                art: 'https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/38/53/b7/3853b7db-d86f-2179-c5c2-f1df4649f485/196626945068.jpg/300x300bb.jpg'
+            }
+        ];
+
+        function findLocalSong(title, artist) {
+            const normalize = s => (s || '').toLowerCase()
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .replace(/[^a-z0-9 ]/g, '')
+                .trim();
+            const cleanTitle = normalize(title);
+            
+            for (const item of GITHUB_CATALOG) {
+                for (const kw of item.keywords) {
+                    if (cleanTitle.includes(kw)) {
+                        return item;
+                    }
+                }
+            }
+            return null;
+        }
 
         function formatDuration(ms) {
             if (!ms) return 'Completa';
@@ -439,7 +553,7 @@
             return `${m}:${s < 10 ? '0' : ''}${s} min`;
         }
 
-        function playFullSong(title, artist, previewUrl, artworkUrl, durationStr) {
+        function playFullSong(title, artist, audioUrl, artworkUrl, durationStr) {
             const player = document.getElementById('player-box');
             const audio = document.getElementById('audio-player');
             const titleElem = document.getElementById('player-title');
@@ -455,48 +569,58 @@
             artistElem.innerText = artist;
             artElem.src = artworkUrl || '';
 
-            // 1. Reproducir inmediatamente el audio disponible (Cero bloqueos, cero espera)
-            if (previewUrl) {
-                audio.src = previewUrl;
-                audio.play().catch(e => console.log('Autoplay policy:', e));
-                statusElem.innerHTML = `● <span>Reproduciendo • SpotiFLAC Live (${durationStr || 'Directo'})</span>`;
+            const local = findLocalSong(title, artist);
+            const finalUrl = local ? local.file : audioUrl;
+            const isFull = !!local || (finalUrl && finalUrl.startsWith('music/'));
+
+            audio.src = finalUrl;
+            audio.play().catch(e => console.log('Autoplay:', e));
+
+            dlBtn.href = finalUrl;
+            dlBtn.setAttribute('download', `${title} - ${artist}.mp3`);
+
+            if (isFull) {
+                statusElem.innerHTML = `● <span>Canción COMPLETA desde GitHub (${durationStr || 'Sin cortes'}) • SpotiFLAC HQ</span>`;
                 statusElem.style.color = '#10b981';
-                dlBtn.href = previewUrl;
-                dlBtn.setAttribute('download', `${title} - ${artist}.m4a`);
             } else {
-                statusElem.innerHTML = '⚡ <span>Buscando pista en SpotiFLAC...</span>';
-                statusElem.style.color = '#38bdf8';
+                statusElem.innerHTML = `● <span>Reproduciendo vista previa (${durationStr || '30s'}) • SpotiFLAC</span>`;
+                statusElem.style.color = '#f59e0b';
             }
+        }
 
-            // 2. En segundo plano (con timeout estricto de 2.5s) intentar resolver pista completa
-            const cleanQuery = encodeURIComponent(`${title} ${artist}`);
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 2500);
+        function showLocalCatalog(e) {
+            if (e && e.preventDefault) e.preventDefault();
+            const grid = document.getElementById('results-grid');
+            grid.innerHTML = '';
 
-            fetch(`${RESOLVER_ENDPOINT}?q=${cleanQuery}&fallback=${encodeURIComponent(previewUrl || '')}`, { signal: controller.signal })
-                .then(res => {
-                    clearTimeout(timeoutId);
-                    if (!res.ok) throw new Error('Station offline');
-                    return res.json();
-                })
-                .then(data => {
-                    if (data && data.url && data.full) {
-                        const currentPos = audio.currentTime || 0;
-                        audio.src = data.url;
-                        audio.currentTime = currentPos;
-                        audio.play().catch(() => {});
-                        dlBtn.href = data.url;
-                        dlBtn.setAttribute('download', `${title} - ${artist}.mp3`);
-                        const durText = formatDuration(data.duration * 1000);
-                        statusElem.innerHTML = `● <span>Canción COMPLETA (${durText}) • SpotiFLAC HQ</span>`;
-                        statusElem.style.color = '#10b981';
-                    }
-                })
-                .catch(err => {
-                    // Si el resolver del VPS no responde o la red corporativa bloquea el túnel,
-                    // el audio ya está reproduciéndose sin ninguna interrupción.
-                    console.log('Resolución background:', err.message);
-                });
+            GITHUB_CATALOG.forEach(t => {
+                const card = document.createElement('div');
+                card.className = 'track-card';
+                card.onclick = () => playFullSong(t.title, t.artist, t.file, t.art, t.dur);
+                card.innerHTML = `
+                    <div class="card-top">
+                        <div class="card-art-box">
+                            <img src="${t.art}" alt="${t.title}" loading="lazy">
+                            <div class="card-play-overlay">▶</div>
+                        </div>
+                        <div class="card-meta">
+                            <div class="card-song-name" title="${t.title}">${t.title}</div>
+                            <div class="card-artist-name">${t.artist}</div>
+                            <div class="card-duration" style="color: #10b981; font-weight: 700;">Duración: ${t.dur} (Completa)</div>
+                        </div>
+                    </div>
+                    <div class="card-actions-row">
+                        <a href="javascript:void(0)" class="btn-card-action btn-play-card" style="background: rgba(16, 185, 129, 0.2); color: #10b981; border: 1px solid #10b981;">▶ Escuchar Completa</a>
+                        <a href="${t.file}" download="${t.title} - ${t.artist}.mp3" class="btn-card-action btn-dl-card" onclick="event.stopPropagation()">⬇️ MP3 Completo</a>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function quickSearch(artistName) {
+            document.getElementById('query-input').value = artistName;
+            handleSearch({ preventDefault: () => {} });
         }
 
         window.itunesCatalogCallback = function(data) {
@@ -515,10 +639,16 @@
                 const dur = formatDuration(t.trackTimeMillis);
                 const art = (t.artworkUrl100 || '').replace('100x100bb', '300x300bb');
                 const preview = t.previewUrl || '';
+                const local = findLocalSong(title, artist);
+                const isFull = !!local;
+                const playUrl = isFull ? local.file : preview;
+                const playLabel = isFull ? '▶ Canción Completa' : '▶ Escuchar Directo';
+                const durLabel = isFull ? `Duración: ${local.dur} (Completa)` : `Duración: ${dur}`;
+                const durColor = isFull ? 'color: #10b981; font-weight: 700;' : '';
 
                 const card = document.createElement('div');
                 card.className = 'track-card';
-                card.onclick = () => playFullSong(title, artist, preview, art, dur);
+                card.onclick = () => playFullSong(title, artist, playUrl, art, isFull ? local.dur : dur);
                 card.innerHTML = `
                     <div class="card-top">
                         <div class="card-art-box">
@@ -528,12 +658,12 @@
                         <div class="card-meta">
                             <div class="card-song-name" title="${title}">${title}</div>
                             <div class="card-artist-name">${artist}</div>
-                            <div class="card-duration">Duración: ${dur}</div>
+                            <div class="card-duration" style="${durColor}">${durLabel}</div>
                         </div>
                     </div>
                     <div class="card-actions-row">
-                        <a href="javascript:void(0)" class="btn-card-action btn-play-card">▶ Escuchar Directo</a>
-                        <a href="${preview}" target="_blank" download="${title} - ${artist}.m4a" class="btn-card-action btn-dl-card" onclick="event.stopPropagation()">⬇️ Descargar</a>
+                        <a href="javascript:void(0)" class="btn-card-action btn-play-card" style="${isFull ? 'background: rgba(16, 185, 129, 0.2); color: #10b981; border: 1px solid #10b981;' : ''}">${playLabel}</a>
+                        <a href="${playUrl}" download="${title} - ${artist}.mp3" class="btn-card-action btn-dl-card" onclick="event.stopPropagation()">⬇️ ${isFull ? 'MP3 Completo' : 'Descargar'}</a>
                     </div>
                 `;
                 grid.appendChild(card);
