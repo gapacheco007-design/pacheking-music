@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PacheKing Music - YouTube Player & Downloader</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #090d16;
+            --card-bg: rgba(22, 29, 47, 0.75);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --accent-red: #ef4444;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(239, 68, 68, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(59, 130, 246, 0.15) 0px, transparent 50%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2.5rem 1.5rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 960px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.35rem 0.85rem;
+            border-radius: 9999px;
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #f87171;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            background: linear-gradient(135deg, #ffffff 40%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        p.subtitle {
+            color: var(--text-sub);
+            font-size: 1rem;
+        }
+
+        /* SEARCH BOX */
+        .search-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 1.25rem;
+            padding: 1.5rem;
+            backdrop-filter: blur(12px);
+            margin-bottom: 2rem;
+        }
+
+        .search-group {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.75rem;
+            padding: 0.85rem 1.25rem;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--accent-red);
+        }
+
+        button.btn-search {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            border: none;
+            border-radius: 0.75rem;
+            padding: 0.85rem 1.75rem;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.1s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        button.btn-search:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        /* PLAYER CONTAINER */
+        .player-card {
+            display: none;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 1.25rem;
+            padding: 1.5rem;
+            backdrop-filter: blur(12px);
+            margin-bottom: 2rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .player-iframe-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            margin-bottom: 1.25rem;
+            background: #000;
+        }
+
+        .player-iframe-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .player-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .now-playing-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-main);
+        }
+
+        .download-buttons {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.6rem 1.1rem;
+            border-radius: 0.6rem;
+            font-weight: 600;
+            font-size: 0.88rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-mp3 {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #34d399;
+        }
+
+        .btn-mp3:hover {
+            background: rgba(16, 185, 129, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .btn-mp4 {
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            color: #60a5fa;
+        }
+
+        .btn-mp4:hover {
+            background: rgba(59, 130, 246, 0.25);
+            transform: translateY(-2px);
+        }
+
+        /* RESULTS LIST */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .video-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 1rem;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .video-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(30, 41, 67, 0.9);
+        }
+
+        .thumbnail-box {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            background: #000;
+            overflow: hidden;
+        }
+
+        .thumbnail-box img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .play-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .video-card:hover .play-overlay {
+            opacity: 1;
+        }
+
+        .play-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--accent-red);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.4rem;
+        }
+
+        .video-info {
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex: 1;
+        }
+
+        .video-title {
+            font-weight: 700;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            margin-bottom: 0.4rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .video-channel {
+            color: var(--text-sub);
+            font-size: 0.8rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-download-row {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: auto;
+        }
+
+        .card-download-row a {
+            flex: 1;
+            text-align: center;
+            padding: 0.45rem 0.2rem;
+            font-size: 0.75rem;
+            border-radius: 0.4rem;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        footer {
+            margin-top: 3.5rem;
+            color: var(--text-sub);
+            font-size: 0.85rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="badge">
+                <span>🎵 YouTube Music & Video Web Station</span>
+            </div>
+            <h1>PacheKing Music</h1>
+            <p class="subtitle">Busca canciones, reproduce en streaming sin anuncios y descarga en MP3 o MP4</p>
+        </header>
+
+        <!-- SEARCH -->
+        <div class="search-card">
+            <form id="search-form" class="search-group" onsubmit="handleSearch(event)">
+                <input type="text" id="query-input" placeholder="Escribe el nombre de una canción, artista o pega un enlace de YouTube..." required autocomplete="off">
+                <button type="submit" class="btn-search">
+                    <span>Buscar</span>
+                    <span>🔍</span>
+                </button>
+            </form>
+        </div>
+
+        <!-- EMBEDDED PLAYER -->
+        <div id="player-card" class="player-card">
+            <div class="player-iframe-wrapper">
+                <iframe id="yt-player" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class="player-actions">
+                <div class="now-playing-title" id="now-playing-title">Reproduciendo...</div>
+                <div class="download-buttons">
+                    <a id="btn-dl-mp3" href="#" target="_blank" class="btn-action btn-mp3">
+                        <span>⬇️ Descargar MP3</span>
+                    </a>
+                    <a id="btn-dl-mp4" href="#" target="_blank" class="btn-action btn-mp4">
+                        <span>🎬 Descargar MP4</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- RESULTS -->
+        <div id="results-grid" class="results-grid"></div>
+
+        <footer>
+            PacheKing Autonomous Station &bull; Desplegado en GitHub Pages &bull; Conectado a PacheKing VPS
+        </footer>
+    </div>
+
+    <script>
+        function extractVideoId(url) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+
+        function playVideo(id, title) {
+            const playerCard = document.getElementById('player-card');
+            const iframe = document.getElementById('yt-player');
+            const titleElem = document.getElementById('now-playing-title');
+            const mp3Btn = document.getElementById('btn-dl-mp3');
+            const mp4Btn = document.getElementById('btn-dl-mp4');
+
+            iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1`;
+            titleElem.innerText = title;
+
+            // Direct Download Providers
+            mp3Btn.href = `https://loader.to/api/button/?url=https://www.youtube.com/watch?v=${id}&f=mp3`;
+            mp4Btn.href = `https://loader.to/api/button/?url=https://www.youtube.com/watch?v=${id}&f=1080`;
+
+            playerCard.style.display = 'block';
+            playerCard.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        async function handleSearch(e) {
+            e.preventDefault();
+            const input = document.getElementById('query-input').value.trim();
+            if (!input) return;
+
+            // If user pasted a direct YouTube URL
+            const directId = extractVideoId(input);
+            if (directId) {
+                playVideo(directId, "Reproduciendo enlace de YouTube");
+                return;
+            }
+
+            const resultsGrid = document.getElementById('results-grid');
+            resultsGrid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--text-sub); padding: 2rem;">Buscando canciones... 🎶</div>';
+
+            try {
+                // Free public Invidious / Piped APIs for instant search without API key limits
+                const response = await fetch(`https://invidious.nerdvpn.de/api/v1/search?q=${encodeURIComponent(input)}&type=video`);
+                if (!response.ok) throw new Error("Fallback required");
+                const data = await response.json();
+
+                renderResults(data);
+            } catch (err) {
+                // Fallback to secondary mirror
+                try {
+                    const fallbackResp = await fetch(`https://inv.tux.pizza/api/v1/search?q=${encodeURIComponent(input)}&type=video`);
+                    const fallbackData = await fallbackResp.json();
+                    renderResults(fallbackData);
+                } catch (fallbackErr) {
+                    resultsGrid.innerHTML = `
+                        <div style="grid-column: 1/-1; text-align: center; padding: 2rem;">
+                            <p style="color: var(--text-sub); margin-bottom: 1rem;">No se pudieron cargar los resultados automáticos.</p>
+                            <button onclick="playVideo('${encodeURIComponent(input)}', 'Búsqueda')" class="btn-search" style="margin: 0 auto;">Reproducir directamente</button>
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        function renderResults(videos) {
+            const resultsGrid = document.getElementById('results-grid');
+            resultsGrid.innerHTML = '';
+
+            const list = videos.slice(0, 12);
+            if (list.length === 0) {
+                resultsGrid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--text-sub); padding: 2rem;">No se encontraron resultados. Intenta con otro término.</div>';
+                return;
+            }
+
+            list.forEach(v => {
+                const id = v.videoId;
+                const title = v.title.replace(/'/g, "\\'");
+                const author = v.author;
+                const thumb = v.videoThumbnails && v.videoThumbnails.length > 0 ? v.videoThumbnails[0].url : `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+
+                const card = document.createElement('div');
+                card.className = 'video-card';
+                card.innerHTML = `
+                    <div class="thumbnail-box" onclick="playVideo('${id}', '${title}')">
+                        <img src="${thumb}" alt="${title}" loading="lazy">
+                        <div class="play-overlay">
+                            <div class="play-icon">▶</div>
+                        </div>
+                    </div>
+                    <div class="video-info">
+                        <div>
+                            <div class="video-title" title="${title}">${v.title}</div>
+                            <div class="video-channel">${author}</div>
+                        </div>
+                        <div class="card-download-row">
+                            <a href="https://loader.to/api/button/?url=https://www.youtube.com/watch?v=${id}&f=mp3" target="_blank" class="btn-mp3">MP3 🎵</a>
+                            <a href="https://loader.to/api/button/?url=https://www.youtube.com/watch?v=${id}&f=1080" target="_blank" class="btn-mp4">MP4 🎬</a>
+                        </div>
+                    </div>
+                `;
+                resultsGrid.appendChild(card);
+            });
+        }
+
+        // Default popular songs on first load
+        window.onload = () => {
+            document.getElementById('query-input').value = "Top Hits 2026 Latino";
+            handleSearch({ preventDefault: () => {} });
+        };
+    </script>
+</body>
+</html>
