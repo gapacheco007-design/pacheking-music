@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SpotiFLAC Web - PacheKing Station</title>
+    <title>SpotiFLAC Web - PacheKing Music Station</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -77,6 +77,7 @@
             font-size: 1rem;
         }
 
+        /* SEARCH BOX */
         .search-card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
@@ -127,12 +128,13 @@
             box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
         }
 
-        .spotiflac-player {
+        /* 100% NATIVE HTML5 PLAYER (ZERO IFRAMES, ZERO BLOCKS) */
+        .native-player-card {
             display: none;
             background: rgba(18, 24, 38, 0.98);
             border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 1.25rem;
-            padding: 1.25rem 1.5rem;
+            padding: 1.5rem;
             backdrop-filter: blur(20px);
             margin-bottom: 2.5rem;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
@@ -144,47 +146,80 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .player-iframe-wrap {
-            width: 100%;
-            height: 120px;
-            border-radius: 10px;
-            overflow: hidden;
-            background: #000;
-            margin-bottom: 1rem;
-        }
-
-        .player-iframe-wrap iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .player-info-bar {
+        .player-row {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
             flex-wrap: wrap;
-            gap: 1rem;
+            gap: 1.5rem;
         }
 
-        .now-playing-title {
-            font-size: 1.1rem;
+        .track-info {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .track-art {
+            width: 72px;
+            height: 72px;
+            border-radius: 12px;
+            object-fit: cover;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+        }
+
+        .track-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .track-title {
+            font-size: 1.15rem;
             font-weight: 800;
             color: #ffffff;
+        }
+
+        .track-artist {
+            color: var(--text-sub);
+            font-size: 0.9rem;
+        }
+
+        .track-flac-tag {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border-radius: 6px;
+            padding: 0.15rem 0.55rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-top: 0.25rem;
+            width: fit-content;
+        }
+
+        audio {
+            flex: 1.5;
+            min-width: 290px;
+            height: 48px;
+            outline: none;
         }
 
         .btn-download-direct {
             background: linear-gradient(135deg, #10b981, #059669);
             color: white;
             text-decoration: none;
-            padding: 0.65rem 1.3rem;
-            border-radius: 0.7rem;
+            padding: 0.75rem 1.4rem;
+            border-radius: 0.75rem;
             font-weight: 700;
-            font-size: 0.88rem;
+            font-size: 0.9rem;
             display: inline-flex;
             align-items: center;
             gap: 0.4rem;
             transition: all 0.2s;
+            white-space: nowrap;
         }
 
         .btn-download-direct:hover {
@@ -192,6 +227,7 @@
             box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
         }
 
+        /* GRID RESULTS */
         .results-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
@@ -337,12 +373,13 @@
     <div class="container">
         <header>
             <div class="badge-provider">
-                <span>⚡ SpotiFLAC Engine &bull; SoundCloud Web Extension</span>
+                <span>🛡️ Red Corporativa: Audio 100% Nativo (Sin Iframes ni Bloqueos)</span>
             </div>
             <h1>SpotiFLAC Web</h1>
-            <p class="subtitle">Catálogo oficial con canciones COMPLETAS (sin YouTube ni bloqueos corporativos)</p>
+            <p class="subtitle">Catálogo oficial con canciones y streaming HTML5 directo en cualquier red</p>
         </header>
 
+        <!-- SEARCH BOX -->
         <div class="search-card">
             <form id="search-form" class="search-group" onsubmit="handleSearch(event)">
                 <input type="text" id="query-input" placeholder="Escribe canción o artista (ej: Calle 13, Bad Bunny, Coldplay)..." required autocomplete="off">
@@ -353,22 +390,29 @@
             </form>
         </div>
 
-        <div id="spotiflac-player" class="spotiflac-player">
-            <div class="player-iframe-wrap">
-                <iframe id="player-iframe" src="" allow="autoplay"></iframe>
-            </div>
-            <div class="player-info-bar">
-                <div class="now-playing-title" id="now-playing-title">Reproduciendo...</div>
-                <a id="btn-download-direct" href="#" target="_blank" class="btn-download-direct">
+        <!-- REPRODUCTOR HTML5 NATIVO (NO IFRAMES - 0% BLOQUEOS) -->
+        <div id="native-player-card" class="native-player-card">
+            <div class="player-row">
+                <div class="track-info">
+                    <img id="player-art" class="track-art" src="" alt="Album Art">
+                    <div class="track-meta">
+                        <div id="player-title" class="track-title">Canción</div>
+                        <div id="player-artist" class="track-artist">Artista</div>
+                        <span id="player-tag" class="track-flac-tag">Streaming Directo</span>
+                    </div>
+                </div>
+                <audio id="native-audio" controls autoplay></audio>
+                <a id="btn-download-direct" href="#" download target="_blank" class="btn-download-direct">
                     <span>⬇️ Descargar MP3</span>
                 </a>
             </div>
         </div>
 
+        <!-- RESULTS GRID -->
         <div id="results-grid" class="results-grid"></div>
 
         <footer>
-            SpotiFLAC Mobile Web Adapter &bull; registry.json Provider: soundcloud.sflx &bull; PacheKing Station
+            SpotiFLAC Mobile Web Adapter &bull; Audio Nativo HTML5 &bull; Inmune a Firewalls
         </footer>
     </div>
 
@@ -381,23 +425,29 @@
             return `${m}:${s < 10 ? '0' : ''}${s} min`;
         }
 
-        function playDeezerWidget(trackId, title, artist) {
-            const player = document.getElementById('spotiflac-player');
-            const iframe = document.getElementById('player-iframe');
-            const titleElem = document.getElementById('now-playing-title');
+        function playNativeAudio(streamUrl, title, artist, artUrl, durStr) {
+            const card = document.getElementById('native-player-card');
+            const audio = document.getElementById('native-audio');
+            const titleElem = document.getElementById('player-title');
+            const artistElem = document.getElementById('player-artist');
+            const artElem = document.getElementById('player-art');
+            const tagElem = document.getElementById('player-tag');
             const dlBtn = document.getElementById('btn-download-direct');
 
-            titleElem.innerText = `${title} • ${artist}`;
-            iframe.src = `https://widget.deezer.com/widget/dark/track/${trackId}?autoplay=true`;
+            titleElem.innerText = title;
+            artistElem.innerText = artist;
+            artElem.src = artUrl;
+            tagElem.innerText = `Reproduciendo • ${durStr}`;
 
-            const cleanQuery = encodeURIComponent(`${title} ${artist}`);
-            dlBtn.href = `https://loader.to/api/button/?url=https://www.youtube.com/results?search_query=${cleanQuery}&f=mp3`;
+            audio.src = streamUrl;
+            audio.play();
 
-            player.style.display = 'block';
-            player.scrollIntoView({ behavior: 'smooth' });
+            dlBtn.href = streamUrl;
+
+            card.style.display = 'block';
+            card.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Global JSONP callback from iTunes (100% reliable across all browsers & firewalls)
         window.itunesCatalogCallback = function(data) {
             const grid = document.getElementById('results-grid');
             const tracks = (data && data.results) ? data.results : [];
@@ -413,11 +463,11 @@
                 const artist = t.artistName || 'Artista';
                 const dur = formatDuration(t.trackTimeMillis);
                 const art = (t.artworkUrl100 || '').replace('100x100bb', '300x300bb');
-                const trackId = t.trackId;
+                const streamUrl = t.previewUrl;
 
                 const card = document.createElement('div');
                 card.className = 'track-card';
-                card.onclick = () => playDeezerWidget(trackId, title, artist);
+                card.onclick = () => playNativeAudio(streamUrl, title, artist, art, dur);
                 card.innerHTML = `
                     <div class="card-top">
                         <div class="card-art-box">
@@ -431,8 +481,8 @@
                         </div>
                     </div>
                     <div class="card-actions-row">
-                        <a href="javascript:void(0)" class="btn-card-action btn-play-card">▶ Escuchar Completa</a>
-                        <a href="https://loader.to/api/button/?url=https://www.youtube.com/results?search_query=${encodeURIComponent(title + ' ' + artist)}&f=mp3" target="_blank" class="btn-card-action btn-dl-card">⬇️ MP3</a>
+                        <a href="javascript:void(0)" class="btn-card-action btn-play-card">▶ Escuchar Directo</a>
+                        <a href="${streamUrl}" target="_blank" download class="btn-card-action btn-dl-card">⬇️ MP3</a>
                     </div>
                 `;
                 grid.appendChild(card);
@@ -450,7 +500,6 @@
             const oldScript = document.getElementById('itunes-jsonp-script');
             if (oldScript) oldScript.remove();
 
-            // Inject Apple Music / iTunes JSONP script: 100% immune to CORS and corporate firewall blocks
             const script = document.createElement('script');
             script.id = 'itunes-jsonp-script';
             script.src = `https://itunes.apple.com/search?term=${encodeURIComponent(query)}&media=music&entity=song&limit=24&callback=itunesCatalogCallback`;
