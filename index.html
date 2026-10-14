@@ -1197,7 +1197,15 @@
                     if (data.type === 'ready' && data.track) {
                         onWorkerTrackReady(data.track);
                     } else if (data.type === 'error') {
+                        if (data.id) activeDownloads.delete(data.id);
+                        updateDownloadsBadge();
+                        updateDownloadsModalContent();
                         showToast('❌ Error de descarga', data.message || 'No se pudo obtener la pista.', '⚠️');
+                        const pTitle = document.getElementById('player-title').innerText;
+                        if (pTitle) {
+                            document.getElementById('player-artist').innerText = 'No se pudo completar la descarga';
+                            document.getElementById('player-format-badge').innerText = 'Error';
+                        }
                     }
                 } catch (err) {
                     console.error('SSE parse error:', err);
@@ -1209,23 +1217,30 @@
         }
 
         function onWorkerTrackReady(track) {
-            // Check if track is already in catalog
             const exists = catalog.find(t => t.id === track.id || (t.title.toLowerCase() === track.title.toLowerCase() && t.artist.toLowerCase() === track.artist.toLowerCase()));
             if (!exists) {
                 catalog.unshift(track);
                 document.getElementById('library-count-badge').innerText = catalog.length;
+            } else {
+                Object.assign(exists, track);
             }
 
             // Remove from active downloads
             activeDownloads.delete(track.id);
             updateDownloadsBadge();
+            updateDownloadsModalContent();
 
             showToast('✓ ¡Canción lista!', `"${track.title}" descargada en audio original y guardada en Tu Biblioteca.`, '🎉');
 
             // Start playing immediately!
             playTrack(track);
-            renderCurrentView();
-            updateDownloadsModalContent();
+
+            const q = document.getElementById('global-search-input') ? document.getElementById('global-search-input').value.trim() : '';
+            if (q) {
+                executeSearch(q);
+            } else {
+                renderCurrentView();
+            }
         }
 
         // 3. TAB NAVIGATION
@@ -1604,6 +1619,30 @@
             return null;
         }
 
+        let libraryPollInterval = null;
+        function ensureLibraryPolling() {
+            if (libraryPollInterval) return;
+            libraryPollInterval = setInterval(async () => {
+                if (activeDownloads.size === 0) {
+                    clearInterval(libraryPollInterval);
+                    libraryPollInterval = null;
+                    return;
+                }
+                try {
+                    const res = await fetch('library.json?t=' + Date.now());
+                    if (!res.ok) return;
+                    const data = await res.json();
+                    if (data && data.tracks) {
+                        data.tracks.forEach(t => {
+                            if (activeDownloads.has(t.id)) {
+                                onWorkerTrackReady(t);
+                            }
+                        });
+                    }
+                } catch (e) {}
+            }, 2500);
+        }
+
         async function playOrDownloadInstant(track, isExternal) {
             // Check if already in local catalog
             const local = catalog.find(t => t.id === track.id || 
@@ -1614,8 +1653,24 @@
                 return;
             }
 
-            // If external track, resolve and start playing in seconds!
-            showToast('⚡ Preparando audio...', `Descargando versión de estudio para "${track.title}"...`, '⏳');
+            // Immediately display downloading feedback in player bar!
+            const playerArt = document.getElementById('player-art');
+            const playerTitle = document.getElementById('player-title');
+            const playerArtist = document.getElementById('player-artist');
+            const playerBadge = document.getElementById('player-format-badge');
+            const playPauseBtn = document.getElementById('btn-play-pause');
+
+            if (playerArt) playerArt.src = track.art || 'https://via.placeholder.com/60x60.png';
+            if (playerTitle) playerTitle.innerText = track.title;
+            if (playerArtist) playerArtist.innerText = `${track.artist} • ⏳ Descargando audio original en segundo plano...`;
+            if (playerBadge) {
+                playerBadge.innerText = '⏳ Descargando...';
+                playerBadge.style.background = 'rgba(56, 189, 248, 0.2)';
+                playerBadge.style.color = '#38bdf8';
+            }
+            if (playPauseBtn) playPauseBtn.innerText = '⏳';
+
+            showToast('⚡ Descargando audio original...', `Descargando versión de estudio en segundo plano para "${track.title}"...`, '⏳');
             activeDownloads.set(track.id, {
                 ...track,
                 started: Date.now(),
@@ -1623,6 +1678,7 @@
             });
             updateDownloadsBadge();
             updateDownloadsModalContent();
+            ensureLibraryPolling();
 
             // Try fast online studio resolver (Archive.org CD-rips / FLAC)
             const fastOnline = await resolveArchiveDirect(track.artist, track.title);
@@ -1643,7 +1699,10 @@
 
                 showToast('✓ ¡Descarga lista!', `Reproduciendo "${track.title}" en audio original de estudio.`, '🎉');
                 playTrack(track);
-                renderCurrentView();
+
+                const q = document.getElementById('global-search-input') ? document.getElementById('global-search-input').value.trim() : '';
+                if (q) executeSearch(q);
+                else renderCurrentView();
 
                 // Silently request backend worker to also save it on server
                 triggerBackgroundDownload(track, true);
