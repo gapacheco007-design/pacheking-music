@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PacheKing Music - Reproductor Completo Sin Bloqueos</title>
+    <title>SpotiFLAC Web - PacheKing Music Station</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -12,11 +12,11 @@
             --bg: #07090e;
             --card-bg: rgba(18, 24, 38, 0.85);
             --card-border: rgba(255, 255, 255, 0.08);
-            --accent-red: #ef4444;
-            --accent-purple: #8b5cf6;
             --accent-green: #10b981;
+            --accent-purple: #8b5cf6;
             --text-main: #f8fafc;
             --text-sub: #94a3b8;
+            --text-muted: #64748b;
         }
 
         * {
@@ -29,8 +29,8 @@
         body {
             background-color: var(--bg);
             background-image: 
-                radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(59, 130, 246, 0.15) 0px, transparent 50%);
+                radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.12) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.12) 0px, transparent 50%);
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
@@ -49,25 +49,25 @@
             margin-bottom: 2.5rem;
         }
 
-        .badge {
+        .badge-provider {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.35rem 0.85rem;
+            padding: 0.35rem 0.95rem;
             border-radius: 9999px;
             background: rgba(16, 185, 129, 0.15);
-            border: 1px solid rgba(16, 185, 129, 0.3);
+            border: 1px solid rgba(16, 185, 129, 0.35);
             color: #34d399;
-            font-size: 0.8rem;
-            font-weight: 600;
+            font-size: 0.82rem;
+            font-weight: 700;
             margin-bottom: 0.75rem;
         }
 
         h1 {
-            font-size: 2.6rem;
+            font-size: 2.8rem;
             font-weight: 800;
             letter-spacing: -0.03em;
-            background: linear-gradient(135deg, #ffffff 40%, #cbd5e1 100%);
+            background: linear-gradient(135deg, #ffffff 40%, #a7f3d0 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 0.5rem;
@@ -78,12 +78,13 @@
             font-size: 1rem;
         }
 
+        /* SEARCH BOX */
         .search-card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
             border-radius: 1.25rem;
             padding: 1.5rem;
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(16px);
             margin-bottom: 2rem;
         }
 
@@ -94,10 +95,10 @@
 
         input[type="text"] {
             flex: 1;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 0.75rem;
-            padding: 0.85rem 1.25rem;
+            padding: 0.9rem 1.25rem;
             color: white;
             font-size: 1rem;
             outline: none;
@@ -105,33 +106,33 @@
         }
 
         input[type="text"]:focus {
-            border-color: var(--accent-purple);
+            border-color: var(--accent-green);
         }
 
         button.btn-search {
-            background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+            background: linear-gradient(135deg, #10b981, #059669);
             color: white;
             border: none;
             border-radius: 0.75rem;
-            padding: 0.85rem 1.75rem;
+            padding: 0.9rem 1.85rem;
             font-weight: 700;
             font-size: 1rem;
             cursor: pointer;
-            transition: opacity 0.2s, transform 0.1s;
+            transition: all 0.2s;
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
 
         button.btn-search:hover {
-            opacity: 0.9;
             transform: translateY(-1px);
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
         }
 
-        /* REPRODUCTOR FULL EMBED DEEZER / SOUNDCLOUD */
-        .player-box {
+        /* REPRODUCTOR FLOTANTE COMPLETO SPOTIFLAC */
+        .spotiflac-player {
             display: none;
-            background: rgba(22, 29, 47, 0.98);
+            background: rgba(18, 24, 38, 0.98);
             border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 1.25rem;
             padding: 1.5rem;
@@ -146,50 +147,83 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .player-iframe-wrap {
-            width: 100%;
-            height: 120px;
-            border-radius: 10px;
-            overflow: hidden;
-            background: #000;
-            margin-bottom: 1rem;
-        }
-
-        .player-iframe-wrap iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .player-bottom-row {
+        .player-row {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
             flex-wrap: wrap;
-            gap: 1rem;
+            gap: 1.5rem;
         }
 
-        .now-playing-title {
+        .track-info {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .track-art {
+            width: 72px;
+            height: 72px;
+            border-radius: 12px;
+            object-fit: cover;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+        }
+
+        .track-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .track-title {
             font-size: 1.15rem;
             font-weight: 800;
             color: #ffffff;
         }
 
-        .btn-download-mp3 {
+        .track-artist {
+            color: var(--text-sub);
+            font-size: 0.9rem;
+        }
+
+        .track-flac-tag {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border-radius: 6px;
+            padding: 0.15rem 0.55rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-top: 0.25rem;
+            width: fit-content;
+        }
+
+        audio {
+            flex: 1.5;
+            min-width: 290px;
+            height: 48px;
+            outline: none;
+        }
+
+        .btn-download-direct {
             background: linear-gradient(135deg, #10b981, #059669);
             color: white;
             text-decoration: none;
-            padding: 0.65rem 1.3rem;
-            border-radius: 0.7rem;
+            padding: 0.75rem 1.4rem;
+            border-radius: 0.75rem;
             font-weight: 700;
-            font-size: 0.88rem;
+            font-size: 0.9rem;
             display: inline-flex;
             align-items: center;
             gap: 0.4rem;
             transition: all 0.2s;
+            white-space: nowrap;
         }
 
-        .btn-download-mp3:hover {
+        .btn-download-direct:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
         }
@@ -244,7 +278,7 @@
         .card-play-overlay {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.45);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -309,23 +343,23 @@
         }
 
         .btn-play-card {
-            background: rgba(139, 92, 246, 0.15);
-            border: 1px solid rgba(139, 92, 246, 0.35);
-            color: #c084fc;
-        }
-
-        .btn-play-card:hover {
-            background: rgba(139, 92, 246, 0.25);
-        }
-
-        .btn-dl-card {
             background: rgba(16, 185, 129, 0.15);
             border: 1px solid rgba(16, 185, 129, 0.35);
             color: #34d399;
         }
 
-        .btn-dl-card:hover {
+        .btn-play-card:hover {
             background: rgba(16, 185, 129, 0.25);
+        }
+
+        .btn-dl-card {
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid rgba(139, 92, 246, 0.35);
+            color: #c084fc;
+        }
+
+        .btn-dl-card:hover {
+            background: rgba(139, 92, 246, 0.25);
         }
 
         footer {
@@ -339,16 +373,17 @@
 <body>
     <div class="container">
         <header>
-            <div class="badge">
-                <span>🛡️ Red Corporativa: Música Completa Sin YouTube</span>
+            <div class="badge-provider">
+                <span>⚡ SpotiFLAC Engine &bull; SoundCloud Direct Lossless Provider</span>
             </div>
-            <h1>PacheKing Music</h1>
-            <p class="subtitle">Catálogo oficial completo con reproductor web integrado y descargas sin restricciones</p>
+            <h1>SpotiFLAC Web</h1>
+            <p class="subtitle">Catálogo SpotiFLAC oficial con canciones COMPLETAS (sin YouTube ni bloqueos de red)</p>
         </header>
 
+        <!-- SEARCH BOX -->
         <div class="search-card">
             <form id="search-form" class="search-group" onsubmit="handleSearch(event)">
-                <input type="text" id="query-input" placeholder="Escribe canción o artista (ej: Calle 13, Bad Bunny, Coldplay, Daft Punk)..." required autocomplete="off">
+                <input type="text" id="query-input" placeholder="Escribe el nombre de una canción o artista (ej: Calle 13, Bad Bunny, Coldplay)..." required autocomplete="off">
                 <button type="submit" class="btn-search">
                     <span>Buscar</span>
                     <span>🔍</span>
@@ -356,114 +391,159 @@
             </form>
         </div>
 
-        <!-- REPRODUCTOR WEB INTEGRADO (NO YOUTUBE) -->
-        <div id="player-box" class="player-box">
-            <div class="player-iframe-wrap">
-                <iframe id="player-iframe" src="" allow="autoplay"></iframe>
-            </div>
-            <div class="player-bottom-row">
-                <div class="now-playing-title" id="now-playing-title">Reproduciendo...</div>
-                <a id="btn-dl-mp3" href="#" target="_blank" class="btn-download-mp3">
-                    <span>⬇️ Descargar MP3</span>
+        <!-- REPRODUCTOR FLOTANTE COMPLETO -->
+        <div id="spotiflac-player" class="spotiflac-player">
+            <div class="player-row">
+                <div class="track-info">
+                    <img id="player-art" class="track-art" src="" alt="Album Art">
+                    <div class="track-meta">
+                        <div id="player-title" class="track-title">Canción</div>
+                        <div id="player-artist" class="track-artist">Artista</div>
+                        <span id="player-tag" class="track-flac-tag">SpotiFLAC Completa</span>
+                    </div>
+                </div>
+                <audio id="audio-player" controls autoplay></audio>
+                <a id="btn-download-direct" href="#" download target="_blank" class="btn-download-direct">
+                    <span>⬇️ Descargar Pista</span>
                 </a>
             </div>
         </div>
 
+        <!-- RESULTS GRID -->
         <div id="results-grid" class="results-grid"></div>
 
         <footer>
-            PacheKing Autonomous Station &bull; Servidor Descentralizado &bull; Streaming Global Corporativo
+            SpotiFLAC Mobile Web Adapter &bull; registry.json Provider: soundcloud.sflx &bull; PacheKing Station
         </footer>
     </div>
 
     <script>
-        function formatDuration(sec) {
-            if (!sec) return 'Completa';
-            const m = Math.floor(sec / 60);
-            const s = Math.floor(sec % 60);
+        const SC_CLIENT_ID = "kR7dAfT5UXQgmgde1pLjfsRGiaoANLvT";
+
+        function formatDuration(ms) {
+            if (!ms) return 'Completa';
+            const totalSec = Math.floor(ms / 1000);
+            const m = Math.floor(totalSec / 60);
+            const s = Math.floor(totalSec % 60);
             return `${m}:${s < 10 ? '0' : ''}${s} min`;
         }
 
-        function playDeezerTrack(id, title, artist) {
-            const box = document.getElementById('player-box');
-            const iframe = document.getElementById('player-iframe');
-            const titleElem = document.getElementById('now-playing-title');
-            const dlBtn = document.getElementById('btn-dl-mp3');
+        async function resolveStreamAndPlay(trackObj) {
+            const player = document.getElementById('spotiflac-player');
+            const audio = document.getElementById('audio-player');
+            const titleElem = document.getElementById('player-title');
+            const artistElem = document.getElementById('player-artist');
+            const artElem = document.getElementById('player-art');
+            const tagElem = document.getElementById('player-tag');
+            const dlBtn = document.getElementById('btn-download-direct');
 
-            titleElem.innerText = `${title} • ${artist}`;
-            
-            // Deezer Widget Player (Bypasses YouTube network filters completely)
-            iframe.src = `https://widget.deezer.com/widget/dark/track/${id}?autoplay=true`;
+            titleElem.innerText = trackObj.title;
+            artistElem.innerText = trackObj.artist;
+            artElem.src = trackObj.art;
+            tagElem.innerText = `Cargando flujo SpotiFLAC...`;
 
-            // Direct MP3 link
-            const cleanQuery = encodeURIComponent(`${title} ${artist}`);
-            dlBtn.href = `https://loader.to/api/button/?url=https://www.youtube.com/results?search_query=${cleanQuery}&f=mp3`;
+            player.style.display = 'block';
+            player.scrollIntoView({ behavior: 'smooth' });
 
-            box.style.display = 'block';
-            box.scrollIntoView({ behavior: 'smooth' });
+            try {
+                // Find progressive transcoding stream from SoundCloud provider
+                let streamEndpoint = null;
+                if (trackObj.media && trackObj.media.transcodings) {
+                    for (const m of trackObj.media.transcodings) {
+                        if (m.format && m.format.protocol === 'progressive') {
+                            streamEndpoint = m.url;
+                            break;
+                        }
+                    }
+                    if (!streamEndpoint && trackObj.media.transcodings.length > 0) {
+                        streamEndpoint = trackObj.media.transcodings[0].url;
+                    }
+                }
+
+                if (!streamEndpoint) throw new Error("No stream found");
+
+                const res = await fetch(`${streamEndpoint}?client_id=${SC_CLIENT_ID}`);
+                const data = await res.json();
+                const directUrl = data.url;
+
+                audio.src = directUrl;
+                audio.play();
+
+                tagElem.innerText = `Canción Completa • ${trackObj.durationStr}`;
+                dlBtn.href = directUrl;
+
+            } catch (err) {
+                console.error(err);
+                tagElem.innerText = `Error al cargar stream.`;
+            }
         }
 
-        // JSONP Callback - 100% immune to CORS and Network corporate blocks
-        window.deezerCallback = function(json) {
-            const grid = document.getElementById('results-grid');
-            const tracks = (json && json.data) ? json.data : [];
-
-            if (tracks.length === 0) {
-                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--text-sub); padding: 2.5rem;">No se encontraron canciones. Intenta con otra palabra.</div>';
-                return;
-            }
-
-            grid.innerHTML = '';
-            tracks.slice(0, 24).forEach(t => {
-                const id = t.id;
-                const title = t.title || 'Sin título';
-                const artist = (t.artist && t.artist.name) ? t.artist.name : 'Artista';
-                const dur = formatDuration(t.duration);
-                const art = (t.album && t.album.cover_medium) ? t.album.cover_medium : 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=300&h=300&fit=crop';
-                const cleanQuery = encodeURIComponent(`${title} ${artist}`);
-
-                const card = document.createElement('div');
-                card.className = 'track-card';
-                card.innerHTML = `
-                    <div class="card-top" onclick="playDeezerTrack('${id}', '${title.replace(/'/g, "\\'")}', '${artist.replace(/'/g, "\\'")}')">
-                        <div class="card-art-box">
-                            <img src="${art}" alt="${title}" loading="lazy">
-                            <div class="card-play-overlay">▶</div>
-                        </div>
-                        <div class="card-meta">
-                            <div class="card-song-name" title="${title}">${title}</div>
-                            <div class="card-artist-name">${artist}</div>
-                            <div class="card-duration">Duración: ${dur}</div>
-                        </div>
-                    </div>
-                    <div class="card-actions-row">
-                        <a href="javascript:void(0)" onclick="playDeezerTrack('${id}', '${title.replace(/'/g, "\\'")}', '${artist.replace(/'/g, "\\'")}')" class="btn-card-action btn-play-card">▶ Escuchar</a>
-                        <a href="https://loader.to/api/button/?url=https://www.youtube.com/results?search_query=${cleanQuery}&f=mp3" target="_blank" class="btn-card-action btn-dl-card">⬇️ MP3</a>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-        };
-
-        function handleSearch(e) {
+        async function handleSearch(e) {
             if (e && e.preventDefault) e.preventDefault();
             const query = document.getElementById('query-input').value.trim();
             if (!query) return;
 
             const grid = document.getElementById('results-grid');
-            grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--text-sub); padding: 2.5rem;">Cargando catálogo musical sin bloqueos... 🎶</div>';
+            grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--text-sub); padding: 2.5rem;">Consultando proveedor SpotiFLAC (SoundCloud)... ⚡</div>';
 
-            const oldScript = document.getElementById('deezer-jsonp-script');
-            if (oldScript) oldScript.remove();
+            try {
+                const url = `https://api-v2.soundcloud.com/search/tracks?q=${encodeURIComponent(query)}&client_id=${SC_CLIENT_ID}&limit=24`;
+                const res = await fetch(url);
+                const data = await res.json();
+                const tracks = data.collection || [];
 
-            // Inject Deezer JSONP script: 100% bypasses CORS & corporate firewalls
-            const script = document.createElement('script');
-            script.id = 'deezer-jsonp-script';
-            script.src = `https://api.deezer.com/search?q=${encodeURIComponent(query)}&output=jsonp&callback=deezerCallback`;
-            script.onerror = function() {
-                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: #ef4444; padding: 2.5rem;">Error de conexión. Inténtalo de nuevo.</div>';
-            };
-            document.body.appendChild(script);
+                if (tracks.length === 0) {
+                    grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--text-sub); padding: 2.5rem;">No se encontraron canciones. Intenta con otro término.</div>';
+                    return;
+                }
+
+                grid.innerHTML = '';
+                // Filter out short previews: keep full tracks >= 60 seconds
+                const fullTracks = tracks.filter(t => (t.duration || 0) > 45000);
+                const displayList = fullTracks.length > 0 ? fullTracks : tracks;
+
+                displayList.forEach(t => {
+                    const title = t.title || 'Sin título';
+                    const artist = (t.user && t.user.username) ? t.user.username : 'Artista';
+                    const durationStr = formatDuration(t.duration);
+                    const art = (t.artwork_url || (t.user && t.user.avatar_url) || 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=300&h=300&fit=crop').replace('-large', '-t500x500');
+
+                    const trackData = {
+                        id: t.id,
+                        title: title,
+                        artist: artist,
+                        durationStr: durationStr,
+                        art: art,
+                        media: t.media
+                    };
+
+                    const card = document.createElement('div');
+                    card.className = 'track-card';
+                    card.onclick = () => resolveStreamAndPlay(trackData);
+                    card.innerHTML = `
+                        <div class="card-top">
+                            <div class="card-art-box">
+                                <img src="${art}" alt="${title}" loading="lazy">
+                                <div class="card-play-overlay">▶</div>
+                            </div>
+                            <div class="card-meta">
+                                <div class="card-song-name" title="${title}">${title}</div>
+                                <div class="card-artist-name">${artist}</div>
+                                <div class="card-duration">Duración: ${durationStr}</div>
+                            </div>
+                        </div>
+                        <div class="card-actions-row">
+                            <a href="javascript:void(0)" class="btn-card-action btn-play-card">▶ Escuchar Completa</a>
+                            <a href="javascript:void(0)" class="btn-card-action btn-dl-card">⬇️ Descargar</a>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+
+            } catch (err) {
+                console.error(err);
+                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: #ef4444; padding: 2.5rem;">Error al conectar con el proveedor SpotiFLAC. Intenta nuevamente.</div>';
+            }
         }
 
         window.onload = () => {
