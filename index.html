@@ -128,17 +128,22 @@
             box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
         }
 
-        /* REPRODUCTOR OFICIAL SOUNDCLOUD WIDGET */
-        .sc-player-box {
+        /* REPRODUCTOR NATIVO HTML5 AUDIO - SPOTIFLAC HQ (FULL CANCIÓN) */
+        .player-box {
             display: none;
             background: rgba(18, 24, 38, 0.98);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
             border-radius: 1.25rem;
-            padding: 1.5rem;
+            padding: 1.25rem 1.5rem;
             backdrop-filter: blur(20px);
             margin-bottom: 2.5rem;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
             animation: fadeIn 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            flex-wrap: wrap;
         }
 
         @keyframes fadeIn {
@@ -146,33 +151,71 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .sc-iframe-wrapper {
-            width: 100%;
-            height: 166px;
-            border-radius: 10px;
-            overflow: hidden;
-            background: #000;
-            margin-bottom: 1.25rem;
-        }
-
-        .sc-iframe-wrapper iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .sc-bottom-row {
+        .player-info-side {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
             gap: 1rem;
+            min-width: 220px;
         }
 
-        .now-playing-title {
-            font-size: 1.15rem;
+        .player-art-img {
+            width: 56px;
+            height: 56px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: #000;
+        }
+
+        .player-text-block {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .player-title {
+            font-size: 1.05rem;
             font-weight: 800;
             color: #ffffff;
+            line-height: 1.2;
+            max-width: 260px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .player-artist {
+            font-size: 0.85rem;
+            color: var(--text-sub);
+            font-weight: 600;
+        }
+
+        .player-status-badge {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #10b981;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            margin-top: 0.15rem;
+        }
+
+        .player-controls-side {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            min-width: 320px;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+        }
+
+        .player-controls-side audio {
+            flex: 1;
+            min-width: 260px;
+            height: 42px;
+            border-radius: 20px;
+            outline: none;
         }
 
         .btn-download-direct {
@@ -358,15 +401,20 @@
             </form>
         </div>
 
-        <!-- REPRODUCTOR SOUNDCLOUD (FULL TRACKS - COMPLETA) -->
-        <div id="sc-player-box" class="sc-player-box">
-            <div class="sc-iframe-wrapper">
-                <iframe id="sc-player-frame" src="" allow="autoplay" scrolling="no"></iframe>
+        <!-- REPRODUCTOR NATIVO SPOTIFLAC (FULL TRACKS - CANCIÓN COMPLETA) -->
+        <div id="player-box" class="player-box">
+            <div class="player-info-side">
+                <img id="player-art" class="player-art-img" src="" alt="Album Cover">
+                <div class="player-text-block">
+                    <div id="player-title" class="player-title">Selecciona una canción</div>
+                    <div id="player-artist" class="player-artist">SpotiFLAC HQ</div>
+                    <div id="player-status" class="player-status-badge">● Listo</div>
+                </div>
             </div>
-            <div class="sc-bottom-row">
-                <div class="now-playing-title" id="now-playing-title">Reproduciendo canción completa...</div>
-                <a id="btn-download-direct" href="#" target="_blank" class="btn-download-direct">
-                    <span>⬇️ Descargar Pista Completa</span>
+            <div class="player-controls-side">
+                <audio id="audio-player" controls autoplay></audio>
+                <a id="btn-download-mp3" href="#" target="_blank" class="btn-download-direct">
+                    <span>⬇️ Descargar MP3</span>
                 </a>
             </div>
         </div>
@@ -375,11 +423,14 @@
         <div id="results-grid" class="results-grid"></div>
 
         <footer>
-            SpotiFLAC Mobile Web Adapter &bull; registry.json Provider: soundcloud.sflx &bull; PacheKing Station
+            SpotiFLAC Mobile Web &bull; Extension Provider: soundcloud.sflx &bull; PacheKing ARM64 Station
         </footer>
     </div>
 
     <script>
+        const RESOLVER_ENDPOINT = 'https://counts-infant-appearing-greene.trycloudflare.com/api/music/resolve';
+        const STREAM_ENDPOINT = 'https://counts-infant-appearing-greene.trycloudflare.com/api/music/stream';
+
         function formatDuration(ms) {
             if (!ms) return 'Completa';
             const totalSec = Math.floor(ms / 1000);
@@ -388,24 +439,64 @@
             return `${m}:${s < 10 ? '0' : ''}${s} min`;
         }
 
-        function playFullSong(title, artist) {
-            const player = document.getElementById('sc-player-box');
-            const iframe = document.getElementById('sc-player-frame');
-            const titleElem = document.getElementById('now-playing-title');
-            const dlBtn = document.getElementById('btn-download-direct');
+        async function playFullSong(title, artist, previewUrl, artworkUrl, durationStr) {
+            const player = document.getElementById('player-box');
+            const audio = document.getElementById('audio-player');
+            const titleElem = document.getElementById('player-title');
+            const artistElem = document.getElementById('player-artist');
+            const artElem = document.getElementById('player-art');
+            const statusElem = document.getElementById('player-status');
+            const dlBtn = document.getElementById('btn-download-mp3');
 
-            titleElem.innerText = `${title} • ${artist}`;
-
-            // Search & stream FULL song using official SoundCloud HTML5 player (Bypasses YouTube and plays 100% full track)
-            const cleanQuery = encodeURIComponent(`${title} ${artist}`);
-            const scUrl = `https://soundcloud.com/search/sounds?q=${cleanQuery}`;
-            
-            iframe.src = `https://w.soundcloud.com/player/?url=${encodeURIComponent(scUrl)}&color=%2310b981&auto_play=true&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=false`;
-
-            dlBtn.href = `https://loader.to/api/button/?url=https://www.youtube.com/results?search_query=${cleanQuery}&f=mp3`;
-
-            player.style.display = 'block';
+            player.style.display = 'flex';
             player.scrollIntoView({ behavior: 'smooth' });
+
+            titleElem.innerText = title;
+            artistElem.innerText = artist;
+            artElem.src = artworkUrl || '';
+            statusElem.innerHTML = '⚡ <span>Buscando pista COMPLETA en SpotiFLAC...</span>';
+            statusElem.style.color = '#38bdf8';
+
+            const cleanQuery = encodeURIComponent(`${title} ${artist}`);
+            const directStreamUrl = `${STREAM_ENDPOINT}?q=${cleanQuery}&fallback=${encodeURIComponent(previewUrl || '')}`;
+            dlBtn.href = directStreamUrl;
+            dlBtn.setAttribute('download', `${title} - ${artist}.mp3`);
+
+            try {
+                // Query SpotiFLAC VPS Resolver for full progressive MP3 stream
+                const res = await fetch(`${RESOLVER_ENDPOINT}?q=${cleanQuery}&fallback=${encodeURIComponent(previewUrl || '')}`);
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data && data.url) {
+                        audio.src = data.url;
+                        audio.play().catch(e => console.log('Autoplay:', e));
+                        dlBtn.href = data.url;
+
+                        if (data.full) {
+                            const durText = formatDuration(data.duration * 1000);
+                            statusElem.innerHTML = `● <span>Canción COMPLETA (${durText}) • SpotiFLAC HQ</span>`;
+                            statusElem.style.color = '#10b981';
+                        } else {
+                            statusElem.innerHTML = `● <span>Reproduciendo (${durationStr || '30s'})</span>`;
+                            statusElem.style.color = '#f59e0b';
+                        }
+                        return;
+                    }
+                }
+            } catch (err) {
+                console.warn('Resolver error, playing direct stream endpoint:', err);
+            }
+
+            // Fallback: connect directly to streaming endpoint
+            audio.src = directStreamUrl;
+            audio.play().catch(e => {
+                if (previewUrl) {
+                    audio.src = previewUrl;
+                    audio.play();
+                    statusElem.innerHTML = '● <span>Vista previa 30s</span>';
+                    statusElem.style.color = '#94a3b8';
+                }
+            });
         }
 
         window.itunesCatalogCallback = function(data) {
@@ -423,11 +514,13 @@
                 const artist = t.artistName || 'Artista';
                 const dur = formatDuration(t.trackTimeMillis);
                 const art = (t.artworkUrl100 || '').replace('100x100bb', '300x300bb');
+                const preview = t.previewUrl || '';
                 const cleanQuery = encodeURIComponent(`${title} ${artist}`);
+                const streamUrl = `${STREAM_ENDPOINT}?q=${cleanQuery}&fallback=${encodeURIComponent(preview)}`;
 
                 const card = document.createElement('div');
                 card.className = 'track-card';
-                card.onclick = () => playFullSong(title.replace(/'/g, "\\'"), artist.replace(/'/g, "\\'"));
+                card.onclick = () => playFullSong(title, artist, preview, art, dur);
                 card.innerHTML = `
                     <div class="card-top">
                         <div class="card-art-box">
@@ -441,8 +534,8 @@
                         </div>
                     </div>
                     <div class="card-actions-row">
-                        <a href="javascript:void(0)" class="btn-card-action btn-play-card">▶ Canción Completa</a>
-                        <a href="https://loader.to/api/button/?url=https://www.youtube.com/results?search_query=${cleanQuery}&f=mp3" target="_blank" class="btn-card-action btn-dl-card">⬇️ MP3</a>
+                        <a href="javascript:void(0)" class="btn-card-action btn-play-card">▶ Escuchar Completa</a>
+                        <a href="${streamUrl}" target="_blank" download="${title} - ${artist}.mp3" class="btn-card-action btn-dl-card" onclick="event.stopPropagation()">⬇️ MP3</a>
                     </div>
                 `;
                 grid.appendChild(card);
