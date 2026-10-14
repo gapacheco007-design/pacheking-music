@@ -404,7 +404,10 @@
         <!-- QUICK FILTER PILLS -->
         <div class="filter-pills-row" style="display: flex; gap: 0.6rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
             <button type="button" class="btn-pill" onclick="showLocalCatalog(event)" style="background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; color: #10b981; padding: 0.45rem 1rem; border-radius: 20px; font-weight: 700; cursor: pointer; font-size: 0.85rem;">
-                🔥 Pistas COMPLETAS en GitHub (19)
+                🔥 Pistas COMPLETAS en GitHub (25)
+            </button>
+            <button type="button" class="btn-pill" onclick="quickSearch('Maná')" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.15); color: var(--text-sub); padding: 0.45rem 1rem; border-radius: 20px; font-weight: 600; cursor: pointer; font-size: 0.85rem;">
+                Maná
             </button>
             <button type="button" class="btn-pill" onclick="quickSearch('Canserbero')" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.15); color: var(--text-sub); padding: 0.45rem 1rem; border-radius: 20px; font-weight: 600; cursor: pointer; font-size: 0.85rem;">
                 Canserbero
@@ -600,6 +603,55 @@
                 artist: 'Canserbero',
                 dur: '4:42 min',
                 art: 'https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/fb/93/ef/fb93efd2-d97f-ee87-6356-59ebf0cf4f91/0.jpg/300x300bb.jpg'
+            },
+            // MANÁ (DISCOGRAFÍA ORIGINAL MASTER 320K)
+            {
+                keywords: ['oye mi amor', 'oye amor'],
+                file: 'music/mana-oye-mi-amor.mp3?v=album_master_2026',
+                title: 'Oye Mi Amor',
+                artist: 'Maná',
+                dur: '4:33 min',
+                art: 'https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/69/78/99/6978998b-f8ae-d092-db16-32ee9ea5dd66/825646537099.jpg/300x300bb.jpg'
+            },
+            {
+                keywords: ['mariposa traicionera', 'mariposa'],
+                file: 'music/mana-mariposa-traicionera.mp3?v=album_master_2026',
+                title: 'Mariposa Traicionera',
+                artist: 'Maná',
+                dur: '4:25 min',
+                art: 'https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/82/e3/bd/82e3bdd0-1319-5dfb-e384-968f6906f994/mzi.gtrsvzlb.jpg/300x300bb.jpg'
+            },
+            {
+                keywords: ['en el muelle de san blas', 'muelle de san blas', 'san blas', 'muelle'],
+                file: 'music/mana-en-el-muelle-de-san-blas.mp3?v=album_master_2026',
+                title: 'En el Muelle de San Blás',
+                artist: 'Maná',
+                dur: '5:52 min',
+                art: 'https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/a3/39/fd/a339fdf6-e8f6-0a88-8799-b1db02c3aee9/mzi.nvqsivqv.jpg/300x300bb.jpg'
+            },
+            {
+                keywords: ['labios compartidos', 'labios'],
+                file: 'music/mana-labios-compartidos.mp3?v=album_master_2026',
+                title: 'Labios Compartidos',
+                artist: 'Maná',
+                dur: '5:17 min',
+                art: 'https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/1e/f3/e3/1ef3e381-f9db-2fb1-aead-342410d7617a/mzi.knyznjrt.jpg/300x300bb.jpg'
+            },
+            {
+                keywords: ['clavado en un bar', 'clavado'],
+                file: 'music/mana-clavado-en-un-bar.mp3?v=album_master_2026',
+                title: 'Clavado en un Bar',
+                artist: 'Maná',
+                dur: '5:10 min',
+                art: 'https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/a3/39/fd/a339fdf6-e8f6-0a88-8799-b1db02c3aee9/mzi.nvqsivqv.jpg/300x300bb.jpg'
+            },
+            {
+                keywords: ['rayando el sol', 'rayando'],
+                file: 'music/mana-rayando-el-sol.mp3?v=album_master_2026',
+                title: 'Rayando el Sol',
+                artist: 'Maná',
+                dur: '4:14 min',
+                art: 'https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/b2/27/d8/b227d8b8-21c2-79f4-18ef-4e90f281f965/s06.gqkqqnvt.jpg/300x300bb.jpg'
             }
         ];
 
@@ -607,14 +659,21 @@
             const normalize = s => (s || '').toLowerCase()
                 .normalize('NFD')
                 .replace(/[\u0300-\u036f]/g, '')
-                .replace(/[^a-z0-9 ]/g, '')
+                .replace(/[^a-z0-9 ]/g, ' ')
+                .replace(/\s+/g, ' ')
                 .trim();
             const cleanTitle = normalize(title);
+            const cleanArtist = normalize(artist);
             
             for (const item of GITHUB_CATALOG) {
+                const itemArtistNorm = normalize(item.artist);
+                const artistMatch = !cleanArtist || cleanArtist.includes(itemArtistNorm) || itemArtistNorm.includes(cleanArtist);
                 for (const kw of item.keywords) {
-                    if (cleanTitle.includes(kw)) {
-                        return item;
+                    const normKw = normalize(kw);
+                    if (cleanTitle.includes(normKw)) {
+                        if (artistMatch || normKw.length >= 6) {
+                            return item;
+                        }
                     }
                 }
             }
@@ -667,6 +726,27 @@
         // MOTOR DE RESOLUCIÓN DINÁMICA DE CANCIONES COMPLETAS
         const dynamicTrackCache = new Map();
 
+        function normalizeStr(s) {
+            return (s || '').toLowerCase()
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .replace(/[^a-z0-9 ]/g, ' ')
+                .replace(/\s+/g, ' ')
+                .trim();
+        }
+
+        function parseDurationSeconds(lengthVal) {
+            if (!lengthVal) return 0;
+            const str = String(lengthVal).trim();
+            if (str.includes(':')) {
+                const parts = str.split(':').map(Number);
+                if (parts.length === 2) return (parts[0] * 60) + parts[1];
+                if (parts.length === 3) return (parts[0] * 3600) + (parts[1] * 60) + parts[2];
+            }
+            const num = parseFloat(str);
+            return isNaN(num) ? 0 : num;
+        }
+
         async function resolveFullTrackOnline(title, artist) {
             const cacheKey = `${artist} - ${title}`.toLowerCase();
             if (dynamicTrackCache.has(cacheKey)) {
@@ -675,47 +755,80 @@
 
             try {
                 const cleanTitle = (title || '').replace(/[\(\[\{].*?[\)\]\}]/g, '').trim();
-                const cleanArtist = (artist || '').split(/[,&feat\.]/i)[0].trim();
-                const queryTerm = `${cleanArtist} ${cleanTitle}`.replace(/[^a-zA-Z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim();
-                
-                const searchUrl = `https://archive.org/advancedsearch.php?q=${encodeURIComponent(queryTerm)}+format%3AMP3&fl[]=identifier,title&sort[]=downloads+desc&rows=3&output=json`;
-                const resp = await fetch(searchUrl);
-                if (!resp.ok) return null;
-                const data = await resp.json();
-                const docs = data?.response?.docs || [];
+                const cleanArtist = (artist || '').replace(/\b(feat|ft|con|featuring)\b.*$/i, '').split(/[,&]/)[0].trim();
+                const normTitle = normalizeStr(cleanTitle);
+                const normArtist = normalizeStr(cleanArtist);
 
-                for (const doc of docs) {
-                    const metaUrl = `https://archive.org/metadata/${doc.identifier}/files`;
-                    const mResp = await fetch(metaUrl);
-                    if (!mResp.ok) continue;
-                    const mData = await mResp.json();
-                    const files = mData?.result || [];
-                    
-                    const mp3s = files.filter(f => {
-                        const name = (f.name || '').toLowerCase();
-                        const len = parseFloat(f.length || 0);
-                        return name.endsWith('.mp3') && len >= 80;
-                    });
+                if (!normTitle) return null;
 
-                    if (mp3s.length > 0) {
-                        let match = mp3s.find(f => {
-                            const fn = f.name.toLowerCase();
-                            return cleanTitle.toLowerCase().split(' ').some(w => w.length > 3 && fn.includes(w));
-                        }) || mp3s[0];
+                const titleWords = normTitle.split(' ').filter(w => w.length >= 3);
+                const queries = [
+                    `mediatype:audio AND "${normTitle}" AND (${normArtist})`,
+                    `mediatype:audio AND ${normArtist} ${normTitle}`,
+                    `${normArtist} ${normTitle} format:MP3`
+                ];
 
-                        const fullUrl = `https://archive.org/download/${doc.identifier}/${encodeURIComponent(match.name)}`;
-                        const durationSeconds = Math.round(parseFloat(match.length || 0));
-                        const mins = Math.floor(durationSeconds / 60);
-                        const secs = String(durationSeconds % 60).padStart(2, '0');
-                        const durFormatted = `${mins}:${secs} min`;
+                for (const q of queries) {
+                    const searchUrl = `https://archive.org/advancedsearch.php?q=${encodeURIComponent(q)}&fl[]=identifier,title,creator,mediatype&sort[]=downloads+desc&rows=4&output=json`;
+                    const resp = await fetch(searchUrl);
+                    if (!resp.ok) continue;
+                    const data = await resp.json();
+                    const docs = data?.response?.docs || [];
 
-                        const result = {
-                            url: fullUrl,
-                            duration: durFormatted,
-                            title: match.name
-                        };
-                        dynamicTrackCache.set(cacheKey, result);
-                        return result;
+                    for (const doc of docs) {
+                        const metaUrl = `https://archive.org/metadata/${doc.identifier}/files`;
+                        const mResp = await fetch(metaUrl);
+                        if (!mResp.ok) continue;
+                        const mData = await mResp.json();
+                        const files = mData?.result || [];
+
+                        const candidates = files.filter(f => {
+                            const name = (f.name || '').toLowerCase();
+                            if (!name.endsWith('.mp3')) return false;
+                            const dur = parseDurationSeconds(f.length);
+                            return dur >= 75 && dur <= 720;
+                        });
+
+                        if (candidates.length === 0) continue;
+
+                        // Filtrar grabaciones no deseadas (karaoke, tributos, instrumentales) a menos que se hayan pedido
+                        const badTerms = ['karaoke', 'instrumental', 'tributo', 'tribute', 'backing track'];
+                        const filtered = candidates.filter(f => {
+                            const fn = (f.name || '').toLowerCase();
+                            return !badTerms.some(b => fn.includes(b) && !normTitle.includes(b));
+                        });
+                        const pool = filtered.length > 0 ? filtered : candidates;
+
+                        // Buscar coincidencia en título o nombre de archivo
+                        let matched = pool.find(f => {
+                            const fnNorm = normalizeStr(f.name);
+                            const ftNorm = normalizeStr(f.title);
+                            if (titleWords.length === 0) return true;
+                            const matchedCount = titleWords.filter(w => fnNorm.includes(w) || ftNorm.includes(w)).length;
+                            const threshold = Math.min(2, titleWords.length);
+                            return matchedCount >= threshold;
+                        });
+
+                        // Fallback: si la consulta usó comillas exactas y el pool tiene 1 o pocos tracks
+                        if (!matched && q.includes(`"${normTitle}"`) && pool.length <= 3) {
+                            matched = pool[0];
+                        }
+
+                        if (matched) {
+                            const fullUrl = `https://archive.org/download/${doc.identifier}/${encodeURIComponent(matched.name)}`;
+                            const durSec = Math.round(parseDurationSeconds(matched.length));
+                            const mins = Math.floor(durSec / 60);
+                            const secs = String(durSec % 60).padStart(2, '0');
+                            const durFormatted = `${mins}:${secs} min`;
+
+                            const result = {
+                                url: fullUrl,
+                                duration: durFormatted,
+                                title: matched.name
+                            };
+                            dynamicTrackCache.set(cacheKey, result);
+                            return result;
+                        }
                     }
                 }
             } catch (err) {
