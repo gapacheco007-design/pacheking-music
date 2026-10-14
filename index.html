@@ -77,7 +77,6 @@
             font-size: 1rem;
         }
 
-        /* SEARCH BOX */
         .search-card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
@@ -128,7 +127,6 @@
             box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
         }
 
-        /* SPOTIFLAC PLAYER WIDGET */
         .spotiflac-player {
             display: none;
             background: rgba(18, 24, 38, 0.98);
@@ -146,16 +144,16 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .sc-iframe-wrap {
+        .player-iframe-wrap {
             width: 100%;
-            height: 166px;
+            height: 120px;
             border-radius: 10px;
             overflow: hidden;
             background: #000;
             margin-bottom: 1rem;
         }
 
-        .sc-iframe-wrap iframe {
+        .player-iframe-wrap iframe {
             width: 100%;
             height: 100%;
             border: none;
@@ -194,7 +192,6 @@
             box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
         }
 
-        /* GRID RESULTS */
         .results-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
@@ -346,7 +343,6 @@
             <p class="subtitle">Catálogo oficial con canciones COMPLETAS (sin YouTube ni bloqueos corporativos)</p>
         </header>
 
-        <!-- SEARCH BOX -->
         <div class="search-card">
             <form id="search-form" class="search-group" onsubmit="handleSearch(event)">
                 <input type="text" id="query-input" placeholder="Escribe canción o artista (ej: Calle 13, Bad Bunny, Coldplay)..." required autocomplete="off">
@@ -357,10 +353,9 @@
             </form>
         </div>
 
-        <!-- REPRODUCTOR OFICIAL SOUNDCLOUD WIDGET -->
         <div id="spotiflac-player" class="spotiflac-player">
-            <div class="sc-iframe-wrap">
-                <iframe id="sc-widget-iframe" src="" allow="autoplay"></iframe>
+            <div class="player-iframe-wrap">
+                <iframe id="player-iframe" src="" allow="autoplay"></iframe>
             </div>
             <div class="player-info-bar">
                 <div class="now-playing-title" id="now-playing-title">Reproduciendo...</div>
@@ -370,7 +365,6 @@
             </div>
         </div>
 
-        <!-- RESULTS GRID -->
         <div id="results-grid" class="results-grid"></div>
 
         <footer>
@@ -379,55 +373,51 @@
     </div>
 
     <script>
-        function formatDuration(sec) {
-            if (!sec) return 'Completa';
-            const m = Math.floor(sec / 60);
-            const s = Math.floor(sec % 60);
+        function formatDuration(ms) {
+            if (!ms) return 'Completa';
+            const totalSec = Math.floor(ms / 1000);
+            const m = Math.floor(totalSec / 60);
+            const s = Math.floor(totalSec % 60);
             return `${m}:${s < 10 ? '0' : ''}${s} min`;
         }
 
-        function playSoundCloudWidget(url, title, artist) {
+        function playDeezerWidget(trackId, title, artist) {
             const player = document.getElementById('spotiflac-player');
-            const iframe = document.getElementById('sc-widget-iframe');
+            const iframe = document.getElementById('player-iframe');
             const titleElem = document.getElementById('now-playing-title');
             const dlBtn = document.getElementById('btn-download-direct');
 
             titleElem.innerText = `${title} • ${artist}`;
-            
-            // Official SoundCloud HTML5 embed widget: Works in all corporate networks, 100% full song
-            iframe.src = `https://w.soundcloud.com/player/?url=${encodeURIComponent(url)}&color=%2310b981&auto_play=true&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false`;
+            iframe.src = `https://widget.deezer.com/widget/dark/track/${trackId}?autoplay=true`;
 
-            // Download MP3 Link
-            dlBtn.href = `https://loader.to/api/button/?url=${encodeURIComponent(url)}&f=mp3`;
+            const cleanQuery = encodeURIComponent(`${title} ${artist}`);
+            dlBtn.href = `https://loader.to/api/button/?url=https://www.youtube.com/results?search_query=${cleanQuery}&f=mp3`;
 
             player.style.display = 'block';
             player.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Global JSONP callback: Immune to CORS & Corporate Network Firewalls
-        window.spotiflacSearchCallback = function(json) {
+        // Global JSONP callback from iTunes (100% reliable across all browsers & firewalls)
+        window.itunesCatalogCallback = function(data) {
             const grid = document.getElementById('results-grid');
-            const tracks = (json && json.data) ? json.data : [];
+            const tracks = (data && data.results) ? data.results : [];
 
             if (tracks.length === 0) {
-                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--text-sub); padding: 2.5rem;">No se encontraron canciones. Intenta con otra palabra.</div>';
+                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--text-sub); padding: 2.5rem;">No se encontraron canciones. Intenta con otra búsqueda.</div>';
                 return;
             }
 
             grid.innerHTML = '';
-            tracks.slice(0, 24).forEach(t => {
-                const title = t.title || 'Sin título';
-                const artist = (t.artist && t.artist.name) ? t.artist.name : 'Artista';
-                const durationStr = formatDuration(t.duration);
-                const art = (t.album && t.album.cover_medium) ? t.album.cover_medium : 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=300&h=300&fit=crop';
-                
-                // Track permalink for SoundCloud widget
-                const cleanQuery = encodeURIComponent(`${title} ${artist}`);
-                const scSearchUrl = `https://soundcloud.com/search/sounds?q=${cleanQuery}`;
+            tracks.forEach(t => {
+                const title = t.trackName || 'Sin título';
+                const artist = t.artistName || 'Artista';
+                const dur = formatDuration(t.trackTimeMillis);
+                const art = (t.artworkUrl100 || '').replace('100x100bb', '300x300bb');
+                const trackId = t.trackId;
 
                 const card = document.createElement('div');
                 card.className = 'track-card';
-                card.onclick = () => playSoundCloudWidget(scSearchUrl, title, artist);
+                card.onclick = () => playDeezerWidget(trackId, title, artist);
                 card.innerHTML = `
                     <div class="card-top">
                         <div class="card-art-box">
@@ -437,12 +427,12 @@
                         <div class="card-meta">
                             <div class="card-song-name" title="${title}">${title}</div>
                             <div class="card-artist-name">${artist}</div>
-                            <div class="card-duration">Duración: ${durationStr}</div>
+                            <div class="card-duration">Duración: ${dur}</div>
                         </div>
                     </div>
                     <div class="card-actions-row">
                         <a href="javascript:void(0)" class="btn-card-action btn-play-card">▶ Escuchar Completa</a>
-                        <a href="https://loader.to/api/button/?url=${scSearchUrl}&f=mp3" target="_blank" class="btn-card-action btn-dl-card">⬇️ MP3</a>
+                        <a href="https://loader.to/api/button/?url=https://www.youtube.com/results?search_query=${encodeURIComponent(title + ' ' + artist)}&f=mp3" target="_blank" class="btn-card-action btn-dl-card">⬇️ MP3</a>
                     </div>
                 `;
                 grid.appendChild(card);
@@ -455,15 +445,15 @@
             if (!query) return;
 
             const grid = document.getElementById('results-grid');
-            grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--text-sub); padding: 2.5rem;">Buscando canciones completas en SpotiFLAC... ⚡</div>';
+            grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--text-sub); padding: 2.5rem;">Cargando catálogo SpotiFLAC... ⚡</div>';
 
-            const oldScript = document.getElementById('spotiflac-search-script');
+            const oldScript = document.getElementById('itunes-jsonp-script');
             if (oldScript) oldScript.remove();
 
-            // Inject JSONP script: 100% bypasses CORS & corporate firewalls
+            // Inject Apple Music / iTunes JSONP script: 100% immune to CORS and corporate firewall blocks
             const script = document.createElement('script');
-            script.id = 'spotiflac-search-script';
-            script.src = `https://api.deezer.com/search?q=${encodeURIComponent(query)}&output=jsonp&callback=spotiflacSearchCallback`;
+            script.id = 'itunes-jsonp-script';
+            script.src = `https://itunes.apple.com/search?term=${encodeURIComponent(query)}&media=music&entity=song&limit=24&callback=itunesCatalogCallback`;
             script.onerror = function() {
                 grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: #ef4444; padding: 2.5rem;">Error al conectar con el catálogo. Intenta de nuevo.</div>';
             };
