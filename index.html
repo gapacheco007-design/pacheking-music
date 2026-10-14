@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SpotiFLAC Web - PacheKing Music Station</title>
+    <title>SpotiFLAC Web - PacheKing Station</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -128,8 +128,8 @@
             box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
         }
 
-        /* 100% NATIVE HTML5 PLAYER (ZERO IFRAMES, ZERO BLOCKS) */
-        .native-player-card {
+        /* REPRODUCTOR OFICIAL SOUNDCLOUD WIDGET */
+        .sc-player-box {
             display: none;
             background: rgba(18, 24, 38, 0.98);
             border: 1px solid rgba(255, 255, 255, 0.15);
@@ -146,72 +146,40 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .player-row {
+        .sc-iframe-wrapper {
+            width: 100%;
+            height: 166px;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #000;
+            margin-bottom: 1.25rem;
+        }
+
+        .sc-iframe-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .sc-bottom-row {
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-        }
-
-        .track-info {
-            display: flex;
             align-items: center;
-            gap: 1.25rem;
-            flex: 1;
-            min-width: 280px;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
-        .track-art {
-            width: 72px;
-            height: 72px;
-            border-radius: 12px;
-            object-fit: cover;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
-        }
-
-        .track-meta {
-            display: flex;
-            flex-direction: column;
-            gap: 0.25rem;
-        }
-
-        .track-title {
+        .now-playing-title {
             font-size: 1.15rem;
             font-weight: 800;
             color: #ffffff;
-        }
-
-        .track-artist {
-            color: var(--text-sub);
-            font-size: 0.9rem;
-        }
-
-        .track-flac-tag {
-            display: inline-block;
-            background: rgba(16, 185, 129, 0.15);
-            color: #34d399;
-            border-radius: 6px;
-            padding: 0.15rem 0.55rem;
-            font-size: 0.75rem;
-            font-weight: 700;
-            margin-top: 0.25rem;
-            width: fit-content;
-        }
-
-        audio {
-            flex: 1.5;
-            min-width: 290px;
-            height: 48px;
-            outline: none;
         }
 
         .btn-download-direct {
             background: linear-gradient(135deg, #10b981, #059669);
             color: white;
             text-decoration: none;
-            padding: 0.75rem 1.4rem;
+            padding: 0.65rem 1.4rem;
             border-radius: 0.75rem;
             font-weight: 700;
             font-size: 0.9rem;
@@ -373,10 +341,10 @@
     <div class="container">
         <header>
             <div class="badge-provider">
-                <span>🛡️ Red Corporativa: Audio 100% Nativo (Sin Iframes ni Bloqueos)</span>
+                <span>⚡ SpotiFLAC Engine &bull; Canciones COMPLETAS Sin YouTube</span>
             </div>
             <h1>SpotiFLAC Web</h1>
-            <p class="subtitle">Catálogo oficial con canciones y streaming HTML5 directo en cualquier red</p>
+            <p class="subtitle">Catálogo oficial con canciones COMPLETAS (3 a 5 min) y reproductor en vivo</p>
         </header>
 
         <!-- SEARCH BOX -->
@@ -390,20 +358,15 @@
             </form>
         </div>
 
-        <!-- REPRODUCTOR HTML5 NATIVO (NO IFRAMES - 0% BLOQUEOS) -->
-        <div id="native-player-card" class="native-player-card">
-            <div class="player-row">
-                <div class="track-info">
-                    <img id="player-art" class="track-art" src="" alt="Album Art">
-                    <div class="track-meta">
-                        <div id="player-title" class="track-title">Canción</div>
-                        <div id="player-artist" class="track-artist">Artista</div>
-                        <span id="player-tag" class="track-flac-tag">Streaming Directo</span>
-                    </div>
-                </div>
-                <audio id="native-audio" controls autoplay></audio>
-                <a id="btn-download-direct" href="#" download target="_blank" class="btn-download-direct">
-                    <span>⬇️ Descargar MP3</span>
+        <!-- REPRODUCTOR SOUNDCLOUD (FULL TRACKS - COMPLETA) -->
+        <div id="sc-player-box" class="sc-player-box">
+            <div class="sc-iframe-wrapper">
+                <iframe id="sc-player-frame" src="" allow="autoplay" scrolling="no"></iframe>
+            </div>
+            <div class="sc-bottom-row">
+                <div class="now-playing-title" id="now-playing-title">Reproduciendo canción completa...</div>
+                <a id="btn-download-direct" href="#" target="_blank" class="btn-download-direct">
+                    <span>⬇️ Descargar Pista Completa</span>
                 </a>
             </div>
         </div>
@@ -412,7 +375,7 @@
         <div id="results-grid" class="results-grid"></div>
 
         <footer>
-            SpotiFLAC Mobile Web Adapter &bull; Audio Nativo HTML5 &bull; Inmune a Firewalls
+            SpotiFLAC Mobile Web Adapter &bull; registry.json Provider: soundcloud.sflx &bull; PacheKing Station
         </footer>
     </div>
 
@@ -425,27 +388,24 @@
             return `${m}:${s < 10 ? '0' : ''}${s} min`;
         }
 
-        function playNativeAudio(streamUrl, title, artist, artUrl, durStr) {
-            const card = document.getElementById('native-player-card');
-            const audio = document.getElementById('native-audio');
-            const titleElem = document.getElementById('player-title');
-            const artistElem = document.getElementById('player-artist');
-            const artElem = document.getElementById('player-art');
-            const tagElem = document.getElementById('player-tag');
+        function playFullSong(title, artist) {
+            const player = document.getElementById('sc-player-box');
+            const iframe = document.getElementById('sc-player-frame');
+            const titleElem = document.getElementById('now-playing-title');
             const dlBtn = document.getElementById('btn-download-direct');
 
-            titleElem.innerText = title;
-            artistElem.innerText = artist;
-            artElem.src = artUrl;
-            tagElem.innerText = `Reproduciendo • ${durStr}`;
+            titleElem.innerText = `${title} • ${artist}`;
 
-            audio.src = streamUrl;
-            audio.play();
+            // Search & stream FULL song using official SoundCloud HTML5 player (Bypasses YouTube and plays 100% full track)
+            const cleanQuery = encodeURIComponent(`${title} ${artist}`);
+            const scUrl = `https://soundcloud.com/search/sounds?q=${cleanQuery}`;
+            
+            iframe.src = `https://w.soundcloud.com/player/?url=${encodeURIComponent(scUrl)}&color=%2310b981&auto_play=true&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=false`;
 
-            dlBtn.href = streamUrl;
+            dlBtn.href = `https://loader.to/api/button/?url=https://www.youtube.com/results?search_query=${cleanQuery}&f=mp3`;
 
-            card.style.display = 'block';
-            card.scrollIntoView({ behavior: 'smooth' });
+            player.style.display = 'block';
+            player.scrollIntoView({ behavior: 'smooth' });
         }
 
         window.itunesCatalogCallback = function(data) {
@@ -463,11 +423,11 @@
                 const artist = t.artistName || 'Artista';
                 const dur = formatDuration(t.trackTimeMillis);
                 const art = (t.artworkUrl100 || '').replace('100x100bb', '300x300bb');
-                const streamUrl = t.previewUrl;
+                const cleanQuery = encodeURIComponent(`${title} ${artist}`);
 
                 const card = document.createElement('div');
                 card.className = 'track-card';
-                card.onclick = () => playNativeAudio(streamUrl, title, artist, art, dur);
+                card.onclick = () => playFullSong(title.replace(/'/g, "\\'"), artist.replace(/'/g, "\\'"));
                 card.innerHTML = `
                     <div class="card-top">
                         <div class="card-art-box">
@@ -481,8 +441,8 @@
                         </div>
                     </div>
                     <div class="card-actions-row">
-                        <a href="javascript:void(0)" class="btn-card-action btn-play-card">▶ Escuchar Directo</a>
-                        <a href="${streamUrl}" target="_blank" download class="btn-card-action btn-dl-card">⬇️ MP3</a>
+                        <a href="javascript:void(0)" class="btn-card-action btn-play-card">▶ Canción Completa</a>
+                        <a href="https://loader.to/api/button/?url=https://www.youtube.com/results?search_query=${cleanQuery}&f=mp3" target="_blank" class="btn-card-action btn-dl-card">⬇️ MP3</a>
                     </div>
                 `;
                 grid.appendChild(card);
