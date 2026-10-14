@@ -1404,11 +1404,7 @@
             `;
 
             card.onclick = () => {
-                if (isExternal) {
-                    triggerBackgroundDownload(track);
-                } else {
-                    playTrack(track);
-                }
+                playOrDownloadInstant(track, isExternal);
             };
 
             return card;
@@ -1566,17 +1562,111 @@
             a.remove();
         }
 
-        // 6. BACKGROUND AUTO-DOWNLOAD TRIGGER (RESILIENTE A CORS Y FIREWALL)
-        function triggerBackgroundDownload(track) {
+        // 6. INSTANT CLIENT + BACKEND HYBRID RESOLVER
+        async function resolveArchiveDirect(artist, title) {
+            try {
+                const cleanTitle = title.replace(/[\(\[].*?[\)\]]/g, '').trim();
+                const cleanArtist = artist.split(/[,&]/)[0].trim();
+                const q = encodeURIComponent(`mediatype:audio AND "${cleanTitle}" AND "${cleanArtist}"`);
+                const url = `https://archive.org/advancedsearch.php?q=${q}&fl[]=identifier,title&rows=3&output=json`;
+
+                const res = await fetch(url);
+                if (!res.ok) return null;
+                const data = await res.json();
+                const docs = (data.response && data.response.docs) ? data.response.docs : [];
+                if (docs.length === 0) return null;
+
+                for (const doc of docs) {
+                    const metaRes = await fetch(`https://archive.org/metadata/${doc.identifier}/files`);
+                    if (!metaRes.ok) continue;
+                    const metaData = await metaRes.json();
+                    const files = metaData.result || [];
+                    
+                    const match = files.find(f => {
+                        const name = (f.name || '').toLowerCase();
+                        return (name.endsWith('.flac') || name.endsWith('.mp3')) && 
+                               !name.includes('remix') && !name.includes('karaoke') && !name.includes('cover');
+                    });
+                    
+                    if (match) {
+                        const downloadUrl = `https://archive.org/download/${doc.identifier}/${encodeURIComponent(match.name)}`;
+                        const isFlac = match.name.toLowerCase().endsWith('.flac');
+                        return {
+                            url: downloadUrl,
+                            format: isFlac ? 'FLAC Studio Lossless' : 'MP3 320k Master',
+                            dur_str: match.length ? formatSec(parseFloat(match.length)) : 'Completa'
+                        };
+                    }
+                }
+            } catch (err) {
+                console.log('resolveArchiveDirect error:', err);
+            }
+            return null;
+        }
+
+        async function playOrDownloadInstant(track, isExternal) {
+            // Check if already in local catalog
+            const local = catalog.find(t => t.id === track.id || 
+                (t.title.toLowerCase() === track.title.toLowerCase() && t.artist.toLowerCase().includes(track.artist.toLowerCase().split(' ')[0]))
+            );
+            if (local && local.url) {
+                playTrack(local);
+                return;
+            }
+
+            // If external track, resolve and start playing in seconds!
+            showToast('⚡ Preparando audio...', `Descargando versión de estudio para "${track.title}"...`, '⏳');
             activeDownloads.set(track.id, {
                 ...track,
                 started: Date.now(),
-                status: 'Buscando audio original FLAC...'
+                status: 'Descargando audio de estudio...'
             });
             updateDownloadsBadge();
-            showToast('⚡ Descargando en segundo plano', `Buscando versión original FLAC/Master para "${track.title}"...`, '⏳');
-            renderCurrentView();
             updateDownloadsModalContent();
+
+            // Try fast online studio resolver (Archive.org CD-rips / FLAC)
+            const fastOnline = await resolveArchiveDirect(track.artist, track.title);
+            if (fastOnline && fastOnline.url) {
+                track.url = fastOnline.url;
+                track.dur_str = fastOnline.dur_str || track.dur_str;
+                track.format = fastOnline.format || 'FLAC / Master';
+
+                const already = catalog.find(t => t.id === track.id);
+                if (!already) {
+                    catalog.unshift(track);
+                    document.getElementById('library-count-badge').innerText = catalog.length;
+                }
+
+                activeDownloads.delete(track.id);
+                updateDownloadsBadge();
+                updateDownloadsModalContent();
+
+                showToast('✓ ¡Descarga lista!', `Reproduciendo "${track.title}" en audio original de estudio.`, '🎉');
+                playTrack(track);
+                renderCurrentView();
+
+                // Silently request backend worker to also save it on server
+                triggerBackgroundDownload(track, true);
+                return;
+            }
+
+            // Fallback: Notify worker
+            triggerBackgroundDownload(track, false);
+        }
+
+        // 7. BACKGROUND AUTO-DOWNLOAD TRIGGER (RESILIENTE A CORS Y FIREWALL)
+        function triggerBackgroundDownload(track, silent = false) {
+            if (!silent) {
+                activeDownloads.set(track.id, {
+                    ...track,
+                    started: Date.now(),
+                    status: 'Buscando audio original FLAC...'
+                });
+                updateDownloadsBadge();
+                showToast('⚡ Descargando en segundo plano', `Buscando versión original FLAC/Master para "${track.title}"...`, '⏳');
+                renderCurrentView();
+                updateDownloadsModalContent();
+            }
 
             const payload = {
                 type: 'download',
