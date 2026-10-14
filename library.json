@@ -1,5 +1,5 @@
 {
- "updated": 1791955773,
+ "updated": 1791955888,
  "tracks": [
   {
    "id": "itunes-423021874",
@@ -912,6 +912,20 @@
    "url": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/queen--somebody-to-love--test-somebody-to-lov.mp3",
    "source": "spotdl",
    "added": 1791953177
+  },
+  {
+   "id": "itunes-213386893",
+   "title": "Amor Libre (featuring Shuga Wuga)",
+   "artist": "Nach",
+   "album": "Poesía Difusa",
+   "genre": "Hip-Hop / Rap",
+   "duration": 314,
+   "dur_str": "5:13 min",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music/v4/4a/1c/26/4a1c26f0-d335-71bf-1eb9-0fb42918df7f/0094638708151.jpg/600x600bb.jpg",
+   "url": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/nach--amor-libre--itunes-213386893.mp3",
+   "format": "FLAC / MP3 320k Master",
+   "source": "archive.org",
+   "added": 1791955888
   }
  ]
 }
