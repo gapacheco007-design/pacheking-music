@@ -1759,26 +1759,53 @@
             }
         }
 
-        // 2. SSE WORKER EVENT LISTENER (VPS NOTIFICATION)
+        // 2. SSE WORKER EVENT LISTENER (VPS NOTIFICATION) & ACTIVE SYNC
         function listenToWorkerEvents() {
             if (!window.EventSource) return;
-            const es = new EventSource(`${EVT_URL}/sse`);
-            es.onmessage = function(e) {
-                try {
-                    const data = JSON.parse(e.data);
-                    if (!data) return;
+            try {
+                const es = new EventSource(`${EVT_URL}/sse`);
+                es.onmessage = function(e) {
+                    try {
+                        const raw = JSON.parse(e.data);
+                        if (!raw) return;
+                        let payload = raw;
+                        if (typeof raw.message === 'string') {
+                            try { payload = JSON.parse(raw.message); } catch(_) {}
+                        } else if (raw.message && typeof raw.message === 'object') {
+                            payload = raw.message;
+                        }
 
-                    if (data.type === 'ready' && data.track) {
-                        onTrackReadyFromVps(data.track);
-                    } else if (data.type === 'error') {
-                        activeDownloads.delete(data.id);
-                        updateJobsUi();
-                        showToast('No se pudo completar la descarga en el servidor');
+                        if (payload.type === 'ready' && payload.track) {
+                            onTrackReadyFromVps(payload.track);
+                        } else if (payload.type === 'error') {
+                            activeDownloads.delete(payload.id);
+                            updateJobsUi();
+                            showToast('No se pudo completar la descarga en el servidor');
+                        }
+                    } catch (err) {
+                        console.error("SSE parse error:", err);
                     }
-                } catch (err) {
-                    console.error("SSE parse error:", err);
-                }
-            };
+                };
+            } catch (e) {
+                console.warn("EventSource setup error:", e);
+            }
+
+            // Fallback sync: check status every 2.5s while active downloads exist
+            setInterval(async () => {
+                if (activeDownloads.size === 0) return;
+                activeDownloads.forEach(async (job, id) => {
+                    try {
+                        const statusUrl = `${VPS_API_BASE}/api/download/status?id=${encodeURIComponent(id)}&artist=${encodeURIComponent(job.artist)}&title=${encodeURIComponent(job.title)}`;
+                        const res = await fetch(statusUrl);
+                        if (res.ok) {
+                            const data = await res.json();
+                            if (data.status === 'ready' && data.track) {
+                                onTrackReadyFromVps(data.track);
+                            }
+                        }
+                    } catch (_) {}
+                });
+            }, 2500);
         }
 
         function onTrackReadyFromVps(track) {
@@ -1790,9 +1817,19 @@
                 Object.assign(exists, track);
             }
 
-            activeDownloads.delete(track.id);
+            // Remove from active downloads by ID and by title/artist match
+            for (let [k, v] of activeDownloads.entries()) {
+                if (k === track.id || (v.title.toLowerCase() === track.title.toLowerCase() && v.artist.toLowerCase() === track.artist.toLowerCase())) {
+                    activeDownloads.delete(k);
+                }
+            }
             updateJobsUi();
             showToast(`Descarga lista en el servidor: ${track.title}`);
+
+            const vpsTxt = document.getElementById('txt-vps-download-np');
+            if (vpsTxt && currentPlaylist[currentIndex]?.id === track.id) {
+                vpsTxt.innerText = "Guardado en VPS";
+            }
 
             // If current playing was waiting for this
             if (currentPlaylist[currentIndex] && currentPlaylist[currentIndex].id === track.id) {
@@ -2169,68 +2206,90 @@
             updateActiveRows();
             updateNowPlayingUi();
 
-            let targetUrl = track.url || '';
-            const isPreviewOnly = !targetUrl || targetUrl.includes('mzstatic.com') || targetUrl.includes('itunes.apple.com') || track.source === 'online_stream';
+            const isAlreadyFull = track.url && !track.url.includes('itunes.apple.com') && !track.url.includes('mzstatic.com') && track.source !== 'online_stream';
 
-            // If it's an online preview or empty, resolve the FULL SONG studio stream immediately!
-            if (isPreviewOnly) {
-                barPill.innerText = "RESOLVIENDO CANCIÓN COMPLETA...";
-                showToast(`Obteniendo canción completa para ${track.title}...`);
-
-                try {
-                    const resolveUrl = `${VPS_API_BASE}/api/resolve?artist=${encodeURIComponent(track.artist)}&title=${encodeURIComponent(track.title)}&duration=${track.duration || 0}`;
-                    const res = await fetch(resolveUrl);
-                    if (res.ok) {
-                        const data = await res.json();
-                        if (data.url) {
-                            targetUrl = data.url;
-                            track.url = targetUrl;
-                            track.source = data.source || 'full_stream';
-                            track.format = data.format || 'Full Audio Stream';
-                            showToast(`Reproduciendo canción completa: ${track.title}`);
-                        }
-                    }
-                } catch (err) {
-                    console.warn("Resolve stream error:", err);
-                }
-            }
-
-            if (!targetUrl && track.previewUrl) {
-                targetUrl = track.previewUrl;
-                showToast(`Reproduciendo vista previa de ${track.title}`);
-            }
-
-            if (!targetUrl) {
-                showToast("No se pudo obtener el audio de esta canción");
+            // 1. If we already have the full studio master or full stream: PLAY INSTANTLY (0ms)!
+            if (isAlreadyFull) {
+                loadAndPlayAudio(track.url, track);
+                const isHiRes = (track.format && track.format.includes('24-bit')) || (track.quality && track.quality.includes('24'));
+                barPill.className = isHiRes ? 'quality-pill hi-res' : 'quality-pill';
+                barPill.innerText = isHiRes ? 'HI-RES LOSSLESS' : (track.format || 'CANCIÓN COMPLETA');
                 return;
             }
 
-            loadAndPlayAudio(targetUrl, track);
+            // 2. ZERO-DELAY INSTANT PLAYBACK (50ms):
+            // Start audio IMMEDIATELY with previewUrl so the user hears music instantly with zero silence!
+            if (track.previewUrl) {
+                loadAndPlayAudio(track.previewUrl, track);
+                barPill.className = 'quality-pill';
+                barPill.innerText = 'CONECTANDO ESTUDIO...';
+            } else {
+                barPill.className = 'quality-pill';
+                barPill.innerText = 'CARGANDO...';
+            }
+
+            // 3. BACKGROUND FULL-STREAM RESOLVER (Seamless Handshake)
+            // While the track is already playing in the user's ears, we resolve the complete 3-5 min studio stream!
+            const reqTrackId = track.id;
+            try {
+                const resolveUrl = `${VPS_API_BASE}/api/resolve?artist=${encodeURIComponent(track.artist)}&title=${encodeURIComponent(track.title)}&duration=${track.duration || 0}`;
+                const res = await fetch(resolveUrl);
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.url && currentPlaylist[currentIndex]?.id === reqTrackId) {
+                        track.url = data.url;
+                        track.source = data.source || 'full_stream';
+                        track.format = data.format || 'Full Audio Stream';
+
+                        // Seamless cross-switch to full stream:
+                        // Preserve current playback timestamp so there is zero interruption!
+                        const currentPosition = audio.currentTime || 0;
+                        const wasPlaying = !audio.paused;
+
+                        loadAndPlayAudio(data.url, track, currentPosition, wasPlaying);
+
+                        barPill.className = 'quality-pill';
+                        barPill.innerText = 'CANCIÓN COMPLETA';
+                    }
+                }
+            } catch (err) {
+                console.warn("Resolve stream background error:", err);
+            }
         }
 
-        function loadAndPlayAudio(url, track) {
+        function loadAndPlayAudio(url, track, seekToTime = 0, autoPlay = true) {
             const isHls = url.includes('.m3u8') || url.includes('/playlist');
 
             if (isHls && window.Hls && Hls.isSupported()) {
                 if (hlsPlayer) {
                     hlsPlayer.destroy();
                 }
-                hlsPlayer = new Hls({ enableWorker: true });
+                hlsPlayer = new Hls({ 
+                    enableWorker: true,
+                    lowLatencyMode: true,
+                    backBufferLength: 90
+                });
                 hlsPlayer.loadSource(url);
                 hlsPlayer.attachMedia(audio);
                 hlsPlayer.on(Hls.Events.MANIFEST_PARSED, () => {
-                    audio.play().then(() => {
-                        isPlaying = true;
-                        updatePlayBtn();
-                        updateNowPlayingPlayBtn();
-                    }).catch(e => console.log("Play interact requirement:", e));
+                    if (seekToTime > 0) {
+                        try { audio.currentTime = seekToTime; } catch(_) {}
+                    }
+                    if (autoPlay) {
+                        audio.play().then(() => {
+                            isPlaying = true;
+                            updatePlayBtn();
+                            updateNowPlayingPlayBtn();
+                        }).catch(e => console.log("Play interact requirement:", e));
+                    }
                 });
                 hlsPlayer.on(Hls.Events.ERROR, (event, data) => {
                     if (data.fatal) {
                         console.error("HLS fatal error:", data);
                         if (track.previewUrl && audio.src !== track.previewUrl) {
                             audio.src = track.previewUrl;
-                            audio.play().catch(() => {});
+                            if (seekToTime > 0) { try { audio.currentTime = seekToTime; } catch(_) {} }
+                            if (autoPlay) audio.play().catch(() => {});
                         }
                     }
                 });
@@ -2240,11 +2299,16 @@
                     hlsPlayer = null;
                 }
                 audio.src = url;
-                audio.play().then(() => {
-                    isPlaying = true;
-                    updatePlayBtn();
-                    updateNowPlayingPlayBtn();
-                }).catch(e => console.log("Play interact requirement:", e));
+                if (seekToTime > 0) {
+                    try { audio.currentTime = seekToTime; } catch(_) {}
+                }
+                if (autoPlay) {
+                    audio.play().then(() => {
+                        isPlaying = true;
+                        updatePlayBtn();
+                        updateNowPlayingPlayBtn();
+                    }).catch(e => console.log("Play interact requirement:", e));
+                }
             }
 
             const isHiRes = (track.format && track.format.includes('24-bit')) || (track.quality && track.quality.includes('24'));
@@ -2709,6 +2773,19 @@
                 subHead.innerText = 'Resultados en línea (Reproducir al instante / Descargar al VPS)';
                 resultsBox.appendChild(subHead);
                 resultsBox.appendChild(renderTracksTable(onlineTracks, true));
+
+                // Background stream pre-caching for top 3 results for 0ms instant playback
+                onlineTracks.slice(0, 3).forEach(t => {
+                    fetch(`${VPS_API_BASE}/api/resolve?artist=${encodeURIComponent(t.artist)}&title=${encodeURIComponent(t.title)}&duration=${t.duration || 0}`)
+                        .then(r => r.json())
+                        .then(d => {
+                            if (d && d.url) {
+                                t.url = d.url;
+                                t.source = d.source || 'full_stream';
+                                t.format = d.format || 'Full Audio Stream';
+                            }
+                        }).catch(() => {});
+                });
             }
         };
 
