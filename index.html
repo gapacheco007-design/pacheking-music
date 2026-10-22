@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>TheKing Music</title>
     <link rel="icon" href="assets/brand/theking-badge.png" type="image/png">
+    <script src="assets/js/hls.min.js"></script>
+    <script>
+        if (!window.Hls) {
+            document.write('<script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.8/dist/hls.min.js"><\/script>');
+        }
+    </script>
     <style>
         :root {
             --bg-main: #000000;
@@ -2068,7 +2074,10 @@
             return table;
         }
 
-        // 4. PLAYBACK ENGINE & INSTANT STREAMING
+        // 4. PLAYBACK ENGINE & FULL STUDIO STREAM RESOLUTION
+        let hlsPlayer = null;
+        const VPS_API_BASE = window.location.origin.includes('thekinghub.com') ? '' : 'https://music.thekinghub.com';
+
         function playTrackById(id) {
             const t = catalog.find(x => x.id === id);
             if (t) playTrack(t);
@@ -2077,20 +2086,13 @@
         function handleTrackRowClick(track, isOnlineSearch) {
             // 1. Check if already in local catalog with playable url
             const local = catalog.find(t => t.id === track.id || (t.title.toLowerCase() === track.title.toLowerCase() && t.artist.toLowerCase().includes(track.artist.toLowerCase().split(' ')[0])));
-            if (local && local.url) {
+            if (local && local.url && !local.url.includes('apple.com') && !local.url.includes('mzstatic.com')) {
                 playTrack(local);
                 return;
             }
 
-            // 2. If online search track with audio url: PLAY IMMEDIATELY!
-            if (track.url) {
-                playTrack(track);
-                showToast(`Reproduciendo: ${track.title}`);
-                return;
-            }
-
-            // 3. Fallback: request VPS download
-            requestVpsDownload(track);
+            // 2. Play full track (resolves full stream automatically)
+            playTrack(track);
         }
 
         function requestVpsDownloadRow(e, trackId) {
@@ -2127,8 +2129,8 @@
                 duration: track.duration || 0
             };
 
-            // Send via VPS direct API if available
-            fetch('/api/download', {
+            // Send via VPS direct API
+            fetch(`${VPS_API_BASE}/api/download`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
@@ -2145,7 +2147,7 @@
         function triggerCurrentTrackVpsDownload() {
             const track = currentPlaylist[currentIndex];
             if (!track) return;
-            const inVps = catalog.some(t => t.id === track.id && t.source !== 'online_stream');
+            const inVps = catalog.some(t => t.id === track.id && t.source !== 'online_stream' && t.source !== 'full_stream');
             if (inVps) {
                 showToast("Esta pista ya está guardada permanentemente en tu servidor VPS");
                 return;
@@ -2153,7 +2155,7 @@
             requestVpsDownload(track);
         }
 
-        function playTrack(track) {
+        async function playTrack(track) {
             let idx = currentPlaylist.findIndex(t => t.id === track.id);
             if (idx === -1) {
                 currentPlaylist.unshift(track);
@@ -2161,27 +2163,97 @@
             }
             currentIndex = idx;
 
-            audio.src = track.url;
-            audio.play().then(() => {
-                isPlaying = true;
-                updatePlayBtn();
-                updateNowPlayingPlayBtn();
-            }).catch(e => console.log("Play interact requirement:", e));
-
             barTitle.innerText = track.title;
             barArtist.innerText = track.artist;
             barArt.src = track.art || DEFAULT_ART;
+            updateActiveRows();
+            updateNowPlayingUi();
+
+            let targetUrl = track.url || '';
+            const isPreviewOnly = !targetUrl || targetUrl.includes('mzstatic.com') || targetUrl.includes('itunes.apple.com') || track.source === 'online_stream';
+
+            // If it's an online preview or empty, resolve the FULL SONG studio stream immediately!
+            if (isPreviewOnly) {
+                barPill.innerText = "RESOLVIENDO CANCIÓN COMPLETA...";
+                showToast(`Obteniendo canción completa para ${track.title}...`);
+
+                try {
+                    const resolveUrl = `${VPS_API_BASE}/api/resolve?artist=${encodeURIComponent(track.artist)}&title=${encodeURIComponent(track.title)}&duration=${track.duration || 0}`;
+                    const res = await fetch(resolveUrl);
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (data.url) {
+                            targetUrl = data.url;
+                            track.url = targetUrl;
+                            track.source = data.source || 'full_stream';
+                            track.format = data.format || 'Full Audio Stream';
+                            showToast(`Reproduciendo canción completa: ${track.title}`);
+                        }
+                    }
+                } catch (err) {
+                    console.warn("Resolve stream error:", err);
+                }
+            }
+
+            if (!targetUrl && track.previewUrl) {
+                targetUrl = track.previewUrl;
+                showToast(`Reproduciendo vista previa de ${track.title}`);
+            }
+
+            if (!targetUrl) {
+                showToast("No se pudo obtener el audio de esta canción");
+                return;
+            }
+
+            loadAndPlayAudio(targetUrl, track);
+        }
+
+        function loadAndPlayAudio(url, track) {
+            const isHls = url.includes('.m3u8') || url.includes('/playlist');
+
+            if (isHls && window.Hls && Hls.isSupported()) {
+                if (hlsPlayer) {
+                    hlsPlayer.destroy();
+                }
+                hlsPlayer = new Hls({ enableWorker: true });
+                hlsPlayer.loadSource(url);
+                hlsPlayer.attachMedia(audio);
+                hlsPlayer.on(Hls.Events.MANIFEST_PARSED, () => {
+                    audio.play().then(() => {
+                        isPlaying = true;
+                        updatePlayBtn();
+                        updateNowPlayingPlayBtn();
+                    }).catch(e => console.log("Play interact requirement:", e));
+                });
+                hlsPlayer.on(Hls.Events.ERROR, (event, data) => {
+                    if (data.fatal) {
+                        console.error("HLS fatal error:", data);
+                        if (track.previewUrl && audio.src !== track.previewUrl) {
+                            audio.src = track.previewUrl;
+                            audio.play().catch(() => {});
+                        }
+                    }
+                });
+            } else {
+                if (hlsPlayer) {
+                    hlsPlayer.destroy();
+                    hlsPlayer = null;
+                }
+                audio.src = url;
+                audio.play().then(() => {
+                    isPlaying = true;
+                    updatePlayBtn();
+                    updateNowPlayingPlayBtn();
+                }).catch(e => console.log("Play interact requirement:", e));
+            }
 
             const isHiRes = (track.format && track.format.includes('24-bit')) || (track.quality && track.quality.includes('24'));
             barPill.className = isHiRes ? 'quality-pill hi-res' : 'quality-pill';
-            barPill.innerText = isHiRes ? 'HI-RES LOSSLESS' : (track.format || 'LOSSLESS');
-
-            updateActiveRows();
-            updateNowPlayingUi();
+            barPill.innerText = isHiRes ? 'HI-RES LOSSLESS' : (track.format || 'CANCIÓN COMPLETA');
         }
 
         function togglePlayPause() {
-            if (!audio.src) {
+            if (!audio.src && !hlsPlayer) {
                 if (catalog.length > 0) playTrack(catalog[0]);
                 return;
             }
@@ -2621,7 +2693,8 @@
                     duration: durSec,
                     dur_str: durStr,
                     art: (item.artworkUrl100 || '').replace('100x100bb', '600x600bb'),
-                    url: item.previewUrl || '',
+                    url: '',
+                    previewUrl: item.previewUrl || '',
                     source: 'online_stream'
                 });
             });
