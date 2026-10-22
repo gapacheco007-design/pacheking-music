@@ -1,5 +1,5 @@
 {
- "updated": 1792706574,
+ "updated": 1792708380,
  "tracks": [
   {
    "id": "flac-weeknd-blinding-lights",
@@ -996,6 +996,20 @@
    "format": "FLAC / MP3 320k Master",
    "source": "archive.org",
    "added": 1791955888
+  },
+  {
+   "id": "test-dua-1",
+   "title": "Levitating",
+   "artist": "Dua Lipa",
+   "album": "Future Nostalgia",
+   "genre": "Pop",
+   "duration": 158,
+   "dur_str": "2:37 min",
+   "art": "",
+   "url": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/dua-lipa--levitating--test-dua-1.mp3",
+   "format": "FLAC / MP3 320k Master",
+   "source": "archive.org",
+   "added": 1792708380
   }
  ]
 }
