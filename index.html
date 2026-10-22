@@ -1741,11 +1741,17 @@
         const barPill = document.getElementById('bar-pill');
 
         // 1. BOOTSTRAP
-        window.addEventListener('DOMContentLoaded', async () => {
+        async function initApp() {
             await loadCatalog();
             switchView('escuchar');
             listenToWorkerEvents();
-        });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initApp);
+        } else {
+            initApp();
+        }
 
         async function loadCatalog() {
             try {
@@ -1759,8 +1765,51 @@
             }
         }
 
-        // 2. SSE WORKER EVENT LISTENER (VPS NOTIFICATION) & ACTIVE SYNC
+        // 2. WORKER EVENT LISTENER & ACTIVE SYNC
         function listenToWorkerEvents() {
+            // High-precision sync: check active downloads every 1.5s
+            setInterval(async () => {
+                if (activeDownloads.size === 0) return;
+                activeDownloads.forEach(async (job, id) => {
+                    // Check if already in local catalog first
+                    const inCatalog = catalog.find(t => 
+                        (t.id === id || 
+                         (t.title && job.title && t.title.toLowerCase() === job.title.toLowerCase() && 
+                          t.artist && job.artist && t.artist.toLowerCase().includes(job.artist.toLowerCase().split(' ')[0]))) &&
+                        t.url && !t.url.includes('apple.com')
+                    );
+                    if (inCatalog) {
+                        onTrackReadyFromVps(inCatalog);
+                        return;
+                    }
+
+                    try {
+                        const statusUrl = `${VPS_API_BASE}/api/download/status?id=${encodeURIComponent(id)}&artist=${encodeURIComponent(job.artist)}&title=${encodeURIComponent(job.title)}`;
+                        const res = await fetch(statusUrl);
+                        if (res.ok) {
+                            const data = await res.json();
+                            if (data.status === 'ready' && data.track) {
+                                onTrackReadyFromVps(data.track);
+                                return;
+                            } else if (data.status === 'error') {
+                                activeDownloads.delete(id);
+                                updateJobsUi();
+                                showToast(`No se pudo descargar en el servidor: ${job.title}`);
+                                return;
+                            }
+                        }
+                    } catch (_) {}
+
+                    // Safety timeout after 60 seconds
+                    if (job.started && Date.now() - job.started > 60000) {
+                        activeDownloads.delete(id);
+                        updateJobsUi();
+                        showToast(`Tiempo de espera agotado para: ${job.title}`);
+                    }
+                });
+            }, 1500);
+
+            // Also connect to SSE if available
             if (!window.EventSource) return;
             try {
                 const es = new EventSource(`${EVT_URL}/sse`);
@@ -1789,23 +1838,6 @@
             } catch (e) {
                 console.warn("EventSource setup error:", e);
             }
-
-            // Fallback sync: check status every 2.5s while active downloads exist
-            setInterval(async () => {
-                if (activeDownloads.size === 0) return;
-                activeDownloads.forEach(async (job, id) => {
-                    try {
-                        const statusUrl = `${VPS_API_BASE}/api/download/status?id=${encodeURIComponent(id)}&artist=${encodeURIComponent(job.artist)}&title=${encodeURIComponent(job.title)}`;
-                        const res = await fetch(statusUrl);
-                        if (res.ok) {
-                            const data = await res.json();
-                            if (data.status === 'ready' && data.track) {
-                                onTrackReadyFromVps(data.track);
-                            }
-                        }
-                    } catch (_) {}
-                });
-            }, 2500);
         }
 
         function onTrackReadyFromVps(track) {
@@ -2141,7 +2173,20 @@
         }
 
         function requestVpsDownload(track) {
-            showToast(`Enviado al VPS: Descargando ${track.title}...`);
+            // 1. Instant check if already in local catalog
+            const inCatalog = catalog.find(t => 
+                (t.id === track.id || 
+                 (t.title && track.title && t.title.toLowerCase() === track.title.toLowerCase() && 
+                  t.artist && track.artist && t.artist.toLowerCase().includes(track.artist.toLowerCase().split(' ')[0]))) &&
+                t.url && !t.url.includes('apple.com')
+            );
+            if (inCatalog) {
+                showToast(`Pista disponible en VPS: ${track.title}`);
+                onTrackReadyFromVps(inCatalog);
+                return;
+            }
+
+            showToast(`Descargando en servidor VPS: ${track.title}...`);
 
             const vpsBtn = document.getElementById('btn-vps-download-np');
             const vpsTxt = document.getElementById('txt-vps-download-np');
@@ -2166,14 +2211,21 @@
                 duration: track.duration || 0
             };
 
-            // Send via VPS direct API
+            // Send via VPS direct API and handle immediate ready response
             fetch(`${VPS_API_BASE}/api/download`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
-            }).catch(() => {});
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data && data.status === 'ready' && data.track) {
+                    onTrackReadyFromVps(data.track);
+                }
+            })
+            .catch(() => {});
 
-            // Send via ntfy server queue
+            // Also send via ntfy server queue as secondary fallback
             fetch(REQ_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -2206,10 +2258,10 @@
             updateActiveRows();
             updateNowPlayingUi();
 
-            const isAlreadyFull = track.url && !track.url.includes('itunes.apple.com') && !track.url.includes('mzstatic.com') && track.source !== 'online_stream';
-
-            // 1. If we already have the full studio master or full stream: PLAY INSTANTLY (0ms)!
-            if (isAlreadyFull) {
+            // 1. If it's already in the local library or has a direct master / full stream URL:
+            const isFull = track.url && !track.url.includes('itunes.apple.com') && !track.url.includes('mzstatic.com') && track.source !== 'online_stream';
+            if (isFull) {
+                track.is_preview = false;
                 loadAndPlayAudio(track.url, track);
                 const isHiRes = (track.format && track.format.includes('24-bit')) || (track.quality && track.quality.includes('24'));
                 barPill.className = isHiRes ? 'quality-pill hi-res' : 'quality-pill';
@@ -2217,43 +2269,68 @@
                 return;
             }
 
-            // 2. ZERO-DELAY INSTANT PLAYBACK (50ms):
-            // Start audio IMMEDIATELY with previewUrl so the user hears music instantly with zero silence!
-            if (track.previewUrl) {
-                loadAndPlayAudio(track.previewUrl, track);
+            // 2. Online search track without full stream yet:
+            // Check if it's already in the local library under a slightly different ID/title
+            const inLib = catalog.find(t => 
+                (t.id === track.id || 
+                 (t.title.toLowerCase() === track.title.toLowerCase() && 
+                  t.artist.toLowerCase().includes(track.artist.toLowerCase().split(' ')[0]))) &&
+                t.url && !t.url.includes('apple.com')
+            );
+            if (inLib) {
+                track.url = inLib.url;
+                track.format = inLib.format;
+                track.source = inLib.source;
+                track.duration = inLib.duration;
+                track.is_preview = false;
+                loadAndPlayAudio(inLib.url, track);
                 barPill.className = 'quality-pill';
-                barPill.innerText = 'CONECTANDO ESTUDIO...';
-            } else {
-                barPill.className = 'quality-pill';
-                barPill.innerText = 'CARGANDO...';
+                barPill.innerText = 'CANCIÓN COMPLETA (BIBLIOTECA)';
+                return;
             }
 
-            // 3. BACKGROUND FULL-STREAM RESOLVER (Seamless Handshake)
-            // While the track is already playing in the user's ears, we resolve the complete 3-5 min studio stream!
+            // 3. Resolve the full stream via VPS API
+            barPill.className = 'quality-pill';
+            barPill.innerText = 'CONECTANDO CANCIÓN COMPLETA...';
+            showToast(`Conectando pista completa para ${track.title}...`);
+
             const reqTrackId = track.id;
+            let resolvedData = null;
             try {
                 const resolveUrl = `${VPS_API_BASE}/api/resolve?artist=${encodeURIComponent(track.artist)}&title=${encodeURIComponent(track.title)}&duration=${track.duration || 0}`;
                 const res = await fetch(resolveUrl);
                 if (res.ok) {
-                    const data = await res.json();
-                    if (data.url && currentPlaylist[currentIndex]?.id === reqTrackId) {
-                        track.url = data.url;
-                        track.source = data.source || 'full_stream';
-                        track.format = data.format || 'Full Audio Stream';
-
-                        // Seamless cross-switch to full stream:
-                        // Preserve current playback timestamp so there is zero interruption!
-                        const currentPosition = audio.currentTime || 0;
-                        const wasPlaying = !audio.paused;
-
-                        loadAndPlayAudio(data.url, track, currentPosition, wasPlaying);
-
-                        barPill.className = 'quality-pill';
-                        barPill.innerText = 'CANCIÓN COMPLETA';
-                    }
+                    resolvedData = await res.json();
                 }
             } catch (err) {
-                console.warn("Resolve stream background error:", err);
+                console.warn("Resolve stream error:", err);
+            }
+
+            // Verify user is still on this track
+            if (currentPlaylist[currentIndex]?.id !== reqTrackId) return;
+
+            if (resolvedData && resolvedData.url) {
+                track.url = resolvedData.url;
+                track.source = resolvedData.source || 'full_stream';
+                track.format = resolvedData.format || 'Full Audio Stream';
+                track.is_preview = false;
+
+                loadAndPlayAudio(resolvedData.url, track);
+                barPill.className = 'quality-pill';
+                barPill.innerText = 'CANCIÓN COMPLETA';
+                showToast(`Reproduciendo completa: ${track.title}`);
+                return;
+            }
+
+            // 4. Fallback only if no full stream could be found on the internet:
+            if (track.previewUrl) {
+                track.is_preview = true;
+                loadAndPlayAudio(track.previewUrl, track);
+                barPill.className = 'quality-pill';
+                barPill.innerText = 'VISTA PREVIA (30S)';
+                showToast(`Audio completo no disponible en vivo. Reproduciendo muestra de 30s. Haz clic en 'Guardar en VPS'`);
+            } else {
+                showToast(`No se pudo obtener el audio para ${track.title}`);
             }
         }
 
@@ -2406,9 +2483,22 @@
             if (isRepeat) {
                 audio.currentTime = 0;
                 audio.play();
-            } else {
-                playNext();
+                return;
             }
+
+            const current = currentPlaylist[currentIndex];
+            // If the track is a 30s preview: NEVER jump or change song!
+            if (current && (current.is_preview || current.url === current.previewUrl)) {
+                isPlaying = false;
+                updatePlayBtn();
+                updateNowPlayingPlayBtn();
+                barPill.className = 'quality-pill';
+                barPill.innerText = 'MUESTRA (30S) FINALIZADA';
+                showToast("Fin de la muestra de 30 segundos. Para la canción completa, pulsa 'Guardar en VPS'.");
+                return;
+            }
+
+            playNext();
         };
 
         function seekAudio(e) {
@@ -2504,7 +2594,12 @@
             pill.className = isHiRes ? 'quality-pill hi-res' : 'quality-pill';
             pill.innerText = isHiRes ? 'HI-RES LOSSLESS' : (track.format || 'LOSSLESS');
 
-            const inVps = catalog.some(t => t.id === track.id && t.source !== 'online_stream');
+            const inVps = catalog.some(t => 
+                (t.id === track.id || 
+                 (t.title && track.title && t.title.toLowerCase() === track.title.toLowerCase() && 
+                  t.artist && track.artist && t.artist.toLowerCase().includes(track.artist.toLowerCase().split(' ')[0]))) && 
+                t.url && !t.url.includes('apple.com') && t.source !== 'online_stream'
+            );
             const vpsBtn = document.getElementById('btn-vps-download-np');
             const vpsTxt = document.getElementById('txt-vps-download-np');
             if (inVps) {
@@ -2801,8 +2896,32 @@
         });
 
         // 7. VPS SERVER MODAL
-        function openServerModal() {
+        async function openServerModal() {
             document.getElementById('modal-server').classList.add('open');
+            // Re-sync active downloads against catalog and VPS status
+            if (activeDownloads.size > 0) {
+                for (const [id, job] of activeDownloads.entries()) {
+                    const inCat = catalog.find(t => 
+                        (t.id === id || 
+                         (t.title && job.title && t.title.toLowerCase() === job.title.toLowerCase() && 
+                          t.artist && job.artist && t.artist.toLowerCase().includes(job.artist.toLowerCase().split(' ')[0]))) &&
+                        t.url && !t.url.includes('apple.com')
+                    );
+                    if (inCat) {
+                        onTrackReadyFromVps(inCat);
+                        continue;
+                    }
+                    try {
+                        const res = await fetch(`${VPS_API_BASE}/api/download/status?id=${encodeURIComponent(id)}&artist=${encodeURIComponent(job.artist)}&title=${encodeURIComponent(job.title)}`);
+                        if (res.ok) {
+                            const data = await res.json();
+                            if (data.status === 'ready' && data.track) {
+                                onTrackReadyFromVps(data.track);
+                            }
+                        }
+                    } catch (_) {}
+                }
+            }
             updateJobsUi();
         }
 
@@ -2812,6 +2931,19 @@
         }
 
         function updateJobsUi() {
+            // Auto-clean any activeDownloads that already exist in catalog
+            for (const [id, job] of activeDownloads.entries()) {
+                const inCat = catalog.find(t => 
+                    (t.id === id || 
+                     (t.title && job.title && t.title.toLowerCase() === job.title.toLowerCase() && 
+                      t.artist && job.artist && t.artist.toLowerCase().includes(job.artist.toLowerCase().split(' ')[0]))) &&
+                    t.url && !t.url.includes('apple.com')
+                );
+                if (inCat) {
+                    activeDownloads.delete(id);
+                }
+            }
+
             const badge = document.getElementById('badge-dl-count');
             if (badge) badge.innerText = activeDownloads.size;
 
