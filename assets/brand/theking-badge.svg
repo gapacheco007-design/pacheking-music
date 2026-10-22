@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF275" />
+      <stop offset="50%" stop-color="#FFD700" />
+      <stop offset="100%" stop-color="#C58500" />
+    </linearGradient>
+    <radialGradient id="bgGlow" cx="50%" cy="40%" r="75%">
+      <stop offset="0%" stop-color="#1E1C28" />
+      <stop offset="60%" stop-color="#121118" />
+      <stop offset="100%" stop-color="#09080E" />
+    </radialGradient>
+  </defs>
+  <rect width="512" height="512" rx="115.2" fill="url(#bgGlow)"/>
+  <rect width="506" height="506" x="3" y="3" rx="113" fill="none" stroke="#FFD700" stroke-width="2.5" stroke-opacity="0.25"/>
+
+  <!-- TheKing Music Emblem -->
+  <g transform="translate(68, 110)">
+    <!-- Crown Soundwave Equalizer Bars -->
+    <rect x="20" y="145" width="26" height="85" rx="13" fill="url(#goldGrad)"/>
+    <rect x="66" y="105" width="26" height="125" rx="13" fill="url(#goldGrad)"/>
+    <rect x="112" y="65" width="26" height="165" rx="13" fill="url(#goldGrad)"/>
+    <rect x="158" y="25" width="26" height="205" rx="13" fill="url(#goldGrad)"/>
+    
+    <!-- Central Majestic Peak -->
+    <rect x="204" y="65" width="26" height="165" rx="13" fill="url(#goldGrad)"/>
+    <rect x="250" y="105" width="26" height="125" rx="13" fill="url(#goldGrad)"/>
+    <rect x="296" y="145" width="26" height="85" rx="13" fill="url(#goldGrad)"/>
+
+    <!-- Jewels / Note Accents -->
+    <circle cx="171" cy="5" r="14" fill="#FFE57F"/>
+    <circle cx="79" cy="85" r="10" fill="#FFE57F"/>
+    <circle cx="263" cy="85" r="10" fill="#FFE57F"/>
+
+    <!-- Royal Pedestal / Music Foundation -->
+    <rect x="10" y="240" width="322" height="26" rx="13" fill="url(#goldGrad)"/>
+    <circle cx="50" cy="253" r="5" fill="#09080E"/>
+    <circle cx="110" cy="253" r="5" fill="#09080E"/>
+    <circle cx="171" cy="253" r="6" fill="#09080E"/>
+    <circle cx="232" cy="253" r="5" fill="#09080E"/>
+    <circle cx="292" cy="253" r="5" fill="#09080E"/>
+  </g>
+</svg>

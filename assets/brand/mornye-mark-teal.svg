@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="300" viewBox="0 0 360 300">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF275" />
+      <stop offset="50%" stop-color="#FFD700" />
+      <stop offset="100%" stop-color="#C58500" />
+    </linearGradient>
+  </defs>
+  <g transform="translate(10, 15)">
+    <rect x="20" y="145" width="26" height="85" rx="13" fill="url(#goldGrad)"/>
+    <rect x="66" y="105" width="26" height="125" rx="13" fill="url(#goldGrad)"/>
+    <rect x="112" y="65" width="26" height="165" rx="13" fill="url(#goldGrad)"/>
+    <rect x="158" y="25" width="26" height="205" rx="13" fill="url(#goldGrad)"/>
+    <rect x="204" y="65" width="26" height="165" rx="13" fill="url(#goldGrad)"/>
+    <rect x="250" y="105" width="26" height="125" rx="13" fill="url(#goldGrad)"/>
+    <rect x="296" y="145" width="26" height="85" rx="13" fill="url(#goldGrad)"/>
+    <circle cx="171" cy="5" r="14" fill="#FFE57F"/>
+    <circle cx="79" cy="85" r="10" fill="#FFE57F"/>
+    <circle cx="263" cy="85" r="10" fill="#FFE57F"/>
+    <rect x="10" y="240" width="322" height="26" rx="13" fill="url(#goldGrad)"/>
+  </g>
+</svg>

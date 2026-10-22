@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SpotiFLAC - Reproductor de Música FLAC & Biblioteca Master HQ</title>
+    <title>TheKing Music - Reproductor de Música FLAC & Biblioteca Master Hi-Res</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -14,9 +14,11 @@
             --bg-card: rgba(22, 29, 46, 0.7);
             --bg-card-hover: rgba(33, 44, 70, 0.9);
             --card-border: rgba(255, 255, 255, 0.08);
-            --card-border-active: rgba(16, 185, 129, 0.5);
-            --accent-green: #10b981;
-            --accent-green-hover: #059669;
+            --card-border-active: rgba(255, 215, 0, 0.5);
+            --accent-green: #FFD700;
+            --accent-gold: #FFD700;
+            --accent-gold-hover: #FFF275;
+            --accent-green-hover: #FFF275;
             --accent-cyan: #06b6d4;
             --accent-purple: #8b5cf6;
             --text-main: #f8fafc;
@@ -1090,14 +1092,25 @@
     <!-- NAVBAR -->
     <header class="navbar">
         <a href="javascript:void(0)" onclick="switchTab('descubrir')" class="brand-logo">
-            <div class="brand-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <polygon points="10 8 16 12 10 16 10 8"></polygon>
+            <div class="brand-icon" style="background: linear-gradient(135deg, #FFE57F, #FFD700, #C58500); padding: 4px; border-radius: 8px;">
+                <svg width="22" height="22" viewBox="0 0 360 300" fill="none">
+                    <g transform="translate(10, 15)">
+                        <rect x="20" y="145" width="26" height="85" rx="13" fill="#0D0D11"/>
+                        <rect x="66" y="105" width="26" height="125" rx="13" fill="#0D0D11"/>
+                        <rect x="112" y="65" width="26" height="165" rx="13" fill="#0D0D11"/>
+                        <rect x="158" y="25" width="26" height="205" rx="13" fill="#0D0D11"/>
+                        <rect x="204" y="65" width="26" height="165" rx="13" fill="#0D0D11"/>
+                        <rect x="250" y="105" width="26" height="125" rx="13" fill="#0D0D11"/>
+                        <rect x="296" y="145" width="26" height="85" rx="13" fill="#0D0D11"/>
+                        <circle cx="171" cy="5" r="14" fill="#0D0D11"/>
+                        <circle cx="79" cy="85" r="10" fill="#0D0D11"/>
+                        <circle cx="263" cy="85" r="10" fill="#0D0D11"/>
+                        <rect x="10" y="240" width="322" height="26" rx="13" fill="#0D0D11"/>
+                    </g>
                 </svg>
             </div>
-            <span>SpotiFLAC</span>
-            <span class="brand-badge">FLAC & HQ</span>
+            <span style="font-weight: 800; letter-spacing: -0.5px;">TheKing <span style="color: #FFD700;">Music</span></span>
+            <span class="brand-badge" style="background: rgba(255, 215, 0, 0.15); color: #FFD700; border: 1px solid rgba(255, 215, 0, 0.35); font-weight: 800;">FLAC HI-RES 24-BIT</span>
         </a>
 
         <!-- SMART SEARCH -->
@@ -1166,7 +1179,7 @@
         <!-- HERO FEATURE BANNER -->
         <section id="hero-banner-section" class="hero-banner">
             <div class="hero-info">
-                <span class="hero-tag">🔥 Destacado en SpotiFLAC</span>
+                <span class="hero-tag">👑 Destacado en TheKing Music (FLAC Hi-Res)</span>
                 <h1 class="hero-title" id="hero-title">Volverte a Amar - Alejandra Guzmán</h1>
                 <p class="hero-desc" id="hero-desc">Versión completa en formato FLAC sin pérdida y Master 320 kbps. Guardada en tu biblioteca permanente del servidor.</p>
                 <div class="hero-actions">
@@ -1181,7 +1194,7 @@
                     </button>
                 </div>
             </div>
-            <img id="hero-artwork" class="hero-artwork" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 300'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%2310b981'/%3E%3Cstop offset='50%25' stop-color='%2306b6d4'/%3E%3Cstop offset='100%25' stop-color='%238b5cf6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='300' height='300' rx='20' fill='url(%23g)'/%3E%3Ccircle cx='150' cy='150' r='60' fill='rgba(0,0,0,0.35)'/%3E%3Ccircle cx='150' cy='150' r='20' fill='rgba(255,255,255,0.2)'/%3E%3Cpath d='M145 110v50a18 18 0 1 1-12-17v-45l35-8v43a18 18 0 1 1-12-17v-25z' fill='%23ffffff'/%3E%3C/svg%3E" onerror="this.onerror=null; this.src=DEFAULT_ART;" alt="SpotiFLAC">
+            <img id="hero-artwork" class="hero-artwork" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 300'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%2310b981'/%3E%3Cstop offset='50%25' stop-color='%2306b6d4'/%3E%3Cstop offset='100%25' stop-color='%238b5cf6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='300' height='300' rx='20' fill='url(%23g)'/%3E%3Ccircle cx='150' cy='150' r='60' fill='rgba(0,0,0,0.35)'/%3E%3Ccircle cx='150' cy='150' r='20' fill='rgba(255,255,255,0.2)'/%3E%3Cpath d='M145 110v50a18 18 0 1 1-12-17v-45l35-8v43a18 18 0 1 1-12-17v-25z' fill='%23ffffff'/%3E%3C/svg%3E" onerror="this.onerror=null; this.src=DEFAULT_ART;" alt="TheKing Music">
         </section>
 
         <!-- DYNAMIC VIEWS CONTAINER -->
@@ -1238,7 +1251,7 @@
             <div class="player-meta">
                 <div id="bar-title" class="player-title">Selecciona una pista</div>
                 <div class="player-artist">
-                    <span id="bar-artist">SpotiFLAC Master Player</span>
+                    <span id="bar-artist">TheKing Music FLAC Engine</span>
                     <span id="bar-badge" class="player-status-tag">• Listo</span>
                 </div>
             </div>
