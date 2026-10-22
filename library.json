@@ -1,5 +1,5 @@
 {
- "updated": 1792711018,
+ "updated": 1792712271,
  "tracks": [
   {
    "id": "itunes-423021874",
@@ -954,6 +954,20 @@
    "format": "FLAC / MP3 320k Master",
    "source": "soundcloud",
    "added": 1792711017
+  },
+  {
+   "id": "itunes-cartel-vato",
+   "title": "Vato Sencillo",
+   "artist": "Cartel de Santa",
+   "album": "",
+   "genre": "Otros",
+   "duration": 195,
+   "dur_str": "3:14 min",
+   "art": "",
+   "url": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/cartel-de-santa--vato-sencillo--itunes-cartel-va.mp3",
+   "format": "FLAC / MP3 320k Master",
+   "source": "soundcloud",
+   "added": 1792712271
   }
  ]
 }
