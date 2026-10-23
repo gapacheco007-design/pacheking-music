@@ -1,5 +1,5 @@
 {
- "updated": 1792739321,
+ "updated": 1792739323,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -675,6 +675,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792739319
+  },
+  {
+   "id": "st-1792739291",
+   "title": "Shape of You",
+   "artist": "Nara",
+   "album": "",
+   "genre": "Otros",
+   "duration": 192,
+   "dur_str": "3:11 min",
+   "art": "",
+   "url": "/api/stream?artist=Nara&title=Shape%20of%20You",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Nara/Nara - Shape of You.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792739320
   }
  ]
 }
