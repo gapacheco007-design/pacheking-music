@@ -1,5 +1,5 @@
 {
- "updated": 1792739332,
+ "updated": 1792739334,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -735,6 +735,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792739322
+  },
+  {
+   "id": "st-1792739301",
+   "title": "Shape",
+   "artist": "Sophie Hunger",
+   "album": "",
+   "genre": "Otros",
+   "duration": 246,
+   "dur_str": "4:05 min",
+   "art": "",
+   "url": "/api/stream?artist=Sophie%20Hunger&title=Shape",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Sophie Hunger/Sophie Hunger - Shape.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792739334
   }
  ]
 }
