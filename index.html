@@ -5,6 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>TheKing Music</title>
     <link rel="icon" href="assets/brand/theking-badge.png" type="image/png">
+    <script>
+        // Immediately unregister any stale service workers and clear old caches
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(function(regs) {
+                for (var r of regs) { r.unregister(); }
+            }).catch(function() {});
+        }
+        if ('caches' in window) {
+            caches.keys().then(function(names) {
+                for (var name of names) { caches.delete(name); }
+            }).catch(function() {});
+        }
+    </script>
     <script src="assets/js/hls.min.js"></script>
     <script>
         if (!window.Hls) {
@@ -2304,8 +2317,8 @@
             // 3. Online Track: Priority is resolving the FULL STUDIO SONG online!
             // NEVER play 30s preview. Only play when the full complete track is found.
             barPill.className = 'quality-pill';
-            barPill.innerText = 'BUSCANDO CANCIÓN COMPLETA...';
-            showToast(`Buscando canción completa: ${track.title}...`);
+            barPill.innerText = 'CONECTANDO CANCIÓN COMPLETA...';
+            showToast(`Conectando pista completa: ${track.title}...`);
 
             const reqTrackId = track.id;
             let resolvedData = null;
@@ -2319,8 +2332,16 @@
                 console.warn("Resolve stream error:", err);
             }
 
-            // Verify user is still on this track
-            if (currentPlaylist[currentIndex]?.id !== reqTrackId) return;
+            // Fallback retry without duration parameter in case duration varied
+            if (!resolvedData || !resolvedData.url) {
+                try {
+                    const resolveUrl2 = `${VPS_API_BASE}/api/resolve?artist=${encodeURIComponent(track.artist)}&title=${encodeURIComponent(track.title)}`;
+                    const res2 = await fetch(resolveUrl2);
+                    if (res2.ok) {
+                        resolvedData = await res2.json();
+                    }
+                } catch (e2) {}
+            }
 
             if (resolvedData && resolvedData.url) {
                 const streamUrl = resolvedData.url.startsWith('http') ? resolvedData.url : (VPS_API_BASE + resolvedData.url);
@@ -2329,10 +2350,12 @@
                 track.format = resolvedData.format || 'Full Studio Audio (VPS Master)';
                 track.is_preview = false;
 
-                loadAndPlayAudio(streamUrl, track);
-                barPill.className = 'quality-pill';
-                barPill.innerText = 'CANCIÓN COMPLETA';
-                showToast(`Reproduciendo completa: ${track.title}`);
+                if (currentPlaylist[currentIndex]?.id === reqTrackId || barTitle.innerText === track.title) {
+                    loadAndPlayAudio(streamUrl, track);
+                    barPill.className = 'quality-pill';
+                    barPill.innerText = 'CANCIÓN COMPLETA';
+                    showToast(`Reproduciendo completa: ${track.title}`);
+                }
                 return;
             }
 
