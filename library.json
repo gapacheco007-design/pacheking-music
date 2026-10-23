@@ -1,5 +1,5 @@
 {
- "updated": 1792737243,
+ "updated": 1792737600,
  "tracks": [
   {
    "id": "st-1792733778",
@@ -495,6 +495,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792737243
+  },
+  {
+   "id": "st-1792737596",
+   "title": "Un Verano Sin Ti",
+   "artist": "Bad Bunny",
+   "album": "",
+   "genre": "Otros",
+   "duration": 154,
+   "dur_str": "2:33 min",
+   "art": "",
+   "url": "/api/stream?artist=Bad%20Bunny&title=Un%20Verano%20Sin%20Ti",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Bad Bunny/Bad Bunny - Un Verano Sin Ti.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792737600
   }
  ]
 }
