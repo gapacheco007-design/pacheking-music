@@ -1,5 +1,5 @@
 {
- "updated": 1792778163,
+ "updated": 1792778165,
  "tracks": [
   {
    "id": "af-arjona-grupo-firme",
@@ -1476,6 +1476,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792778163
+  },
+  {
+   "id": "st-1792778159",
+   "title": "Canpesino",
+   "artist": "Canserbero",
+   "album": "",
+   "genre": "Otros",
+   "duration": 268,
+   "dur_str": "4:28 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/109f9fe5b573033e11aabd72700b3d1a/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Canserbero&title=Canpesino",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Canserbero/Canserbero - Canpesino.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792778165
   }
  ]
 }
