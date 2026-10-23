@@ -12,7 +12,7 @@
     <title>TheKing Music</title>
     <link rel="icon" href="assets/brand/theking-badge.png" type="image/png">
     <script>
-        const APP_BUILD_VERSION = "20261023_v18_instant_explore_stream_fix";
+        const APP_BUILD_VERSION = "20261023_v21_multitheme_covers_ranking";
         if (localStorage.getItem('pkm_build') !== APP_BUILD_VERSION) {
             localStorage.setItem('pkm_build', APP_BUILD_VERSION);
             if ('caches' in window) {
@@ -35,14 +35,95 @@
             --accent: #fa233b;
             --accent-hover: #ff3b52;
             --accent-glow: rgba(250, 35, 59, 0.35);
+            --accent-subtle: rgba(250, 35, 59, 0.18);
             --text-primary: #ffffff;
             --text-secondary: #8e8e93;
             --text-muted: #545458;
+            --card-radius: 14px;
+            --btn-radius: 999px;
             --sidebar-width: 250px;
             --player-height: 84px;
             --bottom-nav-height: 60px;
             --safe-bottom: env(safe-area-inset-bottom, 0px);
             --safe-top: env(safe-area-inset-top, 0px);
+        }
+
+        /* MULTI-INTERFACE THEMES */
+        body.theme-apple {
+            --bg-base: #000000;
+            --bg-elevated: #111113;
+            --bg-card: rgba(26, 26, 30, 0.7);
+            --bg-card-hover: rgba(38, 38, 44, 0.85);
+            --bg-glass: rgba(18, 18, 20, 0.78);
+            --bg-glass-strong: rgba(22, 22, 26, 0.94);
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(255, 255, 255, 0.18);
+            --accent: #fa233b;
+            --accent-hover: #ff3b52;
+            --accent-glow: rgba(250, 35, 59, 0.35);
+            --accent-subtle: rgba(250, 35, 59, 0.18);
+            --card-radius: 14px;
+            --btn-radius: 999px;
+        }
+
+        body.theme-spotify {
+            --bg-base: #121212;
+            --bg-elevated: #181818;
+            --bg-card: #181818;
+            --bg-card-hover: #242424;
+            --bg-glass: rgba(18, 18, 18, 0.94);
+            --bg-glass-strong: #121212;
+            --border-subtle: rgba(255, 255, 255, 0.07);
+            --border-hover: rgba(255, 255, 255, 0.16);
+            --accent: #1db954;
+            --accent-hover: #1ed760;
+            --accent-glow: rgba(29, 185, 84, 0.4);
+            --accent-subtle: rgba(29, 185, 84, 0.18);
+            --card-radius: 8px;
+            --btn-radius: 999px;
+        }
+
+        body.theme-deezer {
+            --bg-base: #0f0d13;
+            --bg-elevated: #191724;
+            --bg-card: rgba(25, 23, 36, 0.8);
+            --bg-card-hover: rgba(38, 35, 54, 0.9);
+            --bg-glass: rgba(15, 13, 19, 0.9);
+            --bg-glass-strong: rgba(20, 18, 28, 0.96);
+            --border-subtle: rgba(162, 56, 255, 0.15);
+            --border-hover: rgba(162, 56, 255, 0.35);
+            --accent: #a238ff;
+            --accent-hover: #b85cff;
+            --accent-glow: rgba(162, 56, 255, 0.4);
+            --accent-subtle: rgba(162, 56, 255, 0.2);
+            --card-radius: 16px;
+            --btn-radius: 16px;
+        }
+
+        body.theme-ytmusic {
+            --bg-base: #030303;
+            --bg-elevated: #121212;
+            --bg-card: #181818;
+            --bg-card-hover: #262626;
+            --bg-glass: rgba(10, 10, 10, 0.92);
+            --bg-glass-strong: #030303;
+            --border-subtle: rgba(255, 255, 255, 0.1);
+            --border-hover: rgba(255, 255, 255, 0.22);
+            --accent: #ff0000;
+            --accent-hover: #ff3333;
+            --accent-glow: rgba(255, 0, 0, 0.4);
+            --accent-subtle: rgba(255, 0, 0, 0.2);
+            --card-radius: 6px;
+            --btn-radius: 999px;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 var(--accent-glow); }
+            50% { transform: scale(1.08); opacity: 0.85; box-shadow: 0 0 16px 4px var(--accent-glow); }
+            100% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 var(--accent-glow); }
+        }
+        .buffering-pulse {
+            animation: pulseGlow 1.2s infinite ease-in-out !important;
         }
 
         * {
@@ -801,10 +882,81 @@
         .settings-card {
             background: var(--bg-card);
             border: 1px solid var(--border-subtle);
-            border-radius: 14px;
+            border-radius: var(--card-radius, 14px);
             padding: 20px;
             margin-bottom: 16px;
             max-width: 680px;
+        }
+
+        .theme-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .theme-option-card {
+            background: var(--bg-card);
+            border: 2px solid var(--border-subtle);
+            border-radius: var(--card-radius, 12px);
+            padding: 14px 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .theme-option-card:hover {
+            border-color: var(--border-hover);
+            background: var(--bg-card-hover);
+            transform: translateY(-2px);
+        }
+
+        .theme-option-card.selected {
+            border-color: var(--accent);
+            background: var(--accent-subtle);
+            box-shadow: 0 4px 18px var(--accent-glow);
+        }
+
+        .theme-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .theme-badge-swatch {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        .theme-color-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            display: inline-block;
+        }
+
+        .theme-check-icon {
+            width: 18px;
+            height: 18px;
+            fill: var(--accent);
+            display: none;
+        }
+
+        .theme-option-card.selected .theme-check-icon {
+            display: inline-flex;
+        }
+
+        .theme-desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.4;
         }
 
         .settings-card-title {
@@ -1497,7 +1649,7 @@
     <!-- DESKTOP BOTTOM PLAYER DOCK -->
     <div class="player-dock" id="player-dock">
         <div class="dock-left" onclick="openNowPlaying()">
-            <img src="assets/brand/theking-badge.png" class="dock-art" id="dock-art" alt="Cover">
+            <img src="assets/brand/theking-badge.png" class="dock-art" id="dock-art" alt="Cover" referrerpolicy="no-referrer" onerror="this.onerror=null; this.src='assets/brand/theking-badge.png';">
             <div class="dock-meta">
                 <div class="dock-title" id="dock-title">TheKing Music</div>
                 <div class="dock-artist" id="dock-artist">Selecciona una pista</div>
@@ -1548,13 +1700,13 @@
 
     <!-- MOBILE FLOATING MINI-PLAYER -->
     <div class="mobile-mini-player" id="mobile-mini-player" onclick="openNowPlaying()">
-        <img src="assets/brand/theking-badge.png" class="mini-art" id="mini-art" alt="Cover">
+        <img src="assets/brand/theking-badge.png" class="mini-art" id="mini-art" alt="Cover" referrerpolicy="no-referrer" onerror="this.onerror=null; this.src='assets/brand/theking-badge.png';">
         <div class="mini-meta">
             <div class="mini-title" id="mini-title">TheKing Music</div>
             <div class="mini-artist" id="mini-artist">Toca para reproducir</div>
         </div>
         <div class="mini-controls" onclick="event.stopPropagation()">
-            <button class="btn-ctrl" onclick="togglePlayPause()" style="color: #ffffff;">
+            <button class="btn-ctrl" id="mini-play-btn" onclick="togglePlayPause()" style="color: #ffffff;">
                 <svg class="icon" id="mini-icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
             </button>
             <button class="btn-ctrl" onclick="playNext()" style="color: #ffffff;">
@@ -1600,7 +1752,7 @@
         <div class="np-body">
             <!-- VIEW 1: ARTWORK VIEW -->
             <div class="np-view-artwork" id="np-view-artwork">
-                <img src="assets/brand/theking-badge.png" class="np-cover-img" id="np-cover" alt="Album Cover">
+                <img src="assets/brand/theking-badge.png" class="np-cover-img" id="np-cover" alt="Album Cover" referrerpolicy="no-referrer" onerror="this.onerror=null; this.src='assets/brand/theking-badge.png';">
                 <div class="np-track-meta">
                     <div class="np-track-title" id="np-title">TheKing Music</div>
                     <div class="np-track-artist" id="np-artist">Selecciona una pista</div>
@@ -1674,7 +1826,7 @@
 
         const DEFAULT_ART = "assets/brand/theking-badge.png";
 
-        // EMBEDDED EXPLORE DATA: Loads 100% instantly (0ms) so the home view never gets stuck
+        // EMBEDDED EXPLORE DATA: Permanent verified 1000x1000 Deezer covers
         const DEFAULT_EXPLORE_DATA = {
             "greeting": "Bienvenido",
             "subtitle": "TheKing Music",
@@ -1686,7 +1838,7 @@
                     "album": "Radical Optimism",
                     "genre": "Pop",
                     "duration": 185,
-                    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/4e/d8/d5/4ed8d5c4-d130-1b77-384c-354a37b3f46a/23UMGIM98242.rgb.jpg/600x600bb.jpg",
+                    "art": "https://cdn-images.dzcdn.net/images/cover/12c05200e9097af48e0ad4fc259cee25/1000x1000-000000-80-0-0.jpg",
                     "tag": "Audio Master Hi-Res"
                 },
                 {
@@ -1696,7 +1848,7 @@
                     "album": "Un Verano Sin Ti",
                     "genre": "Urbano Latino",
                     "duration": 243,
-                    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/21/53/78/21537841-860f-cc1e-0cf6-f80e927cb09b/196626880572.jpg/600x600bb.jpg",
+                    "art": "https://cdn-images.dzcdn.net/images/cover/b29d1070377b784384c2456093f96a66/1000x1000-000000-80-0-0.jpg",
                     "tag": "Audio Lossless"
                 },
                 {
@@ -1706,7 +1858,7 @@
                     "album": "After Hours",
                     "genre": "R&B / Synthpop",
                     "duration": 200,
-                    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/a4/09/b3/a409b30b-fc5e-fa25-c64d-5872c67675e1/00077774600125.rgb.jpg/600x600bb.jpg",
+                    "art": "https://cdn-images.dzcdn.net/images/cover/fd00ebd6d30d7253f813dba3bb1c66a9/1000x1000-000000-80-0-0.jpg",
                     "tag": "Estudio Master"
                 },
                 {
@@ -1716,7 +1868,7 @@
                     "album": "Parachutes",
                     "genre": "Rock Alternativo",
                     "duration": 269,
-                    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/3d/8d/8a/3d8d8a7c-3f2d-e25f-255e-21fa864f1418/724352778358.jpg/600x600bb.jpg",
+                    "art": "https://cdn-images.dzcdn.net/images/cover/970dce98eeea6729244c0ae71707a83d/1000x1000-000000-80-0-0.jpg",
                     "tag": "Lossless 24-bit"
                 },
                 {
@@ -1726,17 +1878,17 @@
                     "album": "A Night at the Opera",
                     "genre": "Rock Clásico",
                     "duration": 354,
-                    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/fd/14/b8/fd14b8ea-92b0-8f92-ec7a-248aaef49c1b/00602527718023.rgb.jpg/600x600bb.jpg",
+                    "art": "https://cdn-images.dzcdn.net/images/cover/0b56f4eee05fa1ea753c5654b2cdb70c/1000x1000-000000-80-0-0.jpg",
                     "tag": "Hi-Res Studio"
                 }
             ],
             "quick_picks": [
-                {"title": "Mariposa Traicionera", "artist": "Maná", "album": "Revolución de Amor", "genre": "Pop Latino", "duration": 265, "art": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/09/a4/1c/09a41c1c-905b-a815-568d-8a5ff69d255a/0825646194781.jpg/600x600bb.jpg"},
-                {"title": "Starboy", "artist": "The Weeknd feat. Daft Punk", "album": "Starboy", "genre": "R&B / Pop", "duration": 230, "art": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/4f/2e/d5/4f2ed5f4-3ea3-9060-e64e-b565a4faeead/16UMGIM56637.rgb.jpg/600x600bb.jpg"},
-                {"title": "Shape of You", "artist": "Ed Sheeran", "album": "÷ (Divide)", "genre": "Pop", "duration": 233, "art": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/18/7b/78/187b78ca-d122-f947-a7eb-6c9c6426477e/190295851286.jpg/600x600bb.jpg"},
-                {"title": "Billie Jean", "artist": "Michael Jackson", "album": "Thriller", "genre": "Pop / Dance", "duration": 294, "art": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/55/a2/11/55a21193-4554-1598-bbef-b122093e0624/886445582998.jpg/600x600bb.jpg"},
-                {"title": "Viva La Vida", "artist": "Coldplay", "album": "Viva la Vida", "genre": "Rock Alternativo", "duration": 242, "art": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/f0/ea/91/f0ea91b2-c0cb-d26b-640a-5b65ff7ea843/5099969695655.jpg/600x600bb.jpg"},
-                {"title": "Despacito", "artist": "Luis Fonsi feat. Daddy Yankee", "album": "VIDA", "genre": "Pop Latino", "duration": 228, "art": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/a7/bd/e6/a7bde6b1-09eb-b054-9eb0-e1967a57a159/18UMGIM78051.rgb.jpg/600x600bb.jpg"}
+                {"title": "Mariposa Traicionera", "artist": "Maná", "album": "Revolución de Amor", "genre": "Pop Latino", "duration": 265, "art": "https://cdn-images.dzcdn.net/images/cover/3acdb5d7fcb2a74686c598758f226aff/1000x1000-000000-80-0-0.jpg"},
+                {"title": "Starboy", "artist": "The Weeknd feat. Daft Punk", "album": "Starboy", "genre": "R&B / Pop", "duration": 230, "art": "https://cdn-images.dzcdn.net/images/cover/134778e4c4f19ea71c82408300925a9a/1000x1000-000000-80-0-0.jpg"},
+                {"title": "Shape of You", "artist": "Ed Sheeran", "album": "÷ (Divide)", "genre": "Pop", "duration": 233, "art": "https://cdn-images.dzcdn.net/images/cover/107c2b43f10c249077c1f7618563bb63/1000x1000-000000-80-0-0.jpg"},
+                {"title": "Billie Jean", "artist": "Michael Jackson", "album": "Thriller", "genre": "Pop / Dance", "duration": 294, "art": "https://cdn-images.dzcdn.net/images/cover/a0ad67d1beb761f2cb9f8b60e5bcf07a/1000x1000-000000-80-0-0.jpg"},
+                {"title": "Viva La Vida", "artist": "Coldplay", "album": "Viva la Vida", "genre": "Rock Alternativo", "duration": 242, "art": "https://cdn-images.dzcdn.net/images/cover/eede3cd0dc3a5a87c7a5b1085b022e2d/1000x1000-000000-80-0-0.jpg"},
+                {"title": "Despacito", "artist": "Luis Fonsi feat. Daddy Yankee", "album": "VIDA", "genre": "Pop Latino", "duration": 228, "art": "https://cdn-images.dzcdn.net/images/cover/7985ef4ccd9e66af2fc3c18d629689aa/1000x1000-000000-80-0-0.jpg"}
             ],
             "genres": [
                 {"id": "pop", "name": "Pop", "gradient": "linear-gradient(135deg, #fa233b 0%, #ff5277 100%)"},
@@ -1749,12 +1901,12 @@
                 {"id": "clasica", "name": "Clásica", "gradient": "linear-gradient(135deg, #64748b 0%, #334155 100%)"}
             ],
             "albums": [
-                {"id": "alb-1", "title": "Un Verano Sin Ti", "artist": "Bad Bunny", "year": "2022", "art": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/21/53/78/21537841-860f-cc1e-0cf6-f80e927cb09b/196626880572.jpg/600x600bb.jpg"},
-                {"id": "alb-2", "title": "After Hours", "artist": "The Weeknd", "year": "2020", "art": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/a4/09/b3/a409b30b-fc5e-fa25-c64d-5872c67675e1/00077774600125.rgb.jpg/600x600bb.jpg"},
-                {"id": "alb-3", "title": "Radical Optimism", "artist": "Dua Lipa", "year": "2024", "art": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/4e/d8/d5/4ed8d5c4-d130-1b77-384c-354a37b3f46a/23UMGIM98242.rgb.jpg/600x600bb.jpg"},
-                {"id": "alb-4", "title": "Parachutes", "artist": "Coldplay", "year": "2000", "art": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/3d/8d/8a/3d8d8a7c-3f2d-e25f-255e-21fa864f1418/724352778358.jpg/600x600bb.jpg"},
-                {"id": "alb-5", "title": "A Night at the Opera", "artist": "Queen", "year": "1975", "art": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/fd/14/b8/fd14b8ea-92b0-8f92-ec7a-248aaef49c1b/00602527718023.rgb.jpg/600x600bb.jpg"},
-                {"id": "alb-6", "title": "Thriller", "artist": "Michael Jackson", "year": "1982", "art": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/55/a2/11/55a21193-4554-1598-bbef-b122093e0624/886445582998.jpg/600x600bb.jpg"}
+                {"id": "alb-1", "title": "Un Verano Sin Ti", "artist": "Bad Bunny", "year": "2022", "art": "https://cdn-images.dzcdn.net/images/cover/b29d1070377b784384c2456093f96a66/1000x1000-000000-80-0-0.jpg"},
+                {"id": "alb-2", "title": "After Hours", "artist": "The Weeknd", "year": "2020", "art": "https://cdn-images.dzcdn.net/images/cover/fd00ebd6d30d7253f813dba3bb1c66a9/1000x1000-000000-80-0-0.jpg"},
+                {"id": "alb-3", "title": "Radical Optimism", "artist": "Dua Lipa", "year": "2024", "art": "https://cdn-images.dzcdn.net/images/cover/e77de425a3ba0c69f00e6525daec5738/1000x1000-000000-80-0-0.jpg"},
+                {"id": "alb-4", "title": "Parachutes", "artist": "Coldplay", "year": "2000", "art": "https://cdn-images.dzcdn.net/images/cover/970dce98eeea6729244c0ae71707a83d/1000x1000-000000-80-0-0.jpg"},
+                {"id": "alb-5", "title": "A Night at the Opera", "artist": "Queen", "year": "1975", "art": "https://cdn-images.dzcdn.net/images/cover/0b56f4eee05fa1ea753c5654b2cdb70c/1000x1000-000000-80-0-0.jpg"},
+                {"id": "alb-6", "title": "Thriller", "artist": "Michael Jackson", "year": "1982", "art": "https://cdn-images.dzcdn.net/images/cover/92a024220a9532489c75c9d994835697/1000x1000-000000-80-0-0.jpg"}
             ]
         };
 
@@ -1781,6 +1933,13 @@
 
         // BOOTSTRAP
         window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('pkm_theme') || 'apple';
+            document.body.className = 'theme-' + savedTheme;
+            const metaTheme = document.querySelector('meta[name="theme-color"]');
+            if (metaTheme) {
+                const colors = { 'apple': '#000000', 'spotify': '#121212', 'deezer': '#0f0d13', 'ytmusic': '#030303' };
+                metaTheme.setAttribute('content', colors[savedTheme] || '#000000');
+            }
             setupAudioListeners();
             renderCurrentView(); // Render instantly with 0ms delay!
             loadLibrary();
@@ -1888,7 +2047,7 @@
                     card.className = 'featured-card';
                     card.onclick = () => playSingleTrack(item);
                     card.innerHTML = `
-                        <img src="${item.art || DEFAULT_ART}" class="featured-card-bg" alt="${item.title}">
+                        <img src="${item.art || DEFAULT_ART}" class="featured-card-bg" alt="${item.title}" referrerpolicy="no-referrer" loading="lazy" onerror="this.onerror=null; this.src='assets/brand/theking-badge.png';">
                         <div class="featured-card-content">
                             <span class="featured-pill">${item.tag || item.genre || 'Destacado'}</span>
                             <div class="featured-track-title">${item.title}</div>
@@ -1919,7 +2078,7 @@
                     tile.className = 'quick-pick-tile';
                     tile.onclick = () => playSingleTrack(item);
                     tile.innerHTML = `
-                        <img src="${item.art || DEFAULT_ART}" class="quick-pick-art" alt="${item.title}">
+                        <img src="${item.art || DEFAULT_ART}" class="quick-pick-art" alt="${item.title}" referrerpolicy="no-referrer" loading="lazy" onerror="this.onerror=null; this.src='assets/brand/theking-badge.png';">
                         <div class="quick-pick-meta">
                             <div class="quick-pick-title">${item.title}</div>
                             <div class="quick-pick-sub">${item.artist} &bull; ${item.album}</div>
@@ -1971,7 +2130,7 @@
                     aCard.className = 'album-card';
                     aCard.onclick = () => openGenreSearch(alb.title + " " + alb.artist);
                     aCard.innerHTML = `
-                        <img src="${alb.art || DEFAULT_ART}" class="album-art" alt="${alb.title}">
+                        <img src="${alb.art || DEFAULT_ART}" class="album-art" alt="${alb.title}" referrerpolicy="no-referrer" loading="lazy" onerror="this.onerror=null; this.src='assets/brand/theking-badge.png';">
                         <div class="album-name">${alb.title}</div>
                         <div class="album-artist">${alb.artist} &bull; ${alb.year}</div>
                     `;
@@ -2013,7 +2172,7 @@
                 row.className = 'track-row';
                 row.onclick = () => playTrackFromList(libraryTracks, idx);
                 row.innerHTML = `
-                    <img src="${t.art || DEFAULT_ART}" class="track-art-sm" alt="${t.title}">
+                    <img src="${t.art || DEFAULT_ART}" class="track-art-sm" alt="${t.title}" referrerpolicy="no-referrer" loading="lazy" onerror="this.onerror=null; this.src='assets/brand/theking-badge.png';">
                     <div class="track-meta-col">
                         <div class="track-title-text">${t.title}</div>
                         <div class="track-subtitle-text">${t.artist} &bull; ${t.album || 'Biblioteca VPS'}</div>
@@ -2031,6 +2190,16 @@
         }
 
         // 3. BUSCAR (SEARCH)
+        let currentSearchFilter = 'todos';
+        let lastSearchResults = [];
+
+        function setSearchFilter(filter, el) {
+            currentSearchFilter = filter;
+            document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+            if (el) el.classList.add('active');
+            renderFilteredSearchResults();
+        }
+
         function renderBuscar(container) {
             const header = document.createElement('div');
             header.className = 'search-page-header';
@@ -2042,18 +2211,23 @@
                     <button class="search-clear-btn" id="search-clear-btn" onclick="clearSearchInput()">&times;</button>
                 </div>
                 <div class="filter-pills">
-                    <div class="filter-pill active" onclick="setSearchFilter('todos', this)">Todos</div>
-                    <div class="filter-pill" onclick="setSearchFilter('canciones', this)">Canciones</div>
-                    <div class="filter-pill" onclick="setSearchFilter('artistas', this)">Artistas</div>
-                    <div class="filter-pill" onclick="setSearchFilter('albumes', this)">Álbumes</div>
+                    <div class="filter-pill ${currentSearchFilter === 'todos' ? 'active' : ''}" onclick="setSearchFilter('todos', this)">Todos</div>
+                    <div class="filter-pill ${currentSearchFilter === 'canciones' ? 'active' : ''}" onclick="setSearchFilter('canciones', this)">Canciones</div>
+                    <div class="filter-pill ${currentSearchFilter === 'artistas' ? 'active' : ''}" onclick="setSearchFilter('artistas', this)">Artistas</div>
+                    <div class="filter-pill ${currentSearchFilter === 'albumes' ? 'active' : ''}" onclick="setSearchFilter('albumes', this)">Álbumes</div>
                 </div>
             `;
             container.appendChild(header);
 
             const resultsContainer = document.createElement('div');
             resultsContainer.id = 'search-results-box';
-            resultsContainer.innerHTML = `<div style="padding: 40px 0; color: var(--text-muted); text-align: center;">Escribe para buscar en el catálogo completo sin límites.</div>`;
-            container.appendChild(resultsContainer);
+            if (lastSearchResults.length > 0) {
+                container.appendChild(resultsContainer);
+                renderFilteredSearchResults();
+            } else {
+                resultsContainer.innerHTML = `<div style="padding: 40px 0; color: var(--text-muted); text-align: center;">Escribe para buscar en el catálogo completo sin límites.</div>`;
+                container.appendChild(resultsContainer);
+            }
         }
 
         let searchDebounce = null;
@@ -2064,6 +2238,7 @@
 
             clearTimeout(searchDebounce);
             if (!q) {
+                lastSearchResults = [];
                 const box = document.getElementById('search-results-box');
                 if (box) box.innerHTML = `<div style="padding: 40px 0; color: var(--text-muted); text-align: center;">Escribe para buscar canciones o artistas.</div>`;
                 return;
@@ -2086,7 +2261,7 @@
         async function executeSearch(query) {
             const box = document.getElementById('search-results-box');
             if (!box) return;
-            box.innerHTML = `<div style="padding: 30px 0; color: var(--text-secondary); text-align: center;">Buscando pista de estudio completa...</div>`;
+            box.innerHTML = `<div style="padding: 30px 0; color: var(--text-secondary); text-align: center;">Buscando discografía completa...</div>`;
 
             try {
                 const res = await fetch(api(`/api/search?q=${encodeURIComponent(query)}`));
@@ -2096,37 +2271,58 @@
 
                 if (tracks.length === 0) {
                     box.innerHTML = `<div style="padding: 40px 0; color: var(--text-secondary); text-align: center;">No se encontraron resultados para "${query}".</div>`;
+                    lastSearchResults = [];
                     return;
                 }
 
-                box.innerHTML = '';
-                const list = document.createElement('div');
-                list.className = 'track-list';
-
-                tracks.forEach((t, idx) => {
-                    const row = document.createElement('div');
-                    row.className = 'track-row';
-                    row.onclick = () => playTrackFromList(tracks, idx);
-                    row.innerHTML = `
-                        <img src="${t.art || DEFAULT_ART}" class="track-art-sm" alt="${t.title}">
-                        <div class="track-meta-col">
-                            <div class="track-title-text">${t.title}</div>
-                            <div class="track-subtitle-text">${t.artist} &bull; ${t.album || 'Sencillo'} &bull; ${t.dur_str || ''}</div>
-                        </div>
-                        <span class="quality-badge lossless">LOSSLESS</span>
-                        <div class="track-actions" onclick="event.stopPropagation()">
-                            <button class="btn-track-action" onclick="saveTrackToLibrary(${JSON.stringify(t).replace(/"/g, '&quot;')})">
-                                <svg class="icon" style="width: 14px; height: 14px;" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-                                <span>Biblioteca</span>
-                            </button>
-                        </div>
-                    `;
-                    list.appendChild(row);
-                });
-                box.appendChild(list);
+                lastSearchResults = tracks;
+                renderFilteredSearchResults();
             } catch (err) {
                 box.innerHTML = `<div style="padding: 40px 0; color: var(--accent); text-align: center;">Error al realizar la búsqueda.</div>`;
             }
+        }
+
+        function renderFilteredSearchResults() {
+            const box = document.getElementById('search-results-box');
+            if (!box || !lastSearchResults.length) return;
+
+            let filtered = lastSearchResults;
+            const q = (document.getElementById('search-main-input')?.value || '').toLowerCase().trim();
+            if (currentSearchFilter === 'canciones') {
+                filtered = lastSearchResults.filter(t => (t.title || '').toLowerCase().includes(q) || true);
+            } else if (currentSearchFilter === 'artistas') {
+                const matched = lastSearchResults.filter(t => (t.artist || '').toLowerCase().includes(q));
+                if (matched.length > 0) filtered = matched;
+            } else if (currentSearchFilter === 'albumes') {
+                const matched = lastSearchResults.filter(t => (t.album || '').toLowerCase().includes(q));
+                if (matched.length > 0) filtered = matched;
+            }
+
+            box.innerHTML = '';
+            const list = document.createElement('div');
+            list.className = 'track-list';
+
+            filtered.forEach((t, idx) => {
+                const row = document.createElement('div');
+                row.className = 'track-row';
+                row.onclick = () => playTrackFromList(filtered, idx);
+                row.innerHTML = `
+                    <img src="${t.art || DEFAULT_ART}" class="track-art-sm" alt="${t.title}" referrerpolicy="no-referrer" loading="lazy" onerror="this.onerror=null; this.src='assets/brand/theking-badge.png';">
+                    <div class="track-meta-col">
+                        <div class="track-title-text">${t.title}</div>
+                        <div class="track-subtitle-text">${t.artist} &bull; ${t.album || 'Sencillo'} &bull; ${t.dur_str || ''}</div>
+                    </div>
+                    <span class="quality-badge lossless">LOSSLESS</span>
+                    <div class="track-actions" onclick="event.stopPropagation()">
+                        <button class="btn-track-action" onclick="saveTrackToLibrary(${JSON.stringify(t).replace(/"/g, '&quot;')})">
+                            <svg class="icon" style="width: 14px; height: 14px;" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                            <span>Biblioteca</span>
+                        </button>
+                    </div>
+                `;
+                list.appendChild(row);
+            });
+            box.appendChild(list);
         }
 
         function openGenreSearch(genreName) {
@@ -2146,9 +2342,69 @@
             header.className = 'view-header';
             header.innerHTML = `
                 <h1 class="greeting-title">Ajustes</h1>
-                <div class="greeting-subtitle">Configuración del servidor y reproducción</div>
+                <div class="greeting-subtitle">Configuración del servidor, interfaz y reproducción</div>
             `;
             container.appendChild(header);
+
+            // Theme & Interface Switcher Card
+            const themeCard = document.createElement('div');
+            themeCard.className = 'settings-card';
+            const curTheme = localStorage.getItem('pkm_theme') || 'apple';
+            themeCard.innerHTML = `
+                <div class="settings-card-title">
+                    <svg class="icon" style="fill: var(--accent);" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 19.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l1.9-1.9C9.22 19.64 10.57 20 12 20c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 16c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg>
+                    <span>Interfaz y Diseño Visual</span>
+                </div>
+                <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
+                    Selecciona tu estilo preferido. Totalmente adaptable a iOS, Android y PC.
+                </div>
+                <div class="theme-grid">
+                    <div class="theme-option-card ${curTheme === 'apple' ? 'selected' : ''}" onclick="setAppTheme('apple')">
+                        <div class="theme-header">
+                            <div class="theme-badge-swatch">
+                                <span class="theme-color-dot" style="background: #fa233b;"></span>
+                                <span>Apple Music</span>
+                            </div>
+                            <svg class="icon theme-check-icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        </div>
+                        <div class="theme-desc">Glassmorphism oscuro, acentos rojo carmesí (#fa233b) y estética iOS.</div>
+                    </div>
+
+                    <div class="theme-option-card ${curTheme === 'spotify' ? 'selected' : ''}" onclick="setAppTheme('spotify')">
+                        <div class="theme-header">
+                            <div class="theme-badge-swatch">
+                                <span class="theme-color-dot" style="background: #1db954;"></span>
+                                <span>Spotify</span>
+                            </div>
+                            <svg class="icon theme-check-icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        </div>
+                        <div class="theme-desc">Fondo carbón mate (#121212), botones verdes y tarjetas compactas.</div>
+                    </div>
+
+                    <div class="theme-option-card ${curTheme === 'deezer' ? 'selected' : ''}" onclick="setAppTheme('deezer')">
+                        <div class="theme-header">
+                            <div class="theme-badge-swatch">
+                                <span class="theme-color-dot" style="background: #a238ff;"></span>
+                                <span>Deezer</span>
+                            </div>
+                            <svg class="icon theme-check-icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        </div>
+                        <div class="theme-desc">Atmósfera púrpura profundo (#0f0d13), acentos neón (#a238ff) y bordes fluidos.</div>
+                    </div>
+
+                    <div class="theme-option-card ${curTheme === 'ytmusic' ? 'selected' : ''}" onclick="setAppTheme('ytmusic')">
+                        <div class="theme-header">
+                            <div class="theme-badge-swatch">
+                                <span class="theme-color-dot" style="background: #ff0000;"></span>
+                                <span>YouTube Music</span>
+                            </div>
+                            <svg class="icon theme-check-icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        </div>
+                        <div class="theme-desc">Negro puro OLED (#030303), acentos rojo vibrante (#ff0000) y estilo minimalista.</div>
+                    </div>
+                </div>
+            `;
+            container.appendChild(themeCard);
 
             const card = document.createElement('div');
             card.className = 'settings-card';
@@ -2219,6 +2475,28 @@
             window.location.reload();
         }
 
+        function setAppTheme(themeName) {
+            localStorage.setItem('pkm_theme', themeName);
+            document.body.className = 'theme-' + themeName;
+            const metaTheme = document.querySelector('meta[name="theme-color"]');
+            if (metaTheme) {
+                const colors = {
+                    'apple': '#000000',
+                    'spotify': '#121212',
+                    'deezer': '#0f0d13',
+                    'ytmusic': '#030303'
+                };
+                metaTheme.setAttribute('content', colors[themeName] || '#000000');
+            }
+            if (currentTab === 'ajustes') {
+                const container = document.getElementById('content-area');
+                if (container) {
+                    container.innerHTML = '';
+                    renderAjustes(container);
+                }
+            }
+        }
+
         // PLAYBACK ENGINE
         function playSingleTrack(track) {
             playbackQueue = [track];
@@ -2237,6 +2515,7 @@
             currentTrack = track;
             isPlaying = true;
 
+            setPlayerBuffering(true);
             updatePlayerUI(track);
             fetchLyrics(track.artist, track.title);
 
@@ -2246,9 +2525,10 @@
 
             try {
                 await audio.play();
+                setPlayerBuffering(false);
                 updatePlayPauseIcons(true);
             } catch (err) {
-                console.error("Playback error:", err);
+                console.warn("Playback notice:", err);
             }
 
             // Update MediaSession for iOS & Android lockscreen
@@ -2261,6 +2541,33 @@
                         { src: track.art || DEFAULT_ART, sizes: '512x512', type: 'image/jpeg' }
                     ]
                 });
+            }
+
+            // Pre-warm the next track in the queue for 0ms transitions
+            if (playbackQueue.length > currentQueueIndex + 1) {
+                const nextTrack = playbackQueue[currentQueueIndex + 1];
+                if (nextTrack && nextTrack.artist && nextTrack.title) {
+                    fetch(api(`/api/stream?artist=${encodeURIComponent(nextTrack.artist)}&title=${encodeURIComponent(nextTrack.title)}&duration=${nextTrack.duration || 0}`), { method: 'HEAD' }).catch(() => {});
+                }
+            }
+        }
+
+        function setPlayerBuffering(buf) {
+            const btnDock = document.getElementById('btn-dock-play');
+            const btnMini = document.getElementById('mini-play-btn');
+            const btnNp = document.getElementById('np-btn-play');
+            const qualityBadge = document.getElementById('dock-quality');
+
+            if (buf) {
+                if (btnDock) btnDock.classList.add('buffering-pulse');
+                if (btnMini) btnMini.classList.add('buffering-pulse');
+                if (btnNp) btnNp.classList.add('buffering-pulse');
+                if (qualityBadge) qualityBadge.textContent = "CONECTANDO...";
+            } else {
+                if (btnDock) btnDock.classList.remove('buffering-pulse');
+                if (btnMini) btnMini.classList.remove('buffering-pulse');
+                if (btnNp) btnNp.classList.remove('buffering-pulse');
+                if (qualityBadge) qualityBadge.textContent = "LOSSLESS";
             }
         }
 
@@ -2369,6 +2676,13 @@
                 }
             });
 
+            audio.addEventListener('waiting', () => setPlayerBuffering(true));
+            audio.addEventListener('playing', () => {
+                setPlayerBuffering(false);
+                updatePlayPauseIcons(true);
+            });
+            audio.addEventListener('canplay', () => setPlayerBuffering(false));
+
             audio.addEventListener('play', () => updatePlayPauseIcons(true));
             audio.addEventListener('pause', () => updatePlayPauseIcons(false));
 
@@ -2381,33 +2695,51 @@
         }
 
         function updatePlayPauseIcons(playing) {
-            const dockIcon = document.getElementById('dock-icon-play');
-            const miniIcon = document.getElementById('mini-icon-play');
-            const npIcon = document.getElementById('np-icon-play');
-
             const svgContent = playing ? SVG_PAUSE : SVG_PLAY;
-            if (dockIcon) dockIcon.parentElement.innerHTML = svgContent;
-            if (miniIcon) miniIcon.parentElement.innerHTML = svgContent;
-            if (npIcon) npIcon.parentElement.innerHTML = svgContent;
+            const btnDock = document.getElementById('btn-dock-play');
+            const btnMini = document.getElementById('mini-play-btn');
+            const btnNp = document.getElementById('np-btn-play');
+
+            if (btnDock) btnDock.innerHTML = svgContent;
+            if (btnMini) btnMini.innerHTML = svgContent;
+            if (btnNp) btnNp.innerHTML = svgContent;
         }
 
         function updatePlayerUI(track) {
             const art = track.art || DEFAULT_ART;
 
             // Desktop Dock
-            document.getElementById('dock-title').textContent = track.title;
-            document.getElementById('dock-artist').textContent = track.artist;
-            document.getElementById('dock-art').src = art;
+            const dockTitle = document.getElementById('dock-title');
+            const dockArtist = document.getElementById('dock-artist');
+            const dockArt = document.getElementById('dock-art');
+            if (dockTitle) dockTitle.textContent = track.title;
+            if (dockArtist) dockArtist.textContent = track.artist;
+            if (dockArt) {
+                dockArt.onerror = () => { dockArt.src = DEFAULT_ART; };
+                dockArt.src = art;
+            }
 
             // Mobile Mini-Player
-            document.getElementById('mini-title').textContent = track.title;
-            document.getElementById('mini-artist').textContent = track.artist;
-            document.getElementById('mini-art').src = art;
+            const miniTitle = document.getElementById('mini-title');
+            const miniArtist = document.getElementById('mini-artist');
+            const miniArt = document.getElementById('mini-art');
+            if (miniTitle) miniTitle.textContent = track.title;
+            if (miniArtist) miniArtist.textContent = track.artist;
+            if (miniArt) {
+                miniArt.onerror = () => { miniArt.src = DEFAULT_ART; };
+                miniArt.src = art;
+            }
 
             // Fullscreen Modal
-            document.getElementById('np-title').textContent = track.title;
-            document.getElementById('np-artist').textContent = track.artist;
-            document.getElementById('np-cover').src = art;
+            const npTitle = document.getElementById('np-title');
+            const npArtist = document.getElementById('np-artist');
+            const npCover = document.getElementById('np-cover');
+            if (npTitle) npTitle.textContent = track.title;
+            if (npArtist) npArtist.textContent = track.artist;
+            if (npCover) {
+                npCover.onerror = () => { npCover.src = DEFAULT_ART; };
+                npCover.src = art;
+            }
 
             // Dynamic ambient background
             const backdrop = document.getElementById('np-ambient-backdrop');
