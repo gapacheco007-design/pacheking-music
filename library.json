@@ -1,5 +1,5 @@
 {
- "updated": 1792735953,
+ "updated": 1792735957,
  "tracks": [
   {
    "id": "st-1792733778",
@@ -210,6 +210,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792735953
+  },
+  {
+   "id": "st-1792735951",
+   "title": "NUEVAYoL",
+   "artist": "Bad Bunny",
+   "album": "",
+   "genre": "Otros",
+   "duration": 189,
+   "dur_str": "3:08 min",
+   "art": "",
+   "url": "/api/stream?artist=Bad%20Bunny&title=NUEVAYoL",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Bad Bunny/Bad Bunny - NUEVAYoL.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792735957
   }
  ]
 }
