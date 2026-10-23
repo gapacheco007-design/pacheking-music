@@ -1,5 +1,5 @@
 {
- "updated": 1792742043,
+ "updated": 1792742045,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -1137,6 +1137,21 @@
    "art": "",
    "url": "/api/stream?artist=Rihanna&title=Don%27t%20Stop%20The%20Music",
    "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Rihanna/Rihanna - Don't Stop The Music.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792742041
+  },
+  {
+   "id": "st-1792742027",
+   "title": "Love On The Brain",
+   "artist": "Rihanna",
+   "album": "",
+   "genre": "Otros",
+   "duration": 224,
+   "dur_str": "3:44 min",
+   "art": "",
+   "url": "/api/stream?artist=Rihanna&title=Love%20On%20The%20Brain",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Rihanna/Rihanna - Love On The Brain.mp3",
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792742041
