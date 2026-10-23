@@ -1,5 +1,5 @@
 {
- "updated": 1792735960,
+ "updated": 1792735963,
  "tracks": [
   {
    "id": "st-1792733778",
@@ -240,6 +240,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792735960
+  },
+  {
+   "id": "st-1792735954",
+   "title": "BAILE INoLVIDABLE",
+   "artist": "Bad Bunny",
+   "album": "",
+   "genre": "Otros",
+   "duration": 356,
+   "dur_str": "5:56 min",
+   "art": "",
+   "url": "/api/stream?artist=Bad%20Bunny&title=BAILE%20INoLVIDABLE",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Bad Bunny/Bad Bunny - BAILE INoLVIDABLE.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792735963
   }
  ]
 }
