@@ -1,5 +1,5 @@
 {
- "updated": 1792786892,
+ "updated": 1792786894,
  "tracks": [
   {
    "id": "st-1792735492",
@@ -1984,6 +1984,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792786892
+  },
+  {
+   "id": "st-1792786888",
+   "title": "Muñeca",
+   "artist": "PXNDX",
+   "album": "",
+   "genre": "Otros",
+   "duration": 142,
+   "dur_str": "2:22 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/d1a7e172183181dd118a1c4d4a012c3d/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=PXNDX&title=Mu%C3%B1eca",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/PXNDX/PXNDX - Muñeca.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792786893
   }
  ]
 }
