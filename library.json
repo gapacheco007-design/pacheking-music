@@ -1,5 +1,5 @@
 {
- "updated": 1792741964,
+ "updated": 1792741968,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -1005,6 +1005,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792741964
+  },
+  {
+   "id": "st-1792741952",
+   "title": "C'est La Mort",
+   "artist": "Canserbero",
+   "album": "",
+   "genre": "Otros",
+   "duration": 459,
+   "dur_str": "7:39 min",
+   "art": "",
+   "url": "/api/stream?artist=Canserbero&title=C%27est%20La%20Mort",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Canserbero/Canserbero - C'est La Mort.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792741968
   }
  ]
 }
