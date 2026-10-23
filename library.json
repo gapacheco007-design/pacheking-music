@@ -1,5 +1,5 @@
 {
- "updated": 1792783148,
+ "updated": 1792783150,
  "tracks": [
   {
    "id": "af-arjona-grupo-firme",
@@ -1716,6 +1716,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792783148
+  },
+  {
+   "id": "st-1792783146",
+   "title": "Welcome to the Jungle",
+   "artist": "Richard Cheese",
+   "album": "",
+   "genre": "Otros",
+   "duration": 169,
+   "dur_str": "2:49 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/3953217a0ffbce414163d9ea239ab935/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Richard%20Cheese&title=Welcome%20to%20the%20Jungle",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Richard Cheese/Richard Cheese - Welcome to the Jungle.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792783150
   }
  ]
 }
