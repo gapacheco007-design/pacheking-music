@@ -1,5 +1,5 @@
 {
- "updated": 1792788905,
+ "updated": 1792788910,
  "tracks": [
   {
    "id": "st-1792735492",
@@ -2359,6 +2359,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792788905
+  },
+  {
+   "id": "st-1792788903",
+   "title": "Cuando No Es Como Debiera Ser",
+   "artist": "PXNDX",
+   "album": "",
+   "genre": "Otros",
+   "duration": 238,
+   "dur_str": "3:58 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/d1a7e172183181dd118a1c4d4a012c3d/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=PXNDX&title=Cuando%20No%20Es%20Como%20Debiera%20Ser",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/PXNDX/PXNDX - Cuando No Es Como Debiera Ser.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792788910
   }
  ]
 }
