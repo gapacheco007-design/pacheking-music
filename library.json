@@ -1,5 +1,5 @@
 {
- "updated": 1792714240,
+ "updated": 1792714698,
  "tracks": [
   {
    "id": "itunes-423021874",
@@ -1024,6 +1024,20 @@
    "format": "FLAC / MP3 320k Master",
    "source": "vps_library",
    "added": 1792714240
+  },
+  {
+   "id": "vps-1792714698",
+   "title": "C'est la Mort",
+   "artist": "Canserbero",
+   "album": "",
+   "genre": "Otros",
+   "duration": 459,
+   "dur_str": "7:39 min",
+   "art": "",
+   "url": "/api/stream?artist=Canserbero&title=C%27est%20la%20Mort",
+   "format": "FLAC / MP3 320k Master",
+   "source": "vps_library",
+   "added": 1792714698
   }
  ]
 }
