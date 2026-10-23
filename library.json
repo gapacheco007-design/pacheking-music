@@ -1,5 +1,5 @@
 {
- "updated": 1792734685,
+ "updated": 1792734713,
  "tracks": [
   {
    "id": "st-1792733778",
@@ -60,6 +60,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792734685
+  },
+  {
+   "id": "st-1792734705",
+   "title": "La Plaga del Rap (feat. Arianna Puello)",
+   "artist": "Cartel de Santa",
+   "album": "",
+   "genre": "Otros",
+   "duration": 284,
+   "dur_str": "4:44 min",
+   "art": "",
+   "url": "/api/stream?artist=Cartel%20de%20Santa&title=La%20Plaga%20del%20Rap%20%28feat.%20Arianna%20Puello%29",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Cartel de Santa/Cartel de Santa - La Plaga del Rap (feat. Arianna Puello).mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792734713
   }
  ]
 }
