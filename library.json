@@ -1,5 +1,5 @@
 {
- "updated": 1792786493,
+ "updated": 1792786495,
  "tracks": [
   {
    "id": "st-1792735492",
@@ -1864,6 +1864,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792786493
+  },
+  {
+   "id": "st-1792786484",
+   "title": "Guns and Roses",
+   "artist": "Bohnes",
+   "album": "",
+   "genre": "Otros",
+   "duration": 218,
+   "dur_str": "3:37 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/64692276c28b641aeca4c2771d4fe3a4/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Bohnes&title=Guns%20and%20Roses",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Bohnes/Bohnes - Guns and Roses.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792786494
   }
  ]
 }
