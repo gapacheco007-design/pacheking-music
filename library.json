@@ -1,5 +1,5 @@
 {
- "updated": 1792787672,
+ "updated": 1792787674,
  "tracks": [
   {
    "id": "st-1792735492",
@@ -2224,6 +2224,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792787672
+  },
+  {
+   "id": "st-1792787664",
+   "title": "Me Vas a Extrañar",
+   "artist": "N´Samble",
+   "album": "",
+   "genre": "Otros",
+   "duration": 334,
+   "dur_str": "5:34 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/1c4b603f05d9b3a59de00beb6cff68e0/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=N%C2%B4Samble&title=Me%20Vas%20a%20Extra%C3%B1ar",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/N´Samble/N´Samble - Me Vas a Extrañar.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792787673
   }
  ]
 }
