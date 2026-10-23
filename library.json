@@ -1,5 +1,5 @@
 {
- "updated": 1792737600,
+ "updated": 1792737615,
  "tracks": [
   {
    "id": "st-1792733778",
@@ -510,6 +510,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792737600
+  },
+  {
+   "id": "st-1792737609",
+   "title": "Efecto",
+   "artist": "Bad Bunny",
+   "album": "",
+   "genre": "Otros",
+   "duration": 196,
+   "dur_str": "3:15 min",
+   "art": "",
+   "url": "/api/stream?artist=Bad%20Bunny&title=Efecto",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Bad Bunny/Bad Bunny - Efecto.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792737615
   }
  ]
 }
