@@ -1,5 +1,5 @@
 {
- "updated": 1792788850,
+ "updated": 1792788865,
  "tracks": [
   {
    "id": "st-1792735492",
@@ -2284,6 +2284,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792788850
+  },
+  {
+   "id": "st-1792788859",
+   "title": "Since I Don't Have You",
+   "artist": "Guns N' Roses",
+   "album": "",
+   "genre": "Otros",
+   "duration": 214,
+   "dur_str": "3:33 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/7d2814d6c110b68afb3efd5573624666/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Guns%20N%27%20Roses&title=Since%20I%20Don%27t%20Have%20You",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Guns N' Roses/Guns N' Roses - Since I Don't Have You.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792788865
   }
  ]
 }
