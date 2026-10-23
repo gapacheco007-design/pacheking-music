@@ -1,5 +1,5 @@
 {
- "updated": 1792739343,
+ "updated": 1792739344,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -795,6 +795,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792739343
+  },
+  {
+   "id": "st-1792739331",
+   "title": "Photograph",
+   "artist": "Ed Sheeran",
+   "album": "",
+   "genre": "Otros",
+   "duration": 244,
+   "dur_str": "4:03 min",
+   "art": "",
+   "url": "/api/stream?artist=Ed%20Sheeran&title=Photograph",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Ed Sheeran/Ed Sheeran - Photograph.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792739344
   }
  ]
 }
