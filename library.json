@@ -1,5 +1,5 @@
 {
- "updated": 1792763238,
+ "updated": 1792763239,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -1167,6 +1167,21 @@
    "art": "https://cdn-images.dzcdn.net/images/cover/b7667d1cc5f1b97af32c8160f2198547/1000x1000-000000-80-0-0.jpg",
    "url": "/api/stream?artist=Bon%20Jovi&title=Runaway",
    "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Bon Jovi/Bon Jovi - Runaway.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792763238
+  },
+  {
+   "id": "st-1792763231",
+   "title": "Wanted Dead Or Alive",
+   "artist": "Bon Jovi",
+   "album": "",
+   "genre": "Otros",
+   "duration": 303,
+   "dur_str": "5:02 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/f513327c13908b0def56f1fa0ca79789/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Bon%20Jovi&title=Wanted%20Dead%20Or%20Alive",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Bon Jovi/Bon Jovi - Wanted Dead Or Alive.mp3",
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792763238
