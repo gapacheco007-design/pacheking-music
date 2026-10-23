@@ -1,5 +1,5 @@
 {
- "updated": 1792786811,
+ "updated": 1792786816,
  "tracks": [
   {
    "id": "st-1792735492",
@@ -1954,6 +1954,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792786811
+  },
+  {
+   "id": "st-1792786808",
+   "title": "Cita en el Quirófano",
+   "artist": "PXNDX",
+   "album": "",
+   "genre": "Otros",
+   "duration": 240,
+   "dur_str": "4:00 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/52868825b14ca76b229b11b1a9627929/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=PXNDX&title=Cita%20en%20el%20Quir%C3%B3fano",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/PXNDX/PXNDX - Cita en el Quirófano.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792786816
   }
  ]
 }
