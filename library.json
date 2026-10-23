@@ -1,5 +1,5 @@
 {
- "updated": 1792786442,
+ "updated": 1792786480,
  "tracks": [
   {
    "id": "st-1792735492",
@@ -1819,6 +1819,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792786442
+  },
+  {
+   "id": "st-1792786471",
+   "title": "Guns And Roses",
+   "artist": "Lana Del Rey",
+   "album": "",
+   "genre": "Otros",
+   "duration": 269,
+   "dur_str": "4:28 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/b68adb6788dfa09a314f594aec287850/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Lana%20Del%20Rey&title=Guns%20And%20Roses",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Lana Del Rey/Lana Del Rey - Guns And Roses.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792786480
   }
  ]
 }
