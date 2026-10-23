@@ -1,5 +1,5 @@
 {
- "updated": 1792786944,
+ "updated": 1792786946,
  "tracks": [
   {
    "id": "st-1792735492",
@@ -2014,6 +2014,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792786944
+  },
+  {
+   "id": "st-1792786940",
+   "title": "Tripulación, armar toboganes",
+   "artist": "PXNDX",
+   "album": "",
+   "genre": "Otros",
+   "duration": 233,
+   "dur_str": "3:52 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/512a8b73e1fa06534c1ce1e55fb02311/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=PXNDX&title=Tripulaci%C3%B3n%2C%20armar%20toboganes",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/PXNDX/PXNDX - Tripulación, armar toboganes.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792786946
   }
  ]
 }
