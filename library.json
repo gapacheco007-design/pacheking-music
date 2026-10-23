@@ -1,5 +1,5 @@
 {
- "updated": 1792739366,
+ "updated": 1792739389,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -840,6 +840,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792739366
+  },
+  {
+   "id": "st-1792739383",
+   "title": "Te Conozco",
+   "artist": "Ricardo Arjona",
+   "album": "",
+   "genre": "Otros",
+   "duration": 246,
+   "dur_str": "4:06 min",
+   "art": "",
+   "url": "/api/stream?artist=Ricardo%20Arjona&title=Te%20Conozco",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Ricardo Arjona/Ricardo Arjona - Te Conozco.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792739389
   }
  ]
 }
