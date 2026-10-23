@@ -1,5 +1,5 @@
 {
- "updated": 1792737143,
+ "updated": 1792737144,
  "tracks": [
   {
    "id": "st-1792733778",
@@ -420,6 +420,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792737141
+  },
+  {
+   "id": "st-1792737128",
+   "title": "Jérôme c'est moi",
+   "artist": "C. Jérôme",
+   "album": "",
+   "genre": "Otros",
+   "duration": 174,
+   "dur_str": "2:54 min",
+   "art": "",
+   "url": "/api/stream?artist=C.%20J%C3%A9r%C3%B4me&title=J%C3%A9r%C3%B4me%20c%27est%20moi",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/C. Jérôme/C. Jérôme - Jérôme c'est moi.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792737142
   }
  ]
 }
