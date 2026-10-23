@@ -1,5 +1,5 @@
 {
- "updated": 1792734415,
+ "updated": 1792734420,
  "tracks": [
   {
    "id": "st-1792733778",
@@ -30,6 +30,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792734415
+  },
+  {
+   "id": "st-1792734414",
+   "title": "Blinding Lights",
+   "artist": "The Weeknd",
+   "album": "",
+   "genre": "Otros",
+   "duration": 160,
+   "dur_str": "2:39 min",
+   "art": "",
+   "url": "/api/stream?artist=The%20Weeknd&title=Blinding%20Lights",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/The Weeknd/The Weeknd - Blinding Lights.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792734420
   }
  ]
 }
