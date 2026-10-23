@@ -1,5 +1,5 @@
 {
- "updated": 1792762908,
+ "updated": 1792762911,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -990,6 +990,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792762908
+  },
+  {
+   "id": "st-1792762899",
+   "title": "Aston Martin Truck",
+   "artist": "Roddy Ricch",
+   "album": "",
+   "genre": "Otros",
+   "duration": 173,
+   "dur_str": "2:52 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/04e5a1677651606f697aab142bc424db/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Roddy%20Ricch&title=Aston%20Martin%20Truck",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Roddy Ricch/Roddy Ricch - Aston Martin Truck.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792762911
   }
  ]
 }
