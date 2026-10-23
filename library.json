@@ -1,5 +1,5 @@
 {
- "updated": 1792764470,
+ "updated": 1792764473,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -1217,21 +1217,6 @@
    "added": 1792764466
   },
   {
-   "id": "st-1792764457",
-   "title": "Hey Si Me Ven",
-   "artist": "Cartel De Santa",
-   "album": "",
-   "genre": "Otros",
-   "duration": 220,
-   "dur_str": "3:39 min",
-   "art": "https://cdn-images.dzcdn.net/images/cover/f29987567cfa680e67d5fdac882e39bd/1000x1000-000000-80-0-0.jpg",
-   "url": "/api/stream?artist=Cartel%20De%20Santa&title=Hey%20Si%20Me%20Ven",
-   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Cartel De Santa/Cartel De Santa - Hey Si Me Ven.mp3",
-   "format": "FLAC / MP3 320k Master (VPS)",
-   "source": "vps_library",
-   "added": 1792764468
-  },
-  {
    "id": "st-1792764454",
    "title": "decadent",
    "artist": "Dead Cartel",
@@ -1242,6 +1227,21 @@
    "art": "https://cdn-images.dzcdn.net/images/cover/e224d74551665803ea69241e3caf4328/1000x1000-000000-80-0-0.jpg",
    "url": "/api/stream?artist=Dead%20Cartel&title=decadent",
    "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Dead Cartel/Dead Cartel - decadent.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792764469
+  },
+  {
+   "id": "st-1792764457",
+   "title": "You Decide",
+   "artist": "Funk Cartel",
+   "album": "",
+   "genre": "Otros",
+   "duration": 179,
+   "dur_str": "2:59 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/eda3dc4e04413f004b5dc771ee6e204a/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Funk%20Cartel&title=You%20Decide",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Funk Cartel/Funk Cartel - You Decide.mp3",
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792764469
