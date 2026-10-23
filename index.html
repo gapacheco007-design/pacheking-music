@@ -15,7 +15,7 @@
     <title>TheKing Music</title>
     <link rel="icon" href="assets/brand/theking-badge.png" type="image/png">
     <script>
-        const APP_BUILD_VERSION = "20261023_v32_fast_mp3_streaming_and_auth_isolation";
+        const APP_BUILD_VERSION = "20261023_v33_personal_libraries_and_network_protection";
         if (localStorage.getItem('pkm_build') !== APP_BUILD_VERSION) {
             localStorage.setItem('pkm_build', APP_BUILD_VERSION);
             if (localStorage.getItem('pkm_active_user_id') === 'admin' && !sessionStorage.getItem('pkm_admin_authed')) {
@@ -3109,55 +3109,200 @@
         
         // DIRECT GITHUB AUDIO CATALOG (Zero CORS, 100% Whitelisted by Corporate Firewalls)
         const GITHUB_AUDIO_CATALOG = {
-            "canserbero|maquiavelico": "audio/canserbero-maquiavelico.mp3",
-            "canserbero|querer querernos": "audio/canserbero-querer-querernos.mp3",
-            "canserbero|pensando en ti": "audio/canserbero-pensando-en-ti.mp3",
-            "canserbero|jeremias 17-5": "audio/canserbero-jeremias-17-5.mp3",
-            "canserbero|jeremias 17 5": "audio/canserbero-jeremias-17-5.mp3",
-            "canserbero|es epico": "audio/canserbero-es-epico.mp3",
-            "canserbero|de la vida como pelicula": "audio/canserbero-de-la-vida-como-pelicula.mp3",
-            "canserbero|de la vida como pelicula tragedia comedia y ficcion": "audio/canserbero-de-la-vida-como-pelicula.mp3",
-            "canserbero|de la vida como pelicula y su tragedia comedia y ficcion": "audio/canserbero-de-la-vida-como-pelicula.mp3",
-            "canserbero|mundo de piedra": "audio/canserbero-mundo-de-piedra.mp3",
-            "canserbero|llovia": "audio/canserbero-llovia.mp3",
-            "canserbero|ser vero": "audio/canserbero-ser-vero.mp3",
-            "canserbero|visiones": "audio/canserbero-visiones.mp3",
-            "ricardo arjona & grupo firme|amor factura": "audio/arjona-amor-factura.mp3",
-            "ricardo arjona|amor factura": "audio/arjona-amor-factura.mp3",
-            "grupo firme|amor factura": "audio/arjona-amor-factura.mp3",
-            "grupo firme & ricardo arjona|amor factura": "audio/arjona-amor-factura.mp3",
-            "ricardo arjona|fuiste tu": "audio/arjona-fuiste-tu.mp3",
-            "ricardo arjona|historia de taxi": "audio/arjona-historia-de-taxi.mp3",
-            "ricardo arjona|el problema": "audio/arjona-el-problema.mp3",
-            "dua lipa|houdini": "audio/dua-lipa-houdini.mp3",
-            "the weeknd|blinding lights": "audio/the-weeknd-blinding-lights.mp3",
-            "coldplay|yellow": "audio/coldplay-yellow.m4a",
-            "queen|bohemian rhapsody": "audio/queen-bohemian-rhapsody.m4a",
-            "bad bunny|moscow mule": "audio/bad-bunny-moscow-mule.mp3",
-            "bad bunny|efecto": "audio/bad-bunny-efecto.mp3",
-            "mana|mariposa traicionera": "audio/mana-mariposa-traicionera.mp3",
-            "mana|labios compartidos": "audio/mana-labios-compartidos.mp3",
-            "mana|rayando el sol": "audio/mana-rayando-el-sol.mp3",
-            "mana|en el muelle de san blas": "audio/mana-en-el-muelle-de-san-blas.mp3",
-            "xavi|nadie te extrana": "audio/xavi-nadie-te-extrana.mp3",
-            "xavi|nadie te extraña": "audio/xavi-nadie-te-extrana.mp3",
-            "bon jovi|livin on a prayer": "audio/bon-jovi-livin-on-a-prayer.mp3",
-            "bon jovi|it's my life": "audio/bon-jovi-its-my-life.mp3",
-            "bon jovi|its my life": "audio/bon-jovi-its-my-life.mp3",
-            "bon jovi|you give love a bad name": "audio/bon-jovi-you-give-love-a-bad-name.mp3"
-        };
+        "canserbero|maquiavelico": "audio/canserbero-maquiavelico.mp3",
+        "canserbero|querer querernos": "audio/canserbero-querer-querernos.mp3",
+        "canserbero|de la vida como pelicula": "audio/canserbero-de-la-vida-como-pelicula.mp3",
+        "canserbero|pensando en ti": "audio/canserbero-pensando-en-ti.mp3",
+        "canserbero|mundo de piedra": "audio/canserbero-mundo-de-piedra.mp3",
+        "canserbero|es epico": "audio/canserbero-es-epico.mp3",
+        "canserbero|jeremias 17 5": "audio/canserbero-jeremias-17-5.mp3",
+        "canserbero|llovia": "audio/canserbero-llovia.mp3",
+        "canserbero|ser vero": "audio/canserbero-ser-vero.mp3",
+        "canserbero|visiones": "audio/canserbero-visiones.mp3",
+        "ricardo arjona|amor factura": "audio/arjona-amor-factura.mp3",
+        "ricardo arjona|fuiste tu": "audio/arjona-fuiste-tu.mp3",
+        "ricardo arjona|historia de taxi": "audio/arjona-historia-de-taxi.mp3",
+        "ricardo arjona|el problema": "audio/arjona-el-problema.mp3",
+        "bon jovi|livin on a prayer": "audio/bon-jovi-livin-on-a-prayer.mp3",
+        "bon jovi|it s my life": "audio/bon-jovi-its-my-life.mp3",
+        "bon jovi|its my life": "audio/bon-jovi-its-my-life.mp3",
+        "bon jovi|you give love a bad name": "audio/bon-jovi-you-give-love-a-bad-name.mp3",
+        "dua lipa|houdini": "audio/dua-lipa-houdini.mp3",
+        "the weeknd|blinding lights": "audio/the-weeknd-blinding-lights.mp3",
+        "coldplay|yellow": "audio/coldplay-yellow.m4a",
+        "queen|bohemian rhapsody": "audio/queen-bohemian-rhapsody.m4a",
+        "bad bunny|moscow mule": "audio/bad-bunny-moscow-mule.mp3",
+        "bad bunny|efecto": "audio/bad-bunny-efecto.mp3",
+        "mana|mariposa traicionera": "audio/mana-mariposa-traicionera.mp3",
+        "mana|labios compartidos": "audio/mana-labios-compartidos.mp3",
+        "mana|rayando el sol": "audio/mana-rayando-el-sol.mp3",
+        "mana|en el muelle de san blas": "audio/mana-en-el-muelle-de-san-blas.mp3",
+        "xavi|nadie te extrana": "audio/xavi-nadie-te-extrana.mp3",
+        "2cellos|welcome to the jungle": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/2CELLOS.-.Welcome.to.the.Jungle.mp3",
+        "adele|easy on me test 102": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/adele--easy-on-me--test-102.mp3",
+        "adele|easy on me": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Adele.-.Easy.On.Me.mp3",
+        "adele|hello": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Adele.-.Hello.mp3",
+        "aldus|clasica": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Aldus.-.Clasica.mp3",
+        "bad bunny|agosto": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Bad.Bunny.-.Agosto.mp3",
+        "bad bunny|baile inolvidable": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Bad.Bunny.-.BAILE.INoLVIDABLE.mp3",
+        "bad bunny|dtmf": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Bad.Bunny.-.DtMF.mp3",
+        "bad bunny|eoo": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Bad.Bunny.-.EoO.mp3",
+        "bad bunny|nuevayol": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Bad.Bunny.-.NUEVAYoL.mp3",
+        "bad bunny|un verano sin ti": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Bad.Bunny.-.Un.Verano.Sin.Ti.mp3",
+        "berywam|shape of you": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Berywam.-.Shape.Of.You.mp3",
+        "bon jovi|because we can": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Bon.Jovi.-.Because.We.Can.mp3",
+        "bon jovi|runaway": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Bon.Jovi.-.Runaway.mp3",
+        "bon jovi|wanted dead or alive": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Bon.Jovi.-.Wanted.Dead.Or.Alive.mp3",
+        "boyce avenue|shape of you": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Boyce.Avenue.-.Shape.of.You.mp3",
+        "c jerome|dernier baiser": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/C.Jerome.-.Dernier.baiser.mp3",
+        "c jerome|et tu danses avec lui": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/C.Jerome.-.Et.tu.danses.avec.lui.mp3",
+        "c jerome|jerome c est moi": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/C.Jerome.-.Jerome.c.est.moi.mp3",
+        "canserbero|de la vida como pelicula y su tragedia comedia y f test pelicula dl": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/canserbero--de-la-vida-como-pelicula-y-su-tragedia-comedia-y-f--test-pelicula-dl.mp3",
+        "canserbero|c est la mort": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Canserbero.-.C.est.La.Mort.mp3",
+        "canserbero|canpesino": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Canserbero.-.Canpesino.mp3",
+        "canserbero|cuando vayas conmigo": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Canserbero.-.Cuando.Vayas.Conmigo.mp3",
+        "canserbero|de la vida como pelicula tragedia comedia y ficcion": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Canserbero.-.De.la.Vida.Como.Pelicula.Tragedia.Comedia.y.Ficcion.mp3",
+        "canserbero|de la vida como pelicula y su tragedia comedia y ficcion": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Canserbero.-.De.la.Vida.Como.Pelicula.y.Su.Tragedia.Comedia.y.Ficcion.mp3",
+        "canserbero|jamming sin fronteras": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Canserbero.-.Jamming.Sin.Fronteras.mp3",
+        "canserbero|manana sera otro dia": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Canserbero.-.Manana.Sera.Otro.Dia.mp3",
+        "canserbero|na": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Canserbero.-.Na.mp3",
+        "canserbero|quisiera": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Canserbero.-.Quisiera.mp3",
+        "canserbero|sin mercy": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Canserbero.-.Sin.Mercy.mp3",
+        "canserbero|stupid love story": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Canserbero.-.Stupid.Love.Story.mp3",
+        "canserbero|tripolar": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Canserbero.-.Tripolar.mp3",
+        "canserbero|y la felicidad que": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Canserbero.-.Y.la.Felicidad.Que.mp3",
+        "cartel de santa|cosas de la vida itunes cartel co": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/cartel-de-santa--cosas-de-la-vida--itunes-cartel-co.mp3",
+        "cartel de santa|leve test leve": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/cartel-de-santa--leve--test-leve.mp3",
+        "cartel de santa|los mensajes del whatsapp deezer 115337615": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/cartel-de-santa--los-mensajes-del-whatsapp--deezer-115337615.mp3",
+        "cartel de santa|vato sencillo itunes cartel va": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/cartel-de-santa--vato-sencillo--itunes-cartel-va.mp3",
+        "cartel|honestly": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Cartel.-.Honestly.mp3",
+        "cartel de santa|bombos y tarolas": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Cartel.De.Santa.-.Bombos.y.Tarolas.mp3",
+        "cartel de santa|burbujas de cristal": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Cartel.De.Santa.-.Burbujas.de.Cristal.mp3",
+        "cartel de santa|cosas de la vida": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Cartel.de.Santa.-.Cosas.de.la.Vida.mp3",
+        "cartel de santa|culon culito": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Cartel.De.Santa.-.Culon.Culito.mp3",
+        "cartel de santa|desde cuando": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Cartel.De.Santa.-.Desde.Cuando.mp3",
+        "cartel de santa|hey si me ven": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Cartel.De.Santa.-.Hey.Si.Me.Ven.mp3",
+        "cartel de santa|la plaga del rap feat arianna puello": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Cartel.de.Santa.-.La.Plaga.del.Rap.feat.Arianna.Puello.mp3",
+        "cartel de santa|leve": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Cartel.De.Santa.-.Leve.mp3",
+        "cartel de santa|los mensajes del whatsapp": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Cartel.De.Santa.-.Los.Mensajes.del.Whatsapp.mp3",
+        "cartel de santa|pollo y conejo": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Cartel.De.Santa.-.Pollo.y.Conejo.mp3",
+        "cartel de santa|shorty party": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Cartel.De.Santa.-.Shorty.Party.mp3",
+        "cartel de santa|si estuviera en dubai": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Cartel.De.Santa.-.Si.Estuviera.en.Dubai.mp3",
+        "cartel de santa|si te vienen a contar": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Cartel.De.Santa.-.Si.Te.Vienen.a.Contar.mp3",
+        "cartel de santa|todas mueren por mi": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Cartel.De.Santa.-.Todas.Mueren.por.Mi.mp3",
+        "charlotte cardin|feel good": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Charlotte.Cardin.-.Feel.Good.mp3",
+        "charlotte cardin|real love": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Charlotte.Cardin.-.Real.Love.mp3",
+        "charlotte cardin|tant pis pour elle": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Charlotte.Cardin.-.Tant.pis.pour.elle.mp3",
+        "coldplay|a sky full of stars": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Coldplay.-.A.Sky.Full.of.Stars.mp3",
+        "coldplay|fix you": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Coldplay.-.Fix.You.mp3",
+        "coldplay|the scientist": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Coldplay.-.The.Scientist.mp3",
+        "coldplay|viva la vida": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Coldplay.-.Viva.La.Vida.mp3",
+        "cookie crumble|shape of you": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Cookie.Crumble.-.Shape.of.You.mp3",
+        "dead cartel|decadent": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Dead.Cartel.-.decadent.mp3",
+        "dua lipa|levitating test dua 1": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/dua-lipa--levitating--test-dua-1.mp3",
+        "ed sheeran|perfect": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Ed.Sheeran.-.Perfect.mp3",
+        "ed sheeran|photograph": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Ed.Sheeran.-.Photograph.mp3",
+        "ed sheeran|shape of you": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Ed.Sheeran.-.Shape.of.You.mp3",
+        "ed sheeran|thinking out loud": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Ed.Sheeran.-.Thinking.out.Loud.mp3",
+        "el chojin|rap vs racismo itunes 423021874": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/el-chojin--rap-vs-racismo--itunes-423021874.mp3",
+        "florencia altieri artista|mananitas de sol": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Florencia.Altieri.Artista.-.Mananitas.De.Sol.mp3",
+        "foreigner|waiting for a girl like you": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Foreigner.-.Waiting.for.a.Girl.like.You.mp3",
+        "funk cartel|you decide": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Funk.Cartel.-.You.Decide.mp3",
+        "guns n roses|welcome to the jungle": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Guns.N.Roses.-.Welcome.To.The.Jungle.mp3",
+        "jamie cullum|shape of you": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Jamie.Cullum.-.Shape.Of.You.mp3",
+        "jay z|welcome to the jungle": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/JAY-Z.-.Welcome.To.The.Jungle.mp3",
+        "juice newton|angel of the morning": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Juice.Newton.-.Angel.Of.The.Morning.mp3",
+        "lola rhodes|shape of you acoustic": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Lola.Rhodes.-.Shape.of.you.Acoustic.mp3",
+        "luis fonsi feat daddy yankee|despacito": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Luis.Fonsi.feat.Daddy.Yankee.-.Despacito.mp3",
+        "mana|clavado en un bar": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Mana.-.Clavado.en.Un.Bar.mp3",
+        "mana|oye mi amor": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Mana.-.Oye.Mi.Amor.mp3",
+        "moonboy|shape of you": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/moonboy.-.Shape.of.You.mp3",
+        "mrd|c": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/MRD.-.c.mp3",
+        "nach|amor libre itunes 213386893": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/nach--amor-libre--itunes-213386893.mp3",
+        "nara|shape of you": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Nara.-.Shape.of.You.mp3",
+        "natanael cano|amg": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Natanael.Cano.-.AMG.mp3",
+        "natanael cano|amor tumbado": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Natanael.Cano.-.Amor.Tumbado.mp3",
+        "natanael cano|diamantes": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Natanael.Cano.-.Diamantes.mp3",
+        "natanael cano|madonna": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Natanael.Cano.-.Madonna.mp3",
+        "natanael cano|mi bello angel": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Natanael.Cano.-.Mi.Bello.Angel.mp3",
+        "natanael cano|olivia la flaka": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Natanael.Cano.-.OLIVIA.LA.FLAKA.mp3",
+        "neirodey|waiting for a girl": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/NeiRodey.-.Waiting.For.A.Girl.mp3",
+        "queen|radio ga ga": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/queen--radio-ga-ga.mp3",
+        "queen|somebody to love test somebody to lov": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/queen--somebody-to-love--test-somebody-to-lov.mp3",
+        "ri|tony sosa feat biba": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/RI.-.Tony.Sosa.feat.Biba.mp3",
+        "ricardo arjona|se ora de las cuatro d cadas": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/ricardo-arjona--se-ora-de-las-cuatro-d-cadas.mp3",
+        "ricardo arjona|cavernicolas": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Ricardo.Arjona.-.Cavernicolas.mp3",
+        "ricardo arjona|como duele": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Ricardo.Arjona.-.Como.Duele.mp3",
+        "ricardo arjona|mujeres": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Ricardo.Arjona.-.Mujeres.mp3",
+        "ricardo arjona|pinguinos en la cama": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Ricardo.Arjona.-.Pinguinos.en.la.Cama.mp3",
+        "ricardo arjona|sin ti sin mi": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Ricardo.Arjona.-.Sin.Ti.Sin.Mi.mp3",
+        "ricardo arjona|te conozco": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Ricardo.Arjona.-.Te.Conozco.mp3",
+        "richard cheese|welcome to the jungle": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Richard.Cheese.-.Welcome.to.the.Jungle.mp3",
+        "rihanna|disturbia": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Rihanna.-.Disturbia.mp3",
+        "rihanna|don t stop the music": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Rihanna.-.Don.t.Stop.The.Music.mp3",
+        "rihanna|love on the brain": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Rihanna.-.Love.On.The.Brain.mp3",
+        "rihanna|only girl in the world": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Rihanna.-.Only.Girl.In.The.World.mp3",
+        "rihanna|s m": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Rihanna.-.S.M.mp3",
+        "rihanna|stay": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Rihanna.-.Stay.mp3",
+        "rihanna|umbrella": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Rihanna.-.Umbrella.mp3",
+        "rnb 2016|lose my breath": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/RnB.2016.-.Lose.My.Breath.mp3",
+        "roddy ricch|aston martin truck": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Roddy.Ricch.-.Aston.Martin.Truck.mp3",
+        "roddy ricch|high fashion feat mustard": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Roddy.Ricch.-.High.Fashion.feat.Mustard.mp3",
+        "roddy ricch|late at night": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Roddy.Ricch.-.late.at.night.mp3",
+        "roddy ricch|the box": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Roddy.Ricch.-.The.Box.mp3",
+        "rosalia|despecha": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Rosalia.-.Despecha.mp3",
+        "roselia|r": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Roselia.-.R.mp3",
+        "rr|crazy in love remix": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Rr.-.Crazy.In.Love.Remix.mp3",
+        "rr|zovi me": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Rr.-.Zovi.Me.mp3",
+        "sampa crew|amor natural": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Sampa.Crew.-.Amor.Natural.mp3",
+        "satorisonida|clasica": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Satorisonida.-.Clasica.mp3",
+        "shakira|hips don t lie": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Shakira.-.Hips.Don.t.Lie.mp3",
+        "shakira|monotonia": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Shakira.-.Monotonia.mp3",
+        "shape|guts": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Shape.-.Guts.mp3",
+        "shape|paranoia": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Shape.-.Paranoia.mp3",
+        "shape of despair|angels of distress": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Shape.Of.Despair.-.Angels.of.Distress.mp3",
+        "shape of despair|down into the stream": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Shape.Of.Despair.-.Down.into.the.Stream.mp3",
+        "shaprostyle|dance away": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Shaprostyle.-.Dance.Away.mp3",
+        "shaprostyle|funk where": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Shaprostyle.-.Funk.Where.mp3",
+        "shaprostyle|pretty brown eyes version 2": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Shaprostyle.-.Pretty.Brown.Eyes.Version.2.mp3",
+        "shaprostyle|take me higher": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Shaprostyle.-.Take.Me.Higher.mp3",
+        "sophie hunger|shape": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Sophie.Hunger.-.Shape.mp3",
+        "sting|shape of my heart": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Sting.-.Shape.Of.My.Heart.mp3",
+        "tanlines|shape of you": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Tanlines.-.Shape.of.You.mp3",
+        "test artist|test song test cors 1": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/test-artist--test-song--test-cors-1.mp3",
+        "the weeknd feat daft punk|starboy": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/The.Weeknd.feat.Daft.Punk.-.Starboy.mp3",
+        "toe|c": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/toe.-.C.mp3",
+        "vacra|fille a papa": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Vacra.-.Fille.a.Papa.mp3",
+        "xavi|la diabla": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Xavi.-.La.Diabla.mp3",
+        "xavi|la victima": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Xavi.-.La.Victima.mp3",
+        "xavi|no capea": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Xavi.-.No.Capea.mp3",
+        "zeze di camargo|amor natural": "https://github.com/gapacheco007-design/pacheking-music/releases/download/biblioteca/Zeze.Di.Camargo.-.Amor.natural.mp3",
+        "ricardo arjona & grupo firme|amor factura": "audio/arjona-amor-factura.mp3",
+        "ricardo arjona y grupo firme|amor factura": "audio/arjona-amor-factura.mp3",
+        "grupo firme & ricardo arjona|amor factura": "audio/arjona-amor-factura.mp3",
+        "grupo firme y ricardo arjona|amor factura": "audio/arjona-amor-factura.mp3",
+        "grupo firme|amor factura": "audio/arjona-amor-factura.mp3",
+        "bon jovi|livin  on a prayer": "audio/bon-jovi-livin-on-a-prayer.mp3",
+        "xavi|nadie te extra\u00f1a": "audio/xavi-nadie-te-extrana.mp3"
+};
 
         function getDirectAudioUrl(artist, title) {
             const clean = s => (s || "").toLowerCase()
-                .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                .normalize("NFD").replace(/[̀-ͯ]/g, "")
                 .replace(/[^a-z0-9]/g, " ")
                 .trim().replace(/\s+/g, " ");
             const a = clean(artist);
             const t = clean(title);
+            if (!a || !t) return null;
 
+            // 1. Direct exact key match
+            const exactKey = a + "|" + t;
+            if (GITHUB_AUDIO_CATALOG[exactKey]) return GITHUB_AUDIO_CATALOG[exactKey];
+
+            // 2. Substring fuzzy match
             for (const [key, path] of Object.entries(GITHUB_AUDIO_CATALOG)) {
                 const [ka, kt] = key.split("|");
-                if ((a.includes(ka) || ka.includes(a)) && (t.includes(kt) || kt.includes(t))) {
+                if (ka && kt && (a.includes(ka) || ka.includes(a)) && (t.includes(kt) || kt.includes(t))) {
                     return path;
                 }
             }
@@ -3227,7 +3372,7 @@
 
 // USER PROFILE & AUTHENTICATION SYSTEM (Independent Accounts with Password)
         const DEFAULT_USERS = [
-            { id: "admin", username: "admin", name: "The King (Admin)", password: "admin", role: "admin", theme: "apple", avatar: "K", createdAt: 1 }
+            { id: "admin", username: "admin", name: "The King", password: "admin", role: "admin", theme: "apple", avatar: "K", createdAt: 1 }
         ];
 
         function getUsersList() {
@@ -3825,26 +3970,117 @@
             }
         }
 
-        // 2. BIBLIOTECA (LIBRARY)
+        // 2. BIBLIOTECA (PER-USER PERSONALIZED LIBRARY)
+        let adminLibraryViewMode = 'personal';
+
+        function setAdminLibraryView(mode) {
+            adminLibraryViewMode = mode;
+            if (currentTab === 'biblioteca') renderCurrentView();
+        }
+
+        function getUserLibraryKey() {
+            const cur = getCurrentUser();
+            return cur ? ('pkm_user_lib_' + cur.id) : 'pkm_user_lib_guest';
+        }
+
+        function getUserLibrary() {
+            try {
+                const raw = localStorage.getItem(getUserLibraryKey());
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    if (Array.isArray(parsed)) return parsed;
+                }
+            } catch (e) {}
+            return [];
+        }
+
+        function saveUserLibrary(tracks) {
+            try {
+                localStorage.setItem(getUserLibraryKey(), JSON.stringify(tracks));
+            } catch (e) {}
+        }
+
+        function isTrackInUserLibrary(track) {
+            if (!track || !track.title) return false;
+            const lib = getUserLibrary();
+            const clean = s => (s || '').toLowerCase().trim();
+            return lib.some(t => clean(t.title) === clean(track.title) && clean(t.artist) === clean(track.artist));
+        }
+
+        function addToUserLibrary(track) {
+            if (!track || !track.title) return;
+            const lib = getUserLibrary();
+            const clean = s => (s || '').toLowerCase().trim();
+            if (lib.some(t => clean(t.title) === clean(track.title) && clean(t.artist) === clean(track.artist))) {
+                showToast("Esta canción ya está en tu biblioteca");
+                return;
+            }
+            const cleanTrack = {
+                id: track.id || ('usr_' + Date.now().toString(36) + '_' + Math.random().toString(36).substr(2, 5)),
+                title: track.title,
+                artist: track.artist,
+                album: track.album || track.title,
+                duration: track.duration || 0,
+                dur_str: track.dur_str || (track.duration ? formatTime(track.duration) : ''),
+                art: track.art || DEFAULT_ART,
+                url: track.url || getDirectAudioUrl(track.artist, track.title) || '',
+                format: 'Full Studio Audio (The King Master)',
+                ready: true
+            };
+            lib.unshift(cleanTrack);
+            saveUserLibrary(lib);
+            showToast(`Guardada en tu biblioteca: ${track.title}`);
+            if (currentTab === 'biblioteca') renderCurrentView();
+            if (currentTab === 'buscar') renderFilteredSearchResults();
+        }
+
+        function removeFromUserLibrary(trackId) {
+            let lib = getUserLibrary();
+            lib = lib.filter(t => t.id !== trackId);
+            saveUserLibrary(lib);
+            showToast("Canción eliminada de tu biblioteca");
+            if (currentTab === 'biblioteca') renderCurrentView();
+            if (currentTab === 'buscar') renderFilteredSearchResults();
+        }
+
         function renderBiblioteca(container) {
+            const curUser = getCurrentUser();
+            const isAdmin = curUser && curUser.role === 'admin';
+            const userLib = getUserLibrary();
+
             const header = document.createElement('div');
             header.className = 'view-header';
-            header.innerHTML = `
-                <h1 class="greeting-title">Tu Biblioteca</h1>
-                <div class="greeting-subtitle">Canciones guardadas en tu biblioteca (${libraryTracks.length})</div>
-            `;
+            const userName = curUser ? curUser.name : 'Invitado';
+
+            if (isAdmin) {
+                header.innerHTML = `
+                    <h1 class="greeting-title">Biblioteca</h1>
+                    <div class="greeting-subtitle">Colección personalizada &bull; ${userName}</div>
+                    <div style="display: flex; gap: 8px; margin-top: 14px;">
+                        <button class="eco-chip ${adminLibraryViewMode === 'personal' ? 'active' : ''}" onclick="setAdminLibraryView('personal')">Mi Biblioteca Personal (${userLib.length})</button>
+                        <button class="eco-chip ${adminLibraryViewMode === 'master' ? 'active' : ''}" onclick="setAdminLibraryView('master')">Catálogo Servidor (${libraryTracks.length})</button>
+                    </div>
+                `;
+            } else {
+                header.innerHTML = `
+                    <h1 class="greeting-title">Tu Biblioteca</h1>
+                    <div class="greeting-subtitle">Colección personal de ${userName} &bull; ${userLib.length} canciones guardadas</div>
+                `;
+            }
             container.appendChild(header);
 
-            if (libraryTracks.length === 0) {
+            const displayList = (isAdmin && adminLibraryViewMode === 'master') ? libraryTracks : userLib;
+
+            if (displayList.length === 0) {
                 const empty = document.createElement('div');
                 empty.className = 'library-empty-state';
                 empty.innerHTML = `
                     <div class="empty-icon-wrap">
                         <svg class="icon" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
                     </div>
-                    <div class="empty-title">Tu biblioteca está vacía</div>
-                    <div class="empty-desc">Busca cualquier canción o álbum y agrégalo a tu biblioteca personal con un solo toque.</div>
-                    <button class="btn-accent" onclick="switchTab('buscar')">Buscar música ahora</button>
+                    <div class="empty-title">Tu biblioteca personal está vacía</div>
+                    <div class="empty-desc">Esta biblioteca es exclusivamente tuya. Busca cualquier canción o artista y agrégala con el botón "+ Biblioteca" para escucharla cuando quieras.</div>
+                    <button class="btn-accent" onclick="switchTab('buscar')" style="margin-top: 16px;">Buscar y agregar canciones</button>
                 `;
                 container.appendChild(empty);
                 return;
@@ -3852,10 +4088,14 @@
 
             const list = document.createElement('div');
             list.className = 'track-list';
-            libraryTracks.forEach((t, idx) => {
+            displayList.forEach((t, idx) => {
                 const row = document.createElement('div');
                 row.className = 'track-row';
-                row.onclick = () => playTrackFromList(libraryTracks, idx);
+                row.onclick = () => playTrackFromList(displayList, idx);
+
+                const isMasterView = isAdmin && adminLibraryViewMode === 'master';
+                const inPersonal = isTrackInUserLibrary(t);
+
                 row.innerHTML = `
                     <img src="${t.art || DEFAULT_ART}" class="track-art-sm" alt="${t.title}" referrerpolicy="no-referrer" loading="lazy" onerror="this.onerror=null; this.src='assets/brand/theking-badge.png';">
                     <div class="track-meta-col">
@@ -3864,9 +4104,15 @@
                     </div>
                     <span class="quality-badge lossless">LOSSLESS</span>
                     <div class="track-actions" onclick="event.stopPropagation()">
-                        <button class="btn-track-action" onclick="deleteFromLibrary('${t.id}')" title="Eliminar de la biblioteca">
-                            <span>Eliminar</span>
-                        </button>
+                        ${isMasterView ? `
+                            <button class="btn-track-action" onclick="addToUserLibrary(${JSON.stringify(t).replace(/"/g, '&quot;')})" title="Agregar a mi biblioteca personal">
+                                <span>${inPersonal ? 'En Mi Biblioteca' : '+ Mi Biblioteca'}</span>
+                            </button>
+                        ` : `
+                            <button class="btn-track-action" onclick="removeFromUserLibrary('${t.id}')" title="Eliminar de mi biblioteca" style="color: #ff4d4d; border-color: rgba(255,77,77,0.3);">
+                                <span>Eliminar</span>
+                            </button>
+                        `}
                     </div>
                 `;
                 list.appendChild(row);
@@ -4046,6 +4292,7 @@
                 const row = document.createElement('div');
                 row.className = 'track-row';
                 row.onclick = () => playTrackFromList(filtered, idx);
+                const inLib = isTrackInUserLibrary(t);
                 row.innerHTML = `
                     <img src="${t.art || DEFAULT_ART}" class="track-art-sm" alt="${t.title}" referrerpolicy="no-referrer" loading="lazy" onerror="this.onerror=null; this.src='assets/brand/theking-badge.png';">
                     <div class="track-meta-col">
@@ -4054,10 +4301,17 @@
                     </div>
                     <span class="quality-badge lossless">LOSSLESS</span>
                     <div class="track-actions" onclick="event.stopPropagation()">
-                        <button class="btn-track-action" onclick="saveTrackToLibrary(${JSON.stringify(t).replace(/"/g, '&quot;')})">
-                            <svg class="icon" style="width: 14px; height: 14px;" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-                            <span>Biblioteca</span>
-                        </button>
+                        ${inLib ? `
+                            <button class="btn-track-action" onclick="removeFromUserLibrary('${t.id}')" style="color: var(--accent); border-color: var(--accent);" title="Guardada en tu biblioteca (clic para quitar)">
+                                <svg class="icon" style="width: 14px; height: 14px; fill: var(--accent);" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                                <span>En Biblioteca</span>
+                            </button>
+                        ` : `
+                            <button class="btn-track-action" onclick="addToUserLibrary(${JSON.stringify(t).replace(/"/g, '&quot;')})" title="Guardar en tu biblioteca personal">
+                                <svg class="icon" style="width: 14px; height: 14px;" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                                <span>+ Biblioteca</span>
+                            </button>
+                        `}
                     </div>
                 `;
                 list.appendChild(row);
@@ -4459,15 +4713,30 @@
                     playUrl = api(`/api/stream?artist=${encodeURIComponent(track.artist)}&title=${encodeURIComponent(track.title)}&duration=${track.duration || 0}`);
                 }
             }
-            
+
+            // Watchdog timer to prevent indefinite "CONECTANDO..." on corporate networks
+            let connectWatchdog = null;
+            if (!playUrl.includes('github.com') && !playUrl.includes('audio/')) {
+                connectWatchdog = setTimeout(() => {
+                    if (audio.readyState === 0 && isPlaying) {
+                        setPlayerBuffering(false);
+                        const qualityBadge = document.getElementById('dock-quality');
+                        if (qualityBadge) qualityBadge.textContent = "BLOQUEO RED";
+                        showToast("Red corporativa bloquea el servidor externo. Reproduce canciones del catálogo directo de GitHub.");
+                    }
+                }, 6500);
+            }
+
             audio.oncanplay = () => {
+                if (connectWatchdog) clearTimeout(connectWatchdog);
                 setPlayerBuffering(false);
                 updatePlayPauseIcons(true);
             };
 
             let retries = 0;
             audio.onerror = () => {
-                if (retries < 2) {
+                if (connectWatchdog) clearTimeout(connectWatchdog);
+                if (retries < 1 && !playUrl.includes('github.com') && !playUrl.includes('audio/')) {
                     retries++;
                     console.log("Reintentando conexion con stream completo de estudio...");
                     setTimeout(() => {
@@ -4477,6 +4746,9 @@
                     }, 1000);
                 } else {
                     setPlayerBuffering(false);
+                    const qualityBadge = document.getElementById('dock-quality');
+                    if (qualityBadge) qualityBadge.textContent = "BLOQUEO RED";
+                    showToast("No se pudo conectar al stream debido al cortafuegos corporativo.");
                 }
             };
 
@@ -4920,22 +5192,42 @@
                 return;
             }
 
+            // 1. Try VPS lyrics endpoint with 3.5s timeout abort
             try {
-                const res = await fetch(api(`/api/lyrics?artist=${encodeURIComponent(artist)}&title=${encodeURIComponent(title)}`));
-                if (!res.ok) throw new Error("Lyrics fetch failed");
-                const data = await res.json();
-
-                if (data.syncedLyrics) {
-                    parseSyncedLyrics(data.syncedLyrics);
-                    renderSyncedLyrics();
-                } else if (data.plainLyrics) {
-                    container.innerHTML = `<div class="lyrics-plain-text">${data.plainLyrics}</div>`;
-                } else {
-                    container.innerHTML = `<div style="padding: 40px 0; color: rgba(255,255,255,0.4); text-align: center;">No se encontraron letras para esta canción.</div>`;
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 3500);
+                const res = await fetch(api(`/api/lyrics?artist=${encodeURIComponent(artist)}&title=${encodeURIComponent(title)}`), { signal: controller.signal });
+                clearTimeout(timeoutId);
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.syncedLyrics) {
+                        parseSyncedLyrics(data.syncedLyrics);
+                        renderSyncedLyrics();
+                        return;
+                    } else if (data.plainLyrics) {
+                        container.innerHTML = `<div class="lyrics-plain-text">${data.plainLyrics}</div>`;
+                        return;
+                    }
                 }
-            } catch (err) {
-                container.innerHTML = `<div style="padding: 40px 0; color: rgba(255,255,255,0.4); text-align: center;">Letras no disponibles.</div>`;
-            }
+            } catch (err) {}
+
+            // 2. Direct public CORS lrclib.net fallback (works on corporate networks where VPS is blocked)
+            try {
+                const lrcRes = await fetch(`https://lrclib.net/api/get?artist_name=${encodeURIComponent(artist)}&track_name=${encodeURIComponent(title)}`);
+                if (lrcRes.ok) {
+                    const lrcData = await lrcRes.json();
+                    if (lrcData.syncedLyrics) {
+                        parseSyncedLyrics(lrcData.syncedLyrics);
+                        renderSyncedLyrics();
+                        return;
+                    } else if (lrcData.plainLyrics) {
+                        container.innerHTML = `<div class="lyrics-plain-text">${lrcData.plainLyrics}</div>`;
+                        return;
+                    }
+                }
+            } catch(e) {}
+
+            container.innerHTML = `<div style="padding: 40px 0; color: rgba(255,255,255,0.4); text-align: center;">Letras no disponibles para esta versión</div>`;
         }
 
         function parseSyncedLyrics(lrcText) {
@@ -5010,22 +5302,14 @@
 
         // SAVE & DOWNLOAD TO LIBRARY
         async function saveTrackToLibrary(track) {
+            addToUserLibrary(track);
             try {
-                const res = await fetch(api('/api/download'), {
+                fetch(api('/api/download'), {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(track)
-                });
-                if (res.ok) {
-                    showToast(`"${track.title}" guardada en tu biblioteca`);
-                    setTimeout(async () => {
-                        await loadLibrary();
-                        if (currentTab === 'biblioteca') renderCurrentView();
-                    }, 2000);
-                }
-            } catch (e) {
-                showToast("Pista añadida a tu biblioteca personal");
-            }
+                }).catch(() => {});
+            } catch(e) {}
         }
 
         async function saveCurrentToLibrary() {
@@ -5047,20 +5331,7 @@
         }
 
         async function deleteFromLibrary(trackId) {
-            if (!confirm("¿Deseas eliminar esta pista de tu biblioteca?")) return;
-            try {
-                const res = await fetch(api('/api/library/delete'), {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ id: trackId })
-                });
-                if (res.ok) {
-                    await loadLibrary();
-                    renderCurrentView();
-                }
-            } catch (e) {
-                showToast("Pista eliminada de tu biblioteca");
-            }
+            removeFromUserLibrary(trackId);
         }
     </script>
 
