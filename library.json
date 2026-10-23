@@ -1,5 +1,5 @@
 {
- "updated": 1792764466,
+ "updated": 1792764469,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -1215,6 +1215,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792764466
+  },
+  {
+   "id": "st-1792764457",
+   "title": "Hey Si Me Ven",
+   "artist": "Cartel De Santa",
+   "album": "",
+   "genre": "Otros",
+   "duration": 220,
+   "dur_str": "3:39 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/f29987567cfa680e67d5fdac882e39bd/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Cartel%20De%20Santa&title=Hey%20Si%20Me%20Ven",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Cartel De Santa/Cartel De Santa - Hey Si Me Ven.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792764468
   }
  ]
 }
