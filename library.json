@@ -1,5 +1,5 @@
 {
- "updated": 1792762903,
+ "updated": 1792762908,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -975,6 +975,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792762903
+  },
+  {
+   "id": "st-1792762895",
+   "title": "Only Girl (In The World)",
+   "artist": "Rihanna",
+   "album": "",
+   "genre": "Otros",
+   "duration": 236,
+   "dur_str": "3:56 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/3a12c64bb52a167944783878ffe41f02/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Rihanna&title=Only%20Girl%20%28In%20The%20World%29",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Rihanna/Rihanna - Only Girl (In The World).mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792762908
   }
  ]
 }
