@@ -1,5 +1,5 @@
 {
- "updated": 1792786782,
+ "updated": 1792786806,
  "tracks": [
   {
    "id": "st-1792735492",
@@ -1924,6 +1924,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792786782
+  },
+  {
+   "id": "st-1792786801",
+   "title": "Procedimientos para llegar a un común acuerdo",
+   "artist": "PXNDX",
+   "album": "",
+   "genre": "Otros",
+   "duration": 191,
+   "dur_str": "3:11 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/512a8b73e1fa06534c1ce1e55fb02311/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=PXNDX&title=Procedimientos%20para%20llegar%20a%20un%20com%C3%BAn%20acuerdo",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/PXNDX/PXNDX - Procedimientos para llegar a un común acuerdo.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792786806
   }
  ]
 }
