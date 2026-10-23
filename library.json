@@ -1,5 +1,5 @@
 {
- "updated": 1792789195,
+ "updated": 1792789202,
  "tracks": [
   {
    "id": "st-1792735492",
@@ -2434,6 +2434,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792789195
+  },
+  {
+   "id": "st-1792789196",
+   "title": "Me Vas a Echar de Menos",
+   "artist": "José José",
+   "album": "",
+   "genre": "Otros",
+   "duration": 177,
+   "dur_str": "2:56 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/29ce0d1b9aafaf5e4664fe2ff7b18abe/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Jos%C3%A9%20Jos%C3%A9&title=Me%20Vas%20a%20Echar%20de%20Menos",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/José José/José José - Me Vas a Echar de Menos.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792789202
   }
  ]
 }
