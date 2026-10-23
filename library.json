@@ -1,5 +1,5 @@
 {
- "updated": 1792787018,
+ "updated": 1792787596,
  "tracks": [
   {
    "id": "st-1792735492",
@@ -2119,6 +2119,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792787018
+  },
+  {
+   "id": "st-1792787591",
+   "title": "La Morrita",
+   "artist": "Xavi",
+   "album": "",
+   "genre": "Otros",
+   "duration": 145,
+   "dur_str": "2:24 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/b90c1595b54063cc36e700b0d11094d7/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Xavi&title=La%20Morrita",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Xavi/Xavi - La Morrita.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792787596
   }
  ]
 }
