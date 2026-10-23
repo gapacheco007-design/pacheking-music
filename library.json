@@ -1,5 +1,5 @@
 {
- "updated": 1792741947,
+ "updated": 1792741949,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -930,6 +930,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792741946
+  },
+  {
+   "id": "st-1792741937",
+   "title": "Mi Bello Angel",
+   "artist": "Natanael Cano",
+   "album": "",
+   "genre": "Otros",
+   "duration": 190,
+   "dur_str": "3:10 min",
+   "art": "",
+   "url": "/api/stream?artist=Natanael%20Cano&title=Mi%20Bello%20Angel",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Natanael Cano/Natanael Cano - Mi Bello Angel.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792741948
   }
  ]
 }
