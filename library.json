@@ -1,5 +1,5 @@
 {
- "updated": 1792778171,
+ "updated": 1792778175,
  "tracks": [
   {
    "id": "af-arjona-grupo-firme",
@@ -1506,6 +1506,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792778171
+  },
+  {
+   "id": "st-1792778168",
+   "title": "Mañana Será Otro Día",
+   "artist": "Canserbero",
+   "album": "",
+   "genre": "Otros",
+   "duration": 197,
+   "dur_str": "3:17 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/431967fe63cfd6f28e750522d5f822b4/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Canserbero&title=Ma%C3%B1ana%20Ser%C3%A1%20Otro%20D%C3%ADa",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Canserbero/Canserbero - Mañana Será Otro Día.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792778175
   }
  ]
 }
