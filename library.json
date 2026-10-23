@@ -1,5 +1,5 @@
 {
- "updated": 1792737148,
+ "updated": 1792737238,
  "tracks": [
   {
    "id": "st-1792733778",
@@ -465,6 +465,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792737146
+  },
+  {
+   "id": "st-1792737232",
+   "title": "Culón Culito",
+   "artist": "Cartel De Santa",
+   "album": "",
+   "genre": "Otros",
+   "duration": 224,
+   "dur_str": "3:43 min",
+   "art": "",
+   "url": "/api/stream?artist=Cartel%20De%20Santa&title=Cul%C3%B3n%20Culito",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Cartel De Santa/Cartel De Santa - Culón Culito.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792737238
   }
  ]
 }
