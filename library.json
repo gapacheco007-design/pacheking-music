@@ -1,5 +1,5 @@
 {
- "updated": 1792737130,
+ "updated": 1792737135,
  "tracks": [
   {
    "id": "st-1792733778",
@@ -360,6 +360,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792737130
+  },
+  {
+   "id": "st-1792737121",
+   "title": "C",
+   "artist": "toe",
+   "album": "",
+   "genre": "Otros",
+   "duration": 248,
+   "dur_str": "4:07 min",
+   "art": "",
+   "url": "/api/stream?artist=toe&title=C",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/toe/toe - C.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792737135
   }
  ]
 }
