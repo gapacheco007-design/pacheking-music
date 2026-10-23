@@ -1,5 +1,5 @@
 {
- "updated": 1792723551,
+ "updated": 1792724166,
  "tracks": [
   {
    "id": "itunes-423021874",
@@ -1211,6 +1211,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792723551
+  },
+  {
+   "id": "st-1792724160",
+   "title": "The Scientist",
+   "artist": "Coldplay",
+   "album": "",
+   "genre": "Otros",
+   "duration": 264,
+   "dur_str": "4:23 min",
+   "art": "",
+   "url": "/api/stream?artist=Coldplay&title=The%20Scientist",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Coldplay/Coldplay - The Scientist.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792724166
   }
  ]
 }
