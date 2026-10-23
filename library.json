@@ -1,5 +1,5 @@
 {
- "updated": 1792742034,
+ "updated": 1792742040,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -1095,6 +1095,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792742034
+  },
+  {
+   "id": "st-1792742024",
+   "title": "Lose My Breath",
+   "artist": "RnB 2016",
+   "album": "",
+   "genre": "Otros",
+   "duration": 212,
+   "dur_str": "3:31 min",
+   "art": "",
+   "url": "/api/stream?artist=RnB%202016&title=Lose%20My%20Breath",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/RnB 2016/RnB 2016 - Lose My Breath.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792742040
   }
  ]
 }
