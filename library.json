@@ -1,5 +1,5 @@
 {
- "updated": 1792741955,
+ "updated": 1792741957,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -960,6 +960,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792741955
+  },
+  {
+   "id": "st-1792741938",
+   "title": "De la Vida Como Pelicula y Su Tragedia, Comedia y Ficción",
+   "artist": "Canserbero",
+   "album": "",
+   "genre": "Otros",
+   "duration": 481,
+   "dur_str": "8:01 min",
+   "art": "",
+   "url": "/api/stream?artist=Canserbero&title=De%20la%20Vida%20Como%20Pelicula%20y%20Su%20Tragedia%2C%20Comedia%20y%20Ficci%C3%B3n",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Canserbero/Canserbero - De la Vida Como Pelicula y Su Tragedia, Comedia y Ficción.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792741956
   }
  ]
 }
