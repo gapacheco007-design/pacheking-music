@@ -1,5 +1,5 @@
 {
- "updated": 1792737146,
+ "updated": 1792737147,
  "tracks": [
   {
    "id": "st-1792733778",
@@ -450,6 +450,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792737143
+  },
+  {
+   "id": "st-1792737132",
+   "title": "Desde Cuándo",
+   "artist": "Cartel De Santa",
+   "album": "",
+   "genre": "Otros",
+   "duration": 216,
+   "dur_str": "3:35 min",
+   "art": "",
+   "url": "/api/stream?artist=Cartel%20De%20Santa&title=Desde%20Cu%C3%A1ndo",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Cartel De Santa/Cartel De Santa - Desde Cuándo.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792737146
   }
  ]
 }
