@@ -1,5 +1,5 @@
 {
- "updated": 1792781574,
+ "updated": 1792781655,
  "tracks": [
   {
    "id": "af-arjona-grupo-firme",
@@ -1641,6 +1641,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792781574
+  },
+  {
+   "id": "st-1792781648",
+   "title": "Clásica",
+   "artist": "Satorisonida",
+   "album": "",
+   "genre": "Otros",
+   "duration": 289,
+   "dur_str": "4:48 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/a6532c9e440bddd84fa18a27ac16e248/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Satorisonida&title=Cl%C3%A1sica",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Satorisonida/Satorisonida - Clásica.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792781655
   }
  ]
 }
