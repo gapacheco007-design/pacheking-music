@@ -9,10 +9,13 @@
     <meta name="theme-color" content="#000000">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>TheKing Music</title>
     <link rel="icon" href="assets/brand/theking-badge.png" type="image/png">
     <script>
-        const APP_BUILD_VERSION = "20261023_v30_independent_auth_and_direct_audio_ecosystem";
+        const APP_BUILD_VERSION = "20261023_v31_full_search_streaming_and_clean_ecosystems";
         if (localStorage.getItem('pkm_build') !== APP_BUILD_VERSION) {
             localStorage.setItem('pkm_build', APP_BUILD_VERSION);
             if ('caches' in window) {
@@ -3132,7 +3135,9 @@
             "mana|mariposa traicionera": "audio/mana-mariposa-traicionera.mp3",
             "mana|labios compartidos": "audio/mana-labios-compartidos.mp3",
             "mana|rayando el sol": "audio/mana-rayando-el-sol.mp3",
-            "mana|en el muelle de san blas": "audio/mana-en-el-muelle-de-san-blas.mp3"
+            "mana|en el muelle de san blas": "audio/mana-en-el-muelle-de-san-blas.mp3",
+            "xavi|nadie te extrana": "audio/xavi-nadie-te-extrana.mp3",
+            "xavi|nadie te extraña": "audio/xavi-nadie-te-extrana.mp3"
         };
 
         function getDirectAudioUrl(artist, title) {
@@ -3928,6 +3933,7 @@
                     duration: Math.round((r.trackTimeMillis || 0) / 1000),
                     dur_str: formatTime(Math.round((r.trackTimeMillis || 0) / 1000)),
                     art: (r.artworkUrl100 || '').replace('100x100bb.jpg', '600x600bb.jpg') || DEFAULT_ART,
+                    previewUrl: r.previewUrl || '',
                     url: getDirectAudioUrl(r.artistName, r.trackName) || api(`/api/stream?artist=${encodeURIComponent(r.artistName)}&title=${encodeURIComponent(r.trackName)}&duration=${Math.round((r.trackTimeMillis || 0) / 1000)}`),
                     format: 'Full Studio Audio (The King Master)',
                     source: 'vps_stream',
@@ -3977,8 +3983,11 @@
                 return;
             }
 
-            // Ensure artwork URLs do not use blocked dzcdn
+            // Ensure all URLs are absolute (targeting VPS when deployed on GitHub Pages) and artwork dzcdn bypassed
             tracks.forEach(t => {
+                if (t.url && !t.url.startsWith('http://') && !t.url.startsWith('https://')) {
+                    t.url = api(t.url);
+                }
                 if (t.art && t.art.includes('dzcdn')) {
                     t.art = DEFAULT_ART;
                 }
@@ -4397,7 +4406,16 @@
 
             // Primary Full Studio Audio Stream (Direct GitHub Audio or VPS)
             const directAudio = getDirectAudioUrl(track.artist, track.title);
-            const vpsStreamUrl = directAudio || track.url || api(`/api/stream?artist=${encodeURIComponent(track.artist)}&title=${encodeURIComponent(track.title)}&duration=${track.duration || 0}`);
+            let playUrl = directAudio;
+            if (!playUrl) {
+                if (track.url && (track.url.startsWith('http://') || track.url.startsWith('https://'))) {
+                    playUrl = track.url;
+                } else if (track.url && track.url.startsWith('/')) {
+                    playUrl = api(track.url);
+                } else {
+                    playUrl = api(`/api/stream?artist=${encodeURIComponent(track.artist)}&title=${encodeURIComponent(track.title)}&duration=${track.duration || 0}`);
+                }
+            }
             
             audio.oncanplay = () => {
                 setPlayerBuffering(false);
@@ -4410,16 +4428,22 @@
                     retries++;
                     console.log("Audio buffering full studio stream...");
                     setTimeout(() => {
-                        audio.src = vpsStreamUrl;
+                        audio.src = playUrl;
                         audio.load();
                         audio.play().catch(() => {});
-                    }, 1500);
+                    }, 1200);
+                } else if (retries === 1 && track.previewUrl) {
+                    retries++;
+                    console.log("Falling back to Apple Music CDN stream preview...");
+                    audio.src = track.previewUrl;
+                    audio.load();
+                    audio.play().catch(() => {});
                 } else {
                     setPlayerBuffering(false);
                 }
             };
 
-            audio.src = vpsStreamUrl;
+            audio.src = playUrl;
             audio.load();
 
             try {
