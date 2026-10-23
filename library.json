@@ -1,5 +1,5 @@
 {
- "updated": 1792778165,
+ "updated": 1792778171,
  "tracks": [
   {
    "id": "af-arjona-grupo-firme",
@@ -1491,6 +1491,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792778165
+  },
+  {
+   "id": "st-1792778165",
+   "title": "Cuando Vayas Conmigo",
+   "artist": "Canserbero",
+   "album": "",
+   "genre": "Otros",
+   "duration": 257,
+   "dur_str": "4:16 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/431967fe63cfd6f28e750522d5f822b4/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Canserbero&title=Cuando%20Vayas%20Conmigo",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Canserbero/Canserbero - Cuando Vayas Conmigo.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792778171
   }
  ]
 }
