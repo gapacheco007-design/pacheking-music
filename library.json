@@ -1,5 +1,5 @@
 {
- "updated": 1792786975,
+ "updated": 1792787013,
  "tracks": [
   {
    "id": "st-1792735492",
@@ -2089,6 +2089,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792786975
+  },
+  {
+   "id": "st-1792787007",
+   "title": "Vamos a Darnos Tiempo",
+   "artist": "José José",
+   "album": "",
+   "genre": "Otros",
+   "duration": 245,
+   "dur_str": "4:05 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/29ce0d1b9aafaf5e4664fe2ff7b18abe/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Jos%C3%A9%20Jos%C3%A9&title=Vamos%20a%20Darnos%20Tiempo",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/José José/José José - Vamos a Darnos Tiempo.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792787013
   }
  ]
 }
