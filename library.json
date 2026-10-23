@@ -1,5 +1,5 @@
 {
- "updated": 1792735963,
+ "updated": 1792736798,
  "tracks": [
   {
    "id": "st-1792733778",
@@ -255,6 +255,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792735963
+  },
+  {
+   "id": "st-1792736793",
+   "title": "Mujeres",
+   "artist": "Ricardo Arjona",
+   "album": "",
+   "genre": "Otros",
+   "duration": 204,
+   "dur_str": "3:24 min",
+   "art": "",
+   "url": "/api/stream?artist=Ricardo%20Arjona&title=Mujeres",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Ricardo Arjona/Ricardo Arjona - Mujeres.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792736798
   }
  ]
 }
