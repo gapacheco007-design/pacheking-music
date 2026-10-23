@@ -1,5 +1,5 @@
 {
- "updated": 1792742040,
+ "updated": 1792742042,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -1107,6 +1107,21 @@
    "art": "",
    "url": "/api/stream?artist=RnB%202016&title=Lose%20My%20Breath",
    "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/RnB 2016/RnB 2016 - Lose My Breath.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792742040
+  },
+  {
+   "id": "st-1792742026",
+   "title": "Starboy",
+   "artist": "The Weeknd feat. Daft Punk",
+   "album": "",
+   "genre": "Otros",
+   "duration": 236,
+   "dur_str": "3:56 min",
+   "art": "",
+   "url": "/api/stream?artist=The%20Weeknd%20feat.%20Daft%20Punk&title=Starboy",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/The Weeknd feat. Daft Punk/The Weeknd feat. Daft Punk - Starboy.mp3",
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792742040
