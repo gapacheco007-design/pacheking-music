@@ -2334,8 +2334,7 @@
                 }
             }
 
-            // 3. Online Track: Priority is resolving the FULL STUDIO SONG online!
-            // NEVER play 30s preview. Only play when the full complete track is found.
+            // 3. Online Track: Connect directly via VPS stream endpoint
             barPill.className = 'quality-pill';
             barPill.innerText = 'CONECTANDO CANCIÓN COMPLETA...';
             showToast(`Conectando pista completa: ${track.title}...`);
@@ -2350,17 +2349,6 @@
                 }
             } catch (err) {
                 console.warn("Resolve stream error:", err);
-            }
-
-            // Fallback retry without duration parameter in case duration varied
-            if (!resolvedData || !resolvedData.url) {
-                try {
-                    const resolveUrl2 = `${VPS_API_BASE}/api/resolve?artist=${encodeURIComponent(track.artist)}&title=${encodeURIComponent(track.title)}`;
-                    const res2 = await fetch(resolveUrl2);
-                    if (res2.ok) {
-                        resolvedData = await res2.json();
-                    }
-                } catch (e2) {}
             }
 
             if (resolvedData && resolvedData.url) {
@@ -2379,16 +2367,15 @@
                 return;
             }
 
-            // If no full version could be found online: Clean error, NEVER play 30s snippet
+            // Direct fallback to stream endpoint if resolve timed out
+            const directStreamUrl = `${VPS_API_BASE}/api/stream?artist=${encodeURIComponent(track.artist)}&title=${encodeURIComponent(track.title)}&duration=${track.duration || 0}`;
+            track.url = directStreamUrl;
+            track.source = 'vps_stream';
+            track.format = 'Full Studio Audio (VPS Master)';
+            track.is_preview = false;
+            loadAndPlayAudio(directStreamUrl, track);
             barPill.className = 'quality-pill';
-            barPill.innerText = 'CANCIÓN NO ENCONTRADA';
-            showToast(`No se encontró versión completa para ${track.title}`);
-            if (isPlaying) {
-                audio.pause();
-                isPlaying = false;
-                updatePlayBtn();
-                updateNowPlayingPlayBtn();
-            }
+            barPill.innerText = 'CANCIÓN COMPLETA';
         }
 
         function loadAndPlayAudio(url, track, seekToTime = 0, autoPlay = true) {
@@ -2398,57 +2385,21 @@
                 url = VPS_API_BASE + url;
             }
 
-            const isHls = url.includes('.m3u8') || url.includes('/playlist');
+            if (hlsPlayer) {
+                try { hlsPlayer.destroy(); } catch(_) {}
+                hlsPlayer = null;
+            }
 
-            if (isHls && window.Hls && Hls.isSupported()) {
-                if (hlsPlayer) {
-                    hlsPlayer.destroy();
-                }
-                hlsPlayer = new Hls({ 
-                    enableWorker: true,
-                    lowLatencyMode: true,
-                    backBufferLength: 90
-                });
-                hlsPlayer.loadSource(url);
-                hlsPlayer.attachMedia(audio);
-                hlsPlayer.on(Hls.Events.MANIFEST_PARSED, () => {
-                    if (seekToTime > 0) {
-                        try { audio.currentTime = seekToTime; } catch(_) {}
-                    }
-                    if (autoPlay) {
-                        audio.play().then(() => {
-                            isPlaying = true;
-                            updatePlayBtn();
-                            updateNowPlayingPlayBtn();
-                        }).catch(e => console.log("Play interact requirement:", e));
-                    }
-                });
-                hlsPlayer.on(Hls.Events.ERROR, (event, data) => {
-                    if (data.fatal) {
-                        console.warn("HLS fatal error, falling back to direct stream:", data);
-                        try { hlsPlayer.destroy(); } catch(_) {}
-                        hlsPlayer = null;
-                        const fallbackUrl = url.replace('/api/hls/stream.m3u8', '/api/stream');
-                        audio.src = fallbackUrl;
-                        audio.play().catch(e => console.log("Fallback play err:", e));
-                    }
-                });
-            } else {
-                if (hlsPlayer) {
-                    hlsPlayer.destroy();
-                    hlsPlayer = null;
-                }
-                audio.src = url;
-                if (seekToTime > 0) {
-                    try { audio.currentTime = seekToTime; } catch(_) {}
-                }
-                if (autoPlay) {
-                    audio.play().then(() => {
-                        isPlaying = true;
-                        updatePlayBtn();
-                        updateNowPlayingPlayBtn();
-                    }).catch(e => console.log("Play interact requirement:", e));
-                }
+            audio.src = url;
+            if (seekToTime > 0) {
+                try { audio.currentTime = seekToTime; } catch(_) {}
+            }
+            if (autoPlay) {
+                audio.play().then(() => {
+                    isPlaying = true;
+                    updatePlayBtn();
+                    updateNowPlayingPlayBtn();
+                }).catch(e => console.log("Play interact requirement:", e));
             }
 
             const isHiRes = (track.format && track.format.includes('24-bit')) || (track.quality && track.quality.includes('24'));
@@ -2771,6 +2722,21 @@
                 }
             }
 
+            // 3. Search fallback on LRCLIB
+            if (!lyricsData) {
+                try {
+                    const searchUrl = `https://lrclib.net/api/search?q=${encodeURIComponent(cleanArtist + ' ' + cleanTitle)}`;
+                    const res = await fetch(searchUrl);
+                    if (res.ok) {
+                        const items = await res.json();
+                        if (items && items.length > 0) {
+                            const top = items.find(x => x.syncedLyrics || x.plainLyrics);
+                            if (top) lyricsData = top;
+                        }
+                    }
+                } catch (_) {}
+            }
+
             if (lyricsData && lyricsData.syncedLyrics) {
                 badge.innerText = 'Sincronizada';
                 badge.style.display = 'inline-block';
@@ -2941,15 +2907,15 @@
 
             const qLower = query.toLowerCase();
             const localMatches = catalog.filter(t => 
-                t.title.toLowerCase().includes(qLower) || 
-                t.artist.toLowerCase().includes(qLower) || 
+                (t.title && t.title.toLowerCase().includes(qLower)) || 
+                (t.artist && t.artist.toLowerCase().includes(qLower)) || 
                 (t.album && t.album.toLowerCase().includes(qLower))
             );
 
             const container = document.getElementById('content-scroll');
             container.innerHTML = `
                 <h1 class="view-title">Resultados para "${query}"</h1>
-                <p id="search-status-sub" class="view-subtitle">${localMatches.length} en tu biblioteca. Buscando en catálogo del servidor VPS...</p>
+                <p id="search-status-sub" class="view-subtitle">${localMatches.length} en tu biblioteca. Buscando resultados globales...</p>
                 <div id="search-container-results"></div>
             `;
 
@@ -2967,94 +2933,69 @@
             // Check client memory cache first for instant 0ms result
             if (clientSearchCache.has(qLower)) {
                 const cachedData = clientSearchCache.get(qLower);
-                renderOnlineSearchResults(cachedData, localMatches.length);
+                renderDirectOnlineSearchResults(cachedData, localMatches.length);
                 return;
             }
 
-            // Abort previous pending search request if still in flight
             if (searchAbortController) {
                 try { searchAbortController.abort(); } catch(_) {}
             }
             searchAbortController = new AbortController();
 
-            // 1. High-Speed Unified Search API executed directly on VPS (unblocked, multi-source)
-            let vpsSearchSuccess = false;
+            // Direct High-Speed Client Search to Apple iTunes API (sub-50ms worldwide, CORS enabled)
             try {
-                const res = await fetch(`${VPS_API_BASE}/api/search?q=${encodeURIComponent(query)}`, {
-                    signal: searchAbortController.signal
-                });
+                const itunesUrl = `https://itunes.apple.com/search?term=${encodeURIComponent(query)}&media=music&entity=song&limit=25`;
+                const res = await fetch(itunesUrl, { signal: searchAbortController.signal });
                 if (res.ok) {
                     const data = await res.json();
-                    vpsSearchSuccess = true;
-                    clientSearchCache.set(qLower, data);
-                    renderOnlineSearchResults(data, localMatches.length);
+                    const results = data.results || [];
+                    clientSearchCache.set(qLower, results);
+                    renderDirectOnlineSearchResults(results, localMatches.length);
                     return;
                 }
-            } catch (vpsErr) {
-                if (vpsErr.name === 'AbortError') return;
-                console.warn("VPS search API unreachable, falling back to JSONP:", vpsErr);
+            } catch (err) {
+                if (err.name === 'AbortError') return;
+                console.warn("Direct iTunes fetch failed, falling back to JSONP:", err);
             }
 
-            if (!vpsSearchSuccess) {
-                // 2. Client-side fallback: JSONP iTunes Search
-                const old = document.getElementById('itunes-jsonp');
-                if (old) old.remove();
-                const s = document.createElement('script');
-                s.id = 'itunes-jsonp';
-                s.src = `https://itunes.apple.com/search?term=${encodeURIComponent(query)}&media=music&entity=song&limit=15&callback=onOnlineSearchResults`;
-                document.body.appendChild(s);
-            }
+            // Client-side JSONP Fallback
+            const old = document.getElementById('itunes-jsonp');
+            if (old) old.remove();
+            const s = document.createElement('script');
+            s.id = 'itunes-jsonp';
+            s.src = `https://itunes.apple.com/search?term=${encodeURIComponent(query)}&media=music&entity=song&limit=25&callback=onDirectOnlineSearchResults`;
+            document.body.appendChild(s);
         }
 
-        function renderOnlineSearchResults(data, localCount) {
+        function renderDirectOnlineSearchResults(results, localCount) {
             const resultsBox = document.getElementById('search-container-results');
             if (!resultsBox) return;
 
-            const sub = document.getElementById('search-status-sub');
-            const onlineCount = (data.online && Array.isArray(data.online)) ? data.online.length : 0;
-            const totalLocal = (data.local && Array.isArray(data.local)) ? data.local.length : localCount;
-
-            if (sub) {
-                sub.innerText = `${totalLocal + onlineCount} canciones disponibles al instante.`;
-            }
-
-            if (data.online && data.online.length > 0) {
-                onlineSearchResultsCache = data.online;
-                const existingOnlineHead = document.getElementById('online-results-head');
-                if (existingOnlineHead) existingOnlineHead.remove();
-                const existingOnlineTable = document.getElementById('online-results-table');
-                if (existingOnlineTable) existingOnlineTable.remove();
-
-                const subHead = document.createElement('h3');
-                subHead.id = 'online-results-head';
-                subHead.className = 'section-title';
-                subHead.style.marginTop = '28px';
-                subHead.style.marginBottom = '12px';
-                subHead.innerText = 'Resultados en línea (Reproducir al instante / Guardar en VPS)';
-                resultsBox.appendChild(subHead);
-
-                const table = renderTracksTable(data.online, true);
-                table.id = 'online-results-table';
-                resultsBox.appendChild(table);
-            }
-        }
-
-        window.onOnlineSearchResults = function(data) {
-            const resultsBox = document.getElementById('search-container-results');
-            if (!resultsBox) return;
-
-            const results = data?.results || [];
+            const seen = new Set();
             const onlineTracks = [];
 
-            results.forEach(item => {
-                const title = item.trackName || '';
-                const artist = item.artistName || '';
-                const exists = catalog.some(t => t.title.toLowerCase() === title.toLowerCase() && t.artist.toLowerCase() === artist.toLowerCase());
-                if (exists) return;
+            (results || []).forEach(item => {
+                const title = (item.trackName || '').trim();
+                const artist = (item.artistName || '').trim();
+                if (!title || !artist) return;
+
+                const key = `${artist.toLowerCase()}---${title.toLowerCase()}`;
+                if (seen.has(key)) return;
+                seen.add(key);
 
                 const durSec = Math.round((item.trackTimeMillis || 210000) / 1000);
                 const durStr = `${Math.floor(durSec / 60)}:${(durSec % 60).toString().padStart(2, '0')} min`;
-                const streamUrl = `/api/stream?artist=${encodeURIComponent(artist)}&title=${encodeURIComponent(title)}`;
+                const art = (item.artworkUrl100 || '').replace('100x100bb', '600x600bb');
+
+                // Check if track is already downloaded in local library
+                const isLocal = catalog.some(t => 
+                    t.title && t.artist &&
+                    t.title.toLowerCase().trim() === title.toLowerCase() &&
+                    t.artist.toLowerCase().trim() === artist.toLowerCase() &&
+                    t.url && !t.url.includes('apple.com')
+                );
+
+                const streamUrl = `/api/stream?artist=${encodeURIComponent(artist)}&title=${encodeURIComponent(title)}&duration=${durSec}`;
 
                 onlineTracks.push({
                     id: `itunes-${item.trackId}`,
@@ -3064,26 +3005,51 @@
                     genre: item.primaryGenreName || 'Música',
                     duration: durSec,
                     dur_str: durStr,
-                    art: (item.artworkUrl100 || '').replace('100x100bb', '600x600bb'),
+                    art: art,
                     url: streamUrl,
                     format: 'Full Studio Audio (VPS Master)',
-                    source: 'vps_stream',
+                    source: isLocal ? 'vps_library' : 'vps_stream',
+                    is_local: isLocal,
                     ready: true
                 });
             });
 
             onlineSearchResultsCache = onlineTracks;
 
+            const sub = document.getElementById('search-status-sub');
+            if (sub) {
+                sub.innerText = `${localCount + onlineTracks.length} canciones encontradas al instante.`;
+            }
+
             if (onlineTracks.length > 0) {
+                const existingHead = document.getElementById('online-results-head');
+                if (existingHead) existingHead.remove();
+                const existingTable = document.getElementById('online-results-table');
+                if (existingTable) existingTable.remove();
+
                 const subHead = document.createElement('h3');
+                subHead.id = 'online-results-head';
                 subHead.className = 'section-title';
                 subHead.style.marginTop = '28px';
                 subHead.style.marginBottom = '12px';
                 subHead.innerText = 'Resultados en línea (Reproducir al instante / Guardar en VPS)';
                 resultsBox.appendChild(subHead);
-                resultsBox.appendChild(renderTracksTable(onlineTracks, true));
+
+                const table = renderTracksTable(onlineTracks, true);
+                table.id = 'online-results-table';
+                resultsBox.appendChild(table);
             }
+        }
+
+        window.onDirectOnlineSearchResults = function(data) {
+            const qLower = (document.getElementById('global-search')?.value || '').trim().toLowerCase();
+            const localMatches = catalog.filter(t => 
+                (t.title && t.title.toLowerCase().includes(qLower)) || 
+                (t.artist && t.artist.toLowerCase().includes(qLower))
+            );
+            renderDirectOnlineSearchResults(data?.results || [], localMatches.length);
         };
+        window.onOnlineSearchResults = window.onDirectOnlineSearchResults;
 
         // Keyboard Shortcuts
         window.addEventListener('keydown', (e) => {
