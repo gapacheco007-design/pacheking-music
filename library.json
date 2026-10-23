@@ -1,5 +1,5 @@
 {
- "updated": 1792739289,
+ "updated": 1792739297,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -585,6 +585,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792739289
+  },
+  {
+   "id": "st-1792739285",
+   "title": "Dance Away",
+   "artist": "Shaprostyle",
+   "album": "",
+   "genre": "Otros",
+   "duration": 173,
+   "dur_str": "2:52 min",
+   "art": "",
+   "url": "/api/stream?artist=Shaprostyle&title=Dance%20Away",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Shaprostyle/Shaprostyle - Dance Away.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792739297
   }
  ]
 }
