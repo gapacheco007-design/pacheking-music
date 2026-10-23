@@ -1,5 +1,5 @@
 {
- "updated": 1792716522,
+ "updated": 1792717357,
  "tracks": [
   {
    "id": "itunes-423021874",
@@ -1095,6 +1095,21 @@
    "format": "FLAC / MP3 320k Master",
    "source": "vps_library",
    "added": 1792716522
+  },
+  {
+   "id": "test-102",
+   "title": "Easy On Me",
+   "artist": "Adele",
+   "album": "30",
+   "genre": "Otros",
+   "duration": 220,
+   "dur_str": "3:40 min",
+   "art": "",
+   "url": "/api/stream?artist=Adele&title=Easy%20On%20Me",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Adele/Adele - Easy On Me.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792717357
   }
  ]
 }
