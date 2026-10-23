@@ -12,7 +12,7 @@
     <title>TheKing Music</title>
     <link rel="icon" href="assets/brand/theking-badge.png" type="image/png">
     <script>
-        const APP_BUILD_VERSION = "20261023_v15_mornye_clean_reset";
+        const APP_BUILD_VERSION = "20261023_v18_instant_explore_stream_fix";
         if (localStorage.getItem('pkm_build') !== APP_BUILD_VERSION) {
             localStorage.setItem('pkm_build', APP_BUILD_VERSION);
             if ('caches' in window) {
@@ -29,7 +29,7 @@
             --bg-card: rgba(26, 26, 30, 0.7);
             --bg-card-hover: rgba(38, 38, 44, 0.85);
             --bg-glass: rgba(18, 18, 20, 0.78);
-            --bg-glass-strong: rgba(22, 22, 26, 0.92);
+            --bg-glass-strong: rgba(22, 22, 26, 0.94);
             --border-subtle: rgba(255, 255, 255, 0.08);
             --border-hover: rgba(255, 255, 255, 0.18);
             --accent: #fa233b;
@@ -285,18 +285,6 @@
             font-weight: 700;
             letter-spacing: -0.3px;
             color: var(--text-primary);
-        }
-
-        .shelf-link {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--accent);
-            cursor: pointer;
-            text-decoration: none;
-        }
-
-        .shelf-link:hover {
-            color: var(--accent-hover);
         }
 
         /* FEATURED EDITORIAL CAROUSEL */
@@ -807,24 +795,6 @@
         .btn-track-action:hover {
             background: rgba(255, 255, 255, 0.15);
             border-color: var(--border-hover);
-        }
-
-        .btn-icon-round {
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.08);
-            border: none;
-            color: var(--text-primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.18s ease;
-        }
-
-        .btn-icon-round:hover {
-            background: rgba(255, 255, 255, 0.18);
         }
 
         /* SETTINGS VIEW */
@@ -1693,7 +1663,102 @@
     </div>
 
     <script>
-        // CORE APPLICATION STATE
+        // VPS API ROUTING (Supports both direct Cloudflare domain and GitHub Pages origin)
+        const API_BASE = (window.location.hostname.includes('thekinghub.com') || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.port === '8082') 
+            ? '' 
+            : 'https://music.thekinghub.com';
+
+        function api(path) {
+            return API_BASE + path;
+        }
+
+        const DEFAULT_ART = "assets/brand/theking-badge.png";
+
+        // EMBEDDED EXPLORE DATA: Loads 100% instantly (0ms) so the home view never gets stuck
+        const DEFAULT_EXPLORE_DATA = {
+            "greeting": "Bienvenido",
+            "subtitle": "TheKing Music",
+            "featured": [
+                {
+                    "id": "feat-1",
+                    "title": "Houdini",
+                    "artist": "Dua Lipa",
+                    "album": "Radical Optimism",
+                    "genre": "Pop",
+                    "duration": 185,
+                    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/4e/d8/d5/4ed8d5c4-d130-1b77-384c-354a37b3f46a/23UMGIM98242.rgb.jpg/600x600bb.jpg",
+                    "tag": "Audio Master Hi-Res"
+                },
+                {
+                    "id": "feat-2",
+                    "title": "Tití Me Preguntó",
+                    "artist": "Bad Bunny",
+                    "album": "Un Verano Sin Ti",
+                    "genre": "Urbano Latino",
+                    "duration": 243,
+                    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/21/53/78/21537841-860f-cc1e-0cf6-f80e927cb09b/196626880572.jpg/600x600bb.jpg",
+                    "tag": "Audio Lossless"
+                },
+                {
+                    "id": "feat-3",
+                    "title": "Blinding Lights",
+                    "artist": "The Weeknd",
+                    "album": "After Hours",
+                    "genre": "R&B / Synthpop",
+                    "duration": 200,
+                    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/a4/09/b3/a409b30b-fc5e-fa25-c64d-5872c67675e1/00077774600125.rgb.jpg/600x600bb.jpg",
+                    "tag": "Estudio Master"
+                },
+                {
+                    "id": "feat-4",
+                    "title": "Yellow",
+                    "artist": "Coldplay",
+                    "album": "Parachutes",
+                    "genre": "Rock Alternativo",
+                    "duration": 269,
+                    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/3d/8d/8a/3d8d8a7c-3f2d-e25f-255e-21fa864f1418/724352778358.jpg/600x600bb.jpg",
+                    "tag": "Lossless 24-bit"
+                },
+                {
+                    "id": "feat-5",
+                    "title": "Bohemian Rhapsody",
+                    "artist": "Queen",
+                    "album": "A Night at the Opera",
+                    "genre": "Rock Clásico",
+                    "duration": 354,
+                    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/fd/14/b8/fd14b8ea-92b0-8f92-ec7a-248aaef49c1b/00602527718023.rgb.jpg/600x600bb.jpg",
+                    "tag": "Hi-Res Studio"
+                }
+            ],
+            "quick_picks": [
+                {"title": "Mariposa Traicionera", "artist": "Maná", "album": "Revolución de Amor", "genre": "Pop Latino", "duration": 265, "art": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/09/a4/1c/09a41c1c-905b-a815-568d-8a5ff69d255a/0825646194781.jpg/600x600bb.jpg"},
+                {"title": "Starboy", "artist": "The Weeknd feat. Daft Punk", "album": "Starboy", "genre": "R&B / Pop", "duration": 230, "art": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/4f/2e/d5/4f2ed5f4-3ea3-9060-e64e-b565a4faeead/16UMGIM56637.rgb.jpg/600x600bb.jpg"},
+                {"title": "Shape of You", "artist": "Ed Sheeran", "album": "÷ (Divide)", "genre": "Pop", "duration": 233, "art": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/18/7b/78/187b78ca-d122-f947-a7eb-6c9c6426477e/190295851286.jpg/600x600bb.jpg"},
+                {"title": "Billie Jean", "artist": "Michael Jackson", "album": "Thriller", "genre": "Pop / Dance", "duration": 294, "art": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/55/a2/11/55a21193-4554-1598-bbef-b122093e0624/886445582998.jpg/600x600bb.jpg"},
+                {"title": "Viva La Vida", "artist": "Coldplay", "album": "Viva la Vida", "genre": "Rock Alternativo", "duration": 242, "art": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/f0/ea/91/f0ea91b2-c0cb-d26b-640a-5b65ff7ea843/5099969695655.jpg/600x600bb.jpg"},
+                {"title": "Despacito", "artist": "Luis Fonsi feat. Daddy Yankee", "album": "VIDA", "genre": "Pop Latino", "duration": 228, "art": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/a7/bd/e6/a7bde6b1-09eb-b054-9eb0-e1967a57a159/18UMGIM78051.rgb.jpg/600x600bb.jpg"}
+            ],
+            "genres": [
+                {"id": "pop", "name": "Pop", "gradient": "linear-gradient(135deg, #fa233b 0%, #ff5277 100%)"},
+                {"id": "urbano", "name": "Urbano Latino", "gradient": "linear-gradient(135deg, #f59e0b 0%, #ea580c 100%)"},
+                {"id": "rock", "name": "Rock", "gradient": "linear-gradient(135deg, #dc2626 0%, #991b1b 100%)"},
+                {"id": "electronic", "name": "Electrónica", "gradient": "linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)"},
+                {"id": "rnb", "name": "R&B / Soul", "gradient": "linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%)"},
+                {"id": "baladas", "name": "Baladas & Boleros", "gradient": "linear-gradient(135deg, #ec4899 0%, #be185d 100%)"},
+                {"id": "hiphop", "name": "Hip-Hop & Rap", "gradient": "linear-gradient(135deg, #10b981 0%, #047857 100%)"},
+                {"id": "clasica", "name": "Clásica", "gradient": "linear-gradient(135deg, #64748b 0%, #334155 100%)"}
+            ],
+            "albums": [
+                {"id": "alb-1", "title": "Un Verano Sin Ti", "artist": "Bad Bunny", "year": "2022", "art": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/21/53/78/21537841-860f-cc1e-0cf6-f80e927cb09b/196626880572.jpg/600x600bb.jpg"},
+                {"id": "alb-2", "title": "After Hours", "artist": "The Weeknd", "year": "2020", "art": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/a4/09/b3/a409b30b-fc5e-fa25-c64d-5872c67675e1/00077774600125.rgb.jpg/600x600bb.jpg"},
+                {"id": "alb-3", "title": "Radical Optimism", "artist": "Dua Lipa", "year": "2024", "art": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/4e/d8/d5/4ed8d5c4-d130-1b77-384c-354a37b3f46a/23UMGIM98242.rgb.jpg/600x600bb.jpg"},
+                {"id": "alb-4", "title": "Parachutes", "artist": "Coldplay", "year": "2000", "art": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/3d/8d/8a/3d8d8a7c-3f2d-e25f-255e-21fa864f1418/724352778358.jpg/600x600bb.jpg"},
+                {"id": "alb-5", "title": "A Night at the Opera", "artist": "Queen", "year": "1975", "art": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/fd/14/b8/fd14b8ea-92b0-8f92-ec7a-248aaef49c1b/00602527718023.rgb.jpg/600x600bb.jpg"},
+                {"id": "alb-6", "title": "Thriller", "artist": "Michael Jackson", "year": "1982", "art": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/55/a2/11/55a21193-4554-1598-bbef-b122093e0624/886445582998.jpg/600x600bb.jpg"}
+            ]
+        };
+
+        // APPLICATION STATE
         let currentTab = 'inicio';
         let currentTrack = null;
         let playbackQueue = [];
@@ -1703,24 +1768,23 @@
         let isRepeat = false;
         let currentLyrics = [];
         let isLyricsView = false;
-        let exploreData = null;
+        let exploreData = DEFAULT_EXPLORE_DATA;
         let libraryTracks = [];
 
         const audio = new Audio();
         audio.preload = "auto";
+        audio.crossOrigin = "anonymous";
 
-        const DEFAULT_ART = "assets/brand/theking-badge.png";
-
-        // SVG ICONS
+        // SVG ICONS (NO EMOJIS)
         const SVG_PLAY = '<svg class="icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
         const SVG_PAUSE = '<svg class="icon" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
 
-        // INITIALIZATION
-        window.addEventListener('DOMContentLoaded', async () => {
+        // BOOTSTRAP
+        window.addEventListener('DOMContentLoaded', () => {
             setupAudioListeners();
-            await loadLibrary();
-            await loadExploreFeed();
-            renderCurrentView();
+            renderCurrentView(); // Render instantly with 0ms delay!
+            loadLibrary();
+            loadExploreFeed();
         });
 
         // TABS NAVIGATION
@@ -1767,31 +1831,33 @@
             }
         }
 
-        // FETCH DATA
+        // ASYNC DATA LOAD
         async function loadExploreFeed() {
             try {
-                const res = await fetch('/api/explore');
+                const res = await fetch(api('/api/explore'));
                 if (res.ok) {
                     exploreData = await res.json();
+                    if (currentTab === 'inicio') renderCurrentView();
                 }
             } catch (e) {
-                console.error("Explore load error:", e);
+                console.warn("Using embedded explore catalog:", e);
             }
         }
 
         async function loadLibrary() {
             try {
-                const res = await fetch('/api/library');
+                const res = await fetch(api('/api/library'));
                 if (res.ok) {
                     const data = await res.json();
                     libraryTracks = data.tracks || [];
+                    if (currentTab === 'biblioteca') renderCurrentView();
                 }
             } catch (e) {
-                console.error("Library load error:", e);
+                console.warn("Library load error:", e);
             }
         }
 
-        // 1. INICIO (HOME / EXPLORE)
+        // 1. INICIO (EXPLORE)
         function renderInicio(container) {
             const hour = new Date().getHours();
             let greeting = "Buenos días";
@@ -1805,11 +1871,6 @@
                 <div class="greeting-subtitle">TheKing Music &bull; Audio Master Sin Pérdida</div>
             `;
             container.appendChild(header);
-
-            if (!exploreData) {
-                container.innerHTML += `<div style="padding: 40px; color: var(--text-secondary); text-align: center;">Cargando catálogo...</div>`;
-                return;
-            }
 
             // Featured Carousel
             if (exploreData.featured && exploreData.featured.length > 0) {
@@ -2028,7 +2089,7 @@
             box.innerHTML = `<div style="padding: 30px 0; color: var(--text-secondary); text-align: center;">Buscando pista de estudio completa...</div>`;
 
             try {
-                const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+                const res = await fetch(api(`/api/search?q=${encodeURIComponent(query)}`));
                 if (!res.ok) throw new Error("Search failed");
                 const data = await res.json();
                 const tracks = (data.online || []).concat(data.local || []);
@@ -2179,8 +2240,8 @@
             updatePlayerUI(track);
             fetchLyrics(track.artist, track.title);
 
-            // Audio stream URL with full duration
-            const streamUrl = `/api/stream?artist=${encodeURIComponent(track.artist)}&title=${encodeURIComponent(track.title)}&duration=${track.duration || 0}`;
+            // Audio stream URL with full duration pointing to VPS
+            const streamUrl = api(`/api/stream?artist=${encodeURIComponent(track.artist)}&title=${encodeURIComponent(track.title)}&duration=${track.duration || 0}`);
             audio.src = streamUrl;
 
             try {
@@ -2396,7 +2457,7 @@
             currentLyrics = [];
 
             try {
-                const res = await fetch(`/api/lyrics?artist=${encodeURIComponent(artist)}&title=${encodeURIComponent(title)}`);
+                const res = await fetch(api(`/api/lyrics?artist=${encodeURIComponent(artist)}&title=${encodeURIComponent(title)}`));
                 if (!res.ok) throw new Error("Lyrics fetch failed");
                 const data = await res.json();
 
@@ -2480,7 +2541,7 @@
         // SAVE & DOWNLOAD TO VPS
         async function saveTrackToLibrary(track) {
             try {
-                const res = await fetch('/api/download', {
+                const res = await fetch(api('/api/download'), {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(track)
@@ -2505,7 +2566,7 @@
 
         function downloadCurrentTrack() {
             if (currentTrack) {
-                const streamUrl = `/api/stream?artist=${encodeURIComponent(currentTrack.artist)}&title=${encodeURIComponent(currentTrack.title)}`;
+                const streamUrl = api(`/api/stream?artist=${encodeURIComponent(currentTrack.artist)}&title=${encodeURIComponent(currentTrack.title)}`);
                 const a = document.createElement('a');
                 a.href = streamUrl;
                 a.download = `${currentTrack.artist} - ${currentTrack.title}.m4a`;
@@ -2518,7 +2579,7 @@
         async function deleteFromLibrary(trackId) {
             if (!confirm("¿Deseas eliminar esta pista de tu biblioteca VPS?")) return;
             try {
-                const res = await fetch('/api/library/delete', {
+                const res = await fetch(api('/api/library/delete'), {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ id: trackId })
