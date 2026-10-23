@@ -1,5 +1,5 @@
 {
- "updated": 1792737618,
+ "updated": 1792739162,
  "tracks": [
   {
    "id": "st-1792733778",
@@ -555,6 +555,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792737616
+  },
+  {
+   "id": "st-1792739155",
+   "title": "Dernier baiser",
+   "artist": "C. Jérôme",
+   "album": "",
+   "genre": "Otros",
+   "duration": 153,
+   "dur_str": "2:33 min",
+   "art": "",
+   "url": "/api/stream?artist=C.%20J%C3%A9r%C3%B4me&title=Dernier%20baiser",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/C. Jérôme/C. Jérôme - Dernier baiser.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792739162
   }
  ]
 }
