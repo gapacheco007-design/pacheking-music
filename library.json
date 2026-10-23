@@ -1,5 +1,5 @@
 {
- "updated": 1792786496,
+ "updated": 1792786498,
  "tracks": [
   {
    "id": "st-1792735492",
@@ -1882,18 +1882,18 @@
   },
   {
    "id": "st-1792786483",
-   "title": "Guns And Roses",
-   "artist": "Tory Lanez",
+   "title": "Knockin' On Heaven's Door",
+   "artist": "Guns N' Roses",
    "album": "",
    "genre": "Otros",
-   "duration": 227,
-   "dur_str": "3:47 min",
-   "art": "https://cdn-images.dzcdn.net/images/cover/87fc9529b168e4085459c5ccc0eb5ade/1000x1000-000000-80-0-0.jpg",
-   "url": "/api/stream?artist=Tory%20Lanez&title=Guns%20And%20Roses",
-   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Tory Lanez/Tory Lanez - Guns And Roses.mp3",
+   "duration": 345,
+   "dur_str": "5:45 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/c32f893b8670d5a3d9b1e70078bbc8fa/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Guns%20N%27%20Roses&title=Knockin%27%20On%20Heaven%27s%20Door",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Guns N' Roses/Guns N' Roses - Knockin' On Heaven's Door.mp3",
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
-   "added": 1792786495
+   "added": 1792786496
   }
  ]
 }
