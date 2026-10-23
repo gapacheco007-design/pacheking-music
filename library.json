@@ -1,5 +1,5 @@
 {
- "updated": 1792741963,
+ "updated": 1792741964,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -990,6 +990,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792741963
+  },
+  {
+   "id": "st-1792741958",
+   "title": "Tant pis pour elle",
+   "artist": "Charlotte Cardin",
+   "album": "",
+   "genre": "Otros",
+   "duration": 152,
+   "dur_str": "2:31 min",
+   "art": "",
+   "url": "/api/stream?artist=Charlotte%20Cardin&title=Tant%20pis%20pour%20elle",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Charlotte Cardin/Charlotte Cardin - Tant pis pour elle.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792741964
   }
  ]
 }
