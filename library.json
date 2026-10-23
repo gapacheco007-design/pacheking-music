@@ -1,5 +1,5 @@
 {
- "updated": 1792763241,
+ "updated": 1792764466,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -1200,6 +1200,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792763241
+  },
+  {
+   "id": "st-1792764453",
+   "title": "Honestly",
+   "artist": "Cartel",
+   "album": "",
+   "genre": "Otros",
+   "duration": 207,
+   "dur_str": "3:27 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/3a9075897fa9c565e7cbe5ea865c2ec0/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Cartel&title=Honestly",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Cartel/Cartel - Honestly.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792764466
   }
  ]
 }
