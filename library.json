@@ -1,5 +1,5 @@
 {
- "updated": 1792739168,
+ "updated": 1792739171,
  "tracks": [
   {
    "id": "st-1792733778",
@@ -600,6 +600,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792739168
+  },
+  {
+   "id": "st-1792739159",
+   "title": "Et tu danses avec lui",
+   "artist": "C. Jérôme",
+   "album": "",
+   "genre": "Otros",
+   "duration": 214,
+   "dur_str": "3:33 min",
+   "art": "",
+   "url": "/api/stream?artist=C.%20J%C3%A9r%C3%B4me&title=Et%20tu%20danses%20avec%20lui",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/C. Jérôme/C. Jérôme - Et tu danses avec lui.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792739171
   }
  ]
 }
