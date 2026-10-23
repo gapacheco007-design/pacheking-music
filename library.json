@@ -1,5 +1,5 @@
 {
- "updated": 1792783140,
+ "updated": 1792783148,
  "tracks": [
   {
    "id": "af-arjona-grupo-firme",
@@ -1701,6 +1701,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792783140
+  },
+  {
+   "id": "st-1792783144",
+   "title": "Welcome To The Jungle",
+   "artist": "JAŸ-Z",
+   "album": "",
+   "genre": "Otros",
+   "duration": 163,
+   "dur_str": "2:43 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/5ff776f44edc5f7fbef5fa2169006f29/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=JA%C5%B8-Z&title=Welcome%20To%20The%20Jungle",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/JAŸ-Z/JAŸ-Z - Welcome To The Jungle.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792783148
   }
  ]
 }
