@@ -1,5 +1,5 @@
 {
- "updated": 1792786480,
+ "updated": 1792786490,
  "tracks": [
   {
    "id": "st-1792735492",
@@ -1834,6 +1834,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792786480
+  },
+  {
+   "id": "st-1792786477",
+   "title": "Paradise City",
+   "artist": "Guns N' Roses",
+   "album": "",
+   "genre": "Otros",
+   "duration": 420,
+   "dur_str": "6:59 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/8bfe7b3b0985d9ff0751090fb2b6f73f/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Guns%20N%27%20Roses&title=Paradise%20City",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Guns N' Roses/Guns N' Roses - Paradise City.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792786490
   }
  ]
 }
