@@ -3,19 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>TheKing Music</title>
     <link rel="icon" href="assets/brand/theking-badge.png" type="image/png">
     <script>
-        // Immediately unregister any stale service workers and clear old caches
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.getRegistrations().then(function(regs) {
-                for (var r of regs) { r.unregister(); }
-            }).catch(function() {});
-        }
-        if ('caches' in window) {
-            caches.keys().then(function(names) {
-                for (var name of names) { caches.delete(name); }
-            }).catch(function() {});
+        const APP_BUILD_VERSION = "20261023_v7_vps_search_instant";
+        if (localStorage.getItem('pkm_build') !== APP_BUILD_VERSION) {
+            localStorage.setItem('pkm_build', APP_BUILD_VERSION);
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistrations().then(function(regs) {
+                    for (var r of regs) { r.unregister(); }
+                }).catch(function() {});
+            }
+            if ('caches' in window) {
+                caches.keys().then(function(names) {
+                    for (var name of names) { caches.delete(name); }
+                }).catch(function() {});
+            }
         }
     </script>
     <script src="assets/js/hls.min.js"></script>
@@ -25,6 +31,8 @@
         }
     </script>
     <style>
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        .spin { animation: spin 0.8s linear infinite; }
         :root {
             --bg-main: #000000;
             --bg-sidebar: #121212;
@@ -1865,9 +1873,19 @@
 
             // Remove from active downloads by ID and by title/artist match
             for (let [k, v] of activeDownloads.entries()) {
-                if (k === track.id || (v.title.toLowerCase() === track.title.toLowerCase() && v.artist.toLowerCase() === track.artist.toLowerCase())) {
+                if (k === track.id || (v.title && track.title && v.title.toLowerCase() === track.title.toLowerCase() && v.artist && track.artist && v.artist.toLowerCase() === track.artist.toLowerCase())) {
                     activeDownloads.delete(k);
+                    const rb = document.getElementById(`btn-vps-dl-${k}`);
+                    if (rb) {
+                        rb.innerHTML = `<svg class="icon" style="width: 16px; height: 16px; color: #30d158;" viewBox="0 0 24 24"><path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>`;
+                        rb.title = "Guardado en Servidor VPS";
+                    }
                 }
+            }
+            const directRb = document.getElementById(`btn-vps-dl-${track.id}`);
+            if (directRb) {
+                directRb.innerHTML = `<svg class="icon" style="width: 16px; height: 16px; color: #30d158;" viewBox="0 0 24 24"><path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>`;
+                directRb.title = "Guardado en Servidor VPS";
             }
             updateJobsUi();
             showToast(`Descarga lista en el servidor: ${track.title}`);
@@ -2135,13 +2153,17 @@
                     <td class="tr-album">${track.album || ''}</td>
                     <td class="tr-time">${track.dur_str || '3:30 min'}</td>
                     <td class="tr-actions">
-                        ${isSearchOnline ? `
-                        <button class="btn-icon-action" onclick="requestVpsDownloadRow(event, '${track.id}')" title="Guardar en Servidor VPS">
-                            <svg class="icon" style="width: 16px; height: 16px; color: var(--accent);" viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
+                        ${isSearchOnline ? (track.is_local ? `
+                        <button class="btn-icon-action" title="Guardado en Servidor VPS" style="color: #30d158;">
+                            <svg class="icon" style="width: 16px; height: 16px; color: #30d158;" viewBox="0 0 24 24"><path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
                         </button>
-                        ` : ''}
+                        ` : `
+                        <button class="btn-icon-action" id="btn-vps-dl-${track.id}" onclick="requestVpsDownloadRow(event, '${track.id}')" title="Guardar en Servidor VPS">
+                            <svg class="icon" style="width: 16px; height: 16px; color: var(--accent);" viewBox="0 0 24 24"><path fill="currentColor" d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
+                        </button>
+                        `) : ''}
                         <button class="btn-icon-action" onclick="downloadMp3Local(event, '${track.url}', '${track.artist} - ${track.title}.mp3')" title="Descargar a este dispositivo">
-                            <svg class="icon" style="width: 16px; height: 16px;" viewBox="0 0 24 24"><path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/></svg>
+                            <svg class="icon" style="width: 16px; height: 16px;" viewBox="0 0 24 24"><path fill="currentColor" d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/></svg>
                         </button>
                     </td>
                 `;
@@ -2166,28 +2188,26 @@
         }
 
         function handleTrackRowClick(track, isOnlineSearch) {
-            // Check if user specifically clicked a favorite, downloaded, or local library track
-            const isLocalPriority = (!isOnlineSearch) || track.isFavorite || track.isDownloaded || currentView === 'favoritos' || currentView === 'biblioteca';
-
-            if (isLocalPriority) {
-                // Priority: Search in local VPS server library first
-                const local = catalog.find(t => 
-                    t.id === track.id || 
-                    (t.title && track.title && t.title.toLowerCase().trim() === track.title.toLowerCase().trim() && 
-                     t.artist && track.artist && t.artist.toLowerCase().trim() === track.artist.toLowerCase().trim())
-                );
-                if (local && local.url && !local.url.includes('apple.com') && !local.url.includes('mzstatic.com') && local.url !== local.previewUrl) {
-                    playTrack(local);
-                    return;
-                }
+            // Priority: if already downloaded in local VPS library, play from local server file directly
+            const local = catalog.find(t => 
+                t.id === track.id || 
+                (t.title && track.title && t.title.toLowerCase().trim() === track.title.toLowerCase().trim() && 
+                 t.artist && track.artist && t.artist.toLowerCase().trim() === track.artist.toLowerCase().trim())
+            );
+            if (local && local.url && !local.url.includes('apple.com') && !local.url.includes('mzstatic.com') && local.url !== local.previewUrl) {
+                playTrack(local);
+                return;
             }
 
-            // Online search track: Priority is finding the FULL complete track online!
             playTrack(track);
         }
 
         function requestVpsDownloadRow(e, trackId) {
             e.stopPropagation();
+            const btn = document.getElementById(`btn-vps-dl-${trackId}`);
+            if (btn) {
+                btn.innerHTML = `<svg class="icon spin" style="width: 16px; height: 16px; color: var(--accent);" viewBox="0 0 24 24"><path fill="currentColor" d="M12 4V2A10 10 0 0 0 2 12h2a8 8 0 0 1 8-8z"/></svg>`;
+            }
             const track = currentPlaylist.find(t => t.id === trackId) || onlineSearchResultsCache.find(t => t.id === trackId) || catalog.find(t => t.id === trackId);
             if (track) {
                 requestVpsDownload(track);
@@ -2488,20 +2508,24 @@
         }
 
         function seekRelative(seconds) {
-            if (!audio.duration) return;
-            audio.currentTime = Math.max(0, Math.min(audio.duration, audio.currentTime + seconds));
+            const track = currentPlaylist[currentIndex];
+            const metaDur = track ? (track.duration || 0) : 0;
+            const dur = (isFinite(audio.duration) && audio.duration > 0) ? audio.duration : metaDur;
+            if (!dur) return;
+            audio.currentTime = Math.max(0, Math.min(dur, audio.currentTime + seconds));
         }
 
         audio.ontimeupdate = () => {
-            if (!audio.duration) return;
-            const cur = audio.currentTime;
-            const dur = audio.duration;
-            const pct = (cur / dur) * 100;
+            const cur = audio.currentTime || 0;
+            const track = currentPlaylist[currentIndex];
+            const metaDur = track ? (track.duration || 0) : 0;
+            const dur = (isFinite(audio.duration) && audio.duration > 0) ? audio.duration : metaDur;
+            const pct = dur > 0 ? Math.min(100, (cur / dur) * 100) : 0;
             
             // Bottom dock scrubber
             progressFill.style.width = pct + '%';
             curTimeEl.innerText = formatTime(cur);
-            totTimeEl.innerText = formatTime(dur);
+            totTimeEl.innerText = dur > 0 ? formatTime(dur) : '--:--';
 
             // Expanded Now Playing scrubber
             const npFill = document.getElementById('np-progress-fill');
@@ -2511,7 +2535,7 @@
             const npTot = document.getElementById('np-time-total');
             if (npTot) {
                 const remaining = Math.max(0, dur - cur);
-                npTot.innerText = '-' + formatTime(remaining);
+                npTot.innerText = dur > 0 ? ('-' + formatTime(remaining)) : '--:--';
             }
 
             // Lyrics synchronization
@@ -2533,8 +2557,11 @@
             const rect = bar.getBoundingClientRect();
             const clickX = e.clientX - rect.left;
             const pct = Math.max(0, Math.min(1, clickX / rect.width));
-            if (audio.duration) {
-                audio.currentTime = pct * audio.duration;
+            const track = currentPlaylist[currentIndex];
+            const metaDur = track ? (track.duration || 0) : 0;
+            const dur = (isFinite(audio.duration) && audio.duration > 0) ? audio.duration : metaDur;
+            if (dur > 0) {
+                audio.currentTime = pct * dur;
             }
         }
 
@@ -2790,6 +2817,13 @@
 
         function downloadMp3Local(e, url, filename) {
             e.stopPropagation();
+            if (!url) {
+                showToast("No se pudo iniciar la descarga");
+                return;
+            }
+            if (url.startsWith('/')) {
+                url = VPS_API_BASE + url;
+            }
             showToast("Iniciando descarga a este equipo...");
             const a = document.createElement('a');
             a.href = url;
@@ -2800,7 +2834,7 @@
             a.remove();
         }
 
-        // 6. SEARCH & ITUNES INTEGRATION
+        // 6. HIGH-SPEED VPS UNIFIED SEARCH & INSTANT RESULTS
         let searchTimer = null;
         let onlineSearchResultsCache = [];
 
@@ -2815,7 +2849,7 @@
                 return;
             }
 
-            searchTimer = setTimeout(() => executeSearch(q), 300);
+            searchTimer = setTimeout(() => executeSearch(q), 250);
         }
 
         function clearSearch() {
@@ -2825,7 +2859,10 @@
             renderCurrentView();
         }
 
-        function executeSearch(query) {
+        async function executeSearch(query) {
+            query = query.trim();
+            if (!query) return;
+
             const qLower = query.toLowerCase();
             const localMatches = catalog.filter(t => 
                 t.title.toLowerCase().includes(qLower) || 
@@ -2836,22 +2873,62 @@
             const container = document.getElementById('content-scroll');
             container.innerHTML = `
                 <h1 class="view-title">Resultados para "${query}"</h1>
-                <p class="view-subtitle">${localMatches.length} en tu biblioteca. Buscando más en catálogo en línea...</p>
+                <p id="search-status-sub" class="view-subtitle">${localMatches.length} en tu biblioteca. Buscando en catálogo del servidor VPS...</p>
                 <div id="search-container-results"></div>
             `;
 
             const resultsBox = document.getElementById('search-container-results');
             if (localMatches.length > 0) {
+                const localHead = document.createElement('h3');
+                localHead.className = 'section-title';
+                localHead.style.marginTop = '18px';
+                localHead.style.marginBottom = '12px';
+                localHead.innerText = 'En tu biblioteca (Servidor VPS)';
+                resultsBox.appendChild(localHead);
                 resultsBox.appendChild(renderTracksTable(localMatches, false));
             }
 
-            // JSONP iTunes Search for online tracks
-            const old = document.getElementById('itunes-jsonp');
-            if (old) old.remove();
-            const s = document.createElement('script');
-            s.id = 'itunes-jsonp';
-            s.src = `https://itunes.apple.com/search?term=${encodeURIComponent(query)}&media=music&entity=song&limit=15&callback=onOnlineSearchResults`;
-            document.body.appendChild(s);
+            // 1. High-Speed Unified Search API executed directly on VPS (unblocked, multi-source)
+            let vpsSearchSuccess = false;
+            try {
+                const res = await fetch(`${VPS_API_BASE}/api/search?q=${encodeURIComponent(query)}`);
+                if (res.ok) {
+                    const data = await res.json();
+                    vpsSearchSuccess = true;
+
+                    const sub = document.getElementById('search-status-sub');
+                    const onlineCount = (data.online && Array.isArray(data.online)) ? data.online.length : 0;
+                    const localCount = (data.local && Array.isArray(data.local)) ? data.local.length : localMatches.length;
+
+                    if (sub) {
+                        sub.innerText = `${localCount + onlineCount} canciones disponibles al instante.`;
+                    }
+
+                    if (data.online && data.online.length > 0) {
+                        onlineSearchResultsCache = data.online;
+                        const subHead = document.createElement('h3');
+                        subHead.className = 'section-title';
+                        subHead.style.marginTop = '28px';
+                        subHead.style.marginBottom = '12px';
+                        subHead.innerText = 'Resultados en línea (Reproducir al instante / Guardar en VPS)';
+                        resultsBox.appendChild(subHead);
+                        resultsBox.appendChild(renderTracksTable(data.online, true));
+                        return;
+                    }
+                }
+            } catch (vpsErr) {
+                console.warn("VPS search API unreachable, falling back to JSONP:", vpsErr);
+            }
+
+            if (!vpsSearchSuccess) {
+                // 2. Client-side fallback: JSONP iTunes Search
+                const old = document.getElementById('itunes-jsonp');
+                if (old) old.remove();
+                const s = document.createElement('script');
+                s.id = 'itunes-jsonp';
+                s.src = `https://itunes.apple.com/search?term=${encodeURIComponent(query)}&media=music&entity=song&limit=15&callback=onOnlineSearchResults`;
+                document.body.appendChild(s);
+            }
         }
 
         window.onOnlineSearchResults = function(data) {
@@ -2869,6 +2946,7 @@
 
                 const durSec = Math.round((item.trackTimeMillis || 210000) / 1000);
                 const durStr = `${Math.floor(durSec / 60)}:${(durSec % 60).toString().padStart(2, '0')} min`;
+                const streamUrl = `/api/stream?artist=${encodeURIComponent(artist)}&title=${encodeURIComponent(title)}`;
 
                 onlineTracks.push({
                     id: `itunes-${item.trackId}`,
@@ -2879,9 +2957,10 @@
                     duration: durSec,
                     dur_str: durStr,
                     art: (item.artworkUrl100 || '').replace('100x100bb', '600x600bb'),
-                    url: '',
-                    previewUrl: item.previewUrl || '',
-                    source: 'online_stream'
+                    url: streamUrl,
+                    format: 'Full Studio Audio (VPS Master)',
+                    source: 'vps_stream',
+                    ready: true
                 });
             });
 
@@ -2892,22 +2971,9 @@
                 subHead.className = 'section-title';
                 subHead.style.marginTop = '28px';
                 subHead.style.marginBottom = '12px';
-                subHead.innerText = 'Resultados en línea (Reproducir al instante / Descargar al VPS)';
+                subHead.innerText = 'Resultados en línea (Reproducir al instante / Guardar en VPS)';
                 resultsBox.appendChild(subHead);
                 resultsBox.appendChild(renderTracksTable(onlineTracks, true));
-
-                // Background stream pre-caching for top 3 results for 0ms instant playback
-                onlineTracks.slice(0, 3).forEach(t => {
-                    fetch(`${VPS_API_BASE}/api/resolve?artist=${encodeURIComponent(t.artist)}&title=${encodeURIComponent(t.title)}&duration=${t.duration || 0}`)
-                        .then(r => r.json())
-                        .then(d => {
-                            if (d && d.url) {
-                                t.url = d.url;
-                                t.source = d.source || 'full_stream';
-                                t.format = d.format || 'Full Audio Stream';
-                            }
-                        }).catch(() => {});
-                });
             }
         };
 
