@@ -1,5 +1,5 @@
 {
- "updated": 1792783200,
+ "updated": 1792783301,
  "tracks": [
   {
    "id": "af-arjona-grupo-firme",
@@ -1776,6 +1776,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792783200
+  },
+  {
+   "id": "st-1792783295",
+   "title": "Angel Of The Morning",
+   "artist": "Juice Newton",
+   "album": "",
+   "genre": "Otros",
+   "duration": 257,
+   "dur_str": "4:16 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/0b24cb3f80a2cd1d35c755e15b2f0485/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Juice%20Newton&title=Angel%20Of%20The%20Morning",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Juice Newton/Juice Newton - Angel Of The Morning.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792783301
   }
  ]
 }
