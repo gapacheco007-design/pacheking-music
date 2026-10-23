@@ -2153,14 +2153,23 @@
         }
 
         function handleTrackRowClick(track, isOnlineSearch) {
-            // 1. Check if already in local catalog with playable url
-            const local = catalog.find(t => t.id === track.id || (t.title.toLowerCase() === track.title.toLowerCase() && t.artist.toLowerCase().includes(track.artist.toLowerCase().split(' ')[0])));
-            if (local && local.url && !local.url.includes('apple.com') && !local.url.includes('mzstatic.com')) {
-                playTrack(local);
-                return;
+            // Check if user specifically clicked a favorite, downloaded, or local library track
+            const isLocalPriority = (!isOnlineSearch) || track.isFavorite || track.isDownloaded || currentView === 'favoritos' || currentView === 'biblioteca';
+
+            if (isLocalPriority) {
+                // Priority: Search in local VPS server library first
+                const local = catalog.find(t => 
+                    t.id === track.id || 
+                    (t.title && track.title && t.title.toLowerCase().trim() === track.title.toLowerCase().trim() && 
+                     t.artist && track.artist && t.artist.toLowerCase().trim() === track.artist.toLowerCase().trim())
+                );
+                if (local && local.url && !local.url.includes('apple.com') && !local.url.includes('mzstatic.com') && local.url !== local.previewUrl) {
+                    playTrack(local);
+                    return;
+                }
             }
 
-            // 2. Play full track (resolves full stream automatically)
+            // Online search track: Priority is finding the FULL complete track online!
             playTrack(track);
         }
 
@@ -2258,8 +2267,10 @@
             updateActiveRows();
             updateNowPlayingUi();
 
-            // 1. If it's already in the local library or has a direct master / full stream URL:
-            const isFull = track.url && !track.url.includes('itunes.apple.com') && !track.url.includes('mzstatic.com') && track.source !== 'online_stream';
+            const isFavoriteOrDownloaded = track.isFavorite || track.isDownloaded || currentView === 'favoritos' || currentView === 'biblioteca';
+
+            // 1. If it's already a verified direct master stream / VPS file:
+            const isFull = track.url && !track.url.includes('itunes.apple.com') && !track.url.includes('mzstatic.com') && track.url !== track.previewUrl && track.source !== 'online_stream';
             if (isFull) {
                 track.is_preview = false;
                 loadAndPlayAudio(track.url, track);
@@ -2269,30 +2280,32 @@
                 return;
             }
 
-            // 2. Online search track without full stream yet:
-            // Check if it's already in the local library under a slightly different ID/title
-            const inLib = catalog.find(t => 
-                (t.id === track.id || 
-                 (t.title.toLowerCase() === track.title.toLowerCase() && 
-                  t.artist.toLowerCase().includes(track.artist.toLowerCase().split(' ')[0]))) &&
-                t.url && !t.url.includes('apple.com')
-            );
-            if (inLib) {
-                track.url = inLib.url;
-                track.format = inLib.format;
-                track.source = inLib.source;
-                track.duration = inLib.duration;
-                track.is_preview = false;
-                loadAndPlayAudio(inLib.url, track);
-                barPill.className = 'quality-pill';
-                barPill.innerText = 'CANCIÓN COMPLETA (BIBLIOTECA)';
-                return;
+            // 2. Only check local library first if the song is saved as favorite or downloaded
+            if (isFavoriteOrDownloaded) {
+                const inLib = catalog.find(t => 
+                    (t.id === track.id || 
+                     (t.title && track.title && t.title.toLowerCase().trim() === track.title.toLowerCase().trim() && 
+                      t.artist && track.artist && t.artist.toLowerCase().trim() === track.artist.toLowerCase().trim())) &&
+                    t.url && !t.url.includes('apple.com') && t.url !== t.previewUrl
+                );
+                if (inLib) {
+                    track.url = inLib.url;
+                    track.format = inLib.format;
+                    track.source = inLib.source;
+                    track.duration = inLib.duration;
+                    track.is_preview = false;
+                    loadAndPlayAudio(inLib.url, track);
+                    barPill.className = 'quality-pill';
+                    barPill.innerText = 'CANCIÓN COMPLETA (BIBLIOTECA)';
+                    return;
+                }
             }
 
-            // 3. Resolve the full stream via VPS API
+            // 3. Online Track: Priority is resolving the FULL STUDIO SONG online!
+            // NEVER play 30s preview. Only play when the full complete track is found.
             barPill.className = 'quality-pill';
-            barPill.innerText = 'CONECTANDO CANCIÓN COMPLETA...';
-            showToast(`Conectando pista completa para ${track.title}...`);
+            barPill.innerText = 'BUSCANDO CANCIÓN COMPLETA...';
+            showToast(`Buscando canción completa: ${track.title}...`);
 
             const reqTrackId = track.id;
             let resolvedData = null;
@@ -2323,19 +2336,25 @@
                 return;
             }
 
-            // Fallback only if no full stream could be found on the internet:
-            if (track.previewUrl) {
-                track.is_preview = true;
-                loadAndPlayAudio(track.previewUrl, track);
-                barPill.className = 'quality-pill';
-                barPill.innerText = 'VISTA PREVIA (30S)';
-                showToast(`Audio completo no disponible en vivo. Reproduciendo muestra de 30s. Haz clic en 'Guardar en VPS'`);
-            } else {
-                showToast(`No se pudo obtener el audio para ${track.title}`);
+            // If no full version could be found online: Clean error, NEVER play 30s snippet
+            barPill.className = 'quality-pill';
+            barPill.innerText = 'CANCIÓN NO ENCONTRADA';
+            showToast(`No se encontró versión completa para ${track.title}`);
+            if (isPlaying) {
+                audio.pause();
+                isPlaying = false;
+                updatePlayBtn();
+                updateNowPlayingPlayBtn();
             }
         }
 
         function loadAndPlayAudio(url, track, seekToTime = 0, autoPlay = true) {
+            if (!url) return;
+            // Ensure relative API URLs are directed to the VPS API Base
+            if (url.startsWith('/')) {
+                url = VPS_API_BASE + url;
+            }
+
             const isHls = url.includes('.m3u8') || url.includes('/playlist');
 
             if (isHls && window.Hls && Hls.isSupported()) {
@@ -2364,11 +2383,7 @@
                 hlsPlayer.on(Hls.Events.ERROR, (event, data) => {
                     if (data.fatal) {
                         console.error("HLS fatal error:", data);
-                        if (track.previewUrl && audio.src !== track.previewUrl) {
-                            audio.src = track.previewUrl;
-                            if (seekToTime > 0) { try { audio.currentTime = seekToTime; } catch(_) {} }
-                            if (autoPlay) audio.play().catch(() => {});
-                        }
+                        showToast(`Error al reproducir audio completo para ${track.title}`);
                     }
                 });
             } else {
@@ -2484,18 +2499,6 @@
             if (isRepeat) {
                 audio.currentTime = 0;
                 audio.play();
-                return;
-            }
-
-            const current = currentPlaylist[currentIndex];
-            // If the track is a 30s preview: NEVER jump or change song!
-            if (current && (current.is_preview || current.url === current.previewUrl)) {
-                isPlaying = false;
-                updatePlayBtn();
-                updateNowPlayingPlayBtn();
-                barPill.className = 'quality-pill';
-                barPill.innerText = 'MUESTRA (30S) FINALIZADA';
-                showToast("Fin de la muestra de 30 segundos. Para la canción completa, pulsa 'Guardar en VPS'.");
                 return;
             }
 
