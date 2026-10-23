@@ -1,5 +1,5 @@
 {
- "updated": 1792739325,
+ "updated": 1792739327,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -702,6 +702,21 @@
    "art": "",
    "url": "/api/stream?artist=Shape&title=Guts",
    "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Shape/Shape - Guts.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792739320
+  },
+  {
+   "id": "st-1792739292",
+   "title": "Paranoia",
+   "artist": "Shape",
+   "album": "",
+   "genre": "Otros",
+   "duration": 228,
+   "dur_str": "3:47 min",
+   "art": "",
+   "url": "/api/stream?artist=Shape&title=Paranoia",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Shape/Shape - Paranoia.mp3",
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792739320
