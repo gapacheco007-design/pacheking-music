@@ -9,7 +9,7 @@
     <title>TheKing Music</title>
     <link rel="icon" href="assets/brand/theking-badge.png" type="image/png">
     <script>
-        const APP_BUILD_VERSION = "20261023_v8_hls_instant_stream";
+        const APP_BUILD_VERSION = "20261023_v9_apple_music_mobile_ios_android";
         if (localStorage.getItem('pkm_build') !== APP_BUILD_VERSION) {
             localStorage.setItem('pkm_build', APP_BUILD_VERSION);
             if ('serviceWorker' in navigator) {
@@ -59,13 +59,22 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
+        html {
+            -webkit-text-size-adjust: 100%;
+            -webkit-tap-highlight-color: transparent;
+            height: 100%;
+        }
+
         body {
             background-color: var(--bg-main);
             color: var(--text-primary);
-            min-height: 100vh;
+            height: 100%;
+            height: 100dvh;
+            min-height: -webkit-fill-available;
             display: flex;
             overflow: hidden;
             user-select: none;
+            -webkit-user-select: none;
         }
 
         /* ICONS SVG HELPER */
@@ -223,9 +232,12 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            height: 100vh;
+            height: 100%;
+            height: 100dvh;
+            min-height: -webkit-fill-available;
             overflow: hidden;
             position: relative;
+            min-width: 0;
         }
 
         .top-header {
@@ -1391,46 +1403,430 @@
             white-space: pre-line;
         }
 
-        @media (max-width: 960px) {
+        /* MOBILE-FIRST & DESKTOP COEXISTENCE */
+        .mobile-tab-bar {
+            display: none;
+        }
+
+        .mobile-search-bar-wrap {
+            display: none;
+        }
+
+        .header-brand-mobile {
+            display: none;
+        }
+
+        .vps-text-mobile {
+            display: none;
+        }
+
+        /* TABLET & MOBILE (<= 860px) */
+        @media (max-width: 860px) {
+            :root {
+                --sidebar-w: 0px;
+                --player-h: 56px;
+            }
+
+            .sidebar {
+                display: none !important;
+            }
+
+            .header-brand-mobile {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                cursor: pointer;
+            }
+
+            .brand-title-mobile {
+                font-weight: 700;
+                font-size: 1.05rem;
+                letter-spacing: -0.3px;
+                color: #fff;
+            }
+
+            .top-header {
+                height: calc(52px + env(safe-area-inset-top, 0px));
+                padding: env(safe-area-inset-top, 0px) 14px 0 14px;
+                justify-content: space-between;
+                gap: 8px;
+            }
+
+            .vps-badge {
+                padding: 4px 10px;
+                font-size: 0.72rem;
+            }
+
+            .vps-text-desktop {
+                display: none;
+            }
+
+            .vps-text-mobile {
+                display: inline;
+            }
+
+            .btn-header {
+                padding: 5px 10px;
+                font-size: 0.76rem;
+                gap: 4px;
+            }
+
+            .btn-header-text {
+                display: none;
+            }
+
+            /* MOBILE SEARCH BAR STICKY TOP */
+            .mobile-search-bar-wrap {
+                display: block;
+                padding: 8px 14px;
+                background: rgba(18, 18, 20, 0.95);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+                flex-shrink: 0;
+                z-index: 45;
+            }
+
+            .mobile-search-box {
+                margin-bottom: 0 !important;
+                position: relative;
+                width: 100%;
+            }
+
+            .mobile-search-box .search-input {
+                font-size: 16px !important; /* Prevents auto-zoom on iOS */
+                padding: 10px 36px 10px 38px;
+                border-radius: 11px;
+                background: #242426;
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                color: #fff;
+                width: 100%;
+                -webkit-appearance: none;
+            }
+
+            /* SCROLLABLE VIEW */
+            .content-scroll {
+                padding: 16px 14px;
+                padding-bottom: calc(140px + env(safe-area-inset-bottom, 0px)) !important;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .view-title {
+                font-size: 1.8rem;
+                letter-spacing: -0.4px;
+                margin-bottom: 6px;
+            }
+
+            .view-subtitle {
+                font-size: 0.86rem;
+                margin-bottom: 18px;
+            }
+
+            /* EDITORIAL HERO BANNER */
+            .editorial-banner {
+                flex-direction: column-reverse;
+                align-items: stretch;
+                padding: 20px;
+                gap: 16px;
+                margin-bottom: 24px;
+                border-radius: 14px;
+            }
+
+            .editorial-artwork {
+                width: 140px;
+                height: 140px;
+                align-self: center;
+                border-radius: 12px;
+            }
+
+            .editorial-title {
+                font-size: 1.55rem;
+                line-height: 1.2;
+            }
+
+            .editorial-desc {
+                font-size: 0.84rem;
+                line-height: 1.4;
+                display: -webkit-box;
+                -webkit-line-clamp: 3;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+
+            .editorial-actions {
+                display: flex;
+                gap: 10px;
+            }
+
+            .btn-editorial-play, .btn-editorial-vps {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 14px;
+                font-size: 0.86rem;
+            }
+
+            /* CARDS GRID: 2 COLUMNS ON MOBILE */
+            .cards-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 12px !important;
+                margin-bottom: 28px;
+            }
+
+            .card-title {
+                font-size: 0.85rem;
+            }
+
+            .card-sub {
+                font-size: 0.74rem;
+            }
+
+            /* TRACKS TABLE */
+            .tracks-table {
+                table-layout: fixed !important;
+                width: 100% !important;
+            }
+
+            .tracks-table th:nth-child(1), .tracks-table td:nth-child(1) {
+                display: none !important;
+            }
+
+            .tracks-table th:nth-child(2), .tracks-table td:nth-child(2) {
+                width: auto !important;
+                max-width: 0 !important;
+            }
+
+            .tracks-table th:nth-child(3), .tracks-table td:nth-child(3) {
+                display: none !important;
+            }
+
+            .tracks-table th:nth-child(4), .tracks-table td:nth-child(4) {
+                display: none !important;
+            }
+
+            .tracks-table th, .tracks-table td {
+                padding: 8px 4px !important;
+            }
+
+            .tr-info {
+                width: 100% !important;
+                min-width: 0 !important;
+                gap: 10px !important;
+            }
+
+            .tr-thumb {
+                width: 44px !important;
+                height: 44px !important;
+                border-radius: 6px !important;
+                flex-shrink: 0 !important;
+            }
+
+            .tr-meta {
+                min-width: 0 !important;
+                flex: 1 !important;
+                overflow: hidden !important;
+            }
+
+            .tr-title {
+                font-size: 0.9rem !important;
+                max-width: 100% !important;
+                width: 100% !important;
+                white-space: nowrap !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+            }
+
+            .tr-artist {
+                font-size: 0.76rem !important;
+                max-width: 100% !important;
+                width: 100% !important;
+                white-space: nowrap !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+            }
+
+            .tr-actions {
+                width: 72px !important;
+                white-space: nowrap !important;
+                text-align: right !important;
+            }
+
+            .btn-icon-action {
+                padding: 5px;
+            }
+
+            /* FLOATING MINI PLAYER (APPLE MUSIC EXACT STYLE) */
+            .player-bar {
+                position: fixed !important;
+                bottom: calc(50px + env(safe-area-inset-bottom, 0px) + 8px) !important;
+                left: 10px !important;
+                right: 10px !important;
+                height: 56px !important;
+                border-radius: 13px !important;
+                background: rgba(30, 30, 32, 0.94) !important;
+                backdrop-filter: blur(35px) !important;
+                -webkit-backdrop-filter: blur(35px) !important;
+                border: 1px solid rgba(255, 255, 255, 0.12) !important;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6) !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: space-between !important;
+                padding: 0 12px 0 8px !important;
+                z-index: 1040 !important;
+            }
+
+            .player-left {
+                flex: 1;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                min-width: 0;
+                cursor: pointer;
+            }
+
+            .player-art {
+                width: 42px !important;
+                height: 42px !important;
+                border-radius: 7px !important;
+                flex-shrink: 0;
+            }
+
+            .player-track-info {
+                flex: 1;
+                min-width: 0;
+                padding-right: 6px;
+            }
+
+            .player-title {
+                font-size: 0.86rem !important;
+                font-weight: 600;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                color: #fff;
+            }
+
+            .player-artist {
+                font-size: 0.72rem !important;
+                color: rgba(255, 255, 255, 0.65);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            #bar-pill {
+                display: none !important;
+            }
+
+            .player-center {
+                display: flex !important;
+                flex-direction: row;
+                align-items: center;
+                width: auto !important;
+                max-width: none !important;
+                margin: 0 !important;
+            }
+
+            .player-center .scrubber-wrap {
+                display: none !important;
+            }
+
+            .player-center .player-controls {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+
+            .desktop-only-btn {
+                display: none !important;
+            }
+
+            .btn-play-pause {
+                width: 36px !important;
+                height: 36px !important;
+                border-radius: 50% !important;
+            }
+
+            .player-right {
+                display: none !important;
+            }
+
+            /* MOBILE BOTTOM TAB BAR */
+            .mobile-tab-bar {
+                display: flex !important;
+                position: fixed !important;
+                bottom: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                height: calc(50px + env(safe-area-inset-bottom, 0px)) !important;
+                padding-bottom: env(safe-area-inset-bottom, 0px) !important;
+                background: rgba(18, 18, 20, 0.95) !important;
+                backdrop-filter: blur(25px) !important;
+                -webkit-backdrop-filter: blur(25px) !important;
+                border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+                z-index: 1050 !important;
+                align-items: center;
+                justify-content: space-around;
+            }
+
+            .mobile-tab-item {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 2px;
+                background: none;
+                border: none;
+                color: #8e8e93;
+                font-size: 10px;
+                font-weight: 500;
+                cursor: pointer;
+                padding: 5px 0;
+                transition: color 0.15s;
+                text-decoration: none;
+            }
+
+            .mobile-tab-item .icon {
+                width: 22px;
+                height: 22px;
+                color: inherit;
+            }
+
+            .mobile-tab-item.active {
+                color: var(--accent) !important;
+            }
+
+            /* EXPANDED NOW PLAYING MODAL (FULLSCREEN ON MOBILE) */
+            .np-header {
+                padding: calc(14px + env(safe-area-inset-top, 0px)) 18px 10px;
+            }
+
             .np-content {
                 grid-template-columns: 1fr;
-                padding: 20px 24px;
+                padding: 10px 20px calc(24px + env(safe-area-inset-bottom, 0px));
+                gap: 20px;
                 overflow-y: auto;
             }
+
             .np-cover-box {
-                max-width: 240px;
+                max-width: 250px;
+                margin: 0 auto 16px;
             }
+
+            .np-title {
+                font-size: 1.35rem;
+            }
+
+            .np-artist {
+                font-size: 0.95rem;
+            }
+
             .np-action-btns {
                 grid-template-columns: 1fr;
             }
-            .lyrics-scroll-box {
-                max-height: 350px;
-            }
-        }
 
-        /* RESPONSIVE */
-        @media (max-width: 860px) {
-            .sidebar {
-                display: none;
-            }
-            .player-bar {
-                grid-template-columns: 1fr auto;
-                padding: 0 16px;
-            }
-            .player-center {
-                display: none;
-            }
-            .content-scroll {
-                padding: 20px;
-            }
-            .editorial-banner {
-                flex-direction: column-reverse;
-                align-items: flex-start;
-                padding: 24px;
-            }
-            .editorial-artwork {
-                width: 120px;
-                height: 120px;
+            .lyrics-scroll-box {
+                max-height: 280px;
             }
         }
     </style>
@@ -1511,18 +1907,39 @@
     <div class="main-container">
         <!-- TOP HEADER -->
         <header class="top-header">
-            <div class="vps-badge">
+            <div class="header-brand-mobile" onclick="switchView('escuchar')">
+                <div class="brand-icon">
+                    <svg viewBox="0 0 24 24" class="icon" style="width: 14px; height: 14px;">
+                        <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                    </svg>
+                </div>
+                <span class="brand-title-mobile">TheKing</span>
+            </div>
+
+            <div class="vps-badge" onclick="openServerModal()" style="cursor: pointer;">
                 <span class="vps-dot"></span>
-                <span>Servidor VPS: Conectado (1 Gbps)</span>
+                <span class="vps-text-desktop">Servidor VPS: Conectado (1 Gbps)</span>
+                <span class="vps-text-mobile">VPS</span>
             </div>
 
             <div class="header-actions">
                 <button class="btn-header" onclick="openServerModal()">
                     <svg class="icon" style="width: 16px; height: 16px;" viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
-                    <span>Ver Descargas VPS</span>
+                    <span class="btn-header-text">Ver Descargas VPS</span>
                 </button>
             </div>
         </header>
+
+        <!-- MOBILE SEARCH BAR (ALWAYS VISIBLE UNDER HEADER ON MOBILE) -->
+        <div class="mobile-search-bar-wrap" id="mobile-search-bar-wrap">
+            <div class="search-box mobile-search-box">
+                <svg class="search-icon icon" viewBox="0 0 24 24">
+                    <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 14z"/>
+                </svg>
+                <input type="text" id="mobile-global-search" class="search-input" placeholder="Buscar canciones o artistas..." oninput="onMobileGlobalSearch(event)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                <button id="mobile-search-clear" class="search-clear" onclick="clearMobileGlobalSearch()">&times;</button>
+            </div>
+        </div>
 
         <!-- SCROLLABLE CONTENT -->
         <main class="content-scroll" id="content-scroll">
@@ -1545,10 +1962,10 @@
         <!-- CENTER: Playback Controls & Scrubber -->
         <div class="player-center">
             <div class="player-controls">
-                <button class="btn-ctrl" id="btn-shuffle" onclick="toggleShuffle()" title="Aleatorio">
+                <button class="btn-ctrl desktop-only-btn" id="btn-shuffle" onclick="toggleShuffle()" title="Aleatorio">
                     <svg class="icon" style="width: 17px; height: 17px;" viewBox="0 0 24 24"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>
                 </button>
-                <button class="btn-ctrl" onclick="playPrevious()" title="Anterior">
+                <button class="btn-ctrl desktop-only-btn" onclick="playPrevious()" title="Anterior">
                     <svg class="icon" style="width: 22px; height: 22px;" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
                 </button>
                 <button class="btn-play-pause" id="btn-play-toggle" onclick="togglePlayPause()" title="Reproducir">
@@ -1557,7 +1974,7 @@
                 <button class="btn-ctrl" onclick="playNext()" title="Siguiente">
                     <svg class="icon" style="width: 22px; height: 22px;" viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
                 </button>
-                <button class="btn-ctrl" id="btn-repeat" onclick="toggleRepeat()" title="Repetir">
+                <button class="btn-ctrl desktop-only-btn" id="btn-repeat" onclick="toggleRepeat()" title="Repetir">
                     <svg class="icon" style="width: 17px; height: 17px;" viewBox="0 0 24 24"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg>
                 </button>
             </div>
@@ -1589,6 +2006,30 @@
             </div>
         </div>
     </div>
+
+    <!-- MOBILE BOTTOM NAVIGATION TAB BAR (APPLE MUSIC STYLE) -->
+    <nav class="mobile-tab-bar" id="mobile-tab-bar">
+        <button class="mobile-tab-item active" id="tab-escuchar" onclick="switchView('escuchar')">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+            <span>Escuchar</span>
+        </button>
+        <button class="mobile-tab-item" id="tab-explorar" onclick="switchView('explorar')">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+            <span>Explorar</span>
+        </button>
+        <button class="mobile-tab-item" id="tab-buscar" onclick="switchView('buscar')">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 14z"/></svg>
+            <span>Buscar</span>
+        </button>
+        <button class="mobile-tab-item" id="tab-canciones" onclick="switchView('canciones')">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M15 6H3v2h12V6zm0 4H3v2h12v-2zM3 16h8v-2H3v2zM17 6v8.18c-.31-.11-.65-.18-1-.18-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3V8h3V6h-5z"/></svg>
+            <span>Biblioteca</span>
+        </button>
+        <button class="mobile-tab-item" id="tab-vps" onclick="openServerModal()">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
+            <span>VPS</span>
+        </button>
+    </nav>
 
     <!-- EXPANDED NOW PLAYING FULLSCREEN MODAL (APPLE MUSIC EXACT STYLE) -->
     <div id="modal-now-playing" class="np-modal">
@@ -1910,6 +2351,10 @@
             const activeNav = document.getElementById(`nav-${view}`);
             if (activeNav) activeNav.classList.add('active');
 
+            document.querySelectorAll('.mobile-tab-item').forEach(el => el.classList.remove('active'));
+            const activeTab = document.getElementById(`tab-${view}`);
+            if (activeTab) activeTab.classList.add('active');
+
             renderCurrentView();
         }
 
@@ -1919,9 +2364,52 @@
 
             if (currentView === 'escuchar') renderEscuchar(container);
             else if (currentView === 'explorar') renderExplorar(container);
+            else if (currentView === 'buscar') renderBuscar(container);
             else if (currentView === 'canciones') renderCanciones(container);
             else if (currentView === 'artistas') renderArtistas(container);
             else if (currentView === 'albumes') renderAlbumes(container);
+        }
+
+        /* VIEW: BUSCAR (SEARCH EXPLORER) */
+        function renderBuscar(container) {
+            container.innerHTML = `
+                <h1 class="view-title">Buscar</h1>
+                <p class="view-subtitle">Explora millones de canciones en calidad Lossless y Studio Master.</p>
+                
+                <div style="margin-top: 18px;">
+                    <h3 class="section-title" style="margin-bottom: 14px;">Explorar por Categoría</h3>
+                    <div class="cards-grid" style="grid-template-columns: repeat(2, 1fr); gap: 12px;">
+                        <div class="search-category-tile" onclick="quickSearchCategory('Pop')" style="background: linear-gradient(135deg, #e11d48, #be123c); padding: 22px 16px; border-radius: 12px; cursor: pointer; font-weight: 700; font-size: 1.1rem; color: #fff; box-shadow: 0 4px 16px rgba(225, 29, 72, 0.25);">Pop</div>
+                        <div class="search-category-tile" onclick="quickSearchCategory('Rock')" style="background: linear-gradient(135deg, #2563eb, #1d4ed8); padding: 22px 16px; border-radius: 12px; cursor: pointer; font-weight: 700; font-size: 1.1rem; color: #fff; box-shadow: 0 4px 16px rgba(37, 99, 235, 0.25);">Rock</div>
+                        <div class="search-category-tile" onclick="quickSearchCategory('Hip-Hop')" style="background: linear-gradient(135deg, #d97706, #b45309); padding: 22px 16px; border-radius: 12px; cursor: pointer; font-weight: 700; font-size: 1.1rem; color: #fff; box-shadow: 0 4px 16px rgba(217, 119, 6, 0.25);">Hip-Hop</div>
+                        <div class="search-category-tile" onclick="quickSearchCategory('Urbano Latino')" style="background: linear-gradient(135deg, #059669, #047857); padding: 22px 16px; border-radius: 12px; cursor: pointer; font-weight: 700; font-size: 1.1rem; color: #fff; box-shadow: 0 4px 16px rgba(5, 150, 105, 0.25);">Latino</div>
+                        <div class="search-category-tile" onclick="quickSearchCategory('Electronica')" style="background: linear-gradient(135deg, #7c3aed, #6d28d9); padding: 22px 16px; border-radius: 12px; cursor: pointer; font-weight: 700; font-size: 1.1rem; color: #fff; box-shadow: 0 4px 16px rgba(124, 58, 237, 0.25);">Electrónica</div>
+                        <div class="search-category-tile" onclick="quickSearchCategory('Baladas')" style="background: linear-gradient(135deg, #ec4899, #db2777); padding: 22px 16px; border-radius: 12px; cursor: pointer; font-weight: 700; font-size: 1.1rem; color: #fff; box-shadow: 0 4px 16px rgba(236, 72, 153, 0.25);">Baladas</div>
+                    </div>
+                </div>
+            `;
+            setTimeout(() => {
+                const mobInput = document.getElementById('mobile-global-search');
+                if (mobInput && window.innerWidth <= 860) {
+                    mobInput.focus();
+                }
+            }, 120);
+        }
+
+        function quickSearchCategory(genre) {
+            const mobInput = document.getElementById('mobile-global-search');
+            const deskInput = document.getElementById('global-search');
+            if (mobInput) {
+                mobInput.value = genre;
+                const clearBtn = document.getElementById('mobile-search-clear');
+                if (clearBtn) clearBtn.style.display = 'block';
+            }
+            if (deskInput) {
+                deskInput.value = genre;
+                const clearBtn = document.getElementById('search-clear');
+                if (clearBtn) clearBtn.style.display = 'block';
+            }
+            executeSearch(genre);
         }
 
         /* VIEW 1: ESCUCHAR (LISTEN NOW) */
@@ -2883,7 +3371,14 @@
         function onSearchInput(e) {
             const q = e.target.value.trim();
             const clearBtn = document.getElementById('search-clear');
-            clearBtn.style.display = q ? 'block' : 'none';
+            if (clearBtn) clearBtn.style.display = q ? 'block' : 'none';
+
+            const mobInput = document.getElementById('mobile-global-search');
+            if (mobInput && mobInput.value !== e.target.value) {
+                mobInput.value = e.target.value;
+                const mobClear = document.getElementById('mobile-search-clear');
+                if (mobClear) mobClear.style.display = q ? 'block' : 'none';
+            }
 
             clearTimeout(searchTimer);
             if (!q) {
@@ -2896,8 +3391,54 @@
 
         function clearSearch() {
             const inp = document.getElementById('global-search');
-            inp.value = '';
-            document.getElementById('search-clear').style.display = 'none';
+            if (inp) inp.value = '';
+            const clearBtn = document.getElementById('search-clear');
+            if (clearBtn) clearBtn.style.display = 'none';
+
+            const mobInput = document.getElementById('mobile-global-search');
+            if (mobInput) {
+                mobInput.value = '';
+                const mobClear = document.getElementById('mobile-search-clear');
+                if (mobClear) mobClear.style.display = 'none';
+            }
+
+            renderCurrentView();
+        }
+
+        function onMobileGlobalSearch(e) {
+            const q = e.target.value.trim();
+            const clearBtn = document.getElementById('mobile-search-clear');
+            if (clearBtn) clearBtn.style.display = q ? 'block' : 'none';
+
+            const deskInput = document.getElementById('global-search');
+            if (deskInput && deskInput.value !== e.target.value) {
+                deskInput.value = e.target.value;
+                const deskClear = document.getElementById('search-clear');
+                if (deskClear) deskClear.style.display = q ? 'block' : 'none';
+            }
+
+            clearTimeout(searchTimer);
+            if (!q) {
+                renderCurrentView();
+                return;
+            }
+
+            searchTimer = setTimeout(() => executeSearch(q), 150);
+        }
+
+        function clearMobileGlobalSearch() {
+            const mobInput = document.getElementById('mobile-global-search');
+            if (mobInput) mobInput.value = '';
+            const clearBtn = document.getElementById('mobile-search-clear');
+            if (clearBtn) clearBtn.style.display = 'none';
+
+            const deskInput = document.getElementById('global-search');
+            if (deskInput) {
+                deskInput.value = '';
+                const deskClear = document.getElementById('search-clear');
+                if (deskClear) deskClear.style.display = 'none';
+            }
+
             renderCurrentView();
         }
 
@@ -3042,7 +3583,9 @@
         }
 
         window.onDirectOnlineSearchResults = function(data) {
-            const qLower = (document.getElementById('global-search')?.value || '').trim().toLowerCase();
+            const mobInp = document.getElementById('mobile-global-search');
+            const deskInp = document.getElementById('global-search');
+            const qLower = ((mobInp ? mobInp.value : '') || (deskInp ? deskInp.value : '')).trim().toLowerCase();
             const localMatches = catalog.filter(t => 
                 (t.title && t.title.toLowerCase().includes(qLower)) || 
                 (t.artist && t.artist.toLowerCase().includes(qLower))
