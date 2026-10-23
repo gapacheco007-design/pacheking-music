@@ -1,5 +1,5 @@
 {
- "updated": 1792739297,
+ "updated": 1792739301,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -600,6 +600,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792739297
+  },
+  {
+   "id": "st-1792739287",
+   "title": "Funk Where",
+   "artist": "Shaprostyle",
+   "album": "",
+   "genre": "Otros",
+   "duration": 141,
+   "dur_str": "2:21 min",
+   "art": "",
+   "url": "/api/stream?artist=Shaprostyle&title=Funk%20Where",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Shaprostyle/Shaprostyle - Funk Where.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792739301
   }
  ]
 }
