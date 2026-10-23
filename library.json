@@ -1,5 +1,5 @@
 {
- "updated": 1792736807,
+ "updated": 1792736811,
  "tracks": [
   {
    "id": "st-1792733778",
@@ -300,6 +300,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792736806
+  },
+  {
+   "id": "st-1792736801",
+   "title": "Historia de Taxi",
+   "artist": "Ricardo Arjona",
+   "album": "",
+   "genre": "Otros",
+   "duration": 373,
+   "dur_str": "6:13 min",
+   "art": "",
+   "url": "/api/stream?artist=Ricardo%20Arjona&title=Historia%20de%20Taxi",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Ricardo Arjona/Ricardo Arjona - Historia de Taxi.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792736811
   }
  ]
 }
