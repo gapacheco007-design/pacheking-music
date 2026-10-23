@@ -1,5 +1,5 @@
 {
- "updated": 1792739346,
+ "updated": 1792739348,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -722,21 +722,6 @@
    "added": 1792739321
   },
   {
-   "id": "st-1792739294",
-   "title": "Shape of You",
-   "artist": "Boyce Avenue",
-   "album": "",
-   "genre": "Otros",
-   "duration": 192,
-   "dur_str": "3:11 min",
-   "art": "",
-   "url": "/api/stream?artist=Boyce%20Avenue&title=Shape%20of%20You",
-   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Boyce Avenue/Boyce Avenue - Shape of You.mp3",
-   "format": "FLAC / MP3 320k Master (VPS)",
-   "source": "vps_library",
-   "added": 1792739322
-  },
-  {
    "id": "st-1792739301",
    "title": "Shape",
    "artist": "Sophie Hunger",
@@ -825,6 +810,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792739345
+  },
+  {
+   "id": "st-1792739294",
+   "title": "Angels of Distress",
+   "artist": "Shape Of Despair",
+   "album": "",
+   "genre": "Otros",
+   "duration": 535,
+   "dur_str": "8:54 min",
+   "art": "",
+   "url": "/api/stream?artist=Shape%20Of%20Despair&title=Angels%20of%20Distress",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Shape Of Despair/Shape Of Despair - Angels of Distress.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792739348
   }
  ]
 }
