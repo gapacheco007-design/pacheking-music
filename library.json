@@ -1,5 +1,5 @@
 {
- "updated": 1792788903,
+ "updated": 1792788905,
  "tracks": [
   {
    "id": "st-1792735492",
@@ -2344,6 +2344,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792788903
+  },
+  {
+   "id": "st-1792788899",
+   "title": "Solo a Terceros",
+   "artist": "PXNDX",
+   "album": "",
+   "genre": "Otros",
+   "duration": 262,
+   "dur_str": "4:22 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/4578443fdc5beacf266d841e76b38bbd/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=PXNDX&title=Solo%20a%20Terceros",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/PXNDX/PXNDX - Solo a Terceros.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792788905
   }
  ]
 }
