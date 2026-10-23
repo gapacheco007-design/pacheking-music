@@ -525,6 +525,43 @@
         .dock-eco-heart-btn:hover {
             transform: scale(1.15);
         }
+
+        /* SUPPRESS NETLIFY BADGE COMPLETELY */
+        [data-netlify-badge],
+        .netlify-badge,
+        #netlify-badge,
+        [class*="netlify-badge"],
+        [id*="netlify-badge"],
+        iframe[src*="netlify"],
+        div[style*="netlify"] {
+            display: none !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+            pointer-events: none !important;
+            width: 0 !important;
+            height: 0 !important;
+            overflow: hidden !important;
+        }
+
+        .btn-fav-track {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px;
+            border-radius: 50%;
+            transition: transform 0.15s ease, background 0.15s ease;
+        }
+        .btn-fav-track:hover {
+            transform: scale(1.15);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        .btn-fav-track .icon {
+            width: 18px;
+            height: 18px;
+        }
         .ytmusic-thumbs-row {
             display: flex;
             align-items: center;
@@ -2757,6 +2794,9 @@
                 <div class="dock-artist" id="dock-artist">Selecciona una pista</div>
             </div>
             <div class="dock-eco-extras" id="dock-eco-extras" onclick="event.stopPropagation()">
+                <button class="dock-eco-heart-btn" id="dock-btn-fav" onclick="toggleCurrentFavorite(event)" title="Añadir a Favoritos">
+                    <svg class="icon" style="fill: var(--text-secondary); width: 20px; height: 20px;" viewBox="0 0 24 24"><path d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35zM12 18.55l-.1-.09C7.14 14.24 4 11.39 4 8.5 4 6.5 5.5 5 7.5 5c1.54 0 3.04.99 3.57 2.36h1.87C13.46 5.99 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5 0 2.89-3.14 5.74-7.9 10.05l-.1.1z"/></svg>
+                </button>
                 <span class="quality-badge lossless" id="dock-quality">LOSSLESS</span>
             </div>
         </div>
@@ -2936,6 +2976,9 @@
                 </div>
 
                 <div class="np-bottom-actions">
+                    <button class="np-bottom-btn" id="np-btn-fav" onclick="toggleCurrentFavorite(event)" title="Añadir a Favoritos">
+                        <svg class="icon" style="fill: var(--text-secondary); width: 22px; height: 22px;" viewBox="0 0 24 24"><path d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35zM12 18.55l-.1-.09C7.14 14.24 4 11.39 4 8.5 4 6.5 5.5 5 7.5 5c1.54 0 3.04.99 3.57 2.36h1.87C13.46 5.99 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5 0 2.89-3.14 5.74-7.9 10.05l-.1.1z"/></svg>
+                    </button>
                     <button class="np-bottom-btn" id="np-btn-save-lib" onclick="saveCurrentToLibrary()" title="Guardar en Biblioteca">
                         <svg class="icon" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
                     </button>
@@ -3418,10 +3461,53 @@
             applyUserProfile(user);
         }
 
-        function loginWithCredentials(username, password) {
-            const users = getUsersList();
+        async function loginWithCredentials(username, password) {
             const u = (username || "").trim().toLowerCase();
             const p = (password || "").trim();
+
+            if (!u || !p) {
+                showToast("Por favor ingresa usuario y contraseña");
+                return false;
+            }
+
+            try {
+                const res = await fetch(api('/api/users/login'), {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: u, password: p })
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.user) {
+                        const user = data.user;
+                        user.password = p;
+                        if (Array.isArray(user.library)) {
+                            localStorage.setItem('pkm_user_lib_' + user.username, JSON.stringify(user.library));
+                        }
+                        if (Array.isArray(user.favorites)) {
+                            localStorage.setItem('pkm_user_fav_' + user.username, JSON.stringify(user.favorites));
+                        }
+                        let users = getUsersList();
+                        users = users.filter(x => x.username.toLowerCase() !== u && x.id !== user.id);
+                        users.push(user);
+                        saveUsersList(users);
+
+                        setCurrentUser(user);
+                        closeUserModal();
+                        if (currentTab === "ajustes") renderCurrentView();
+                        showToast(`Sesión iniciada: ${user.name}`);
+                        return true;
+                    }
+                } else {
+                    const errData = await res.json().catch(() => ({}));
+                    showToast(errData.error || "Usuario o contraseña incorrectos");
+                    return false;
+                }
+            } catch (err) {
+                console.warn("VPS login notice, using local cache:", err);
+            }
+
+            const users = getUsersList();
             const found = users.find(x => x.username.toLowerCase() === u && x.password === p);
             if (found) {
                 setCurrentUser(found);
@@ -3435,7 +3521,7 @@
             }
         }
 
-        function registerNewUser(name, username, password, theme) {
+        async function registerNewUser(name, username, password, theme) {
             const cleanName = (name || "").trim();
             const cleanUser = (username || "").trim().toLowerCase().replace(/[^a-z0-9_]/g, "");
             const cleanPass = (password || "").trim();
@@ -3444,6 +3530,37 @@
             if (!cleanName || !cleanUser || !cleanPass) {
                 showToast("Por favor completa todos los campos");
                 return false;
+            }
+
+            try {
+                const res = await fetch(api('/api/users/register'), {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name: cleanName, username: cleanUser, password: cleanPass, theme: chosenTheme })
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.user) {
+                        const user = data.user;
+                        user.password = cleanPass;
+                        let users = getUsersList();
+                        users = users.filter(x => x.username.toLowerCase() !== cleanUser && x.id !== user.id);
+                        users.push(user);
+                        saveUsersList(users);
+
+                        setCurrentUser(user);
+                        closeUserModal();
+                        if (currentTab === "ajustes") renderCurrentView();
+                        showToast(`Cuenta creada: ${cleanName}`);
+                        return true;
+                    }
+                } else {
+                    const errData = await res.json().catch(() => ({}));
+                    showToast(errData.error || "No se pudo crear la cuenta");
+                    return false;
+                }
+            } catch (err) {
+                console.warn("VPS register notice, using local:", err);
             }
 
             const users = getUsersList();
@@ -3482,21 +3599,152 @@
             renderCurrentView();
         }
 
-        function deleteUser(userId) {
+        async function handleChangePasswordSubmit() {
             const cur = getCurrentUser();
-            if (!cur || cur.role !== "admin") {
+            if (!cur) {
+                showToast("Debes iniciar sesión para cambiar tu contraseña");
+                return;
+            }
+            const oldPass = document.getElementById("input-old-pass")?.value || "";
+            const newPass = document.getElementById("input-new-pass")?.value || "";
+            const confirmPass = document.getElementById("input-confirm-pass")?.value || "";
+
+            if (!oldPass || !newPass) {
+                showToast("Ingresa la contraseña actual y la nueva");
+                return;
+            }
+            if (newPass !== confirmPass) {
+                showToast("Las nuevas contraseñas no coinciden");
+                return;
+            }
+            if (newPass.length < 3) {
+                showToast("La contraseña debe tener al menos 3 caracteres");
+                return;
+            }
+
+            try {
+                const res = await fetch(api('/api/users/change-password'), {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        username: cur.username || cur.id,
+                        old_password: oldPass,
+                        new_password: newPass
+                    })
+                });
+                const data = await res.json().catch(() => ({}));
+                if (res.ok) {
+                    cur.password = newPass;
+                    let users = getUsersList();
+                    const uObj = users.find(x => x.username.toLowerCase() === (cur.username || cur.id).toLowerCase());
+                    if (uObj) uObj.password = newPass;
+                    saveUsersList(users);
+                    setCurrentUser(cur);
+
+                    showToast("Contraseña cambiada exitosamente");
+                    const op = document.getElementById("input-old-pass");
+                    const np = document.getElementById("input-new-pass");
+                    const cp = document.getElementById("input-confirm-pass");
+                    if (op) op.value = "";
+                    if (np) np.value = "";
+                    if (cp) cp.value = "";
+                    return;
+                } else {
+                    showToast(data.error || "No se pudo cambiar la contraseña");
+                    return;
+                }
+            } catch (err) {
+                if (cur.password === oldPass) {
+                    cur.password = newPass;
+                    let users = getUsersList();
+                    const uObj = users.find(x => x.username.toLowerCase() === (cur.username || cur.id).toLowerCase());
+                    if (uObj) uObj.password = newPass;
+                    saveUsersList(users);
+                    showToast("Contraseña cambiada localmente");
+                } else {
+                    showToast("Contraseña actual incorrecta");
+                }
+            }
+        }
+
+        async function adminChangeUserPassword(targetUsername) {
+            const cur = getCurrentUser();
+            if (!cur || cur.role !== 'admin') {
+                showToast("Solo el administrador puede realizar esta acción");
+                return;
+            }
+            const newPass = prompt(`Ingresa la nueva contraseña para el usuario @${targetUsername}:`);
+            if (!newPass || newPass.trim().length < 3) {
+                if (newPass !== null) showToast("La contraseña debe tener al menos 3 caracteres");
+                return;
+            }
+            try {
+                const res = await fetch(api('/api/users/admin-change-password'), {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        admin_user: cur.username || 'admin',
+                        admin_pass: cur.password || 'admin',
+                        target_username: targetUsername,
+                        new_password: newPass.trim()
+                    })
+                });
+                const data = await res.json().catch(() => ({}));
+                if (res.ok) {
+                    showToast(data.message || `Contraseña de @${targetUsername} actualizada`);
+                    if (currentTab === 'ajustes') renderCurrentView();
+                } else {
+                    showToast(data.error || "Error al actualizar contraseña");
+                }
+            } catch(e) {
+                showToast("Error de conexión al servidor");
+            }
+        }
+
+        async function adminDeleteUser(targetUsername) {
+            const cur = getCurrentUser();
+            if (!cur || cur.role !== 'admin') {
                 showToast("Solo el administrador puede eliminar perfiles");
                 return;
             }
-            if (userId === "admin") {
-                showToast("La cuenta principal de administrador no puede eliminarse");
+            if (targetUsername === 'admin') {
+                showToast("No se puede eliminar la cuenta principal de administrador");
                 return;
             }
-            let users = getUsersList();
-            users = users.filter(u => u.id !== userId);
-            saveUsersList(users);
-            if (currentTab === "ajustes") renderCurrentView();
-            showToast("Perfil eliminado");
+            if (!confirm(`¿Estás seguro de que deseas eliminar la cuenta de @${targetUsername}?`)) {
+                return;
+            }
+            try {
+                const res = await fetch(api('/api/users/admin-delete'), {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        admin_user: cur.username || 'admin',
+                        admin_pass: cur.password || 'admin',
+                        target_username: targetUsername
+                    })
+                });
+                const data = await res.json().catch(() => ({}));
+                if (res.ok) {
+                    let users = getUsersList();
+                    users = users.filter(u => u.username.toLowerCase() !== targetUsername.toLowerCase() && u.id !== targetUsername);
+                    saveUsersList(users);
+                    showToast(`Usuario @${targetUsername} eliminado`);
+                    if (currentTab === 'ajustes') renderCurrentView();
+                } else {
+                    showToast(data.error || "Error al eliminar usuario");
+                }
+            } catch(e) {
+                let users = getUsersList();
+                users = users.filter(u => u.username.toLowerCase() !== targetUsername.toLowerCase() && u.id !== targetUsername);
+                saveUsersList(users);
+                showToast(`Usuario eliminado localmente`);
+                if (currentTab === 'ajustes') renderCurrentView();
+            }
+        }
+
+        function deleteUser(userId) {
+            adminDeleteUser(userId);
         }
 
         function applyUserProfile(user) {
@@ -3611,6 +3859,13 @@
 
             loadLibrary();
             loadExploreFeed();
+
+            // Strictly suppress any Netlify badge element injected into DOM
+            function purgeNetlifyBadge() {
+                document.querySelectorAll('[data-netlify-badge], .netlify-badge, #netlify-badge, [class*="netlify-badge"], iframe[src*="netlify"]').forEach(el => el.remove());
+            }
+            purgeNetlifyBadge();
+            setInterval(purgeNetlifyBadge, 400);
         });
 
         // TABS NAVIGATION
@@ -3972,17 +4227,22 @@
             }
         }
 
-        // 2. BIBLIOTECA (PER-USER PERSONALIZED LIBRARY)
-        let adminLibraryViewMode = 'personal';
+        // 2. BIBLIOTECA (PER-USER PERSONALIZED LIBRARY & FAVORITES)
+        let currentLibraryTab = 'guardadas'; // 'guardadas', 'favoritos', 'master'
 
-        function setAdminLibraryView(mode) {
-            adminLibraryViewMode = mode;
+        function setLibraryTab(tab) {
+            currentLibraryTab = tab;
             if (currentTab === 'biblioteca') renderCurrentView();
         }
 
         function getUserLibraryKey() {
             const cur = getCurrentUser();
-            return cur ? ('pkm_user_lib_' + cur.id) : 'pkm_user_lib_guest';
+            return cur ? ('pkm_user_lib_' + (cur.username || cur.id)) : 'pkm_user_lib_guest';
+        }
+
+        function getUserFavoritesKey() {
+            const cur = getCurrentUser();
+            return cur ? ('pkm_user_fav_' + (cur.username || cur.id)) : 'pkm_user_fav_guest';
         }
 
         function getUserLibrary() {
@@ -3999,7 +4259,42 @@
         function saveUserLibrary(tracks) {
             try {
                 localStorage.setItem(getUserLibraryKey(), JSON.stringify(tracks));
+                syncUserDataToVPS();
             } catch (e) {}
+        }
+
+        function getUserFavorites() {
+            try {
+                const raw = localStorage.getItem(getUserFavoritesKey());
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    if (Array.isArray(parsed)) return parsed;
+                }
+            } catch (e) {}
+            return [];
+        }
+
+        function saveUserFavorites(favs) {
+            try {
+                localStorage.setItem(getUserFavoritesKey(), JSON.stringify(favs));
+                syncUserDataToVPS();
+            } catch (e) {}
+        }
+
+        function syncUserDataToVPS() {
+            const cur = getCurrentUser();
+            if (!cur || !cur.username) return;
+            const lib = getUserLibrary();
+            const favs = getUserFavorites();
+            fetch(api('/api/users/sync-data'), {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    username: cur.username || cur.id,
+                    library: lib,
+                    favorites: favs
+                })
+            }).catch(e => console.warn("VPS user sync notice:", e));
         }
 
         function isTrackInUserLibrary(track) {
@@ -4007,6 +4302,73 @@
             const lib = getUserLibrary();
             const clean = s => (s || '').toLowerCase().trim();
             return lib.some(t => clean(t.title) === clean(track.title) && clean(t.artist) === clean(track.artist));
+        }
+
+        function isFavorite(track) {
+            if (!track || !track.title) return false;
+            const favs = getUserFavorites();
+            const clean = s => (s || '').toLowerCase().trim();
+            return favs.some(t => clean(t.title) === clean(track.title) && clean(t.artist) === clean(track.artist));
+        }
+
+        function toggleFavorite(track) {
+            if (!track || !track.title) return;
+            const favs = getUserFavorites();
+            const clean = s => (s || '').toLowerCase().trim();
+            const idx = favs.findIndex(t => clean(t.title) === clean(track.title) && clean(t.artist) === clean(track.artist));
+            let added = false;
+            if (idx >= 0) {
+                favs.splice(idx, 1);
+                added = false;
+                showToast("Eliminada de tus Favoritos");
+            } else {
+                const cleanTrack = {
+                    id: track.id || ('fav_' + Date.now().toString(36) + '_' + Math.random().toString(36).substr(2, 5)),
+                    title: track.title,
+                    artist: track.artist,
+                    album: track.album || track.title,
+                    duration: track.duration || 0,
+                    dur_str: track.dur_str || (track.duration ? formatTime(track.duration) : ''),
+                    art: track.art || DEFAULT_ART,
+                    url: track.url || getDirectAudioUrl(track.artist, track.title) || api(`/api/stream?artist=${encodeURIComponent(track.artist)}&title=${encodeURIComponent(track.title)}&duration=${track.duration || 0}`),
+                    format: 'Full Studio Audio (The King Master)',
+                    ready: true
+                };
+                favs.unshift(cleanTrack);
+                added = true;
+                showToast(`Añadida a Favoritos: ${track.title}`);
+            }
+            saveUserFavorites(favs);
+            updateFavoriteUI(currentTrack);
+            if (currentTab === 'biblioteca') renderCurrentView();
+            if (currentTab === 'buscar') renderFilteredSearchResults();
+            return added;
+        }
+
+        function toggleCurrentFavorite(e) {
+            if (e) e.stopPropagation();
+            if (!currentTrack) {
+                showToast("No hay ninguna canción reproduciéndose");
+                return;
+            }
+            toggleFavorite(currentTrack);
+        }
+
+        function updateFavoriteUI(track) {
+            const isFav = track ? isFavorite(track) : false;
+            const heartFilled = `<svg class="icon" style="fill: #ff2d55; width: 20px; height: 20px;" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`;
+            const heartOutline = `<svg class="icon" style="fill: var(--text-secondary); width: 20px; height: 20px;" viewBox="0 0 24 24"><path d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35zM12 18.55l-.1-.09C7.14 14.24 4 11.39 4 8.5 4 6.5 5.5 5 7.5 5c1.54 0 3.04.99 3.57 2.36h1.87C13.46 5.99 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5 0 2.89-3.14 5.74-7.9 10.05l-.1.1z"/></svg>`;
+
+            const dockBtn = document.getElementById('dock-btn-fav');
+            if (dockBtn) {
+                dockBtn.innerHTML = isFav ? heartFilled : heartOutline;
+                dockBtn.title = isFav ? "Quitar de Favoritos" : "Añadir a Favoritos";
+            }
+            const npBtn = document.getElementById('np-btn-fav');
+            if (npBtn) {
+                npBtn.innerHTML = isFav ? heartFilled : heartOutline;
+                npBtn.title = isFav ? "Quitar de Favoritos" : "Añadir a Favoritos";
+            }
         }
 
         function addToUserLibrary(track) {
@@ -4025,7 +4387,7 @@
                 duration: track.duration || 0,
                 dur_str: track.dur_str || (track.duration ? formatTime(track.duration) : ''),
                 art: track.art || DEFAULT_ART,
-                url: track.url || getDirectAudioUrl(track.artist, track.title) || '',
+                url: track.url || getDirectAudioUrl(track.artist, track.title) || api(`/api/stream?artist=${encodeURIComponent(track.artist)}&title=${encodeURIComponent(track.title)}&duration=${track.duration || 0}`),
                 format: 'Full Studio Audio (The King Master)',
                 ready: true
             };
@@ -4049,6 +4411,7 @@
             const curUser = getCurrentUser();
             const isAdmin = curUser && curUser.role === 'admin';
             const userLib = getUserLibrary();
+            const userFavs = getUserFavorites();
 
             const header = document.createElement('div');
             header.className = 'view-header';
@@ -4058,31 +4421,45 @@
                 header.innerHTML = `
                     <h1 class="greeting-title">Biblioteca</h1>
                     <div class="greeting-subtitle">Colección personalizada &bull; ${userName}</div>
-                    <div style="display: flex; gap: 8px; margin-top: 14px;">
-                        <button class="eco-chip ${adminLibraryViewMode === 'personal' ? 'active' : ''}" onclick="setAdminLibraryView('personal')">Mi Biblioteca Personal (${userLib.length})</button>
-                        <button class="eco-chip ${adminLibraryViewMode === 'master' ? 'active' : ''}" onclick="setAdminLibraryView('master')">Catálogo Servidor (${libraryTracks.length})</button>
+                    <div style="display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap;">
+                        <button class="eco-chip ${currentLibraryTab === 'guardadas' ? 'active' : ''}" onclick="setLibraryTab('guardadas')">Mi Biblioteca (${userLib.length})</button>
+                        <button class="eco-chip ${currentLibraryTab === 'favoritos' ? 'active' : ''}" onclick="setLibraryTab('favoritos')">Favoritos (${userFavs.length})</button>
+                        <button class="eco-chip ${currentLibraryTab === 'master' ? 'active' : ''}" onclick="setLibraryTab('master')">Catálogo Servidor (${libraryTracks.length})</button>
                     </div>
                 `;
             } else {
                 header.innerHTML = `
                     <h1 class="greeting-title">Tu Biblioteca</h1>
-                    <div class="greeting-subtitle">Colección personal de ${userName} &bull; ${userLib.length} canciones guardadas</div>
+                    <div class="greeting-subtitle">Colección personal de ${userName}</div>
+                    <div style="display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap;">
+                        <button class="eco-chip ${currentLibraryTab === 'guardadas' ? 'active' : ''}" onclick="setLibraryTab('guardadas')">Canciones Guardadas (${userLib.length})</button>
+                        <button class="eco-chip ${currentLibraryTab === 'favoritos' ? 'active' : ''}" onclick="setLibraryTab('favoritos')">Favoritos (${userFavs.length})</button>
+                    </div>
                 `;
             }
             container.appendChild(header);
 
-            const displayList = (isAdmin && adminLibraryViewMode === 'master') ? libraryTracks : userLib;
+            let displayList = userLib;
+            if (currentLibraryTab === 'favoritos') {
+                displayList = userFavs;
+            } else if (isAdmin && currentLibraryTab === 'master') {
+                displayList = libraryTracks;
+            }
 
             if (displayList.length === 0) {
                 const empty = document.createElement('div');
                 empty.className = 'library-empty-state';
+                const emptyMsg = currentLibraryTab === 'favoritos'
+                    ? 'No tienes canciones marcadas como favoritas aún. Presiona el ícono del corazón en cualquier canción para tenerla a mano.'
+                    : 'Tu biblioteca personal está vacía. Busca cualquier canción o artista y agrégala con el botón "+ Biblioteca" para escucharla cuando quieras.';
+                const emptyTitle = currentLibraryTab === 'favoritos' ? 'Sin Canciones Favoritas' : 'Tu biblioteca está vacía';
                 empty.innerHTML = `
                     <div class="empty-icon-wrap">
-                        <svg class="icon" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
                     </div>
-                    <div class="empty-title">Tu biblioteca personal está vacía</div>
-                    <div class="empty-desc">Esta biblioteca es exclusivamente tuya. Busca cualquier canción o artista y agrégala con el botón "+ Biblioteca" para escucharla cuando quieras.</div>
-                    <button class="btn-accent" onclick="switchTab('buscar')" style="margin-top: 16px;">Buscar y agregar canciones</button>
+                    <div class="empty-title">${emptyTitle}</div>
+                    <div class="empty-desc">${emptyMsg}</div>
+                    <button class="btn-accent" onclick="switchTab('buscar')" style="margin-top: 16px;">Explorar catálogo</button>
                 `;
                 container.appendChild(empty);
                 return;
@@ -4095,8 +4472,9 @@
                 row.className = 'track-row';
                 row.onclick = () => playTrackFromList(displayList, idx);
 
-                const isMasterView = isAdmin && adminLibraryViewMode === 'master';
+                const isMasterView = isAdmin && currentLibraryTab === 'master';
                 const inPersonal = isTrackInUserLibrary(t);
+                const isFav = isFavorite(t);
 
                 row.innerHTML = `
                     <img src="${t.art || DEFAULT_ART}" class="track-art-sm" alt="${t.title}" referrerpolicy="no-referrer" loading="lazy" onerror="this.onerror=null; this.src='assets/brand/theking-badge.png';">
@@ -4106,9 +4484,16 @@
                     </div>
                     <span class="quality-badge lossless">LOSSLESS</span>
                     <div class="track-actions" onclick="event.stopPropagation()">
+                        <button class="btn-fav-track" onclick="toggleFavorite(${JSON.stringify(t).replace(/"/g, '&quot;')})" title="${isFav ? 'Quitar de Favoritos' : 'Añadir a Favoritos'}">
+                            ${isFav ? `<svg class="icon" style="fill: #ff2d55; width: 18px; height: 18px;" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>` : `<svg class="icon" style="fill: var(--text-secondary); width: 18px; height: 18px;" viewBox="0 0 24 24"><path d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35zM12 18.55l-.1-.09C7.14 14.24 4 11.39 4 8.5 4 6.5 5.5 5 7.5 5c1.54 0 3.04.99 3.57 2.36h1.87C13.46 5.99 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5 0 2.89-3.14 5.74-7.9 10.05l-.1.1z"/></svg>`}
+                        </button>
                         ${isMasterView ? `
                             <button class="btn-track-action" onclick="addToUserLibrary(${JSON.stringify(t).replace(/"/g, '&quot;')})" title="Agregar a mi biblioteca personal">
                                 <span>${inPersonal ? 'En Mi Biblioteca' : '+ Mi Biblioteca'}</span>
+                            </button>
+                        ` : (currentLibraryTab === 'favoritos' && !inPersonal) ? `
+                            <button class="btn-track-action" onclick="addToUserLibrary(${JSON.stringify(t).replace(/"/g, '&quot;')})" title="Agregar a mi biblioteca personal">
+                                <span>+ Biblioteca</span>
                             </button>
                         ` : `
                             <button class="btn-track-action" onclick="removeFromUserLibrary('${t.id}')" title="Eliminar de mi biblioteca" style="color: #ff4d4d; border-color: rgba(255,77,77,0.3);">
@@ -4256,13 +4641,13 @@
                 return;
             }
 
-            // Ensure all URLs are absolute (targeting VPS when deployed on GitHub Pages) and artwork dzcdn bypassed
+            // Ensure all URLs are absolute (targeting VPS when deployed on GitHub Pages) and artwork properly routed
             tracks.forEach(t => {
                 if (t.url && !t.url.startsWith('http://') && !t.url.startsWith('https://')) {
                     t.url = api(t.url);
                 }
-                if (t.art && t.art.includes('dzcdn')) {
-                    t.art = DEFAULT_ART;
+                if (t.art && t.art.startsWith('/')) {
+                    t.art = api(t.art);
                 }
             });
 
@@ -4295,6 +4680,7 @@
                 row.className = 'track-row';
                 row.onclick = () => playTrackFromList(filtered, idx);
                 const inLib = isTrackInUserLibrary(t);
+                const isFav = isFavorite(t);
                 row.innerHTML = `
                     <img src="${t.art || DEFAULT_ART}" class="track-art-sm" alt="${t.title}" referrerpolicy="no-referrer" loading="lazy" onerror="this.onerror=null; this.src='assets/brand/theking-badge.png';">
                     <div class="track-meta-col">
@@ -4303,6 +4689,9 @@
                     </div>
                     <span class="quality-badge lossless">LOSSLESS</span>
                     <div class="track-actions" onclick="event.stopPropagation()">
+                        <button class="btn-fav-track" onclick="toggleFavorite(${JSON.stringify(t).replace(/"/g, '&quot;')})" title="${isFav ? 'Quitar de Favoritos' : 'Añadir a Favoritos'}">
+                            ${isFav ? `<svg class="icon" style="fill: #ff2d55; width: 18px; height: 18px;" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>` : `<svg class="icon" style="fill: var(--text-secondary); width: 18px; height: 18px;" viewBox="0 0 24 24"><path d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35zM12 18.55l-.1-.09C7.14 14.24 4 11.39 4 8.5 4 6.5 5.5 5 7.5 5c1.54 0 3.04.99 3.57 2.36h1.87C13.46 5.99 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5 0 2.89-3.14 5.74-7.9 10.05l-.1.1z"/></svg>`}
+                        </button>
                         ${inLib ? `
                             <button class="btn-track-action" onclick="removeFromUserLibrary('${t.id}')" style="color: var(--accent); border-color: var(--accent);" title="Guardada en tu biblioteca (clic para quitar)">
                                 <svg class="icon" style="width: 14px; height: 14px; fill: var(--accent);" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
@@ -4389,6 +4778,28 @@
                 `;
             }
             container.appendChild(userCard);
+
+            // Change Password Card (Only if user is logged in)
+            if (curUser) {
+                const passCard = document.createElement('div');
+                passCard.className = 'settings-card';
+                passCard.innerHTML = `
+                    <div class="settings-card-title">
+                        <svg class="icon" style="fill: var(--accent);" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+                        <span>Seguridad y Contraseña</span>
+                    </div>
+                    <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
+                        Actualiza tu contraseña para mantener protegida tu cuenta personal y biblioteca.
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 10px; max-width: 380px;">
+                        <input type="password" id="input-old-pass" class="search-main-input" placeholder="Contraseña actual" style="font-size: 14px; padding: 10px 14px; border-radius: 8px;">
+                        <input type="password" id="input-new-pass" class="search-main-input" placeholder="Nueva contraseña (mínimo 3 caracteres)" style="font-size: 14px; padding: 10px 14px; border-radius: 8px;">
+                        <input type="password" id="input-confirm-pass" class="search-main-input" placeholder="Confirmar nueva contraseña" style="font-size: 14px; padding: 10px 14px; border-radius: 8px;">
+                        <button class="btn-accent" onclick="handleChangePasswordSubmit()" style="align-self: flex-start; margin-top: 4px; padding: 8px 18px; border-radius: 8px;">Actualizar Contraseña</button>
+                    </div>
+                `;
+                container.appendChild(passCard);
+            }
 
             // 2. Interface & Ecosystem Switcher
             const themeCard = document.createElement('div');
@@ -4481,7 +4892,7 @@
                         <span>Panel de Administración de Usuarios</span>
                     </div>
                     <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
-                        Control exclusivo del Administrador para gestionar todas las cuentas registradas en la plataforma.
+                        Control exclusivo de administración para gestionar usuarios, cambiar contraseñas y ver bibliotecas.
                     </div>
                     <div style="overflow-x: auto;">
                         <table class="admin-users-table">
@@ -4491,10 +4902,10 @@
                                     <th>Usuario</th>
                                     <th>Rol</th>
                                     <th>Interfaz</th>
-                                    <th>Acción</th>
+                                    <th>Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="admin-users-tbody">
                                 ${allUsers.map(u => `
                                     <tr>
                                         <td style="font-weight: 700;">${u.name}</td>
@@ -4502,7 +4913,10 @@
                                         <td><span class="user-item-role-tag ${u.role}">${u.role === 'admin' ? 'Admin' : 'Usuario'}</span></td>
                                         <td style="text-transform: capitalize;">${u.theme || 'apple'}</td>
                                         <td>
-                                            ${u.id !== 'admin' ? `<button class="btn-track-action" onclick="deleteUser('${u.id}')" style="color: #ff4d4d; border-color: rgba(255,77,77,0.3); padding: 4px 10px; font-size: 11px;">Eliminar</button>` : '<span style="color: var(--text-muted); font-size: 11px;">Principal</span>'}
+                                            <div style="display: flex; gap: 6px; align-items: center;">
+                                                <button class="btn-track-action" onclick="adminChangeUserPassword('${u.username}')" style="padding: 4px 8px; font-size: 11px;" title="Cambiar contraseña de este usuario">Contraseña</button>
+                                                ${u.id !== 'admin' && u.username !== 'admin' ? `<button class="btn-track-action" onclick="adminDeleteUser('${u.username}')" style="color: #ff4d4d; border-color: rgba(255,77,77,0.3); padding: 4px 8px; font-size: 11px;" title="Eliminar usuario">Eliminar</button>` : ''}
+                                            </div>
                                         </td>
                                     </tr>
                                 `).join('')}
@@ -4511,6 +4925,32 @@
                     </div>
                 `;
                 container.appendChild(adminCard);
+
+                // Fetch real-time active users from VPS
+                fetch(api('/api/users/list'))
+                    .then(r => r.json())
+                    .then(data => {
+                        if (data && Array.isArray(data.users) && data.users.length > 0) {
+                            const tbody = document.getElementById('admin-users-tbody');
+                            if (tbody) {
+                                tbody.innerHTML = data.users.map(u => `
+                                    <tr>
+                                        <td style="font-weight: 700;">${u.name}</td>
+                                        <td style="color: var(--accent);">@${u.username}</td>
+                                        <td><span class="user-item-role-tag ${u.role}">${u.role === 'admin' ? 'Admin' : 'Usuario'}</span></td>
+                                        <td style="text-transform: capitalize;">${u.theme || 'apple'}</td>
+                                        <td>
+                                            <div style="display: flex; gap: 6px; align-items: center;">
+                                                <button class="btn-track-action" onclick="adminChangeUserPassword('${u.username}')" style="padding: 4px 8px; font-size: 11px;" title="Cambiar contraseña">Contraseña</button>
+                                                ${u.id !== 'admin' && u.username !== 'admin' ? `<button class="btn-track-action" onclick="adminDeleteUser('${u.username}')" style="color: #ff4d4d; border-color: rgba(255,77,77,0.3); padding: 4px 8px; font-size: 11px;" title="Eliminar cuenta">Eliminar</button>` : ''}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                `).join('');
+                            }
+                        }
+                    })
+                    .catch(e => console.warn("VPS users list update notice:", e));
             }
 
             // Reset cache card
@@ -4541,7 +4981,8 @@
         }
 
         function applyEcosystemTheme(themeName) {
-            const isStandard = getCurrentUser().role === 'user';
+            const cur = getCurrentUser();
+            const isStandard = cur ? cur.role === 'user' : false;
             document.body.className = 'theme-' + themeName + (isStandard ? ' user-standard' : '');
             const metaTheme = document.querySelector('meta[name="theme-color"]');
             if (metaTheme) {
@@ -5114,6 +5555,7 @@
                 const npTot = document.getElementById('np-time-tot');
                 if (npTot) npTot.textContent = formatTime(totSec);
             }
+            updateFavoriteUI(track);
         }
 
         function formatTime(secs) {
