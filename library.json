@@ -1,5 +1,5 @@
 {
- "updated": 1792788874,
+ "updated": 1792788903,
  "tracks": [
   {
    "id": "st-1792735492",
@@ -2329,6 +2329,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792788874
+  },
+  {
+   "id": "st-1792788898",
+   "title": "Nuestra Aflicción",
+   "artist": "PXNDX",
+   "album": "",
+   "genre": "Otros",
+   "duration": 266,
+   "dur_str": "4:25 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/4578443fdc5beacf266d841e76b38bbd/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=PXNDX&title=Nuestra%20Aflicci%C3%B3n",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/PXNDX/PXNDX - Nuestra Aflicción.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792788903
   }
  ]
 }
