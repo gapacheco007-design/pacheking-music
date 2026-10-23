@@ -12,7 +12,7 @@
     <title>TheKing Music</title>
     <link rel="icon" href="assets/brand/theking-badge.png" type="image/png">
     <script>
-        const APP_BUILD_VERSION = "20261023_v25_root_cause_audio_and_miniplayer_fix";
+        const APP_BUILD_VERSION = "20261023_v26_corporate_unblock_and_user_profiles";
         if (localStorage.getItem('pkm_build') !== APP_BUILD_VERSION) {
             localStorage.setItem('pkm_build', APP_BUILD_VERSION);
             if ('caches' in window) {
@@ -2243,6 +2243,331 @@
                 height: 180px;
             }
         }
+
+        /* THE KING MUSIC - ECOSYSTEM BADGES */
+        .brand-eco-badge {
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 6px;
+            vertical-align: middle;
+            display: inline-block;
+        }
+        body.theme-apple .brand-eco-badge {
+            background: rgba(250, 35, 59, 0.2);
+            color: #fa233b;
+            border: 1px solid rgba(250, 35, 59, 0.4);
+        }
+        body.theme-spotify .brand-eco-badge {
+            background: rgba(29, 185, 84, 0.2);
+            color: #1ed760;
+            border: 1px solid rgba(29, 185, 84, 0.4);
+        }
+        body.theme-deezer .brand-eco-badge {
+            background: rgba(162, 56, 255, 0.2);
+            color: #c988ff;
+            border: 1px solid rgba(162, 56, 255, 0.4);
+        }
+        body.theme-ytmusic .brand-eco-badge {
+            background: rgba(255, 0, 0, 0.2);
+            color: #ff4d4d;
+            border: 1px solid rgba(255, 0, 0, 0.4);
+        }
+
+        /* STANDARD USER PRIVACY MODE (HIDES ALL INTERNAL VPS / RESOLUTION SPECS) */
+        body.user-standard .vps-status-pill,
+        body.user-standard .vps-technical-card,
+        body.user-standard .quality-badge.lossless,
+        body.user-standard #np-codec-pill,
+        body.user-standard .np-lossless-pill,
+        body.user-standard #dock-quality,
+        body.user-standard .quick-pick-badge,
+        body.user-standard .np-badge-row,
+        body.user-standard .vps-sidebar-footer,
+        body.user-standard .technical-spec-row {
+            display: none !important;
+        }
+
+        /* SPOTIFY 6-CARD QUICK GRID */
+        .spotify-quick-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+        @media (max-width: 900px) {
+            .spotify-quick-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 520px) {
+            .spotify-quick-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .spotify-quick-card {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 6px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.2s ease;
+            position: relative;
+            height: 60px;
+        }
+        .spotify-quick-card:hover {
+            background: rgba(255, 255, 255, 0.16);
+        }
+        .spotify-quick-thumb {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            flex-shrink: 0;
+            background: #242426;
+        }
+        .spotify-quick-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #ffffff;
+            padding: 0 12px;
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .spotify-quick-play-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #1ed760;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+            opacity: 0;
+            transform: scale(0.85);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            flex-shrink: 0;
+        }
+        .spotify-quick-card:hover .spotify-quick-play-btn {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .spotify-quick-play-btn .icon {
+            fill: #000000;
+            width: 16px;
+            height: 16px;
+        }
+
+        /* USER PROFILE WIDGET IN SIDEBAR */
+        .user-profile-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            margin: 12px 14px;
+            cursor: pointer;
+            transition: all 0.18s ease;
+        }
+        .user-profile-bar:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: var(--border-hover);
+        }
+        .user-avatar-badge {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .user-info-meta {
+            flex: 1;
+            min-width: 0;
+        }
+        .user-name-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .user-role-subtitle {
+            font-size: 10px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .user-dropdown-icon {
+            width: 16px;
+            height: 16px;
+            fill: var(--text-secondary);
+            flex-shrink: 0;
+        }
+
+        /* USER MODAL OVERLAY */
+        .user-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.78);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            z-index: 130;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .user-modal-overlay.open {
+            display: flex;
+        }
+        .user-modal-box {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-hover);
+            border-radius: 18px;
+            width: 100%;
+            max-width: 440px;
+            padding: 24px;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85);
+        }
+        .user-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        .user-modal-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: #ffffff;
+        }
+        .user-modal-close-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #ffffff;
+        }
+        .user-list-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin: 16px 0;
+            max-height: 240px;
+            overflow-y: auto;
+        }
+        .user-list-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.18s ease;
+        }
+        .user-list-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .user-list-item.active {
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.12);
+        }
+        .user-item-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .user-item-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        .user-item-role-tag {
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+        .user-item-role-tag.admin {
+            background: rgba(250, 35, 59, 0.2);
+            color: #fa233b;
+        }
+        .user-item-role-tag.user {
+            background: rgba(29, 185, 84, 0.2);
+            color: #1ed760;
+        }
+        .user-create-box {
+            margin-top: 18px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-subtle);
+        }
+        .user-create-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 8px;
+        }
+        .user-create-form {
+            display: flex;
+            gap: 8px;
+        }
+        .user-create-input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 10px 12px;
+            color: #ffffff;
+            font-size: 13px;
+            outline: none;
+        }
+        .user-create-input:focus {
+            border-color: var(--accent);
+        }
+        .user-create-btn {
+            background: var(--accent);
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            padding: 0 16px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity 0.18s ease;
+        }
+        .user-create-btn:hover {
+            opacity: 0.9;
+        }
+    </style>
+
     </style>
 </head>
 <body>
@@ -2251,7 +2576,16 @@
     <aside class="sidebar">
         <div class="brand-header" onclick="switchTab('inicio')">
             <img src="assets/brand/theking-badge.png" class="brand-badge" id="brand-badge-img" alt="TheKing Logo">
-            <div class="brand-text" id="brand-header-text">TheKing <span>Music</span></div>
+            <div class="brand-text" id="brand-header-text">TheKing <span>Music</span> <span class="brand-eco-badge" id="header-eco-badge">APPLE</span></div>
+        </div>
+
+        <div class="user-profile-bar" id="sidebar-user-widget" onclick="openUserModal()" title="Cambiar usuario o crear cuenta">
+            <div class="user-avatar-badge" id="user-badge-avatar">A</div>
+            <div class="user-info-meta">
+                <div class="user-name-title" id="user-badge-name">Administrador</div>
+                <div class="user-role-subtitle" id="user-badge-role">Cuenta Maestra</div>
+            </div>
+            <svg class="icon user-dropdown-icon" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
         </div>
 
         <div class="sidebar-search-box">
@@ -2522,7 +2856,7 @@
                     "album": "Radical Optimism",
                     "genre": "Pop",
                     "duration": 185,
-                    "art": "https://cdn-images.dzcdn.net/images/cover/12c05200e9097af48e0ad4fc259cee25/1000x1000-000000-80-0-0.jpg",
+                    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/4a/bc/40/4abc403e-d832-6ff8-a3fc-2212217c46a6/190296645398.jpg/600x600bb.jpg",
                     "tag": "Audio Master Hi-Res"
                 },
                 {
@@ -2532,7 +2866,7 @@
                     "album": "Un Verano Sin Ti",
                     "genre": "Urbano Latino",
                     "duration": 243,
-                    "art": "https://cdn-images.dzcdn.net/images/cover/b29d1070377b784384c2456093f96a66/1000x1000-000000-80-0-0.jpg",
+                    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/3a/05/cf/3a05cfa2-d045-8120-d4fb-5ca22cf90226/196626922572.jpg/600x600bb.jpg",
                     "tag": "Audio Lossless"
                 },
                 {
@@ -2542,7 +2876,7 @@
                     "album": "After Hours",
                     "genre": "R&B / Synthpop",
                     "duration": 200,
-                    "art": "https://cdn-images.dzcdn.net/images/cover/fd00ebd6d30d7253f813dba3bb1c66a9/1000x1000-000000-80-0-0.jpg",
+                    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/c2/be/93/c2be9359-8dd3-bf30-4e3f-cfc2738ea824/20UMGIM10617.rgb.jpg/600x600bb.jpg",
                     "tag": "Estudio Master"
                 },
                 {
@@ -2552,7 +2886,7 @@
                     "album": "Parachutes",
                     "genre": "Rock Alternativo",
                     "duration": 269,
-                    "art": "https://cdn-images.dzcdn.net/images/cover/970dce98eeea6729244c0ae71707a83d/1000x1000-000000-80-0-0.jpg",
+                    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/28/67/62/286762ae-3fa1-20a2-23c3-e8ec78939e6a/00724352778356.rgb.jpg/600x600bb.jpg",
                     "tag": "Lossless 24-bit"
                 },
                 {
@@ -2562,17 +2896,17 @@
                     "album": "A Night at the Opera",
                     "genre": "Rock Clásico",
                     "duration": 354,
-                    "art": "https://cdn-images.dzcdn.net/images/cover/0b56f4eee05fa1ea753c5654b2cdb70c/1000x1000-000000-80-0-0.jpg",
+                    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/9c/03/40/9c0340b8-c300-84c4-f2a8-0eb94738734a/00602567990470.rgb.jpg/600x600bb.jpg",
                     "tag": "Hi-Res Studio"
                 }
             ],
             "quick_picks": [
-                {"title": "Mariposa Traicionera", "artist": "Maná", "album": "Revolución de Amor", "genre": "Pop Latino", "duration": 265, "art": "https://cdn-images.dzcdn.net/images/cover/3acdb5d7fcb2a74686c598758f226aff/1000x1000-000000-80-0-0.jpg"},
-                {"title": "Starboy", "artist": "The Weeknd feat. Daft Punk", "album": "Starboy", "genre": "R&B / Pop", "duration": 230, "art": "https://cdn-images.dzcdn.net/images/cover/134778e4c4f19ea71c82408300925a9a/1000x1000-000000-80-0-0.jpg"},
-                {"title": "Shape of You", "artist": "Ed Sheeran", "album": "÷ (Divide)", "genre": "Pop", "duration": 233, "art": "https://cdn-images.dzcdn.net/images/cover/107c2b43f10c249077c1f7618563bb63/1000x1000-000000-80-0-0.jpg"},
-                {"title": "Billie Jean", "artist": "Michael Jackson", "album": "Thriller", "genre": "Pop / Dance", "duration": 294, "art": "https://cdn-images.dzcdn.net/images/cover/a0ad67d1beb761f2cb9f8b60e5bcf07a/1000x1000-000000-80-0-0.jpg"},
-                {"title": "Viva La Vida", "artist": "Coldplay", "album": "Viva la Vida", "genre": "Rock Alternativo", "duration": 242, "art": "https://cdn-images.dzcdn.net/images/cover/eede3cd0dc3a5a87c7a5b1085b022e2d/1000x1000-000000-80-0-0.jpg"},
-                {"title": "Despacito", "artist": "Luis Fonsi feat. Daddy Yankee", "album": "VIDA", "genre": "Pop Latino", "duration": 228, "art": "https://cdn-images.dzcdn.net/images/cover/7985ef4ccd9e66af2fc3c18d629689aa/1000x1000-000000-80-0-0.jpg"}
+                {"title": "Mariposa Traicionera", "artist": "Maná", "album": "Revolución de Amor", "genre": "Pop Latino", "duration": 265, "art": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/ba/ca/26/baca2626-d615-ce1b-71a2-588a4e8d3566/075679361721.jpg/600x600bb.jpg"},
+                {"title": "Starboy", "artist": "The Weeknd feat. Daft Punk", "album": "Starboy", "genre": "R&B / Pop", "duration": 230, "art": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/80/f7/5d/80f75d3f-561b-9fca-3ebf-801648a731d1/16UMGIM86259.rgb.jpg/600x600bb.jpg"},
+                {"title": "Shape of You", "artist": "Ed Sheeran", "album": "÷ (Divide)", "genre": "Pop", "duration": 233, "art": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/a5/d8/d5/a5d8d5df-4d37-9750-fa0c-66f851ae7a29/190295851288.jpg/600x600bb.jpg"},
+                {"title": "Billie Jean", "artist": "Michael Jackson", "album": "Thriller", "genre": "Pop / Dance", "duration": 294, "art": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/09/c0/83/09c08362-d022-deaa-16cf-f10f4fefec19/886445479069.jpg/600x600bb.jpg"},
+                {"title": "Viva La Vida", "artist": "Coldplay", "album": "Viva la Vida", "genre": "Rock Alternativo", "duration": 242, "art": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/34/ec/36/34ec3643-41bb-20fa-f3ca-27df4eef10e7/00094636605856.rgb.jpg/600x600bb.jpg"},
+                {"title": "Despacito", "artist": "Luis Fonsi feat. Daddy Yankee", "album": "VIDA", "genre": "Pop Latino", "duration": 228, "art": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/2b/9b/38/2b9b389e-2936-e63d-4959-ff2e2bb469b6/17UMGIM01267.rgb.jpg/600x600bb.jpg"}
             ],
             "genres": [
                 {"id": "pop", "name": "Pop", "gradient": "linear-gradient(135deg, #fa233b 0%, #ff5277 100%)"},
@@ -2585,12 +2919,12 @@
                 {"id": "clasica", "name": "Clásica", "gradient": "linear-gradient(135deg, #64748b 0%, #334155 100%)"}
             ],
             "albums": [
-                {"id": "alb-1", "title": "Un Verano Sin Ti", "artist": "Bad Bunny", "year": "2022", "art": "https://cdn-images.dzcdn.net/images/cover/b29d1070377b784384c2456093f96a66/1000x1000-000000-80-0-0.jpg"},
-                {"id": "alb-2", "title": "After Hours", "artist": "The Weeknd", "year": "2020", "art": "https://cdn-images.dzcdn.net/images/cover/fd00ebd6d30d7253f813dba3bb1c66a9/1000x1000-000000-80-0-0.jpg"},
-                {"id": "alb-3", "title": "Radical Optimism", "artist": "Dua Lipa", "year": "2024", "art": "https://cdn-images.dzcdn.net/images/cover/e77de425a3ba0c69f00e6525daec5738/1000x1000-000000-80-0-0.jpg"},
-                {"id": "alb-4", "title": "Parachutes", "artist": "Coldplay", "year": "2000", "art": "https://cdn-images.dzcdn.net/images/cover/970dce98eeea6729244c0ae71707a83d/1000x1000-000000-80-0-0.jpg"},
-                {"id": "alb-5", "title": "A Night at the Opera", "artist": "Queen", "year": "1975", "art": "https://cdn-images.dzcdn.net/images/cover/0b56f4eee05fa1ea753c5654b2cdb70c/1000x1000-000000-80-0-0.jpg"},
-                {"id": "alb-6", "title": "Thriller", "artist": "Michael Jackson", "year": "1982", "art": "https://cdn-images.dzcdn.net/images/cover/92a024220a9532489c75c9d994835697/1000x1000-000000-80-0-0.jpg"}
+                {"id": "alb-1", "title": "Un Verano Sin Ti", "artist": "Bad Bunny", "year": "2022", "art": "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/3a/05/cf/3a05cfa2-d045-8120-d4fb-5ca22cf90226/196626922572.jpg/600x600bb.jpg"},
+                {"id": "alb-2", "title": "After Hours", "artist": "The Weeknd", "year": "2020", "art": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/c2/be/93/c2be9359-8dd3-bf30-4e3f-cfc2738ea824/20UMGIM10617.rgb.jpg/600x600bb.jpg"},
+                {"id": "alb-3", "title": "Radical Optimism", "artist": "Dua Lipa", "year": "2024", "art": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/4a/bc/40/4abc403e-d832-6ff8-a3fc-2212217c46a6/190296645398.jpg/600x600bb.jpg"},
+                {"id": "alb-4", "title": "Parachutes", "artist": "Coldplay", "year": "2000", "art": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/28/67/62/286762ae-3fa1-20a2-23c3-e8ec78939e6a/00724352778356.rgb.jpg/600x600bb.jpg"},
+                {"id": "alb-5", "title": "A Night at the Opera", "artist": "Queen", "year": "1975", "art": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/9c/03/40/9c0340b8-c300-84c4-f2a8-0eb94738734a/00602567990470.rgb.jpg/600x600bb.jpg"},
+                {"id": "alb-6", "title": "Thriller", "artist": "Michael Jackson", "year": "1982", "art": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/09/c0/83/09c08362-d022-deaa-16cf-f10f4fefec19/886445479069.jpg/600x600bb.jpg"}
             ]
         };
 
@@ -2649,9 +2983,143 @@
             }
         });
 
+        // USER PROFILE MANAGEMENT SYSTEM
+        const DEFAULT_USERS = [
+            { id: 'admin', name: 'The King (Admin)', role: 'admin', avatar: 'K', createdAt: 1 },
+            { id: 'guest', name: 'Invitado', role: 'user', avatar: 'I', createdAt: 2 }
+        ];
+
+        function getUsersList() {
+            try {
+                const raw = localStorage.getItem('pkm_users');
+                if (raw) {
+                    const list = JSON.parse(raw);
+                    if (Array.isArray(list) && list.length > 0) return list;
+                }
+            } catch(e) {}
+            localStorage.setItem('pkm_users', JSON.stringify(DEFAULT_USERS));
+            return DEFAULT_USERS;
+        }
+
+        function saveUsersList(users) {
+            localStorage.setItem('pkm_users', JSON.stringify(users));
+        }
+
+        function getCurrentUser() {
+            const users = getUsersList();
+            const curId = localStorage.getItem('pkm_current_user_id') || 'admin';
+            const found = users.find(u => u.id === curId);
+            return found || users[0];
+        }
+
+        function setCurrentUser(userId) {
+            const users = getUsersList();
+            const user = users.find(u => u.id === userId);
+            if (!user) return;
+            localStorage.setItem('pkm_current_user_id', user.id);
+            applyUserProfile(user);
+            showToast(`Sesión: ${user.name} (${user.role === 'admin' ? 'Administrador' : 'Estándar'})`);
+        }
+
+        function applyUserProfile(user) {
+            const isStandard = user.role === 'user';
+            document.body.classList.toggle('user-standard', isStandard);
+
+            const badgeAvatar = document.getElementById('user-badge-avatar');
+            const badgeName = document.getElementById('user-badge-name');
+            const badgeRole = document.getElementById('user-badge-role');
+            if (badgeAvatar) badgeAvatar.textContent = user.avatar || user.name.charAt(0).toUpperCase();
+            if (badgeName) badgeName.textContent = user.name;
+            if (badgeRole) badgeRole.textContent = user.role === 'admin' ? 'Administrador' : 'Usuario Estándar';
+
+            if (currentTab === 'ajustes') {
+                renderCurrentView();
+            }
+        }
+
+        function createNewUser(name) {
+            const cleanName = (name || '').trim();
+            if (!cleanName) {
+                showToast('Ingresa un nombre para el nuevo perfil');
+                return;
+            }
+            const users = getUsersList();
+            const newId = 'usr_' + Date.now().toString(36);
+            const newUser = {
+                id: newId,
+                name: cleanName,
+                role: 'user',
+                avatar: cleanName.charAt(0).toUpperCase(),
+                createdAt: Date.now()
+            };
+            users.push(newUser);
+            saveUsersList(users);
+            setCurrentUser(newId);
+            closeUserModal();
+            showToast(`Perfil "${cleanName}" creado con éxito`);
+        }
+
+        function deleteUser(userId) {
+            if (userId === 'admin') {
+                showToast('El perfil Administrador no puede eliminarse');
+                return;
+            }
+            let users = getUsersList();
+            users = users.filter(u => u.id !== userId);
+            saveUsersList(users);
+            const cur = getCurrentUser();
+            if (cur.id === userId) {
+                setCurrentUser('admin');
+            }
+            renderUserModalList();
+            showToast('Perfil eliminado');
+        }
+
+        function openUserModal() {
+            renderUserModalList();
+            const modal = document.getElementById('user-modal-overlay');
+            if (modal) modal.classList.add('active');
+        }
+
+        function closeUserModal() {
+            const modal = document.getElementById('user-modal-overlay');
+            if (modal) modal.classList.remove('active');
+        }
+
+        function handleCreateUserSubmit() {
+            const input = document.getElementById('new-user-input');
+            if (input) {
+                createNewUser(input.value);
+                input.value = '';
+            }
+        }
+
+        function renderUserModalList() {
+            const container = document.getElementById('user-modal-list');
+            if (!container) return;
+            const users = getUsersList();
+            const current = getCurrentUser();
+            container.innerHTML = users.map(u => {
+                const isActive = u.id === current.id;
+                const isAdmin = u.role === 'admin';
+                return `
+                    <div class="user-list-item ${isActive ? 'active' : ''}" onclick="setCurrentUser('${u.id}'); closeUserModal();">
+                        <div class="user-avatar-badge">${u.avatar || u.name.charAt(0).toUpperCase()}</div>
+                        <div class="user-item-info">
+                            <div class="user-item-name">${u.name} ${isActive ? '<span style="font-size:10px; color:var(--accent); font-weight:800; margin-left:6px;">ACTIVO</span>' : ''}</div>
+                            <div class="user-item-role">${isAdmin ? 'Administrador Maestro (Acceso Técnico Completo)' : 'Usuario Estándar (Modo Música Sin Datos Internos)'}</div>
+                        </div>
+                        ${!isAdmin ? `<button class="user-delete-btn" onclick="event.stopPropagation(); deleteUser('${u.id}')" title="Eliminar perfil"><svg class="icon" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
         // BOOTSTRAP
         window.addEventListener('DOMContentLoaded', () => {
             const savedTheme = localStorage.getItem('pkm_theme') || 'apple';
+            const curUser = getCurrentUser();
+            applyUserProfile(curUser);
             applyEcosystemTheme(savedTheme);
             setupAudioListeners();
             renderCurrentView(); // Render instantly with 0ms delay!
@@ -2866,6 +3334,29 @@
                 `;
             }
             container.appendChild(header);
+
+            // If Spotify ecosystem: Render signature 6-card quick grid
+            if (curTheme === 'spotify') {
+                const quickPool = (libraryTracks && libraryTracks.length >= 6) ? libraryTracks.slice(0, 6) : (exploreData.quick_picks || []).slice(0, 6);
+                if (quickPool.length > 0) {
+                    const grid = document.createElement('div');
+                    grid.className = 'spotify-quick-grid';
+                    quickPool.forEach(item => {
+                        const card = document.createElement('div');
+                        card.className = 'spotify-quick-card';
+                        card.onclick = () => playSingleTrack(item);
+                        card.innerHTML = `
+                            <img src="${item.art || DEFAULT_ART}" class="spotify-quick-thumb" alt="${item.title}" referrerpolicy="no-referrer" loading="lazy" onerror="this.onerror=null; this.src='assets/brand/theking-badge.png';">
+                            <div class="spotify-quick-title">${item.title}</div>
+                            <button class="spotify-quick-play-btn" onclick="event.stopPropagation(); playSingleTrack(${JSON.stringify(item).replace(/"/g, '&quot;')})" title="Reproducir">
+                                <svg class="icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </button>
+                        `;
+                        grid.appendChild(card);
+                    });
+                    container.appendChild(grid);
+                }
+            }
 
             // Featured Carousel
             if (exploreData.featured && exploreData.featured.length > 0) {
@@ -3100,28 +3591,80 @@
             }
         }
 
+        async function searchItunesFallback(query) {
+            try {
+                const url = `https://itunes.apple.com/search?term=${encodeURIComponent(query)}&media=music&entity=song&limit=40`;
+                const res = await fetch(url);
+                if (!res.ok) throw new Error("iTunes search HTTP error");
+                const data = await res.json();
+                return (data.results || []).map(r => ({
+                    id: 'itunes-' + r.trackId,
+                    title: r.trackName,
+                    artist: r.artistName,
+                    album: r.collectionName || r.trackName,
+                    genre: r.primaryGenreName || 'Música',
+                    duration: Math.round((r.trackTimeMillis || 0) / 1000),
+                    dur_str: formatTime(Math.round((r.trackTimeMillis || 0) / 1000)),
+                    art: (r.artworkUrl100 || '').replace('100x100bb.jpg', '600x600bb.jpg') || DEFAULT_ART,
+                    url: api(`/api/stream?artist=${encodeURIComponent(r.artistName)}&title=${encodeURIComponent(r.trackName)}&duration=${Math.round((r.trackTimeMillis || 0) / 1000)}`),
+                    apple_stream: r.previewUrl,
+                    format: 'AAC Master (Apple Music CDN)',
+                    source: 'apple_music',
+                    is_local: false,
+                    ready: true
+                }));
+            } catch(e) {
+                console.warn("iTunes fallback search notice:", e);
+                return [];
+            }
+        }
+
         async function executeSearch(query) {
             const box = document.getElementById('search-results-box');
             if (!box) return;
             box.innerHTML = `<div style="padding: 30px 0; color: var(--text-secondary); text-align: center;">Buscando discografía completa...</div>`;
 
+            let tracks = [];
+            let vpsOk = false;
+
+            // 1. Try VPS first with a 3.5s timeout abort controller
             try {
-                const res = await fetch(api(`/api/search?q=${encodeURIComponent(query)}`));
-                if (!res.ok) throw new Error("Search failed");
-                const data = await res.json();
-                const tracks = (data.online || []).concat(data.local || []);
-
-                if (tracks.length === 0) {
-                    box.innerHTML = `<div style="padding: 40px 0; color: var(--text-secondary); text-align: center;">No se encontraron resultados para "${query}".</div>`;
-                    lastSearchResults = [];
-                    return;
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 3500);
+                const res = await fetch(api(`/api/search?q=${encodeURIComponent(query)}`), { signal: controller.signal });
+                clearTimeout(timeoutId);
+                if (res.ok) {
+                    const data = await res.json();
+                    tracks = (data.online || []).concat(data.local || []);
+                    if (tracks.length > 0) vpsOk = true;
                 }
-
-                lastSearchResults = tracks;
-                renderFilteredSearchResults();
             } catch (err) {
-                box.innerHTML = `<div style="padding: 40px 0; color: var(--accent); text-align: center;">Error al realizar la búsqueda.</div>`;
+                console.warn("VPS search unreachable or corporate firewall block, falling back to Apple Music CDN:", err);
             }
+
+            // 2. If VPS failed or returned 0 tracks (corporate network blocking thekinghub / deezer), fallback to Apple Music CDN
+            if (!vpsOk || tracks.length === 0) {
+                const itunesResults = await searchItunesFallback(query);
+                if (itunesResults.length > 0) {
+                    tracks = itunesResults;
+                }
+            }
+
+            if (tracks.length === 0) {
+                box.innerHTML = `<div style="padding: 40px 0; color: var(--text-secondary); text-align: center;">No se encontraron resultados para "${query}".</div>`;
+                lastSearchResults = [];
+                return;
+            }
+
+            // Ensure artwork URLs do not use blocked dzcdn
+            tracks.forEach(t => {
+                if (t.art && t.art.includes('dzcdn')) {
+                    t.art = DEFAULT_ART;
+                }
+            });
+
+            lastSearchResults = tracks;
+            renderFilteredSearchResults();
         }
 
         function renderFilteredSearchResults() {
@@ -3180,25 +3723,46 @@
 
         // 4. AJUSTES (SETTINGS)
         function renderAjustes(container) {
+            const curUser = getCurrentUser();
+            const isAdmin = curUser.role === 'admin';
+            const curTheme = localStorage.getItem('pkm_theme') || 'apple';
+
             const header = document.createElement('div');
             header.className = 'view-header';
             header.innerHTML = `
                 <h1 class="greeting-title">Ajustes</h1>
-                <div class="greeting-subtitle">Configuración del servidor, interfaz y reproducción</div>
+                <div class="greeting-subtitle">${isAdmin ? 'Panel de Control Maestro • Ecosistema, Calidad y Servidor' : 'Personalización y Preferencias de Reproducción'}</div>
             `;
             container.appendChild(header);
 
-            // Theme & Interface Switcher Card
+            // 1. User Profile Management Card (Visible to all users)
+            const userCard = document.createElement('div');
+            userCard.className = 'settings-card';
+            userCard.innerHTML = `
+                <div class="settings-card-title">
+                    <svg class="icon" style="fill: var(--accent);" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                    <span>Perfil Activo: ${curUser.name}</span>
+                </div>
+                <div class="settings-row">
+                    <div>
+                        <div class="settings-label">Tipo de Cuenta</div>
+                        <div style="font-size: 12px; color: var(--text-secondary);">${isAdmin ? 'Administrador Maestro (Acceso a métricas del servidor y códecs)' : 'Usuario Estándar (Interfaz limpia centrada en música)'}</div>
+                    </div>
+                    <button class="btn-track-action" onclick="openUserModal()">Cambiar o Crear Perfil</button>
+                </div>
+            `;
+            container.appendChild(userCard);
+
+            // 2. Theme & Interface Switcher Card (Visible to all users)
             const themeCard = document.createElement('div');
             themeCard.className = 'settings-card';
-            const curTheme = localStorage.getItem('pkm_theme') || 'apple';
             themeCard.innerHTML = `
                 <div class="settings-card-title">
                     <svg class="icon" style="fill: var(--accent);" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 19.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l1.9-1.9C9.22 19.64 10.57 20 12 20c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 16c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg>
-                    <span>Interfaz y Diseño Visual</span>
+                    <span>Interfaz y Ecosistema (The King Music)</span>
                 </div>
                 <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
-                    Selecciona tu estilo preferido. Totalmente adaptable a iOS, Android y PC.
+                    Elige el ecosistema de navegación que prefieras. La plataforma adapta todo el diseño visual, controles e interacción.
                 </div>
                 <div class="theme-grid">
                     <div class="theme-option-card ${curTheme === 'apple' ? 'selected' : ''}" onclick="setAppTheme('apple')">
@@ -3220,7 +3784,7 @@
                             </div>
                             <svg class="icon theme-check-icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
                         </div>
-                        <div class="theme-desc">Ecosistema Spotify: chips de filtro (Todo, Música, Podcasts), botón verde flotante en portadas y dock con corazón.</div>
+                        <div class="theme-desc">Ecosistema Spotify: grid 6 canciones rápidas, chips de filtro (Todo, Música, Podcasts) y dock verde.</div>
                     </div>
 
                     <div class="theme-option-card ${curTheme === 'deezer' ? 'selected' : ''}" onclick="setAppTheme('deezer')">
@@ -3231,7 +3795,7 @@
                             </div>
                             <svg class="icon theme-check-icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
                         </div>
-                        <div class="theme-desc">Ecosistema Deezer: tarjeta FLOW con mix infinito, ecualizador animado en tiempo real, chips y estética HiFi violeta.</div>
+                        <div class="theme-desc">Ecosistema Deezer: tarjeta FLOW interactiva con mix continuo, ecualizador animado y acentos violeta.</div>
                     </div>
 
                     <div class="theme-option-card ${curTheme === 'ytmusic' ? 'selected' : ''}" onclick="setAppTheme('ytmusic')">
@@ -3242,12 +3806,13 @@
                             </div>
                             <svg class="icon theme-check-icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
                         </div>
-                        <div class="theme-desc">Ecosistema YouTube Music: negro puro OLED (#030303), chips de actividades (Energía, Relax, Workout) y botones Me Gusta.</div>
+                        <div class="theme-desc">Ecosistema YouTube Music: negro puro OLED (#030303), chips de actividad (Energía, Relax, Workout) y valoraciones.</div>
                     </div>
                 </div>
             `;
             container.appendChild(themeCard);
 
+            // 3. Audio Quality Card
             const card = document.createElement('div');
             card.className = 'settings-card';
             card.innerHTML = `
@@ -3257,7 +3822,7 @@
                 </div>
                 <div class="settings-row">
                     <div class="settings-label">Calidad de Streaming</div>
-                    <div class="settings-value">Master Lossless Studio (AAC / FLAC)</div>
+                    <div class="settings-value">${isAdmin ? 'Master Lossless Studio (FLAC 24-bit / 48kHz / MP3 320k)' : 'Alta Fidelidad de Estudio'}</div>
                 </div>
                 <div class="settings-row">
                     <div class="settings-label">Duración</div>
@@ -3270,28 +3835,32 @@
             `;
             container.appendChild(card);
 
-            const vpsCard = document.createElement('div');
-            vpsCard.className = 'settings-card';
-            vpsCard.innerHTML = `
-                <div class="settings-card-title">
-                    <svg class="icon" style="fill: #10b981;" viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12zm-8-2h6v-2h-6v2zm0-4h6V8h-6v2z"/></svg>
-                    <span>Servidor VPS TheKing</span>
-                </div>
-                <div class="settings-row">
-                    <div class="settings-label">Estado del Servidor</div>
-                    <div class="settings-value" style="color: #10b981; font-weight: 700;">Conectado &bull; Operativo</div>
-                </div>
-                <div class="settings-row">
-                    <div class="settings-label">Canciones en Biblioteca</div>
-                    <div class="settings-value">${libraryTracks.length} pistas guardadas</div>
-                </div>
-                <div class="settings-row">
-                    <div class="settings-label">Almacenamiento Local</div>
-                    <div class="settings-value">Almacenamiento en disco VPS activo</div>
-                </div>
-            `;
-            container.appendChild(vpsCard);
+            // 4. VPS Server Card (ONLY FOR ADMIN USERS)
+            if (isAdmin) {
+                const vpsCard = document.createElement('div');
+                vpsCard.className = 'settings-card vps-technical-card';
+                vpsCard.innerHTML = `
+                    <div class="settings-card-title">
+                        <svg class="icon" style="fill: #10b981;" viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12zm-8-2h6v-2h-6v2zm0-4h6V8h-6v2z"/></svg>
+                        <span>Servidor VPS TheKing (Solo Administrador)</span>
+                    </div>
+                    <div class="settings-row technical-spec-row">
+                        <div class="settings-label">Estado del Servidor</div>
+                        <div class="settings-value" style="color: #10b981; font-weight: 700;">Conectado &bull; Operativo</div>
+                    </div>
+                    <div class="settings-row technical-spec-row">
+                        <div class="settings-label">Canciones en Biblioteca</div>
+                        <div class="settings-value">${libraryTracks.length} pistas guardadas</div>
+                    </div>
+                    <div class="settings-row technical-spec-row">
+                        <div class="settings-label">Almacenamiento Local</div>
+                        <div class="settings-value">Almacenamiento en disco VPS activo</div>
+                    </div>
+                `;
+                container.appendChild(vpsCard);
+            }
 
+            // 5. Cache clear card (Visible to all)
             const resetCard = document.createElement('div');
             resetCard.className = 'settings-card';
             resetCard.innerHTML = `
@@ -3304,6 +3873,7 @@
                 </div>
             `;
             container.appendChild(resetCard);
+        }
         }
 
         function clearAppCache() {
@@ -3318,7 +3888,8 @@
         }
 
         function applyEcosystemTheme(themeName) {
-            document.body.className = 'theme-' + themeName;
+            const isStandard = getCurrentUser().role === 'user';
+            document.body.className = 'theme-' + themeName + (isStandard ? ' user-standard' : '');
             const metaTheme = document.querySelector('meta[name="theme-color"]');
             if (metaTheme) {
                 const colors = {
@@ -3330,19 +3901,33 @@
                 metaTheme.setAttribute('content', colors[themeName] || '#000000');
             }
 
-            // Update Brand in sidebar
+            // Always keep brand name strictly as "TheKing Music" with ecosystem badge
+            const ecoBadges = {
+                'apple': 'APPLE MUSIC',
+                'spotify': 'SPOTIFY',
+                'deezer': 'DEEZER',
+                'ytmusic': 'YOUTUBE MUSIC'
+            };
             const brandText = document.getElementById('brand-header-text');
             if (brandText) {
-                if (themeName === 'spotify') {
-                    brandText.innerHTML = `Spotify <span>Music</span>`;
-                } else if (themeName === 'deezer') {
-                    brandText.innerHTML = `Deezer <span>Music</span>`;
-                } else if (themeName === 'ytmusic') {
-                    brandText.innerHTML = `YouTube <span>Music</span>`;
-                } else {
-                    brandText.innerHTML = `TheKing <span>Music</span>`;
-                }
+                brandText.innerHTML = `TheKing <span>Music</span> <span class="brand-eco-badge" id="header-eco-badge">${ecoBadges[themeName] || 'APPLE MUSIC'}</span>`;
             }
+            document.title = "The King Music";
+
+            // Update navigation labels based on active ecosystem
+            const navNames = {
+                'apple':   { inicio: 'Escuchar',  biblioteca: 'Biblioteca',    buscar: 'Explorar' },
+                'spotify': { inicio: 'Inicio',    biblioteca: 'Tu Biblioteca', buscar: 'Buscar' },
+                'deezer':  { inicio: 'Música',    biblioteca: 'Favoritos',     buscar: 'Explorar' },
+                'ytmusic': { inicio: 'Principal', biblioteca: 'Biblioteca',    buscar: 'Explorar' }
+            };
+            const curNames = navNames[themeName] || navNames.apple;
+            ['inicio', 'biblioteca', 'buscar'].forEach(k => {
+                const d = document.querySelector(`#desk-nav-${k} span`);
+                if (d) d.textContent = curNames[k];
+                const m = document.querySelector(`#mob-nav-${k} span`);
+                if (m) m.textContent = curNames[k];
+            });
 
             // Update modal badges & titles to match active ecosystem
             const npCodec = document.getElementById('np-codec-pill');
@@ -3405,6 +3990,8 @@
             localStorage.setItem('pkm_theme', themeName);
             applyEcosystemTheme(themeName);
             renderCurrentView();
+            const ecoNames = { 'apple': 'Apple Music', 'spotify': 'Spotify', 'deezer': 'Deezer', 'ytmusic': 'YouTube Music' };
+            showToast(`Ecosistema: ${ecoNames[themeName] || themeName}`);
         }
 
         function resetPlaybackProgress() {
@@ -3463,9 +4050,25 @@
             updatePlayerUI(track);
             fetchLyrics(track.artist, track.title);
 
-            // Audio stream URL with full duration pointing to VPS
-            const streamUrl = api(`/api/stream?artist=${encodeURIComponent(track.artist)}&title=${encodeURIComponent(track.title)}&duration=${track.duration || 0}`);
-            audio.src = streamUrl;
+            // Primary VPS stream URL
+            const vpsStreamUrl = api(`/api/stream?artist=${encodeURIComponent(track.artist)}&title=${encodeURIComponent(track.title)}&duration=${track.duration || 0}`);
+            
+            // Intelligent corporate firewall fallback
+            audio.onerror = async () => {
+                if (audio.src === vpsStreamUrl && track.apple_stream) {
+                    console.warn("VPS audio stream unreachable or blocked by corporate firewall; switching to Apple Music CDN stream");
+                    audio.src = track.apple_stream;
+                    try {
+                        await audio.play();
+                        setPlayerBuffering(false);
+                        updatePlayPauseIcons(true);
+                        return;
+                    } catch(e) {}
+                }
+                setPlayerBuffering(false);
+            };
+
+            audio.src = vpsStreamUrl;
 
             try {
                 await audio.play();
@@ -3473,6 +4076,16 @@
                 updatePlayPauseIcons(true);
             } catch (err) {
                 console.warn("Playback notice:", err);
+                if (track.apple_stream && audio.src !== track.apple_stream) {
+                    audio.src = track.apple_stream;
+                    try {
+                        await audio.play();
+                        setPlayerBuffering(false);
+                        updatePlayPauseIcons(true);
+                    } catch(e2) {
+                        setPlayerBuffering(false);
+                    }
+                }
             }
 
             // Update MediaSession for iOS & Android lockscreen
@@ -4012,5 +4625,29 @@
             }
         }
     </script>
+
+    <!-- USER PROFILE MANAGEMENT MODAL -->
+    <div class="user-modal-overlay" id="user-modal-overlay" onclick="if(event.target === this) closeUserModal()">
+        <div class="user-modal-box">
+            <div class="user-modal-header">
+                <div class="user-modal-title">Perfiles de Usuario</div>
+                <button class="user-modal-close-btn" onclick="closeUserModal()" title="Cerrar">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                </button>
+            </div>
+            <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
+                Crea perfiles independientes. Los usuarios estándar disfrutan de la música sin ver especificaciones técnicas de servidores ni resoluciones internas.
+            </div>
+            <div class="user-list-group" id="user-modal-list"></div>
+            <div class="user-create-box">
+                <div class="user-create-title">Crear Nuevo Perfil</div>
+                <div class="user-create-form">
+                    <input type="text" class="user-create-input" id="new-user-input" placeholder="Nombre (ej. Familia, Invitado)" maxlength="24" onkeydown="if(event.key === 'Enter') handleCreateUserSubmit()">
+                    <button class="user-create-btn" onclick="handleCreateUserSubmit()">Crear</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
