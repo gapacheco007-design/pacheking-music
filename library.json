@@ -1,5 +1,5 @@
 {
- "updated": 1792741996,
+ "updated": 1792742001,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -1050,6 +1050,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792741996
+  },
+  {
+   "id": "st-1792741994",
+   "title": "Pingüinos en la Cama",
+   "artist": "Ricardo Arjona",
+   "album": "",
+   "genre": "Otros",
+   "duration": 229,
+   "dur_str": "3:48 min",
+   "art": "",
+   "url": "/api/stream?artist=Ricardo%20Arjona&title=Ping%C3%BCinos%20en%20la%20Cama",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Ricardo Arjona/Ricardo Arjona - Pingüinos en la Cama.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792742001
   }
  ]
 }
