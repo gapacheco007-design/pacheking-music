@@ -1,5 +1,5 @@
 {
- "updated": 1792783150,
+ "updated": 1792783155,
  "tracks": [
   {
    "id": "af-arjona-grupo-firme",
@@ -1731,6 +1731,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792783150
+  },
+  {
+   "id": "st-1792783149",
+   "title": "Welcome to the Jungle",
+   "artist": "2CELLOS",
+   "album": "",
+   "genre": "Otros",
+   "duration": 192,
+   "dur_str": "3:11 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/f8cfd8bdfb32c48819cad87bb4ee1e4d/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=2CELLOS&title=Welcome%20to%20the%20Jungle",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/2CELLOS/2CELLOS - Welcome to the Jungle.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792783155
   }
  ]
 }
