@@ -1,5 +1,5 @@
 {
- "updated": 1792737238,
+ "updated": 1792737243,
  "tracks": [
   {
    "id": "st-1792733778",
@@ -480,6 +480,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792737238
+  },
+  {
+   "id": "st-1792737237",
+   "title": "Todas Mueren por Mí",
+   "artist": "Cartel De Santa",
+   "album": "",
+   "genre": "Otros",
+   "duration": 232,
+   "dur_str": "3:51 min",
+   "art": "",
+   "url": "/api/stream?artist=Cartel%20De%20Santa&title=Todas%20Mueren%20por%20M%C3%AD",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Cartel De Santa/Cartel De Santa - Todas Mueren por Mí.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792737243
   }
  ]
 }
