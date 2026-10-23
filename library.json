@@ -1,5 +1,5 @@
 {
- "updated": 1792778469,
+ "updated": 1792778497,
  "tracks": [
   {
    "id": "af-arjona-grupo-firme",
@@ -1566,6 +1566,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792778469
+  },
+  {
+   "id": "st-1792778492",
+   "title": "La Víctima",
+   "artist": "Xavi",
+   "album": "",
+   "genre": "Otros",
+   "duration": 156,
+   "dur_str": "2:36 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/08e3010bf3b3076aabc50f96fa10806f/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Xavi&title=La%20V%C3%ADctima",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Xavi/Xavi - La Víctima.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792778497
   }
  ]
 }
