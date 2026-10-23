@@ -1,5 +1,5 @@
 {
- "updated": 1792739315,
+ "updated": 1792739318,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -645,6 +645,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792739315
+  },
+  {
+   "id": "st-1792739297",
+   "title": "Shape of You",
+   "artist": "Cookie Crumble",
+   "album": "",
+   "genre": "Otros",
+   "duration": 125,
+   "dur_str": "2:04 min",
+   "art": "",
+   "url": "/api/stream?artist=Cookie%20Crumble&title=Shape%20of%20You",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Cookie Crumble/Cookie Crumble - Shape of You.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792739316
   }
  ]
 }
