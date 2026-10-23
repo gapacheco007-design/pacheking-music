@@ -1,5 +1,5 @@
 {
- "updated": 1792786432,
+ "updated": 1792786439,
  "tracks": [
   {
    "id": "st-1792735492",
@@ -1774,6 +1774,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792786432
+  },
+  {
+   "id": "st-1792786433",
+   "title": "El Purgatorio",
+   "artist": "Canserbero",
+   "album": "",
+   "genre": "Otros",
+   "duration": 217,
+   "dur_str": "3:37 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/d9710078c0dbac8eec9ed9d6c3e7a587/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Canserbero&title=El%20Purgatorio",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Canserbero/Canserbero - El Purgatorio.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792786439
   }
  ]
 }
