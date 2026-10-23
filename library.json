@@ -1,5 +1,5 @@
 {
- "updated": 1792775259,
+ "updated": 1792775263,
  "tracks": [
   {
    "id": "af-arjona-grupo-firme",
@@ -1386,6 +1386,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792775259
+  },
+  {
+   "id": "st-1792775251",
+   "title": "Na",
+   "artist": "Canserbero",
+   "album": "",
+   "genre": "Otros",
+   "duration": 383,
+   "dur_str": "6:22 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/12f435e3ab4a59bfeb4f21237e2220ea/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Canserbero&title=Na",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Canserbero/Canserbero - Na.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792775263
   }
  ]
 }
