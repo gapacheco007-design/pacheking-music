@@ -1,5 +1,5 @@
 {
- "updated": 1792787603,
+ "updated": 1792787612,
  "tracks": [
   {
    "id": "st-1792735492",
@@ -2149,6 +2149,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792787603
+  },
+  {
+   "id": "st-1792787606",
+   "title": "No Te Extraño",
+   "artist": "Litzy",
+   "album": "",
+   "genre": "Otros",
+   "duration": 242,
+   "dur_str": "4:01 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/c34936939f22f74d8a2d95618084a009/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Litzy&title=No%20Te%20Extra%C3%B1o",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Litzy/Litzy - No Te Extraño.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792787612
   }
  ]
 }
