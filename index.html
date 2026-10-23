@@ -9,7 +9,7 @@
     <title>TheKing Music</title>
     <link rel="icon" href="assets/brand/theking-badge.png" type="image/png">
     <script>
-        const APP_BUILD_VERSION = "20261023_v7_vps_search_instant";
+        const APP_BUILD_VERSION = "20261023_v8_hls_instant_stream";
         if (localStorage.getItem('pkm_build') !== APP_BUILD_VERSION) {
             localStorage.setItem('pkm_build', APP_BUILD_VERSION);
             if ('serviceWorker' in navigator) {
@@ -2425,8 +2425,12 @@
                 });
                 hlsPlayer.on(Hls.Events.ERROR, (event, data) => {
                     if (data.fatal) {
-                        console.error("HLS fatal error:", data);
-                        showToast(`Error al reproducir audio completo para ${track.title}`);
+                        console.warn("HLS fatal error, falling back to direct stream:", data);
+                        try { hlsPlayer.destroy(); } catch(_) {}
+                        hlsPlayer = null;
+                        const fallbackUrl = url.replace('/api/hls/stream.m3u8', '/api/stream');
+                        audio.src = fallbackUrl;
+                        audio.play().catch(e => console.log("Fallback play err:", e));
                     }
                 });
             } else {
@@ -2548,15 +2552,14 @@
         audio.onerror = (e) => {
             console.error("Audio playback error:", e, audio.error);
             const track = currentPlaylist[currentIndex];
-            if (track && track.url && !track.url.includes('/api/resolve')) {
+            if (track && track.url && !track._retryAttempted) {
+                track._retryAttempted = true;
                 const fallbackUrl = `${VPS_API_BASE}/api/resolve?artist=${encodeURIComponent(track.artist)}&title=${encodeURIComponent(track.title)}`;
                 fetch(fallbackUrl)
                     .then(r => r.json())
                     .then(d => {
                         if (d && d.url) {
-                            const finalU = d.url.startsWith('http') ? d.url : (VPS_API_BASE + d.url);
-                            audio.src = finalU;
-                            audio.play().catch(_ => {});
+                            loadAndPlayAudio(d.url, track);
                         }
                     })
                     .catch(_ => {});
