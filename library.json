@@ -1,5 +1,5 @@
 {
- "updated": 1792778497,
+ "updated": 1792778500,
  "tracks": [
   {
    "id": "af-arjona-grupo-firme",
@@ -1581,6 +1581,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792778497
+  },
+  {
+   "id": "st-1792778495",
+   "title": "La Diabla",
+   "artist": "Xavi",
+   "album": "",
+   "genre": "Otros",
+   "duration": 173,
+   "dur_str": "2:52 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/83d6fc387d304ee19772bf970ab7b477/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Xavi&title=La%20Diabla",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Xavi/Xavi - La Diabla.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792778500
   }
  ]
 }
