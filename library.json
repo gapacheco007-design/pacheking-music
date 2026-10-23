@@ -1,5 +1,5 @@
 {
- "updated": 1792778500,
+ "updated": 1792778506,
  "tracks": [
   {
    "id": "af-arjona-grupo-firme",
@@ -1596,6 +1596,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792778500
+  },
+  {
+   "id": "st-1792778499",
+   "title": "No Capea",
+   "artist": "Xavi",
+   "album": "",
+   "genre": "Otros",
+   "duration": 213,
+   "dur_str": "3:32 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/55602c324cd510b6c79230f363d40c87/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Xavi&title=No%20Capea",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Xavi/Xavi - No Capea.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792778506
   }
  ]
 }
