@@ -1,5 +1,5 @@
 {
- "updated": 1792787612,
+ "updated": 1792787639,
  "tracks": [
   {
    "id": "st-1792735492",
@@ -2164,6 +2164,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792787612
+  },
+  {
+   "id": "st-1792787635",
+   "title": "Nadie Te Extraña",
+   "artist": "Anti-Sociales",
+   "album": "",
+   "genre": "Otros",
+   "duration": 137,
+   "dur_str": "2:16 min",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music69/v4/08/4c/d9/084cd930-e06d-9b7c-876e-b2ecb46cb7cc/190394301279.jpg/600x600bb.jpg",
+   "url": "/api/stream?artist=Anti-Sociales&title=Nadie%20Te%20Extra%C3%B1a",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Anti-Sociales/Anti-Sociales - Nadie Te Extraña.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792787639
   }
  ]
 }
