@@ -1,5 +1,5 @@
 {
- "updated": 1792742045,
+ "updated": 1792742135,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -1155,6 +1155,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792742041
+  },
+  {
+   "id": "st-1792742129",
+   "title": "Cavernícolas",
+   "artist": "Ricardo Arjona",
+   "album": "",
+   "genre": "Otros",
+   "duration": 283,
+   "dur_str": "4:43 min",
+   "art": "",
+   "url": "/api/stream?artist=Ricardo%20Arjona&title=Cavern%C3%ADcolas",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Ricardo Arjona/Ricardo Arjona - Cavernícolas.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792742135
   }
  ]
 }
