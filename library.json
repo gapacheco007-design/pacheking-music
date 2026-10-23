@@ -1,5 +1,5 @@
 {
- "updated": 1792737138,
+ "updated": 1792737141,
  "tracks": [
   {
    "id": "st-1792733778",
@@ -390,6 +390,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792737138
+  },
+  {
+   "id": "st-1792737127",
+   "title": "Si Te Vienen a Contar",
+   "artist": "Cartel De Santa",
+   "album": "",
+   "genre": "Otros",
+   "duration": 219,
+   "dur_str": "3:39 min",
+   "art": "",
+   "url": "/api/stream?artist=Cartel%20De%20Santa&title=Si%20Te%20Vienen%20a%20Contar",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Cartel De Santa/Cartel De Santa - Si Te Vienen a Contar.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792737141
   }
  ]
 }
