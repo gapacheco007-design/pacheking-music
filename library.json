@@ -1,5 +1,5 @@
 {
- "updated": 1792742001,
+ "updated": 1792742005,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -1065,6 +1065,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792742001
+  },
+  {
+   "id": "st-1792741996",
+   "title": "Tony Sosa (feat. Biba)",
+   "artist": "RI",
+   "album": "",
+   "genre": "Otros",
+   "duration": 198,
+   "dur_str": "3:18 min",
+   "art": "",
+   "url": "/api/stream?artist=RI&title=Tony%20Sosa%20%28feat.%20Biba%29",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/RI/RI - Tony Sosa (feat. Biba).mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792742005
   }
  ]
 }
