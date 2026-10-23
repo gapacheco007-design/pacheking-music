@@ -2515,6 +2515,54 @@
             audio.currentTime = Math.max(0, Math.min(dur, audio.currentTime + seconds));
         }
 
+        audio.onplay = () => {
+            isPlaying = true;
+            updatePlayBtn();
+            updateNowPlayingPlayBtn();
+            updateActiveRows();
+        };
+
+        audio.onpause = () => {
+            isPlaying = false;
+            updatePlayBtn();
+            updateNowPlayingPlayBtn();
+            updateActiveRows();
+        };
+
+        audio.onplaying = () => {
+            isPlaying = true;
+            updatePlayBtn();
+            updateNowPlayingPlayBtn();
+            const track = currentPlaylist[currentIndex];
+            if (track) {
+                const isHiRes = (track.format && track.format.includes('24-bit')) || (track.quality && track.quality.includes('24'));
+                barPill.className = isHiRes ? 'quality-pill hi-res' : 'quality-pill';
+                barPill.innerText = isHiRes ? 'HI-RES LOSSLESS' : (track.format || 'CANCIÓN COMPLETA');
+            }
+        };
+
+        audio.onwaiting = () => {
+            barPill.innerText = 'CONECTANDO AUDIO...';
+        };
+
+        audio.onerror = (e) => {
+            console.error("Audio playback error:", e, audio.error);
+            const track = currentPlaylist[currentIndex];
+            if (track && track.url && !track.url.includes('/api/resolve')) {
+                const fallbackUrl = `${VPS_API_BASE}/api/resolve?artist=${encodeURIComponent(track.artist)}&title=${encodeURIComponent(track.title)}`;
+                fetch(fallbackUrl)
+                    .then(r => r.json())
+                    .then(d => {
+                        if (d && d.url) {
+                            const finalU = d.url.startsWith('http') ? d.url : (VPS_API_BASE + d.url);
+                            audio.src = finalU;
+                            audio.play().catch(_ => {});
+                        }
+                    })
+                    .catch(_ => {});
+            }
+        };
+
         audio.ontimeupdate = () => {
             const cur = audio.currentTime || 0;
             const track = currentPlaylist[currentIndex];
@@ -2668,7 +2716,7 @@
             loadLyricsForTrack(track);
         }
 
-        // Real-time LRCLIB Synced Lyrics Integration
+        // Real-time Synced Lyrics Integration via VPS Backend (with LRCLIB direct fallback)
         async function loadLyricsForTrack(track) {
             if (currentTrackLyricsId === track.id) return;
             currentTrackLyricsId = track.id;
@@ -2685,27 +2733,50 @@
             container.innerHTML = '';
             badge.innerText = 'Cargando';
 
-            try {
-                const cleanTitle = track.title.replace(/[\(\[].*?[\)\]]/g, '').trim();
-                const cleanArtist = track.artist.split(/[,&]|feat|ft\./i)[0].trim();
-                const url = `https://lrclib.net/api/get?artist_name=${encodeURIComponent(cleanArtist)}&track_name=${encodeURIComponent(cleanTitle)}`;
-                
-                const res = await fetch(url);
-                if (!res.ok) throw new Error('Not found');
-                const data = await res.json();
+            const cleanTitle = track.title.replace(/[\(\[].*?[\)\]]/g, '').trim();
+            const cleanArtist = track.artist.split(/[,&]|feat|ft\./i)[0].trim();
 
-                if (data.syncedLyrics) {
-                    badge.innerText = 'Sincronizada';
-                    badge.style.display = 'inline-block';
-                    parseAndRenderSyncedLyrics(data.syncedLyrics);
-                } else if (data.plainLyrics) {
-                    badge.innerText = 'Texto';
-                    badge.style.display = 'inline-block';
-                    renderPlainLyrics(data.plainLyrics);
-                } else {
-                    throw new Error('No lyrics');
+            let lyricsData = null;
+
+            // 1. First fetch through VPS API (unblocked on all networks)
+            try {
+                const vpsLyricsUrl = `${VPS_API_BASE}/api/lyrics?artist=${encodeURIComponent(cleanArtist)}&title=${encodeURIComponent(cleanTitle)}`;
+                const res = await fetch(vpsLyricsUrl);
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data && (data.syncedLyrics || data.plainLyrics)) {
+                        lyricsData = data;
+                    }
                 }
-            } catch (err) {
+            } catch (vpsErr) {
+                console.warn("VPS lyrics endpoint error:", vpsErr);
+            }
+
+            // 2. Client direct fallback to LRCLIB if VPS did not return lyrics
+            if (!lyricsData) {
+                try {
+                    const directUrl = `https://lrclib.net/api/get?artist_name=${encodeURIComponent(cleanArtist)}&track_name=${encodeURIComponent(cleanTitle)}`;
+                    const res = await fetch(directUrl);
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (data && (data.syncedLyrics || data.plainLyrics)) {
+                            lyricsData = data;
+                        }
+                    }
+                } catch (directErr) {
+                    console.warn("Direct LRCLIB error:", directErr);
+                }
+            }
+
+            if (lyricsData && lyricsData.syncedLyrics) {
+                badge.innerText = 'Sincronizada';
+                badge.style.display = 'inline-block';
+                parseAndRenderSyncedLyrics(lyricsData.syncedLyrics);
+            } else if (lyricsData && lyricsData.plainLyrics) {
+                badge.innerText = 'Texto';
+                badge.style.display = 'inline-block';
+                renderPlainLyrics(lyricsData.plainLyrics);
+            } else {
                 badge.style.display = 'none';
                 placeholder.style.display = 'flex';
                 placeholder.innerHTML = '<span>Letra no disponible para esta canción</span>';
@@ -2837,6 +2908,8 @@
         // 6. HIGH-SPEED VPS UNIFIED SEARCH & INSTANT RESULTS
         let searchTimer = null;
         let onlineSearchResultsCache = [];
+        const clientSearchCache = new Map();
+        let searchAbortController = null;
 
         function onSearchInput(e) {
             const q = e.target.value.trim();
@@ -2849,7 +2922,7 @@
                 return;
             }
 
-            searchTimer = setTimeout(() => executeSearch(q), 250);
+            searchTimer = setTimeout(() => executeSearch(q), 150);
         }
 
         function clearSearch() {
@@ -2888,35 +2961,34 @@
                 resultsBox.appendChild(renderTracksTable(localMatches, false));
             }
 
+            // Check client memory cache first for instant 0ms result
+            if (clientSearchCache.has(qLower)) {
+                const cachedData = clientSearchCache.get(qLower);
+                renderOnlineSearchResults(cachedData, localMatches.length);
+                return;
+            }
+
+            // Abort previous pending search request if still in flight
+            if (searchAbortController) {
+                try { searchAbortController.abort(); } catch(_) {}
+            }
+            searchAbortController = new AbortController();
+
             // 1. High-Speed Unified Search API executed directly on VPS (unblocked, multi-source)
             let vpsSearchSuccess = false;
             try {
-                const res = await fetch(`${VPS_API_BASE}/api/search?q=${encodeURIComponent(query)}`);
+                const res = await fetch(`${VPS_API_BASE}/api/search?q=${encodeURIComponent(query)}`, {
+                    signal: searchAbortController.signal
+                });
                 if (res.ok) {
                     const data = await res.json();
                     vpsSearchSuccess = true;
-
-                    const sub = document.getElementById('search-status-sub');
-                    const onlineCount = (data.online && Array.isArray(data.online)) ? data.online.length : 0;
-                    const localCount = (data.local && Array.isArray(data.local)) ? data.local.length : localMatches.length;
-
-                    if (sub) {
-                        sub.innerText = `${localCount + onlineCount} canciones disponibles al instante.`;
-                    }
-
-                    if (data.online && data.online.length > 0) {
-                        onlineSearchResultsCache = data.online;
-                        const subHead = document.createElement('h3');
-                        subHead.className = 'section-title';
-                        subHead.style.marginTop = '28px';
-                        subHead.style.marginBottom = '12px';
-                        subHead.innerText = 'Resultados en línea (Reproducir al instante / Guardar en VPS)';
-                        resultsBox.appendChild(subHead);
-                        resultsBox.appendChild(renderTracksTable(data.online, true));
-                        return;
-                    }
+                    clientSearchCache.set(qLower, data);
+                    renderOnlineSearchResults(data, localMatches.length);
+                    return;
                 }
             } catch (vpsErr) {
+                if (vpsErr.name === 'AbortError') return;
                 console.warn("VPS search API unreachable, falling back to JSONP:", vpsErr);
             }
 
@@ -2928,6 +3000,39 @@
                 s.id = 'itunes-jsonp';
                 s.src = `https://itunes.apple.com/search?term=${encodeURIComponent(query)}&media=music&entity=song&limit=15&callback=onOnlineSearchResults`;
                 document.body.appendChild(s);
+            }
+        }
+
+        function renderOnlineSearchResults(data, localCount) {
+            const resultsBox = document.getElementById('search-container-results');
+            if (!resultsBox) return;
+
+            const sub = document.getElementById('search-status-sub');
+            const onlineCount = (data.online && Array.isArray(data.online)) ? data.online.length : 0;
+            const totalLocal = (data.local && Array.isArray(data.local)) ? data.local.length : localCount;
+
+            if (sub) {
+                sub.innerText = `${totalLocal + onlineCount} canciones disponibles al instante.`;
+            }
+
+            if (data.online && data.online.length > 0) {
+                onlineSearchResultsCache = data.online;
+                const existingOnlineHead = document.getElementById('online-results-head');
+                if (existingOnlineHead) existingOnlineHead.remove();
+                const existingOnlineTable = document.getElementById('online-results-table');
+                if (existingOnlineTable) existingOnlineTable.remove();
+
+                const subHead = document.createElement('h3');
+                subHead.id = 'online-results-head';
+                subHead.className = 'section-title';
+                subHead.style.marginTop = '28px';
+                subHead.style.marginBottom = '12px';
+                subHead.innerText = 'Resultados en línea (Reproducir al instante / Guardar en VPS)';
+                resultsBox.appendChild(subHead);
+
+                const table = renderTracksTable(data.online, true);
+                table.id = 'online-results-table';
+                resultsBox.appendChild(table);
             }
         }
 
