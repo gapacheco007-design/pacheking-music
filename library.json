@@ -1,5 +1,5 @@
 {
- "updated": 1792764473,
+ "updated": 1792764474,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -1245,6 +1245,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792764469
+  },
+  {
+   "id": "st-1792764461",
+   "title": "Pollo y Conejo",
+   "artist": "Cartel De Santa",
+   "album": "",
+   "genre": "Otros",
+   "duration": 205,
+   "dur_str": "3:24 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/12440960089130d0747547d7c3400aa9/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Cartel%20De%20Santa&title=Pollo%20y%20Conejo",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Cartel De Santa/Cartel De Santa - Pollo y Conejo.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792764474
   }
  ]
 }
