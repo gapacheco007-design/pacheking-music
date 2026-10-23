@@ -1,5 +1,5 @@
 {
- "updated": 1792781655,
+ "updated": 1792781657,
  "tracks": [
   {
    "id": "af-arjona-grupo-firme",
@@ -1656,6 +1656,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792781655
+  },
+  {
+   "id": "st-1792781649",
+   "title": "Clásica",
+   "artist": "Aldus",
+   "album": "",
+   "genre": "Otros",
+   "duration": 289,
+   "dur_str": "4:48 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/6a0de306e27aea92d636d9d6af71646b/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Aldus&title=Cl%C3%A1sica",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Aldus/Aldus - Clásica.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792781657
   }
  ]
 }
