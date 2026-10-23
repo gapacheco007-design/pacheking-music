@@ -12,7 +12,7 @@
     <title>TheKing Music</title>
     <link rel="icon" href="assets/brand/theking-badge.png" type="image/png">
     <script>
-        const APP_BUILD_VERSION = "20261023_v26_corporate_unblock_and_user_profiles";
+        const APP_BUILD_VERSION = "20261023_v27_syntax_fix_and_instant_render";
         if (localStorage.getItem('pkm_build') !== APP_BUILD_VERSION) {
             localStorage.setItem('pkm_build', APP_BUILD_VERSION);
             if ('caches' in window) {
@@ -3009,7 +3009,7 @@
             const users = getUsersList();
             const curId = localStorage.getItem('pkm_current_user_id') || 'admin';
             const found = users.find(u => u.id === curId);
-            return found || users[0];
+            return found || users[0] || DEFAULT_USERS[0];
         }
 
         function setCurrentUser(userId) {
@@ -3022,6 +3022,7 @@
         }
 
         function applyUserProfile(user) {
+            if (!user) user = DEFAULT_USERS[0];
             const isStandard = user.role === 'user';
             document.body.classList.toggle('user-standard', isStandard);
 
@@ -3873,7 +3874,6 @@
                 </div>
             `;
             container.appendChild(resetCard);
-        }
         }
 
         function clearAppCache() {
