@@ -1,5 +1,5 @@
 {
- "updated": 1792741946,
+ "updated": 1792741947,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -902,21 +902,6 @@
    "added": 1792741940
   },
   {
-   "id": "st-1792741933",
-   "title": "Feel Good",
-   "artist": "Charlotte Cardin",
-   "album": "",
-   "genre": "Otros",
-   "duration": 155,
-   "dur_str": "2:35 min",
-   "art": "",
-   "url": "/api/stream?artist=Charlotte%20Cardin&title=Feel%20Good",
-   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Charlotte Cardin/Charlotte Cardin - Feel Good.mp3",
-   "format": "FLAC / MP3 320k Master (VPS)",
-   "source": "vps_library",
-   "added": 1792741941
-  },
-  {
    "id": "st-1792741931",
    "title": "Es Épico",
    "artist": "Canserbero",
@@ -927,6 +912,21 @@
    "art": "",
    "url": "/api/stream?artist=Canserbero&title=Es%20%C3%89pico",
    "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Canserbero/Canserbero - Es Épico.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792741946
+  },
+  {
+   "id": "st-1792741933",
+   "title": "Diamantes",
+   "artist": "Natanael Cano",
+   "album": "",
+   "genre": "Otros",
+   "duration": 211,
+   "dur_str": "3:31 min",
+   "art": "",
+   "url": "/api/stream?artist=Natanael%20Cano&title=Diamantes",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Natanael Cano/Natanael Cano - Diamantes.mp3",
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792741946
