@@ -1,5 +1,5 @@
 {
- "updated": 1792786441,
+ "updated": 1792786442,
  "tracks": [
   {
    "id": "st-1792735492",
@@ -1804,6 +1804,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792786440
+  },
+  {
+   "id": "st-1792786434",
+   "title": "Canción de la Prisión",
+   "artist": "Canserbero",
+   "album": "",
+   "genre": "Otros",
+   "duration": 273,
+   "dur_str": "4:33 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/5c8754b019eab711b3a9ade759fefab3/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Canserbero&title=Canci%C3%B3n%20de%20la%20Prisi%C3%B3n",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Canserbero/Canserbero - Canción de la Prisión.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792786442
   }
  ]
 }
