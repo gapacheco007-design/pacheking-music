@@ -1,5 +1,5 @@
 {
- "updated": 1792736806,
+ "updated": 1792736807,
  "tracks": [
   {
    "id": "st-1792733778",
@@ -282,6 +282,21 @@
    "art": "",
    "url": "/api/stream?artist=Ricardo%20Arjona&title=El%20Problema",
    "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Ricardo Arjona/Ricardo Arjona - El Problema.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792736806
+  },
+  {
+   "id": "st-1792736799",
+   "title": "Fuiste Tú",
+   "artist": "Ricardo Arjona",
+   "album": "",
+   "genre": "Otros",
+   "duration": 284,
+   "dur_str": "4:43 min",
+   "art": "",
+   "url": "/api/stream?artist=Ricardo%20Arjona&title=Fuiste%20T%C3%BA",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Ricardo Arjona/Ricardo Arjona - Fuiste Tú.mp3",
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792736806
