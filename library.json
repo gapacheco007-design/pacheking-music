@@ -1,5 +1,5 @@
 {
- "updated": 1792737046,
+ "updated": 1792737127,
  "tracks": [
   {
    "id": "st-1792733778",
@@ -330,6 +330,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792737046
+  },
+  {
+   "id": "st-1792737120",
+   "title": "Shorty Party",
+   "artist": "Cartel De Santa",
+   "album": "",
+   "genre": "Otros",
+   "duration": 268,
+   "dur_str": "4:27 min",
+   "art": "",
+   "url": "/api/stream?artist=Cartel%20De%20Santa&title=Shorty%20Party",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Cartel De Santa/Cartel De Santa - Shorty Party.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792737127
   }
  ]
 }
