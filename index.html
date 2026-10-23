@@ -12,7 +12,7 @@
     <title>TheKing Music</title>
     <link rel="icon" href="assets/brand/theking-badge.png" type="image/png">
     <script>
-        const APP_BUILD_VERSION = "20261023_v24_full_ecosystem_and_audio_fix";
+        const APP_BUILD_VERSION = "20261023_v25_root_cause_audio_and_miniplayer_fix";
         if (localStorage.getItem('pkm_build') !== APP_BUILD_VERSION) {
             localStorage.setItem('pkm_build', APP_BUILD_VERSION);
             if ('caches' in window) {
@@ -153,7 +153,7 @@
         body.theme-spotify .mobile-mini-player {
             background: #282828 !important;
             border-radius: 8px !important;
-            margin: 0 10px calc(var(--bottom-nav-height) + var(--safe-bottom) + 8px) 10px !important;
+            margin: 0 !important;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7) !important;
             border: none !important;
         }
@@ -182,9 +182,7 @@
             fill: #000000 !important;
         }
         body.theme-spotify .np-lossless-pill {
-            background: rgba(29, 185, 84, 0.15) !important;
-            color: #1ed760 !important;
-            border: 1px solid rgba(29, 185, 84, 0.35) !important;
+            display: none !important;
         }
 
         /* Deezer: Flow Banner, Equalizer and Violet HiFi */
@@ -227,9 +225,7 @@
             fill: #ffffff !important;
         }
         body.theme-deezer .np-lossless-pill {
-            background: rgba(162, 56, 255, 0.2) !important;
-            color: #d89bff !important;
-            border: 1px solid rgba(162, 56, 255, 0.4) !important;
+            display: none !important;
         }
 
         /* YouTube Music: OLED true black & dock top progress line */
@@ -245,7 +241,7 @@
         body.theme-ytmusic .mobile-mini-player {
             background: #212121 !important;
             border-radius: 0px !important;
-            margin: 0 0 calc(var(--bottom-nav-height) + var(--safe-bottom)) 0 !important;
+            margin: 0 !important;
             border-top: 1px solid #303030 !important;
         }
         body.theme-ytmusic .mobile-tab-bar {
@@ -273,9 +269,7 @@
             fill: #000000 !important;
         }
         body.theme-ytmusic .np-lossless-pill {
-            background: rgba(255, 0, 0, 0.15) !important;
-            color: #ff4d4d !important;
-            border: 1px solid rgba(255, 0, 0, 0.3) !important;
+            display: none !important;
         }
 
         /* Apple Music: Glassmorphism and Velvet Gloss */
@@ -1718,15 +1712,16 @@
         .mobile-mini-player {
             display: none;
             position: fixed;
-            bottom: calc(var(--bottom-nav-height) + var(--safe-bottom) + 8px);
-            left: 12px;
-            right: 12px;
+            bottom: calc(var(--bottom-nav-height) + var(--safe-bottom) + 6px);
+            left: 8px;
+            right: 8px;
             height: 56px;
-            background: rgba(30, 30, 34, 0.88);
+            margin: 0 !important;
+            background: rgba(30, 30, 34, 0.92);
             backdrop-filter: blur(28px) saturate(180%);
             -webkit-backdrop-filter: blur(28px) saturate(180%);
             border: 1px solid var(--border-subtle);
-            border-radius: 14px;
+            border-radius: 12px;
             align-items: center;
             padding: 0 12px 0 8px;
             gap: 10px;
@@ -1925,19 +1920,52 @@
 
         .np-cover-img {
             width: 100%;
-            max-width: 320px;
+            max-width: 300px;
+            max-height: 38vh;
             aspect-ratio: 1/1;
             border-radius: 18px;
             object-fit: cover;
-            box-shadow: 0 20px 48px rgba(0, 0, 0, 0.65);
+            box-shadow: 0 16px 44px rgba(0, 0, 0, 0.65);
             background: #242426;
-            margin-bottom: 24px;
+            margin-bottom: 16px;
+            flex-shrink: 1;
         }
 
         .np-track-meta {
             width: 100%;
-            margin-bottom: 20px;
+            margin-bottom: 14px;
             text-align: left;
+        }
+
+        @media (max-height: 750px) {
+            .np-cover-img {
+                max-width: 220px;
+                max-height: 30vh;
+                margin-bottom: 10px;
+            }
+            .np-track-meta {
+                margin-bottom: 10px;
+            }
+            .np-controls-box {
+                gap: 10px;
+            }
+        }
+
+        @media (max-height: 640px) {
+            .np-cover-img {
+                max-width: 170px;
+                max-height: 24vh;
+                margin-bottom: 8px;
+            }
+            .np-track-meta {
+                margin-bottom: 6px;
+            }
+            .np-track-title {
+                font-size: 18px;
+            }
+            .np-track-artist {
+                font-size: 13px;
+            }
         }
 
         .np-track-title {
@@ -2191,7 +2219,7 @@
             }
 
             .content-scroll {
-                padding: 16px 16px calc(var(--bottom-nav-height) + var(--safe-bottom) + 76px) 16px;
+                padding: 16px 16px calc(var(--bottom-nav-height) + var(--safe-bottom) + 90px) 16px !important;
             }
 
             .player-dock {
