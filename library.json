@@ -1,5 +1,5 @@
 {
- "updated": 1792787674,
+ "updated": 1792787676,
  "tracks": [
   {
    "id": "st-1792735492",
@@ -2239,6 +2239,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792787673
+  },
+  {
+   "id": "st-1792787671",
+   "title": "El Menos Visto",
+   "artist": "Luis R Conriquez & Panter Bélico",
+   "album": "",
+   "genre": "Otros",
+   "duration": 185,
+   "dur_str": "3:05 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/3313bb2bd136eae75907ad33c4a5bd2c/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Luis%20R%20Conriquez%20%26%20Panter%20B%C3%A9lico&title=El%20Menos%20Visto",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Luis R Conriquez & Panter Bélico/Luis R Conriquez & Panter Bélico - El Menos Visto.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792787676
   }
  ]
 }
