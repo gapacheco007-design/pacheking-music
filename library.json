@@ -1,5 +1,5 @@
 {
- "updated": 1792762921,
+ "updated": 1792762925,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -1050,6 +1050,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792762921
+  },
+  {
+   "id": "st-1792762906",
+   "title": "Umbrella",
+   "artist": "Rihanna",
+   "album": "",
+   "genre": "Otros",
+   "duration": 318,
+   "dur_str": "5:17 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/91276466fbc876d96be9e6926060af60/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Rihanna&title=Umbrella",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Rihanna/Rihanna - Umbrella.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792762925
   }
  ]
 }
