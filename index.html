@@ -12,7 +12,7 @@
     <title>TheKing Music</title>
     <link rel="icon" href="assets/brand/theking-badge.png" type="image/png">
     <script>
-        const APP_BUILD_VERSION = "20261023_v21_multitheme_covers_ranking";
+        const APP_BUILD_VERSION = "20261023_v22_full_ecosystems_seek_lyrics_fix";
         if (localStorage.getItem('pkm_build') !== APP_BUILD_VERSION) {
             localStorage.setItem('pkm_build', APP_BUILD_VERSION);
             if ('caches' in window) {
@@ -48,7 +48,7 @@
             --safe-top: env(safe-area-inset-top, 0px);
         }
 
-        /* MULTI-INTERFACE THEMES */
+        /* MULTI-INTERFACE ECOSYSTEMS */
         body.theme-apple {
             --bg-base: #000000;
             --bg-elevated: #111113;
@@ -64,6 +64,7 @@
             --accent-subtle: rgba(250, 35, 59, 0.18);
             --card-radius: 14px;
             --btn-radius: 999px;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
         }
 
         body.theme-spotify {
@@ -71,7 +72,7 @@
             --bg-elevated: #181818;
             --bg-card: #181818;
             --bg-card-hover: #242424;
-            --bg-glass: rgba(18, 18, 18, 0.94);
+            --bg-glass: rgba(18, 18, 18, 0.96);
             --bg-glass-strong: #121212;
             --border-subtle: rgba(255, 255, 255, 0.07);
             --border-hover: rgba(255, 255, 255, 0.16);
@@ -81,31 +82,33 @@
             --accent-subtle: rgba(29, 185, 84, 0.18);
             --card-radius: 8px;
             --btn-radius: 999px;
+            font-family: -apple-system, BlinkMacSystemFont, "Circular Spotify Text", "Circular Std", "Helvetica Neue", Arial, sans-serif;
         }
 
         body.theme-deezer {
-            --bg-base: #0f0d13;
-            --bg-elevated: #191724;
-            --bg-card: rgba(25, 23, 36, 0.8);
-            --bg-card-hover: rgba(38, 35, 54, 0.9);
-            --bg-glass: rgba(15, 13, 19, 0.9);
-            --bg-glass-strong: rgba(20, 18, 28, 0.96);
-            --border-subtle: rgba(162, 56, 255, 0.15);
-            --border-hover: rgba(162, 56, 255, 0.35);
+            --bg-base: #0b0a12;
+            --bg-elevated: #151221;
+            --bg-card: rgba(25, 20, 40, 0.82);
+            --bg-card-hover: rgba(38, 30, 60, 0.92);
+            --bg-glass: rgba(11, 10, 18, 0.92);
+            --bg-glass-strong: rgba(17, 14, 28, 0.97);
+            --border-subtle: rgba(162, 56, 255, 0.18);
+            --border-hover: rgba(162, 56, 255, 0.38);
             --accent: #a238ff;
             --accent-hover: #b85cff;
             --accent-glow: rgba(162, 56, 255, 0.4);
             --accent-subtle: rgba(162, 56, 255, 0.2);
             --card-radius: 16px;
             --btn-radius: 16px;
+            font-family: -apple-system, BlinkMacSystemFont, "Inter", "Deezer", "Segoe UI", Arial, sans-serif;
         }
 
         body.theme-ytmusic {
             --bg-base: #030303;
-            --bg-elevated: #121212;
+            --bg-elevated: #111111;
             --bg-card: #181818;
             --bg-card-hover: #262626;
-            --bg-glass: rgba(10, 10, 10, 0.92);
+            --bg-glass: rgba(8, 8, 8, 0.95);
             --bg-glass-strong: #030303;
             --border-subtle: rgba(255, 255, 255, 0.1);
             --border-hover: rgba(255, 255, 255, 0.22);
@@ -113,8 +116,317 @@
             --accent-hover: #ff3333;
             --accent-glow: rgba(255, 0, 0, 0.4);
             --accent-subtle: rgba(255, 0, 0, 0.2);
-            --card-radius: 6px;
+            --card-radius: 4px;
             --btn-radius: 999px;
+            font-family: -apple-system, BlinkMacSystemFont, "Roboto", "YouTube Sans", "Segoe UI", Arial, sans-serif;
+        }
+
+        /* ECOSYSTEM SPECIFIC COMPONENT STYLES */
+        /* Spotify: Floating Green Circular Play Button */
+        body.theme-spotify .featured-play-btn,
+        body.theme-spotify .album-play-btn {
+            background: #1ed760 !important;
+            color: #000000 !important;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6) !important;
+            opacity: 0;
+            transform: translateY(8px);
+            transition: all 0.25s cubic-bezier(0.3, 0, 0, 1) !important;
+        }
+        body.theme-spotify .featured-card:hover .featured-play-btn,
+        body.theme-spotify .album-card:hover .album-play-btn {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+        body.theme-spotify .featured-play-btn .icon,
+        body.theme-spotify .album-play-btn .icon {
+            fill: #000000 !important;
+        }
+        body.theme-spotify .player-dock {
+            background: #181818 !important;
+            border-top: 1px solid #282828 !important;
+        }
+        body.theme-spotify .scrubber-progress {
+            background: #1db954 !important;
+        }
+
+        /* Deezer: Flow Banner and Equalizer Accent */
+        body.theme-deezer .album-card:hover {
+            box-shadow: 0 8px 24px rgba(162, 56, 255, 0.3) !important;
+        }
+        body.theme-deezer .scrubber-progress,
+        body.theme-deezer .np-scrubber-progress {
+            background: linear-gradient(90deg, #a238ff, #ff2382) !important;
+        }
+
+        /* YouTube Music: OLED true black & dock top progress line */
+        body.theme-ytmusic .player-dock {
+            background: #030303 !important;
+            border-top: 1px solid #202020 !important;
+        }
+        body.theme-ytmusic .scrubber-progress,
+        body.theme-ytmusic .np-scrubber-progress {
+            background: #ff0000 !important;
+        }
+
+        /* Apple Music: Glassmorphism and Velvet Gloss */
+        body.theme-apple .player-dock {
+            background: rgba(18, 18, 20, 0.88) !important;
+            backdrop-filter: blur(40px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(40px) saturate(180%) !important;
+        }
+
+        /* ECOSYSTEM TOP CHIP BARS */
+        .spotify-top-bar {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .spotify-nav-arrows {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .spotify-arrow-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.7);
+            border: none;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.15s ease;
+        }
+        .spotify-arrow-btn:hover {
+            transform: scale(1.08);
+            background: rgba(0, 0, 0, 0.9);
+        }
+        .spotify-arrow-btn .icon {
+            width: 18px;
+            height: 18px;
+            fill: #ffffff;
+        }
+
+        .ecosystem-chips-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 22px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+            padding: 2px 0;
+        }
+        .ecosystem-chips-bar::-webkit-scrollbar {
+            display: none;
+        }
+        .eco-chip {
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-primary);
+        }
+        body.theme-spotify .eco-chip {
+            background: #2a2a2a;
+            color: #ffffff;
+        }
+        body.theme-spotify .eco-chip.active {
+            background: #ffffff;
+            color: #000000;
+        }
+        body.theme-deezer .eco-chip {
+            background: rgba(162, 56, 255, 0.12);
+            border: 1px solid rgba(162, 56, 255, 0.28);
+            color: #ffffff;
+        }
+        body.theme-deezer .eco-chip.active {
+            background: #a238ff;
+            color: #ffffff;
+            box-shadow: 0 4px 16px rgba(162, 56, 255, 0.5);
+        }
+        body.theme-ytmusic .eco-chip {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+        }
+        body.theme-ytmusic .eco-chip.active {
+            background: #ffffff;
+            color: #000000;
+        }
+        body.theme-apple .eco-chip {
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+        }
+        body.theme-apple .eco-chip.active {
+            background: var(--accent);
+            color: #ffffff;
+        }
+
+        /* DEEZER FLOW HERO CARD */
+        .deezer-flow-card {
+            background: linear-gradient(135deg, #1b0c36 0%, #3e1261 45%, #6e1c9e 100%);
+            border: 1px solid rgba(162, 56, 255, 0.4);
+            border-radius: 18px;
+            padding: 22px 24px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            box-shadow: 0 12px 32px rgba(162, 56, 255, 0.25);
+        }
+        .deezer-flow-left {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .deezer-flow-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            font-weight: 800;
+            color: #c988ff;
+            letter-spacing: 0.8px;
+        }
+        .deezer-flow-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: #ffffff;
+        }
+        .deezer-flow-desc {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.75);
+            max-width: 480px;
+        }
+        .deezer-flow-play-btn {
+            background: #a238ff;
+            color: #ffffff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 999px;
+            font-size: 14px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(162, 56, 255, 0.5);
+            white-space: nowrap;
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+        .deezer-flow-play-btn:hover {
+            transform: scale(1.04);
+            background: #b554ff;
+        }
+        .deezer-flow-play-btn .icon {
+            fill: #ffffff;
+            width: 20px;
+            height: 20px;
+        }
+
+        /* ANIMATED EQUALIZER */
+        .deezer-eq-wrap {
+            display: inline-flex;
+            align-items: flex-end;
+            gap: 3px;
+            height: 14px;
+        }
+        .deezer-eq-bar {
+            width: 3px;
+            height: 100%;
+            background: #c988ff;
+            border-radius: 2px;
+            animation: eqBounce 0.9s infinite ease-in-out;
+            transform-origin: bottom;
+        }
+        .deezer-eq-bar:nth-child(2) { animation-delay: 0.25s; }
+        .deezer-eq-bar:nth-child(3) { animation-delay: 0.45s; }
+        .deezer-eq-bar:nth-child(4) { animation-delay: 0.15s; }
+        @keyframes eqBounce {
+            0%, 100% { transform: scaleY(0.25); }
+            50% { transform: scaleY(1); }
+        }
+
+        .apple-pre-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--accent);
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        /* DOCK ECOSYSTEM EXTRAS */
+        .dock-eco-extras {
+            display: flex;
+            align-items: center;
+            margin-left: 4px;
+        }
+        .dock-eco-heart-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px;
+            transition: transform 0.15s ease;
+        }
+        .dock-eco-heart-btn:hover {
+            transform: scale(1.15);
+        }
+        .ytmusic-thumbs-row {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .deezer-dock-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(162, 56, 255, 0.15);
+            border: 1px solid rgba(162, 56, 255, 0.35);
+            padding: 3px 8px;
+            border-radius: 999px;
+            font-size: 10px;
+            font-weight: 800;
+            color: #c988ff;
+        }
+
+        /* TOAST NOTIFICATION */
+        .app-toast {
+            position: fixed;
+            top: calc(var(--safe-top) + 20px);
+            left: 50%;
+            transform: translateX(-50%) translateY(-30px);
+            background: rgba(28, 28, 32, 0.94);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--border-hover);
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 999px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.28s cubic-bezier(0.3, 0, 0, 1);
+        }
+        .app-toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
         }
 
         @keyframes pulseGlow {
@@ -608,14 +920,59 @@
             transform: translateY(-4px);
         }
 
-        .album-art {
+        .album-art-wrap {
+            position: relative;
             width: 160px;
             height: 160px;
-            border-radius: 12px;
-            object-fit: cover;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            border-radius: var(--card-radius, 12px);
+            overflow: hidden;
             margin-bottom: 8px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
             background: #242426;
+        }
+
+        .album-art {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.25s ease;
+        }
+
+        .album-card:hover .album-art {
+            transform: scale(1.05);
+        }
+
+        .album-play-btn {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(8px);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.5);
+            transition: all 0.22s cubic-bezier(0.3, 0, 0, 1);
+            z-index: 2;
+        }
+
+        .album-card:hover .album-play-btn {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .album-play-btn .icon {
+            width: 22px;
+            height: 22px;
+            fill: #ffffff;
         }
 
         .album-name {
@@ -1125,16 +1482,29 @@
             font-variant-numeric: tabular-nums;
         }
 
-        .scrubber-track {
+        .scrubber-wrap {
             flex: 1;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 2px;
+            height: 32px;
+            display: flex;
+            align-items: center;
             cursor: pointer;
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
             position: relative;
         }
 
-        .scrubber-track:hover {
+        .scrubber-track {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.18);
+            border-radius: 2px;
+            position: relative;
+            transition: height 0.15s ease;
+        }
+
+        .scrubber-wrap:hover .scrubber-track,
+        .scrubber-wrap.scrubbing .scrubber-track {
             height: 6px;
         }
 
@@ -1146,8 +1516,28 @@
             position: relative;
         }
 
-        .scrubber-track:hover .scrubber-progress {
+        .scrubber-wrap:hover .scrubber-progress,
+        .scrubber-wrap.scrubbing .scrubber-progress {
             background: var(--accent);
+        }
+
+        .scrubber-thumb {
+            position: absolute;
+            top: 50%;
+            left: 0%;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ffffff;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+            transform: translate(-50%, -50%) scale(0);
+            pointer-events: none;
+            transition: transform 0.15s ease;
+        }
+
+        .scrubber-wrap:hover .scrubber-thumb,
+        .scrubber-wrap.scrubbing .scrubber-thumb {
+            transform: translate(-50%, -50%) scale(1);
         }
 
         .dock-right {
@@ -1325,12 +1715,16 @@
         }
 
         .np-header {
-            position: relative;
-            z-index: 2;
+            position: sticky !important;
+            top: 0;
+            z-index: 60;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: calc(var(--safe-top) + 16px) 20px 12px 20px;
+            padding: calc(var(--safe-top) + 14px) 20px 12px 20px;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.96) 0%, rgba(0, 0, 0, 0.8) 75%, transparent 100%);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
         }
 
         .np-dismiss-btn {
@@ -1344,11 +1738,22 @@
             width: 36px;
             height: 36px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.12);
+            transition: background 0.15s ease, transform 0.15s ease;
+        }
+
+        .np-dismiss-btn:hover {
+            background: rgba(255, 255, 255, 0.22);
+            transform: scale(1.06);
+        }
+
+        .np-dismiss-btn.active {
+            color: var(--accent);
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .np-header-title {
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.8px;
@@ -1437,7 +1842,9 @@
             width: 100%;
             flex: 1;
             overflow-y: auto;
-            padding: 10px 0;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
+            padding: 10px 0 24px 0;
             display: none;
             scroll-behavior: smooth;
             scrollbar-width: none;
@@ -1471,6 +1878,48 @@
             white-space: pre-wrap;
         }
 
+        .lyrics-floating-nav {
+            position: sticky;
+            bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            z-index: 30;
+            margin-top: 24px;
+            padding: 8px 12px;
+        }
+
+        .lyrics-nav-pill {
+            background: rgba(28, 28, 32, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 10px 18px;
+            border-radius: 999px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+            transition: all 0.2s ease;
+        }
+
+        .lyrics-nav-pill:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            transform: scale(1.04);
+        }
+
+        .lyrics-nav-pill .icon {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
         .np-controls-box {
             width: 100%;
             display: flex;
@@ -1482,25 +1931,57 @@
             width: 100%;
         }
 
-        .np-scrubber-track {
-            height: 5px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 3px;
+        .np-scrubber-wrap {
+            width: 100%;
+            height: 38px;
+            display: flex;
+            align-items: center;
             cursor: pointer;
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
             position: relative;
+        }
+
+        .np-scrubber-track {
+            width: 100%;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.22);
+            border-radius: 3px;
+            position: relative;
+            transition: height 0.15s ease;
+        }
+
+        .np-scrubber-wrap:hover .np-scrubber-track,
+        .np-scrubber-wrap.scrubbing .np-scrubber-track {
+            height: 7px;
         }
 
         .np-scrubber-progress {
             height: 100%;
             width: 0%;
-            background: #ffffff;
+            background: var(--accent);
             border-radius: 3px;
+            position: relative;
+        }
+
+        .np-scrubber-thumb {
+            position: absolute;
+            top: 50%;
+            left: 0%;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #ffffff;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.6);
+            transform: translate(-50%, -50%) scale(1);
+            pointer-events: none;
         }
 
         .np-scrubber-times {
             display: flex;
             justify-content: space-between;
-            margin-top: 6px;
+            margin-top: 2px;
             font-size: 12px;
             font-weight: 600;
             color: rgba(255, 255, 255, 0.6);
@@ -1601,8 +2082,8 @@
     <!-- DESKTOP SIDEBAR -->
     <aside class="sidebar">
         <div class="brand-header" onclick="switchTab('inicio')">
-            <img src="assets/brand/theking-badge.png" class="brand-badge" alt="TheKing Logo">
-            <div class="brand-text">TheKing <span>Music</span></div>
+            <img src="assets/brand/theking-badge.png" class="brand-badge" id="brand-badge-img" alt="TheKing Logo">
+            <div class="brand-text" id="brand-header-text">TheKing <span>Music</span></div>
         </div>
 
         <div class="sidebar-search-box">
@@ -1654,7 +2135,9 @@
                 <div class="dock-title" id="dock-title">TheKing Music</div>
                 <div class="dock-artist" id="dock-artist">Selecciona una pista</div>
             </div>
-            <span class="quality-badge lossless" id="dock-quality">LOSSLESS</span>
+            <div class="dock-eco-extras" id="dock-eco-extras" onclick="event.stopPropagation()">
+                <span class="quality-badge lossless" id="dock-quality">LOSSLESS</span>
+            </div>
         </div>
 
         <div class="dock-center">
@@ -1665,8 +2148,14 @@
                 <button class="btn-ctrl" onclick="playPrevious()" title="Anterior">
                     <svg class="icon" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
                 </button>
+                <button class="btn-ctrl" onclick="skipTime(-10)" title="Retroceder 10 segundos">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8zm-1.1 11h-.85v-3.26l-1.01.31v-.59l1.81-.58h.05V16zm4.28-1.74c0 .35-.06.66-.17.91s-.28.46-.5.6-.48.23-.78.23c-.3 0-.56-.08-.78-.23s-.39-.36-.5-.61-.17-.56-.17-.92v-.73c0-.36.06-.67.17-.92s.28-.45.5-.59.48-.22.78-.22c.3 0 .56.07.78.22s.39.35.5.6.17.56.17.92v.73zm-.83-.8c0-.28-.03-.5-.1-.66s-.17-.28-.3-.35-.29-.11-.47-.11-.34.04-.47.11-.23.19-.3.35-.1.38-.1.66v.88c0 .28.03.5.1.66s.17.28.3.35.29.11.47.11.34-.04.47-.11.23-.19.3-.35.1-.38.1-.66v-.88z"/></svg>
+                </button>
                 <button class="btn-play-pause-dock" id="btn-dock-play" onclick="togglePlayPause()" title="Reproducir">
                     <svg class="icon" id="dock-icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                </button>
+                <button class="btn-ctrl" onclick="skipTime(10)" title="Adelantar 10 segundos">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M12 5V1l5 5-5 5V7c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6h2c0 4.42-3.58 8-8 8s-8-3.58-8-8 3.58-8 8-8zm-1.1 11h-.85v-3.26l-1.01.31v-.59l1.81-.58h.05V16zm4.28-1.74c0 .35-.06.66-.17.91s-.28.46-.5.6-.48.23-.78.23c-.3 0-.56-.08-.78-.23s-.39-.36-.5-.61-.17-.56-.17-.92v-.73c0-.36.06-.67.17-.92s.28-.45.5-.59.48-.22.78-.22c.3 0 .56.07.78.22s.39.35.5.6.17.56.17.92v.73zm-.83-.8c0-.28-.03-.5-.1-.66s-.17-.28-.3-.35-.29-.11-.47-.11-.34.04-.47.11-.23.19-.3.35-.1.38-.1.66v.88c0 .28.03.5.1.66s.17.28.3.35.29.11.47.11.34-.04.47-.11.23-.19.3-.35.1-.38.1-.66v-.88z"/></svg>
                 </button>
                 <button class="btn-ctrl" onclick="playNext()" title="Siguiente">
                     <svg class="icon" viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
@@ -1677,8 +2166,11 @@
             </div>
             <div class="dock-scrubber-row">
                 <span class="scrubber-time" id="dock-time-cur">0:00</span>
-                <div class="scrubber-track" id="dock-scrubber" onclick="seekAudio(event)">
-                    <div class="scrubber-progress" id="dock-progress"></div>
+                <div class="scrubber-wrap" id="dock-scrubber-wrap" onpointerdown="startScrubbing(event, 'dock')">
+                    <div class="scrubber-track" id="dock-scrubber">
+                        <div class="scrubber-progress" id="dock-progress"></div>
+                        <div class="scrubber-thumb" id="dock-thumb"></div>
+                    </div>
                 </div>
                 <span class="scrubber-time" id="dock-time-tot">0:00</span>
             </div>
@@ -1740,13 +2232,18 @@
     <div class="np-modal" id="np-modal">
         <div class="np-ambient-backdrop" id="np-ambient-backdrop"></div>
         <div class="np-header">
-            <button class="np-dismiss-btn" onclick="closeNowPlaying()" title="Cerrar">
-                <svg class="icon" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            <button class="np-dismiss-btn" id="np-back-btn" onclick="handleNowPlayingBack()" title="Atrás">
+                <svg class="icon" id="np-back-icon" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
             </button>
-            <div class="np-header-title">Reproduciendo</div>
-            <button class="np-dismiss-btn" id="np-btn-toggle-lyrics" onclick="toggleNowPlayingLyrics()" title="Letras sincronizadas">
-                <svg class="icon" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
-            </button>
+            <div class="np-header-title" id="np-header-title">Reproduciendo</div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <button class="np-dismiss-btn" id="np-btn-toggle-lyrics" onclick="toggleNowPlayingLyrics()" title="Letras sincronizadas">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+                </button>
+                <button class="np-dismiss-btn" onclick="closeNowPlaying()" title="Minimizar reproductor">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M19 13H5v-2h14v2z"/></svg>
+                </button>
+            </div>
         </div>
 
         <div class="np-body">
@@ -1766,13 +2263,26 @@
             <!-- VIEW 2: SYNCHRONIZED LYRICS VIEW -->
             <div class="np-view-lyrics" id="np-view-lyrics">
                 <div id="lyrics-container"></div>
+                <div class="lyrics-floating-nav">
+                    <button class="lyrics-nav-pill" onclick="toggleNowPlayingLyrics(false)" title="Volver a la carátula">
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+                        <span>Volver a la carátula</span>
+                    </button>
+                    <button class="lyrics-nav-pill" onclick="closeNowPlaying()" title="Minimizar">
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M19 13H5v-2h14v2z"/></svg>
+                        <span>Minimizar</span>
+                    </button>
+                </div>
             </div>
 
             <!-- SCRUBBER & TRANSPORT -->
             <div class="np-controls-box">
                 <div class="np-scrubber">
-                    <div class="np-scrubber-track" id="np-scrubber" onclick="seekAudio(event)">
-                        <div class="np-scrubber-progress" id="np-progress"></div>
+                    <div class="np-scrubber-wrap" id="np-scrubber-wrap" onpointerdown="startScrubbing(event, 'np')">
+                        <div class="np-scrubber-track" id="np-scrubber">
+                            <div class="np-scrubber-progress" id="np-progress"></div>
+                            <div class="np-scrubber-thumb" id="np-thumb"></div>
+                        </div>
                     </div>
                     <div class="np-scrubber-times">
                         <span id="np-time-cur">0:00</span>
@@ -1781,19 +2291,25 @@
                 </div>
 
                 <div class="np-transport-row">
-                    <button class="btn-ctrl" id="np-btn-shuffle" onclick="toggleShuffle()">
+                    <button class="btn-ctrl" id="np-btn-shuffle" onclick="toggleShuffle()" title="Aleatorio">
                         <svg class="icon" style="width: 22px; height: 22px;" viewBox="0 0 24 24"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>
                     </button>
-                    <button class="btn-ctrl" onclick="playPrevious()">
-                        <svg class="icon" style="width: 30px; height: 30px;" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+                    <button class="btn-ctrl" onclick="playPrevious()" title="Anterior">
+                        <svg class="icon" style="width: 28px; height: 28px;" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
                     </button>
-                    <button class="np-btn-play-pause" id="np-btn-play" onclick="togglePlayPause()">
+                    <button class="btn-ctrl" onclick="skipTime(-10)" title="Retroceder 10s">
+                        <svg class="icon" style="width: 28px; height: 28px;" viewBox="0 0 24 24"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8zm-1.1 11h-.85v-3.26l-1.01.31v-.59l1.81-.58h.05V16zm4.28-1.74c0 .35-.06.66-.17.91s-.28.46-.5.6-.48.23-.78.23c-.3 0-.56-.08-.78-.23s-.39-.36-.5-.61-.17-.56-.17-.92v-.73c0-.36.06-.67.17-.92s.28-.45.5-.59.48-.22.78-.22c.3 0 .56.07.78.22s.39.35.5.6.17.56.17.92v.73zm-.83-.8c0-.28-.03-.5-.1-.66s-.17-.28-.3-.35-.29-.11-.47-.11-.34.04-.47.11-.23.19-.3.35-.1.38-.1.66v.88c0 .28.03.5.1.66s.17.28.3.35.29.11.47.11.34-.04.47-.11.23-.19.3-.35.1-.38.1-.66v-.88z"/></svg>
+                    </button>
+                    <button class="np-btn-play-pause" id="np-btn-play" onclick="togglePlayPause()" title="Reproducir / Pausar">
                         <svg class="icon" id="np-icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                     </button>
-                    <button class="btn-ctrl" onclick="playNext()">
-                        <svg class="icon" style="width: 30px; height: 30px;" viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+                    <button class="btn-ctrl" onclick="skipTime(10)" title="Adelantar 10s">
+                        <svg class="icon" style="width: 28px; height: 28px;" viewBox="0 0 24 24"><path d="M12 5V1l5 5-5 5V7c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6h2c0 4.42-3.58 8-8 8s-8-3.58-8-8 3.58-8 8-8zm-1.1 11h-.85v-3.26l-1.01.31v-.59l1.81-.58h.05V16zm4.28-1.74c0 .35-.06.66-.17.91s-.28.46-.5.6-.48.23-.78.23c-.3 0-.56-.08-.78-.23s-.39-.36-.5-.61-.17-.56-.17-.92v-.73c0-.36.06-.67.17-.92s.28-.45.5-.59.48-.22.78-.22c.3 0 .56.07.78.22s.39.35.5.6.17.56.17.92v.73zm-.83-.8c0-.28-.03-.5-.1-.66s-.17-.28-.3-.35-.29-.11-.47-.11-.34.04-.47.11-.23.19-.3.35-.1.38-.1.66v.88c0 .28.03.5.1.66s.17.28.3.35.29.11.47.11.34-.04.47-.11.23-.19.3-.35.1-.38.1-.66v-.88z"/></svg>
                     </button>
-                    <button class="btn-ctrl" id="np-btn-repeat" onclick="toggleRepeat()">
+                    <button class="btn-ctrl" onclick="playNext()" title="Siguiente">
+                        <svg class="icon" style="width: 28px; height: 28px;" viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+                    </button>
+                    <button class="btn-ctrl" id="np-btn-repeat" onclick="toggleRepeat()" title="Repetir">
                         <svg class="icon" style="width: 22px; height: 22px;" viewBox="0 0 24 24"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg>
                     </button>
                 </div>
@@ -1931,15 +2447,44 @@
         const SVG_PLAY = '<svg class="icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
         const SVG_PAUSE = '<svg class="icon" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
 
+        // TOAST FEEDBACK SYSTEM
+        function showToast(message) {
+            let toast = document.getElementById('app-toast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'app-toast';
+                toast.className = 'app-toast';
+                document.body.appendChild(toast);
+            }
+            toast.textContent = message;
+            toast.classList.add('show');
+            clearTimeout(toast._timer);
+            toast._timer = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2500);
+        }
+
+        // GLOBAL KEYBOARD SHORTCUTS (DESKTOP)
+        document.addEventListener('keydown', (e) => {
+            const tag = e.target.tagName ? e.target.tagName.toLowerCase() : '';
+            if (tag === 'input' || tag === 'textarea' || e.target.isContentEditable) return;
+
+            if (e.code === 'Space') {
+                e.preventDefault();
+                togglePlayPause();
+            } else if (e.code === 'ArrowLeft') {
+                e.preventDefault();
+                skipTime(-5);
+            } else if (e.code === 'ArrowRight') {
+                e.preventDefault();
+                skipTime(5);
+            }
+        });
+
         // BOOTSTRAP
         window.addEventListener('DOMContentLoaded', () => {
             const savedTheme = localStorage.getItem('pkm_theme') || 'apple';
-            document.body.className = 'theme-' + savedTheme;
-            const metaTheme = document.querySelector('meta[name="theme-color"]');
-            if (metaTheme) {
-                const colors = { 'apple': '#000000', 'spotify': '#121212', 'deezer': '#0f0d13', 'ytmusic': '#030303' };
-                metaTheme.setAttribute('content', colors[savedTheme] || '#000000');
-            }
+            applyEcosystemTheme(savedTheme);
             setupAudioListeners();
             renderCurrentView(); // Render instantly with 0ms delay!
             loadLibrary();
@@ -2016,8 +2561,113 @@
             }
         }
 
+        // ECOSYSTEM TOP BAR & FILTERS
+        function renderEcosystemTopBar(container, curTheme) {
+            if (curTheme === 'spotify') {
+                const bar = document.createElement('div');
+                bar.className = 'spotify-top-bar';
+                bar.innerHTML = `
+                    <div class="spotify-nav-arrows">
+                        <button class="spotify-arrow-btn" onclick="window.history.back()" title="Atrás">
+                            <svg class="icon" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                        </button>
+                        <button class="spotify-arrow-btn" onclick="window.history.forward()" title="Adelante">
+                            <svg class="icon" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                        </button>
+                    </div>
+                    <div class="ecosystem-chips-bar">
+                        <button class="eco-chip active" onclick="filterSpotifyCategory('all', this)">Todo</button>
+                        <button class="eco-chip" onclick="filterSpotifyCategory('music', this)">Música</button>
+                        <button class="eco-chip" onclick="filterSpotifyCategory('podcasts', this)">Podcasts</button>
+                    </div>
+                `;
+                container.appendChild(bar);
+            } else if (curTheme === 'deezer') {
+                const flowCard = document.createElement('div');
+                flowCard.className = 'deezer-flow-card';
+                flowCard.innerHTML = `
+                    <div class="deezer-flow-left">
+                        <div class="deezer-flow-tag">
+                            <div class="deezer-eq-wrap">
+                                <span class="deezer-eq-bar"></span>
+                                <span class="deezer-eq-bar"></span>
+                                <span class="deezer-eq-bar"></span>
+                                <span class="deezer-eq-bar"></span>
+                            </div>
+                            <span>DEEZER FLOW</span>
+                        </div>
+                        <div class="deezer-flow-title">Tu mix infinito personalizado</div>
+                        <div class="deezer-flow-desc">Música seleccionada según tus gustos, combinando tus favoritas y lanzamientos HiFi.</div>
+                    </div>
+                    <button class="deezer-flow-play-btn" onclick="playDeezerFlow()" title="Iniciar Flow">
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        <span>Reproducir FLOW</span>
+                    </button>
+                `;
+                container.appendChild(flowCard);
+
+                const chips = document.createElement('div');
+                chips.className = 'ecosystem-chips-bar';
+                chips.innerHTML = `
+                    <button class="eco-chip active" onclick="filterDeezerCategory('flow', this)">Flow</button>
+                    <button class="eco-chip" onclick="filterDeezerCategory('releases', this)">Lanzamientos</button>
+                    <button class="eco-chip" onclick="filterDeezerCategory('top', this)">Top Canciones</button>
+                    <button class="eco-chip" onclick="filterDeezerCategory('mixes', this)">Mixes</button>
+                `;
+                container.appendChild(chips);
+            } else if (curTheme === 'ytmusic') {
+                const chips = document.createElement('div');
+                chips.className = 'ecosystem-chips-bar';
+                chips.innerHTML = `
+                    <button class="eco-chip active" onclick="filterYTCategory('energia', this)">Energía</button>
+                    <button class="eco-chip" onclick="filterYTCategory('relax', this)">Relajación</button>
+                    <button class="eco-chip" onclick="filterYTCategory('workout', this)">Para entrenar</button>
+                    <button class="eco-chip" onclick="filterYTCategory('focus', this)">Concentración</button>
+                    <button class="eco-chip" onclick="filterYTCategory('commute', this)">Desplazamiento</button>
+                `;
+                container.appendChild(chips);
+            }
+        }
+
+        function filterSpotifyCategory(cat, btn) {
+            btn.parentElement.querySelectorAll('.eco-chip').forEach(c => c.classList.remove('active'));
+            btn.classList.add('active');
+            if (cat === 'music') showToast('Catálogo de música activado');
+            else if (cat === 'podcasts') showToast('Podcasts y shows de audio');
+            else showToast('Mostrando todo el catálogo');
+        }
+
+        function filterDeezerCategory(cat, btn) {
+            btn.parentElement.querySelectorAll('.eco-chip').forEach(c => c.classList.remove('active'));
+            btn.classList.add('active');
+            if (cat === 'flow') playDeezerFlow();
+            else if (cat === 'releases') showToast('Últimos lanzamientos HiFi');
+            else if (cat === 'top') showToast('Top 100 Deezer');
+            else showToast('Mixes exclusivos');
+        }
+
+        function filterYTCategory(cat, btn) {
+            btn.parentElement.querySelectorAll('.eco-chip').forEach(c => c.classList.remove('active'));
+            btn.classList.add('active');
+            showToast('Filtro YouTube Music: ' + btn.textContent);
+        }
+
+        function playDeezerFlow() {
+            showToast('Iniciando Deezer FLOW infinito...');
+            const pool = [...(exploreData.featured || []), ...(exploreData.quick_picks || [])];
+            if (pool.length > 0) {
+                const shuffled = pool.sort(() => Math.random() - 0.5);
+                playbackQueue = shuffled;
+                currentQueueIndex = 0;
+                loadAndPlayTrack(playbackQueue[0]);
+            }
+        }
+
         // 1. INICIO (EXPLORE)
         function renderInicio(container) {
+            const curTheme = localStorage.getItem('pkm_theme') || 'apple';
+            renderEcosystemTopBar(container, curTheme);
+
             const hour = new Date().getHours();
             let greeting = "Buenos días";
             if (hour >= 12 && hour < 19) greeting = "Buenas tardes";
@@ -2025,19 +2675,38 @@
 
             const header = document.createElement('div');
             header.className = 'view-header';
-            header.innerHTML = `
-                <h1 class="greeting-title">${greeting}</h1>
-                <div class="greeting-subtitle">TheKing Music &bull; Audio Master Sin Pérdida</div>
-            `;
+            if (curTheme === 'spotify') {
+                header.innerHTML = `
+                    <h1 class="greeting-title">${greeting}</h1>
+                    <div class="greeting-subtitle">Spotify TheKing Master Audio &bull; Calidad Máxima 320kbps / FLAC</div>
+                `;
+            } else if (curTheme === 'deezer') {
+                header.innerHTML = `
+                    <h1 class="greeting-title">${greeting}</h1>
+                    <div class="greeting-subtitle">Deezer HiFi Experience &bull; Sonido de Alta Fidelidad</div>
+                `;
+            } else if (curTheme === 'ytmusic') {
+                header.innerHTML = `
+                    <h1 class="greeting-title">${greeting}</h1>
+                    <div class="greeting-subtitle">YouTube Music TheKing &bull; Todo el catálogo oficial sin límites</div>
+                `;
+            } else {
+                header.innerHTML = `
+                    <div class="apple-pre-title">AUDIO ESPACIAL Y SIN PÉRDIDA</div>
+                    <h1 class="greeting-title">Escuchar</h1>
+                    <div class="greeting-subtitle">TheKing Music &bull; Apple Music Master Lossless 24-bit / 48kHz</div>
+                `;
+            }
             container.appendChild(header);
 
             // Featured Carousel
             if (exploreData.featured && exploreData.featured.length > 0) {
                 const featuredHead = document.createElement('div');
                 featuredHead.className = 'shelf-header';
-                featuredHead.innerHTML = `
-                    <h2 class="shelf-title">Lanzamientos Destacados</h2>
-                `;
+                const shelfTitle = curTheme === 'spotify' ? 'Hecho para ti' :
+                                   curTheme === 'deezer' ? 'Novedades para descubrir' :
+                                   curTheme === 'ytmusic' ? 'Vuelve a escuchar' : 'Lanzamientos Destacados';
+                featuredHead.innerHTML = `<h2 class="shelf-title">${shelfTitle}</h2>`;
                 container.appendChild(featuredHead);
 
                 const carousel = document.createElement('div');
@@ -2053,7 +2722,7 @@
                             <div class="featured-track-title">${item.title}</div>
                             <div class="featured-track-artist">${item.artist} &bull; ${item.album}</div>
                         </div>
-                        <button class="featured-play-btn" onclick="event.stopPropagation(); playSingleTrack(${JSON.stringify(item).replace(/"/g, '&quot;')})">
+                        <button class="featured-play-btn" onclick="event.stopPropagation(); playSingleTrack(${JSON.stringify(item).replace(/"/g, '&quot;')})" title="Reproducir">
                             <svg class="icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                         </button>
                     `;
@@ -2130,7 +2799,12 @@
                     aCard.className = 'album-card';
                     aCard.onclick = () => openGenreSearch(alb.title + " " + alb.artist);
                     aCard.innerHTML = `
-                        <img src="${alb.art || DEFAULT_ART}" class="album-art" alt="${alb.title}" referrerpolicy="no-referrer" loading="lazy" onerror="this.onerror=null; this.src='assets/brand/theking-badge.png';">
+                        <div class="album-art-wrap">
+                            <img src="${alb.art || DEFAULT_ART}" class="album-art" alt="${alb.title}" referrerpolicy="no-referrer" loading="lazy" onerror="this.onerror=null; this.src='assets/brand/theking-badge.png';">
+                            <button class="album-play-btn" onclick="event.stopPropagation(); openGenreSearch('${alb.title.replace(/'/g, "\\'")} ${alb.artist.replace(/'/g, "\\'")}')" title="Reproducir álbum">
+                                <svg class="icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </button>
+                        </div>
                         <div class="album-name">${alb.title}</div>
                         <div class="album-artist">${alb.artist} &bull; ${alb.year}</div>
                     `;
@@ -2367,7 +3041,7 @@
                             </div>
                             <svg class="icon theme-check-icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
                         </div>
-                        <div class="theme-desc">Glassmorphism oscuro, acentos rojo carmesí (#fa233b) y estética iOS.</div>
+                        <div class="theme-desc">Glassmorphism translúcido, acentos rojo carmesí (#fa233b), audio espacial Lossless y tipografía iOS.</div>
                     </div>
 
                     <div class="theme-option-card ${curTheme === 'spotify' ? 'selected' : ''}" onclick="setAppTheme('spotify')">
@@ -2378,7 +3052,7 @@
                             </div>
                             <svg class="icon theme-check-icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
                         </div>
-                        <div class="theme-desc">Fondo carbón mate (#121212), botones verdes y tarjetas compactas.</div>
+                        <div class="theme-desc">Ecosistema Spotify: chips de filtro (Todo, Música, Podcasts), botón verde flotante en portadas y dock con corazón.</div>
                     </div>
 
                     <div class="theme-option-card ${curTheme === 'deezer' ? 'selected' : ''}" onclick="setAppTheme('deezer')">
@@ -2389,7 +3063,7 @@
                             </div>
                             <svg class="icon theme-check-icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
                         </div>
-                        <div class="theme-desc">Atmósfera púrpura profundo (#0f0d13), acentos neón (#a238ff) y bordes fluidos.</div>
+                        <div class="theme-desc">Ecosistema Deezer: tarjeta FLOW con mix infinito, ecualizador animado en tiempo real, chips y estética HiFi violeta.</div>
                     </div>
 
                     <div class="theme-option-card ${curTheme === 'ytmusic' ? 'selected' : ''}" onclick="setAppTheme('ytmusic')">
@@ -2400,7 +3074,7 @@
                             </div>
                             <svg class="icon theme-check-icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
                         </div>
-                        <div class="theme-desc">Negro puro OLED (#030303), acentos rojo vibrante (#ff0000) y estilo minimalista.</div>
+                        <div class="theme-desc">Ecosistema YouTube Music: negro puro OLED (#030303), chips de actividades (Energía, Relax, Workout) y botones Me Gusta.</div>
                     </div>
                 </div>
             `;
@@ -2475,26 +3149,77 @@
             window.location.reload();
         }
 
-        function setAppTheme(themeName) {
-            localStorage.setItem('pkm_theme', themeName);
+        function applyEcosystemTheme(themeName) {
             document.body.className = 'theme-' + themeName;
             const metaTheme = document.querySelector('meta[name="theme-color"]');
             if (metaTheme) {
                 const colors = {
                     'apple': '#000000',
                     'spotify': '#121212',
-                    'deezer': '#0f0d13',
+                    'deezer': '#0b0a12',
                     'ytmusic': '#030303'
                 };
                 metaTheme.setAttribute('content', colors[themeName] || '#000000');
             }
-            if (currentTab === 'ajustes') {
-                const container = document.getElementById('content-area');
-                if (container) {
-                    container.innerHTML = '';
-                    renderAjustes(container);
+
+            // Update Brand in sidebar
+            const brandText = document.getElementById('brand-header-text');
+            if (brandText) {
+                if (themeName === 'spotify') {
+                    brandText.innerHTML = `Spotify <span>Music</span>`;
+                } else if (themeName === 'deezer') {
+                    brandText.innerHTML = `Deezer <span>Music</span>`;
+                } else if (themeName === 'ytmusic') {
+                    brandText.innerHTML = `YouTube <span>Music</span>`;
+                } else {
+                    brandText.innerHTML = `TheKing <span>Music</span>`;
                 }
             }
+
+            // Update dock extras
+            updateDockEcosystemExtras(themeName);
+        }
+
+        function updateDockEcosystemExtras(themeName) {
+            const el = document.getElementById('dock-eco-extras');
+            if (!el) return;
+            if (themeName === 'spotify') {
+                el.innerHTML = `
+                    <button class="btn-ctrl dock-eco-heart-btn" onclick="saveCurrentToLibrary()" title="Guardar en favoritos de Spotify">
+                        <svg class="icon" style="fill: #1db954; width: 18px; height: 18px;" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                    </button>
+                `;
+            } else if (themeName === 'deezer') {
+                el.innerHTML = `
+                    <div class="deezer-dock-pill" title="Deezer Flow HiFi">
+                        <div class="deezer-eq-wrap">
+                            <span class="deezer-eq-bar"></span>
+                            <span class="deezer-eq-bar"></span>
+                            <span class="deezer-eq-bar"></span>
+                        </div>
+                        <span>FLOW</span>
+                    </div>
+                `;
+            } else if (themeName === 'ytmusic') {
+                el.innerHTML = `
+                    <div class="ytmusic-thumbs-row">
+                        <button class="btn-ctrl" title="Me gusta" onclick="showToast('Agregado a tus Me gusta de YouTube Music')">
+                            <svg class="icon" style="width: 17px; height: 17px;" viewBox="0 0 24 24"><path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/></svg>
+                        </button>
+                        <button class="btn-ctrl" title="No me gusta" onclick="showToast('Sugerencia descartada')">
+                            <svg class="icon" style="width: 17px; height: 17px;" viewBox="0 0 24 24"><path d="M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.59-6.59c.36-.36.58-.86.58-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z"/></svg>
+                        </button>
+                    </div>
+                `;
+            } else {
+                el.innerHTML = `<span class="quality-badge lossless" id="dock-quality">LOSSLESS</span>`;
+            }
+        }
+
+        function setAppTheme(themeName) {
+            localStorage.setItem('pkm_theme', themeName);
+            applyEcosystemTheme(themeName);
+            renderCurrentView();
         }
 
         // PLAYBACK ENGINE
@@ -2631,11 +3356,101 @@
             audio.volume = parseFloat(val);
         }
 
+        let isScrubbing = false;
+
+        function getEventRatio(e, trackEl) {
+            const rect = trackEl.getBoundingClientRect();
+            const clientX = e.clientX ?? (e.touches && e.touches[0] ? e.touches[0].clientX : 0);
+            let ratio = (clientX - rect.left) / rect.width;
+            if (ratio < 0) ratio = 0;
+            if (ratio > 1) ratio = 1;
+            return ratio;
+        }
+
+        function updateScrubVisuals(ratio) {
+            const pct = (ratio * 100).toFixed(2) + '%';
+            const curTimeSec = (audio && audio.duration) ? ratio * audio.duration : 0;
+            const timeFormatted = formatTime(curTimeSec);
+
+            const dockProg = document.getElementById('dock-progress');
+            const dockThumb = document.getElementById('dock-thumb');
+            const dockCur = document.getElementById('dock-time-cur');
+            if (dockProg) dockProg.style.width = pct;
+            if (dockThumb) dockThumb.style.left = pct;
+            if (dockCur) dockCur.textContent = timeFormatted;
+
+            const npProg = document.getElementById('np-progress');
+            const npThumb = document.getElementById('np-thumb');
+            const npCur = document.getElementById('np-time-cur');
+            if (npProg) npProg.style.width = pct;
+            if (npThumb) npThumb.style.left = pct;
+            if (npCur) npCur.textContent = timeFormatted;
+        }
+
+        function startScrubbing(e, type) {
+            if (!audio) return;
+            isScrubbing = true;
+            const wrap = e.currentTarget;
+            const track = wrap.querySelector('.scrubber-track, .np-scrubber-track') || wrap;
+            wrap.classList.add('scrubbing');
+
+            try {
+                if (wrap.setPointerCapture) wrap.setPointerCapture(e.pointerId);
+            } catch(err) {}
+
+            const onPointerMove = (ev) => {
+                if (!isScrubbing) return;
+                const ratio = getEventRatio(ev, track);
+                updateScrubVisuals(ratio);
+            };
+
+            const onPointerUp = (ev) => {
+                if (!isScrubbing) return;
+                isScrubbing = false;
+                wrap.classList.remove('scrubbing');
+                wrap.removeEventListener('pointermove', onPointerMove);
+                wrap.removeEventListener('pointerup', onPointerUp);
+                wrap.removeEventListener('pointercancel', onPointerUp);
+                try {
+                    if (wrap.releasePointerCapture) wrap.releasePointerCapture(ev.pointerId);
+                } catch(err) {}
+
+                const finalRatio = getEventRatio(ev, track);
+                if (audio && audio.duration) {
+                    audio.currentTime = finalRatio * audio.duration;
+                }
+            };
+
+            wrap.addEventListener('pointermove', onPointerMove);
+            wrap.addEventListener('pointerup', onPointerUp);
+            wrap.addEventListener('pointercancel', onPointerUp);
+
+            const initRatio = getEventRatio(e, track);
+            updateScrubVisuals(initRatio);
+            if (audio && audio.duration) {
+                audio.currentTime = initRatio * audio.duration;
+            }
+        }
+
+        function skipTime(delta) {
+            if (!audio) return;
+            const dur = audio.duration || currentTrack?.duration || 0;
+            if (!dur) return;
+            let nextTime = (audio.currentTime || 0) + delta;
+            if (nextTime < 0) nextTime = 0;
+            if (nextTime > dur) nextTime = dur;
+            audio.currentTime = nextTime;
+            const ratio = nextTime / dur;
+            updateScrubVisuals(ratio);
+            showToast(delta > 0 ? `+${delta}s` : `${delta}s`);
+        }
+
         function seekAudio(e) {
             const trackEl = e.currentTarget;
             const rect = trackEl.getBoundingClientRect();
-            const pos = (e.clientX - rect.left) / rect.width;
-            if (audio.duration) {
+            const clientX = e.clientX ?? (e.touches && e.touches[0] ? e.touches[0].clientX : 0);
+            const pos = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+            if (audio && audio.duration) {
                 audio.currentTime = pos * audio.duration;
             }
         }
@@ -2646,21 +3461,27 @@
                 const tot = audio.duration || currentTrack?.duration || 0;
                 const pct = tot > 0 ? (cur / tot) * 100 : 0;
 
-                // Update Dock Scrubber
-                const dockProg = document.getElementById('dock-progress');
-                if (dockProg) dockProg.style.width = pct + '%';
-                const dockCur = document.getElementById('dock-time-cur');
-                if (dockCur) dockCur.textContent = formatTime(cur);
-                const dockTot = document.getElementById('dock-time-tot');
-                if (dockTot) dockTot.textContent = formatTime(tot);
+                if (!isScrubbing) {
+                    // Update Dock Scrubber
+                    const dockProg = document.getElementById('dock-progress');
+                    if (dockProg) dockProg.style.width = pct + '%';
+                    const dockThumb = document.getElementById('dock-thumb');
+                    if (dockThumb) dockThumb.style.left = pct + '%';
+                    const dockCur = document.getElementById('dock-time-cur');
+                    if (dockCur) dockCur.textContent = formatTime(cur);
+                    const dockTot = document.getElementById('dock-time-tot');
+                    if (dockTot) dockTot.textContent = formatTime(tot);
 
-                // Update Modal Scrubber
-                const npProg = document.getElementById('np-progress');
-                if (npProg) npProg.style.width = pct + '%';
-                const npCur = document.getElementById('np-time-cur');
-                if (npCur) npCur.textContent = formatTime(cur);
-                const npTot = document.getElementById('np-time-tot');
-                if (npTot) npTot.textContent = formatTime(tot);
+                    // Update Modal Scrubber
+                    const npProg = document.getElementById('np-progress');
+                    if (npProg) npProg.style.width = pct + '%';
+                    const npThumb = document.getElementById('np-thumb');
+                    if (npThumb) npThumb.style.left = pct + '%';
+                    const npCur = document.getElementById('np-time-cur');
+                    if (npCur) npCur.textContent = formatTime(cur);
+                    const npTot = document.getElementById('np-time-tot');
+                    if (npTot) npTot.textContent = formatTime(tot);
+                }
 
                 // Update Mini Player Line
                 const miniLine = document.getElementById('mini-progress-line');
@@ -2762,23 +3583,51 @@
             document.getElementById('np-modal').classList.remove('open');
         }
 
-        function toggleNowPlayingLyrics() {
-            isLyricsView = !isLyricsView;
+        function handleNowPlayingBack() {
+            if (isLyricsView) {
+                toggleNowPlayingLyrics(false);
+            } else {
+                closeNowPlaying();
+            }
+        }
+
+        function toggleNowPlayingLyrics(forceState) {
+            if (typeof forceState === 'boolean') {
+                isLyricsView = forceState;
+            } else {
+                isLyricsView = !isLyricsView;
+            }
             const artworkView = document.getElementById('np-view-artwork');
             const lyricsView = document.getElementById('np-view-lyrics');
             const btn = document.getElementById('np-btn-toggle-lyrics');
             const dockBtn = document.getElementById('dock-btn-lyrics');
+            const headerTitle = document.getElementById('np-header-title');
+            const backBtn = document.getElementById('np-back-btn');
+            const backIcon = document.getElementById('np-back-icon');
 
             if (isLyricsView) {
-                artworkView.style.display = 'none';
-                lyricsView.style.display = 'block';
+                if (artworkView) artworkView.style.display = 'none';
+                if (lyricsView) lyricsView.style.display = 'block';
                 if (btn) btn.classList.add('active');
                 if (dockBtn) dockBtn.classList.add('active');
+                if (headerTitle) headerTitle.textContent = "Letras sincronizadas";
+                if (backBtn) backBtn.setAttribute('title', "Volver a la carátula");
+                if (backIcon) {
+                    backIcon.innerHTML = `<path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>`;
+                }
+                if (currentTrack && (!currentLyrics || currentLyrics.length === 0)) {
+                    fetchLyrics(currentTrack.artist, currentTrack.title);
+                }
             } else {
-                artworkView.style.display = 'flex';
-                lyricsView.style.display = 'none';
+                if (artworkView) artworkView.style.display = 'flex';
+                if (lyricsView) lyricsView.style.display = 'none';
                 if (btn) btn.classList.remove('active');
                 if (dockBtn) dockBtn.classList.remove('active');
+                if (headerTitle) headerTitle.textContent = "Reproduciendo";
+                if (backBtn) backBtn.setAttribute('title', "Minimizar");
+                if (backIcon) {
+                    backIcon.innerHTML = `<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>`;
+                }
             }
         }
 
