@@ -1,5 +1,5 @@
 {
- "updated": 1792733784,
+ "updated": 1792734415,
  "tracks": [
   {
    "id": "st-1792733778",
@@ -15,6 +15,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792733784
+  },
+  {
+   "id": "st-1792734410",
+   "title": "Houdini",
+   "artist": "Dua Lipa",
+   "album": "",
+   "genre": "Otros",
+   "duration": 180,
+   "dur_str": "3:00 min",
+   "art": "",
+   "url": "/api/stream?artist=Dua%20Lipa&title=Houdini",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Dua Lipa/Dua Lipa - Houdini.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792734415
   }
  ]
 }
