@@ -12,7 +12,7 @@
     <title>TheKing Music</title>
     <link rel="icon" href="assets/brand/theking-badge.png" type="image/png">
     <script>
-        const APP_BUILD_VERSION = "20261023_v22_full_ecosystems_seek_lyrics_fix";
+        const APP_BUILD_VERSION = "20261023_v24_full_ecosystem_and_audio_fix";
         if (localStorage.getItem('pkm_build') !== APP_BUILD_VERSION) {
             localStorage.setItem('pkm_build', APP_BUILD_VERSION);
             if ('caches' in window) {
@@ -145,17 +145,91 @@
             background: #181818 !important;
             border-top: 1px solid #282828 !important;
         }
-        body.theme-spotify .scrubber-progress {
+        body.theme-spotify .scrubber-progress,
+        body.theme-spotify .np-scrubber-progress,
+        body.theme-spotify .mini-progress-line {
             background: #1db954 !important;
         }
+        body.theme-spotify .mobile-mini-player {
+            background: #282828 !important;
+            border-radius: 8px !important;
+            margin: 0 10px calc(var(--bottom-nav-height) + var(--safe-bottom) + 8px) 10px !important;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7) !important;
+            border: none !important;
+        }
+        body.theme-spotify .mobile-tab-bar {
+            background: #121212 !important;
+            border-top: 1px solid #282828 !important;
+        }
+        body.theme-spotify .mobile-tab-item.active {
+            color: #ffffff !important;
+        }
+        body.theme-spotify .mobile-tab-item.active .icon {
+            fill: #ffffff !important;
+        }
+        body.theme-spotify .np-modal {
+            background: linear-gradient(180deg, #282828 0%, #121212 55%, #121212 100%) !important;
+        }
+        body.theme-spotify .np-cover-img {
+            border-radius: 8px !important;
+            box-shadow: 0 20px 48px rgba(0, 0, 0, 0.85) !important;
+        }
+        body.theme-spotify .np-btn-play-pause {
+            background: #1ed760 !important;
+            box-shadow: 0 8px 24px rgba(30, 215, 96, 0.45) !important;
+        }
+        body.theme-spotify .np-btn-play-pause .icon {
+            fill: #000000 !important;
+        }
+        body.theme-spotify .np-lossless-pill {
+            background: rgba(29, 185, 84, 0.15) !important;
+            color: #1ed760 !important;
+            border: 1px solid rgba(29, 185, 84, 0.35) !important;
+        }
 
-        /* Deezer: Flow Banner and Equalizer Accent */
+        /* Deezer: Flow Banner, Equalizer and Violet HiFi */
         body.theme-deezer .album-card:hover {
             box-shadow: 0 8px 24px rgba(162, 56, 255, 0.3) !important;
         }
         body.theme-deezer .scrubber-progress,
-        body.theme-deezer .np-scrubber-progress {
+        body.theme-deezer .np-scrubber-progress,
+        body.theme-deezer .mini-progress-line {
             background: linear-gradient(90deg, #a238ff, #ff2382) !important;
+        }
+        body.theme-deezer .mobile-mini-player {
+            background: rgba(21, 18, 33, 0.94) !important;
+            border: 1px solid rgba(162, 56, 255, 0.35) !important;
+            border-radius: 14px !important;
+            box-shadow: 0 8px 28px rgba(162, 56, 255, 0.25) !important;
+        }
+        body.theme-deezer .mobile-tab-bar {
+            background: #0b0a12 !important;
+            border-top: 1px solid rgba(162, 56, 255, 0.2) !important;
+        }
+        body.theme-deezer .mobile-tab-item.active {
+            color: #c988ff !important;
+        }
+        body.theme-deezer .mobile-tab-item.active .icon {
+            fill: #c988ff !important;
+        }
+        body.theme-deezer .np-modal {
+            background: linear-gradient(180deg, #2b134d 0%, #150e26 50%, #0b0a12 100%) !important;
+        }
+        body.theme-deezer .np-cover-img {
+            border-radius: 14px !important;
+            box-shadow: 0 20px 48px rgba(162, 56, 255, 0.4) !important;
+        }
+        body.theme-deezer .np-btn-play-pause {
+            background: linear-gradient(135deg, #a238ff, #ff2382) !important;
+            box-shadow: 0 8px 28px rgba(162, 56, 255, 0.5) !important;
+        }
+        body.theme-deezer .np-btn-play-pause .icon {
+            fill: #ffffff !important;
+        }
+        body.theme-deezer .np-lossless-pill {
+            background: rgba(162, 56, 255, 0.2) !important;
+            color: #d89bff !important;
+            border: 1px solid rgba(162, 56, 255, 0.4) !important;
         }
 
         /* YouTube Music: OLED true black & dock top progress line */
@@ -164,8 +238,44 @@
             border-top: 1px solid #202020 !important;
         }
         body.theme-ytmusic .scrubber-progress,
-        body.theme-ytmusic .np-scrubber-progress {
+        body.theme-ytmusic .np-scrubber-progress,
+        body.theme-ytmusic .mini-progress-line {
             background: #ff0000 !important;
+        }
+        body.theme-ytmusic .mobile-mini-player {
+            background: #212121 !important;
+            border-radius: 0px !important;
+            margin: 0 0 calc(var(--bottom-nav-height) + var(--safe-bottom)) 0 !important;
+            border-top: 1px solid #303030 !important;
+        }
+        body.theme-ytmusic .mobile-tab-bar {
+            background: #030303 !important;
+            border-top: 1px solid #1a1a1a !important;
+        }
+        body.theme-ytmusic .mobile-tab-item.active {
+            color: #ffffff !important;
+        }
+        body.theme-ytmusic .mobile-tab-item.active .icon {
+            fill: #ffffff !important;
+        }
+        body.theme-ytmusic .np-modal {
+            background: #030303 !important;
+        }
+        body.theme-ytmusic .np-cover-img {
+            border-radius: 4px !important;
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.95) !important;
+        }
+        body.theme-ytmusic .np-btn-play-pause {
+            background: #ffffff !important;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6) !important;
+        }
+        body.theme-ytmusic .np-btn-play-pause .icon {
+            fill: #000000 !important;
+        }
+        body.theme-ytmusic .np-lossless-pill {
+            background: rgba(255, 0, 0, 0.15) !important;
+            color: #ff4d4d !important;
+            border: 1px solid rgba(255, 0, 0, 0.3) !important;
         }
 
         /* Apple Music: Glassmorphism and Velvet Gloss */
@@ -173,6 +283,36 @@
             background: rgba(18, 18, 20, 0.88) !important;
             backdrop-filter: blur(40px) saturate(180%) !important;
             -webkit-backdrop-filter: blur(40px) saturate(180%) !important;
+        }
+        body.theme-apple .mobile-mini-player {
+            background: rgba(28, 28, 30, 0.88) !important;
+            backdrop-filter: blur(40px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(40px) saturate(180%) !important;
+            border-radius: 16px !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+        }
+        body.theme-apple .mobile-tab-bar {
+            background: rgba(18, 18, 20, 0.82) !important;
+            backdrop-filter: blur(30px) !important;
+            -webkit-backdrop-filter: blur(30px) !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+        }
+        body.theme-apple .mobile-tab-item.active {
+            color: #fa233b !important;
+        }
+        body.theme-apple .mobile-tab-item.active .icon {
+            fill: #fa233b !important;
+        }
+        body.theme-apple .np-modal {
+            background: radial-gradient(circle at 50% 25%, rgba(250, 35, 59, 0.22) 0%, rgba(14, 14, 18, 0.98) 75%) !important;
+        }
+        body.theme-apple .np-cover-img {
+            border-radius: 18px !important;
+            box-shadow: 0 24px 50px rgba(0, 0, 0, 0.75) !important;
+        }
+        body.theme-apple .np-scrubber-progress,
+        body.theme-apple .mini-progress-line {
+            background: #fa233b !important;
         }
 
         /* ECOSYSTEM TOP CHIP BARS */
@@ -3176,6 +3316,23 @@
                 }
             }
 
+            // Update modal badges & titles to match active ecosystem
+            const npCodec = document.getElementById('np-codec-pill');
+            const npHeader = document.getElementById('np-header-title');
+            if (themeName === 'spotify') {
+                if (npCodec) npCodec.textContent = "SPOTIFY PREMIUM • 320k OGG";
+                if (npHeader) npHeader.textContent = "De la lista de reproducción";
+            } else if (themeName === 'deezer') {
+                if (npCodec) npCodec.textContent = "DEEZER HIFI • FLAC LOSSLESS";
+                if (npHeader) npHeader.textContent = "Flow & Mixes HiFi";
+            } else if (themeName === 'ytmusic') {
+                if (npCodec) npCodec.textContent = "YOUTUBE MUSIC • 256k OPUS";
+                if (npHeader) npHeader.textContent = "A continuación";
+            } else {
+                if (npCodec) npCodec.textContent = "APPLE LOSSLESS • 24-BIT / 48kHz";
+                if (npHeader) npHeader.textContent = "Reproduciendo";
+            }
+
             // Update dock extras
             updateDockEcosystemExtras(themeName);
         }
@@ -3222,21 +3379,55 @@
             renderCurrentView();
         }
 
+        function resetPlaybackProgress() {
+            if (audio) {
+                try {
+                    audio.pause();
+                    audio.currentTime = 0;
+                } catch(e) {}
+            }
+            activeLyricIndex = -1;
+
+            const dockProg = document.getElementById('dock-progress');
+            const dockThumb = document.getElementById('dock-thumb');
+            const dockCur = document.getElementById('dock-time-cur');
+            const dockTot = document.getElementById('dock-time-tot');
+            if (dockProg) dockProg.style.width = '0%';
+            if (dockThumb) dockThumb.style.left = '0%';
+            if (dockCur) dockCur.textContent = '0:00';
+            if (dockTot) dockTot.textContent = currentTrack && currentTrack.duration ? formatTime(currentTrack.duration) : '0:00';
+
+            const npProg = document.getElementById('np-progress');
+            const npThumb = document.getElementById('np-thumb');
+            const npCur = document.getElementById('np-time-cur');
+            const npTot = document.getElementById('np-time-tot');
+            if (npProg) npProg.style.width = '0%';
+            if (npThumb) npThumb.style.left = '0%';
+            if (npCur) npCur.textContent = '0:00';
+            if (npTot) npTot.textContent = currentTrack && currentTrack.duration ? formatTime(currentTrack.duration) : '0:00';
+
+            const miniLine = document.getElementById('mini-progress-line');
+            if (miniLine) miniLine.style.width = '0%';
+        }
+
         // PLAYBACK ENGINE
         function playSingleTrack(track) {
             playbackQueue = [track];
             currentQueueIndex = 0;
+            resetPlaybackProgress();
             loadAndPlayTrack(track);
         }
 
         function playTrackFromList(list, index) {
             playbackQueue = [...list];
             currentQueueIndex = index;
+            resetPlaybackProgress();
             loadAndPlayTrack(playbackQueue[currentQueueIndex]);
         }
 
         async function loadAndPlayTrack(track) {
             if (!track) return;
+            resetPlaybackProgress();
             currentTrack = track;
             isPlaying = true;
 
@@ -3317,6 +3508,7 @@
 
         function playNext() {
             if (playbackQueue.length === 0) return;
+            resetPlaybackProgress();
             if (isShuffle) {
                 currentQueueIndex = Math.floor(Math.random() * playbackQueue.length);
             } else {
@@ -3329,8 +3521,10 @@
             if (playbackQueue.length === 0) return;
             if (audio.currentTime > 3) {
                 audio.currentTime = 0;
+                resetPlaybackProgress();
                 return;
             }
+            resetPlaybackProgress();
             currentQueueIndex = (currentQueueIndex - 1 + playbackQueue.length) % playbackQueue.length;
             loadAndPlayTrack(playbackQueue[currentQueueIndex]);
         }
@@ -3385,6 +3579,9 @@
             if (npProg) npProg.style.width = pct;
             if (npThumb) npThumb.style.left = pct;
             if (npCur) npCur.textContent = timeFormatted;
+
+            const miniLine = document.getElementById('mini-progress-line');
+            if (miniLine) miniLine.style.width = pct;
         }
 
         function startScrubbing(e, type) {
@@ -3402,6 +3599,9 @@
                 if (!isScrubbing) return;
                 const ratio = getEventRatio(ev, track);
                 updateScrubVisuals(ratio);
+                if (audio && audio.duration) {
+                    updateLyricsHighlight(ratio * audio.duration, true);
+                }
             };
 
             const onPointerUp = (ev) => {
@@ -3418,6 +3618,7 @@
                 const finalRatio = getEventRatio(ev, track);
                 if (audio && audio.duration) {
                     audio.currentTime = finalRatio * audio.duration;
+                    updateLyricsHighlight(audio.currentTime, true);
                 }
             };
 
@@ -3429,6 +3630,7 @@
             updateScrubVisuals(initRatio);
             if (audio && audio.duration) {
                 audio.currentTime = initRatio * audio.duration;
+                updateLyricsHighlight(audio.currentTime, true);
             }
         }
 
@@ -3442,6 +3644,7 @@
             audio.currentTime = nextTime;
             const ratio = nextTime / dur;
             updateScrubVisuals(ratio);
+            updateLyricsHighlight(nextTime, true);
             showToast(delta > 0 ? `+${delta}s` : `${delta}s`);
         }
 
@@ -3452,6 +3655,7 @@
             const pos = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
             if (audio && audio.duration) {
                 audio.currentTime = pos * audio.duration;
+                updateLyricsHighlight(audio.currentTime, true);
             }
         }
 
@@ -3686,14 +3890,15 @@
                 p.textContent = lyric.text;
                 p.onclick = () => {
                     audio.currentTime = lyric.time;
+                    updateLyricsHighlight(lyric.time, true);
                 };
                 container.appendChild(p);
             });
         }
 
         let activeLyricIndex = -1;
-        function updateLyricsHighlight(curTime) {
-            if (currentLyrics.length === 0) return;
+        function updateLyricsHighlight(curTime, forceScroll = false) {
+            if (!currentLyrics || currentLyrics.length === 0) return;
 
             let foundIdx = -1;
             for (let i = 0; i < currentLyrics.length; i++) {
@@ -3704,16 +3909,21 @@
                 }
             }
 
-            if (foundIdx !== activeLyricIndex && foundIdx !== -1) {
-                if (activeLyricIndex !== -1) {
+            if (foundIdx !== activeLyricIndex || forceScroll) {
+                if (activeLyricIndex !== -1 && activeLyricIndex !== foundIdx) {
                     const prevEl = document.getElementById(`lyric-line-${activeLyricIndex}`);
                     if (prevEl) prevEl.classList.remove('active');
                 }
 
-                const curEl = document.getElementById(`lyric-line-${foundIdx}`);
-                if (curEl) {
-                    curEl.classList.add('active');
-                    curEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                if (foundIdx !== -1) {
+                    const curEl = document.getElementById(`lyric-line-${foundIdx}`);
+                    if (curEl) {
+                        curEl.classList.add('active');
+                        curEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                } else {
+                    const prevActive = document.querySelector('.lyrics-line.active');
+                    if (prevActive) prevActive.classList.remove('active');
                 }
                 activeLyricIndex = foundIdx;
             }
