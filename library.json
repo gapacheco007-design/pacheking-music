@@ -1,5 +1,5 @@
 {
- "updated": 1792762897,
+ "updated": 1792762902,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -960,6 +960,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792762897
+  },
+  {
+   "id": "st-1792762893",
+   "title": "Zovi Me",
+   "artist": "Rr",
+   "album": "",
+   "genre": "Otros",
+   "duration": 149,
+   "dur_str": "2:28 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/b155005370f4b455542b4b1f58932a46/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Rr&title=Zovi%20Me",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Rr/Rr - Zovi Me.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792762902
   }
  ]
 }
