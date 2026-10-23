@@ -1,5 +1,5 @@
 {
- "updated": 1792789077,
+ "updated": 1792789079,
  "tracks": [
   {
    "id": "st-1792735492",
@@ -2404,6 +2404,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792789077
+  },
+  {
+   "id": "st-1792789073",
+   "title": "Usted",
+   "artist": "PXNDX",
+   "album": "",
+   "genre": "Otros",
+   "duration": 214,
+   "dur_str": "3:34 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/6ed0f08fdbcab1cd5bf1b88e687b74e1/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=PXNDX&title=Usted",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/PXNDX/PXNDX - Usted.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792789079
   }
  ]
 }
