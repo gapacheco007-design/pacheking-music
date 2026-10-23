@@ -1,5 +1,5 @@
 {
- "updated": 1792739323,
+ "updated": 1792739325,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -687,6 +687,21 @@
    "art": "",
    "url": "/api/stream?artist=Nara&title=Shape%20of%20You",
    "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Nara/Nara - Shape of You.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792739320
+  },
+  {
+   "id": "st-1792739294",
+   "title": "Guts",
+   "artist": "Shape",
+   "album": "",
+   "genre": "Otros",
+   "duration": 186,
+   "dur_str": "3:05 min",
+   "art": "",
+   "url": "/api/stream?artist=Shape&title=Guts",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Shape/Shape - Guts.mp3",
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792739320
