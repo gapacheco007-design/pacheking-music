@@ -1,5 +1,5 @@
 {
- "updated": 1792788910,
+ "updated": 1792788914,
  "tracks": [
   {
    "id": "st-1792735492",
@@ -2374,6 +2374,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792788910
+  },
+  {
+   "id": "st-1792788906",
+   "title": "Pathetica",
+   "artist": "PXNDX",
+   "album": "",
+   "genre": "Otros",
+   "duration": 263,
+   "dur_str": "4:22 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/512a8b73e1fa06534c1ce1e55fb02311/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=PXNDX&title=Pathetica",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/PXNDX/PXNDX - Pathetica.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792788914
   }
  ]
 }
