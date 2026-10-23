@@ -1,5 +1,5 @@
 {
- "updated": 1792739327,
+ "updated": 1792739330,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -720,6 +720,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792739320
+  },
+  {
+   "id": "st-1792739290",
+   "title": "Shape Of You",
+   "artist": "Jamie Cullum",
+   "album": "",
+   "genre": "Otros",
+   "duration": 246,
+   "dur_str": "4:05 min",
+   "art": "",
+   "url": "/api/stream?artist=Jamie%20Cullum&title=Shape%20Of%20You",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Jamie Cullum/Jamie Cullum - Shape Of You.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792739321
   }
  ]
 }
