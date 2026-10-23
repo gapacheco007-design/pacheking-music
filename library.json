@@ -1,5 +1,5 @@
 {
- "updated": 1792788914,
+ "updated": 1792789077,
  "tracks": [
   {
    "id": "st-1792735492",
@@ -2389,6 +2389,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792788914
+  },
+  {
+   "id": "st-1792789071",
+   "title": "So violento so macabro",
+   "artist": "PXNDX",
+   "album": "",
+   "genre": "Otros",
+   "duration": 201,
+   "dur_str": "3:20 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/d1a7e172183181dd118a1c4d4a012c3d/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=PXNDX&title=So%20violento%20so%20macabro",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/PXNDX/PXNDX - So violento so macabro.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792789077
   }
  ]
 }
