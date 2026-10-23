@@ -1,5 +1,5 @@
 {
- "updated": 1792778506,
+ "updated": 1792779291,
  "tracks": [
   {
    "id": "af-arjona-grupo-firme",
@@ -1611,6 +1611,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792778506
+  },
+  {
+   "id": "st-1792779288",
+   "title": "Nadie Te Extraña",
+   "artist": "Xavi",
+   "album": "",
+   "genre": "Otros",
+   "duration": 137,
+   "dur_str": "2:16 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/40ab785e466e09ee137e6e5168decacb/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Xavi&title=Nadie%20Te%20Extra%C3%B1a",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Xavi/Xavi - Nadie Te Extraña.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792779291
   }
  ]
 }
