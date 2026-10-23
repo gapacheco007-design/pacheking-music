@@ -1,5 +1,5 @@
 {
- "updated": 1792787639,
+ "updated": 1792787640,
  "tracks": [
   {
    "id": "st-1792735492",
@@ -2179,6 +2179,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792787639
+  },
+  {
+   "id": "st-1792787636",
+   "title": "NADIE TE EXTRAÑA",
+   "artist": "saza",
+   "album": "",
+   "genre": "Otros",
+   "duration": 137,
+   "dur_str": "2:16 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/365e72d7ff97edab3392c24a18647ef8/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=saza&title=NADIE%20TE%20EXTRA%C3%91A",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/saza/saza - NADIE TE EXTRAÑA.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792787640
   }
  ]
 }
