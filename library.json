@@ -1,5 +1,5 @@
 {
- "updated": 1792737617,
+ "updated": 1792737618,
  "tracks": [
   {
    "id": "st-1792733778",
@@ -540,6 +540,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792737615
+  },
+  {
+   "id": "st-1792737612",
+   "title": "Agosto",
+   "artist": "Bad Bunny",
+   "album": "",
+   "genre": "Otros",
+   "duration": 139,
+   "dur_str": "2:19 min",
+   "art": "",
+   "url": "/api/stream?artist=Bad%20Bunny&title=Agosto",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Bad Bunny/Bad Bunny - Agosto.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792737616
   }
  ]
 }
