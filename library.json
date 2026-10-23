@@ -1,5 +1,5 @@
 {
- "updated": 1792739162,
+ "updated": 1792739166,
  "tracks": [
   {
    "id": "st-1792733778",
@@ -570,6 +570,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792739162
+  },
+  {
+   "id": "st-1792739157",
+   "title": "Querer Querernos",
+   "artist": "Canserbero",
+   "album": "",
+   "genre": "Otros",
+   "duration": 239,
+   "dur_str": "3:58 min",
+   "art": "",
+   "url": "/api/stream?artist=Canserbero&title=Querer%20Querernos",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Canserbero/Canserbero - Querer Querernos.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792739166
   }
  ]
 }
