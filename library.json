@@ -1,5 +1,5 @@
 {
- "updated": 1792739330,
+ "updated": 1792739332,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -692,21 +692,6 @@
    "added": 1792739320
   },
   {
-   "id": "st-1792739294",
-   "title": "Guts",
-   "artist": "Shape",
-   "album": "",
-   "genre": "Otros",
-   "duration": 186,
-   "dur_str": "3:05 min",
-   "art": "",
-   "url": "/api/stream?artist=Shape&title=Guts",
-   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Shape/Shape - Guts.mp3",
-   "format": "FLAC / MP3 320k Master (VPS)",
-   "source": "vps_library",
-   "added": 1792739320
-  },
-  {
    "id": "st-1792739292",
    "title": "Paranoia",
    "artist": "Shape",
@@ -735,6 +720,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792739321
+  },
+  {
+   "id": "st-1792739294",
+   "title": "Shape of You",
+   "artist": "Boyce Avenue",
+   "album": "",
+   "genre": "Otros",
+   "duration": 192,
+   "dur_str": "3:11 min",
+   "art": "",
+   "url": "/api/stream?artist=Boyce%20Avenue&title=Shape%20of%20You",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Boyce Avenue/Boyce Avenue - Shape of You.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792739322
   }
  ]
 }
