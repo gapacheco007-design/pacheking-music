@@ -1,5 +1,5 @@
 {
- "updated": 1792734721,
+ "updated": 1792734726,
  "tracks": [
   {
    "id": "st-1792733778",
@@ -90,6 +90,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792734721
+  },
+  {
+   "id": "deezer-1153376152",
+   "title": "Los Mensajes del Whatsapp",
+   "artist": "Cartel De Santa",
+   "album": "Golpe Avisa",
+   "genre": "Música",
+   "duration": 214,
+   "dur_str": "3:33 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/92ddd6bc700b533eafaf4fdb7f7b9986/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Cartel%20De%20Santa&title=Los%20Mensajes%20del%20Whatsapp",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Música/Cartel De Santa/Cartel De Santa - Los Mensajes del Whatsapp.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792734726
   }
  ]
 }
