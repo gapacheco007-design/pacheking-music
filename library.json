@@ -1,5 +1,5 @@
 {
- "updated": 1792762902,
+ "updated": 1792762903,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -947,21 +947,6 @@
    "added": 1792742135
   },
   {
-   "id": "st-1792762891",
-   "title": "S&M",
-   "artist": "Rihanna",
-   "album": "",
-   "genre": "Otros",
-   "duration": 158,
-   "dur_str": "2:37 min",
-   "art": "https://cdn-images.dzcdn.net/images/cover/d2a63d487c180a31b005c7c54ffa50f1/1000x1000-000000-80-0-0.jpg",
-   "url": "/api/stream?artist=Rihanna&title=S%26M",
-   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Rihanna/Rihanna - S&M.mp3",
-   "format": "FLAC / MP3 320k Master (VPS)",
-   "source": "vps_library",
-   "added": 1792762897
-  },
-  {
    "id": "st-1792762893",
    "title": "Zovi Me",
    "artist": "Rr",
@@ -975,6 +960,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792762902
+  },
+  {
+   "id": "st-1792762891",
+   "title": "The Box",
+   "artist": "Roddy Ricch",
+   "album": "",
+   "genre": "Otros",
+   "duration": 247,
+   "dur_str": "4:06 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/4cecb47ae25837b9dd022004b5cacbdc/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Roddy%20Ricch&title=The%20Box",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Roddy Ricch/Roddy Ricch - The Box.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792762903
   }
  ]
 }
