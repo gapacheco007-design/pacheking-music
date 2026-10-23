@@ -1,5 +1,5 @@
 {
- "updated": 1792779291,
+ "updated": 1792781574,
  "tracks": [
   {
    "id": "af-arjona-grupo-firme",
@@ -1626,6 +1626,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792779291
+  },
+  {
+   "id": "st-1792781568",
+   "title": "Viva La Vida",
+   "artist": "Coldplay",
+   "album": "",
+   "genre": "Otros",
+   "duration": 229,
+   "dur_str": "3:49 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/eede3cd0dc3a5a87c7a5b1085b022e2d/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Coldplay&title=Viva%20La%20Vida",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Coldplay/Coldplay - Viva La Vida.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792781574
   }
  ]
 }
