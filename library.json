@@ -1,5 +1,5 @@
 {
- "updated": 1792763239,
+ "updated": 1792763241,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -1185,6 +1185,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792763238
+  },
+  {
+   "id": "st-1792763229",
+   "title": "It's My Life",
+   "artist": "Bon Jovi",
+   "album": "",
+   "genre": "Otros",
+   "duration": 268,
+   "dur_str": "4:27 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/58ca1d20e8d19c1e5f8e821d07412c74/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Bon%20Jovi&title=It%27s%20My%20Life",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Bon Jovi/Bon Jovi - It's My Life.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792763241
   }
  ]
 }
