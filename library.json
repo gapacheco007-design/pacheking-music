@@ -1,5 +1,5 @@
 {
- "updated": 1792786490,
+ "updated": 1792786493,
  "tracks": [
   {
    "id": "st-1792735492",
@@ -1849,6 +1849,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792786490
+  },
+  {
+   "id": "st-1792786478",
+   "title": "Guns and Roses",
+   "artist": "Lucky Dube",
+   "album": "",
+   "genre": "Otros",
+   "duration": 418,
+   "dur_str": "6:58 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/70ea8073138ffe868d223ae452d4d8d0/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Lucky%20Dube&title=Guns%20and%20Roses",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Lucky Dube/Lucky Dube - Guns and Roses.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792786493
   }
  ]
 }
