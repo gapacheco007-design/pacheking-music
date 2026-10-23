@@ -1,5 +1,5 @@
 {
- "updated": 1792741346,
+ "updated": 1792741940,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -885,6 +885,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792739396
+  },
+  {
+   "id": "st-1792741934",
+   "title": "Real Love",
+   "artist": "Charlotte Cardin",
+   "album": "",
+   "genre": "Otros",
+   "duration": 217,
+   "dur_str": "3:36 min",
+   "art": "",
+   "url": "/api/stream?artist=Charlotte%20Cardin&title=Real%20Love",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Charlotte Cardin/Charlotte Cardin - Real Love.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792741940
   }
  ]
 }
