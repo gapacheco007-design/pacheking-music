@@ -1,5 +1,5 @@
 {
- "updated": 1792722869,
+ "updated": 1792723551,
  "tracks": [
   {
    "id": "itunes-423021874",
@@ -1196,6 +1196,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792722869
+  },
+  {
+   "id": "sc-1792723544",
+   "title": "Despecha",
+   "artist": "Rosalia",
+   "album": "",
+   "genre": "Otros",
+   "duration": 220,
+   "dur_str": "3:40 min",
+   "art": "",
+   "url": "/api/stream?artist=Rosalia&title=Despecha",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Rosalia/Rosalia - Despecha.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792723551
   }
  ]
 }
