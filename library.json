@@ -1,5 +1,5 @@
 {
- "updated": 1792737144,
+ "updated": 1792737146,
  "tracks": [
   {
    "id": "st-1792733778",
@@ -435,6 +435,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792737142
+  },
+  {
+   "id": "st-1792737124",
+   "title": "Bombos y Tarolas",
+   "artist": "Cartel De Santa",
+   "album": "",
+   "genre": "Otros",
+   "duration": 276,
+   "dur_str": "4:36 min",
+   "art": "",
+   "url": "/api/stream?artist=Cartel%20De%20Santa&title=Bombos%20y%20Tarolas",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Cartel De Santa/Cartel De Santa - Bombos y Tarolas.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792737143
   }
  ]
 }
