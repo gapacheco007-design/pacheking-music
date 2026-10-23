@@ -1,5 +1,5 @@
 {
- "updated": 1792735141,
+ "updated": 1792735489,
  "tracks": [
   {
    "id": "st-1792733778",
@@ -120,6 +120,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792735141
+  },
+  {
+   "id": "st-1792735483",
+   "title": "Mariposa traicionera",
+   "artist": "Mana",
+   "album": "",
+   "genre": "Otros",
+   "duration": 276,
+   "dur_str": "4:36 min",
+   "art": "",
+   "url": "/api/stream?artist=Mana&title=Mariposa%20traicionera",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Mana/Mana - Mariposa traicionera.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792735489
   }
  ]
 }
