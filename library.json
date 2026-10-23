@@ -1,5 +1,5 @@
 {
- "updated": 1792724166,
+ "updated": 1792724322,
  "tracks": [
   {
    "id": "itunes-423021874",
@@ -1226,6 +1226,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792724166
+  },
+  {
+   "id": "st-1792724315",
+   "title": "Hello",
+   "artist": "Adele",
+   "album": "",
+   "genre": "Otros",
+   "duration": 301,
+   "dur_str": "5:00 min",
+   "art": "",
+   "url": "/api/stream?artist=Adele&title=Hello",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Adele/Adele - Hello.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792724322
   }
  ]
 }
