@@ -1,5 +1,5 @@
 {
- "updated": 1792741979,
+ "updated": 1792741996,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -1035,6 +1035,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792741979
+  },
+  {
+   "id": "st-1792741984",
+   "title": "R",
+   "artist": "Roselia",
+   "album": "",
+   "genre": "Otros",
+   "duration": 285,
+   "dur_str": "4:45 min",
+   "art": "",
+   "url": "/api/stream?artist=Roselia&title=R",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Roselia/Roselia - R.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792741996
   }
  ]
 }
