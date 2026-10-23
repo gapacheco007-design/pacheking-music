@@ -1,5 +1,5 @@
 {
- "updated": 1792775266,
+ "updated": 1792775268,
  "tracks": [
   {
    "id": "af-arjona-grupo-firme",
@@ -1416,6 +1416,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792775266
+  },
+  {
+   "id": "st-1792775260",
+   "title": "Visiones",
+   "artist": "Canserbero",
+   "album": "",
+   "genre": "Otros",
+   "duration": 217,
+   "dur_str": "3:37 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/5c8754b019eab711b3a9ade759fefab3/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Canserbero&title=Visiones",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Canserbero/Canserbero - Visiones.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792775268
   }
  ]
 }
