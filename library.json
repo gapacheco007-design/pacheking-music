@@ -1,5 +1,5 @@
 {
- "updated": 1792734713,
+ "updated": 1792734721,
  "tracks": [
   {
    "id": "st-1792733778",
@@ -75,6 +75,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792734713
+  },
+  {
+   "id": "st-1792734716",
+   "title": "Los Mensajes del Whatsapp",
+   "artist": "Cartel De Santa",
+   "album": "",
+   "genre": "Otros",
+   "duration": 214,
+   "dur_str": "3:33 min",
+   "art": "",
+   "url": "/api/stream?artist=Cartel%20De%20Santa&title=Los%20Mensajes%20del%20Whatsapp",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Cartel De Santa/Cartel De Santa - Los Mensajes del Whatsapp.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792734721
   }
  ]
 }
