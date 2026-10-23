@@ -1,5 +1,5 @@
 {
- "updated": 1792781657,
+ "updated": 1792781769,
  "tracks": [
   {
    "id": "af-arjona-grupo-firme",
@@ -1671,6 +1671,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792781657
+  },
+  {
+   "id": "st-1792781763",
+   "title": "Despacito",
+   "artist": "Luis Fonsi feat. Daddy Yankee",
+   "album": "",
+   "genre": "Otros",
+   "duration": 215,
+   "dur_str": "3:34 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/7985ef4ccd9e66af2fc3c18d629689aa/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Luis%20Fonsi%20feat.%20Daddy%20Yankee&title=Despacito",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Luis Fonsi feat. Daddy Yankee/Luis Fonsi feat. Daddy Yankee - Despacito.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792781769
   }
  ]
 }
