@@ -1,5 +1,5 @@
 {
- "updated": 1792787640,
+ "updated": 1792787669,
  "tracks": [
   {
    "id": "st-1792735492",
@@ -2194,6 +2194,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792787640
+  },
+  {
+   "id": "st-1792787662",
+   "title": "Me Vas a Extrañar",
+   "artist": "Luis Angel \"El Flaco\" & Banda la Sinaloense de Alex Ojeda",
+   "album": "",
+   "genre": "Otros",
+   "duration": 211,
+   "dur_str": "3:31 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/a9bfd706929f50c3b93245c604fbfe99/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Luis%20Angel%20%22El%20Flaco%22%20%26%20Banda%20la%20Sinaloense%20de%20Alex%20Ojeda&title=Me%20Vas%20a%20Extra%C3%B1ar",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Luis Angel El Flaco & Banda la Sinaloense de Alex Ojeda/Luis Angel El Flaco & Banda la Sinaloense de Alex Ojeda - Me Vas a Extrañar.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792787669
   }
  ]
 }
