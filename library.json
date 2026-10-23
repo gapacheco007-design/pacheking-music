@@ -1,5 +1,5 @@
 {
- "updated": 1792786816,
+ "updated": 1792786892,
  "tracks": [
   {
    "id": "st-1792735492",
@@ -1969,6 +1969,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792786816
+  },
+  {
+   "id": "st-1792786885",
+   "title": "3+1",
+   "artist": "PXNDX",
+   "album": "",
+   "genre": "Otros",
+   "duration": 242,
+   "dur_str": "4:02 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/7a07fbb05f76fcc91d664860e93e4348/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=PXNDX&title=3%2B1",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/PXNDX/PXNDX - 3+1.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792786892
   }
  ]
 }
