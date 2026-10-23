@@ -1,5 +1,5 @@
 {
- "updated": 1792736811,
+ "updated": 1792737046,
  "tracks": [
   {
    "id": "st-1792733778",
@@ -315,6 +315,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792736811
+  },
+  {
+   "id": "st-1792737041",
+   "title": "Shape of You",
+   "artist": "Ed Sheeran",
+   "album": "",
+   "genre": "Otros",
+   "duration": 236,
+   "dur_str": "3:56 min",
+   "art": "",
+   "url": "/api/stream?artist=Ed%20Sheeran&title=Shape%20of%20You",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Ed Sheeran/Ed Sheeran - Shape of You.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792737046
   }
  ]
 }
