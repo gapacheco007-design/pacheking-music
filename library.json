@@ -1,5 +1,5 @@
 {
- "updated": 1792786806,
+ "updated": 1792786811,
  "tracks": [
   {
    "id": "st-1792735492",
@@ -1939,6 +1939,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792786806
+  },
+  {
+   "id": "st-1792786804",
+   "title": "Disculpa los Malos Pensamientos",
+   "artist": "PXNDX",
+   "album": "",
+   "genre": "Otros",
+   "duration": 239,
+   "dur_str": "3:59 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/52868825b14ca76b229b11b1a9627929/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=PXNDX&title=Disculpa%20los%20Malos%20Pensamientos",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/PXNDX/PXNDX - Disculpa los Malos Pensamientos.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792786811
   }
  ]
 }
