@@ -1,5 +1,5 @@
 {
- "updated": 1792778458,
+ "updated": 1792778469,
  "tracks": [
   {
    "id": "af-arjona-grupo-firme",
@@ -1551,6 +1551,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792778458
+  },
+  {
+   "id": "st-1792778463",
+   "title": "Easy On Me",
+   "artist": "Adele",
+   "album": "",
+   "genre": "Otros",
+   "duration": 220,
+   "dur_str": "3:40 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/a87ee7c212c7b0f9ae687c378f260324/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Adele&title=Easy%20On%20Me",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Adele/Adele - Easy On Me.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792778469
   }
  ]
 }
