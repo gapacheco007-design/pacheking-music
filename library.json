@@ -1,5 +1,5 @@
 {
- "updated": 1792786778,
+ "updated": 1792786782,
  "tracks": [
   {
    "id": "st-1792735492",
@@ -1909,6 +1909,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792786778
+  },
+  {
+   "id": "st-1792786776",
+   "title": "Los malaventurados no lloran",
+   "artist": "PXNDX",
+   "album": "",
+   "genre": "Otros",
+   "duration": 207,
+   "dur_str": "3:26 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/d1a7e172183181dd118a1c4d4a012c3d/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=PXNDX&title=Los%20malaventurados%20no%20lloran",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/PXNDX/PXNDX - Los malaventurados no lloran.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792786782
   }
  ]
 }
