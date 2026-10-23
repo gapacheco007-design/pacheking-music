@@ -1,5 +1,5 @@
 {
- "updated": 1792715263,
+ "updated": 1792715745,
  "tracks": [
   {
    "id": "itunes-423021874",
@@ -1053,6 +1053,20 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792715263
+  },
+  {
+   "id": "vps-1792715745",
+   "title": "Monaco",
+   "artist": "Bad Bunny",
+   "album": "",
+   "genre": "Otros",
+   "duration": 180,
+   "dur_str": "3:00 min",
+   "art": "",
+   "url": "/api/stream?artist=Bad%20Bunny&title=Monaco",
+   "format": "FLAC / MP3 320k Master",
+   "source": "vps_library",
+   "added": 1792715745
   }
  ]
 }
