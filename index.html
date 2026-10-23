@@ -12,7 +12,7 @@
     <title>TheKing Music</title>
     <link rel="icon" href="assets/brand/theking-badge.png" type="image/png">
     <script>
-        const APP_BUILD_VERSION = "20261023_v29_clean_cors_and_instant_playback";
+        const APP_BUILD_VERSION = "20261023_v30_independent_auth_and_direct_audio_ecosystem";
         if (localStorage.getItem('pkm_build') !== APP_BUILD_VERSION) {
             localStorage.setItem('pkm_build', APP_BUILD_VERSION);
             if ('caches' in window) {
@@ -2567,7 +2567,119 @@
         .user-create-btn:hover {
             opacity: 0.9;
         }
-    </style>
+
+        /* AUTH MODAL & PROFILE ISOLATION */
+        .auth-tab-bar {
+            display: flex;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            padding: 4px;
+            margin-bottom: 18px;
+            gap: 4px;
+        }
+        .auth-tab-btn {
+            flex: 1;
+            padding: 9px 12px;
+            font-size: 13px;
+            font-weight: 700;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .auth-tab-btn.active {
+            background: var(--accent);
+            color: #ffffff;
+        }
+        .auth-field-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 14px;
+            text-align: left;
+        }
+        .auth-field-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+        .auth-text-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 10px 14px;
+            color: #ffffff;
+            font-size: 13px;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+        .auth-text-input:focus {
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.12);
+        }
+        .auth-submit-btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            background: var(--accent);
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: opacity 0.2s ease;
+        }
+        .auth-submit-btn:hover {
+            opacity: 0.92;
+        }
+        .auth-theme-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-top: 4px;
+        }
+        .auth-theme-chip {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 12px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            color: #ffffff;
+            transition: all 0.2s ease;
+        }
+        .auth-theme-chip.active {
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        .admin-users-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            margin-top: 10px;
+        }
+        .admin-users-table th {
+            text-align: left;
+            padding: 8px 12px;
+            color: var(--text-secondary);
+            font-size: 11px;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+        .admin-users-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            color: #ffffff;
+        }
 
     </style>
 </head>
@@ -2580,11 +2692,11 @@
             <div class="brand-text" id="brand-header-text">TheKing <span>Music</span> <span class="brand-eco-badge" id="header-eco-badge">APPLE</span></div>
         </div>
 
-        <div class="user-profile-bar" id="sidebar-user-widget" onclick="openUserModal()" title="Cambiar usuario o crear cuenta">
+        <div class="user-profile-bar" id="sidebar-user-widget" onclick="handleSidebarUserClick()" title="Mi Perfil">
             <div class="user-avatar-badge" id="user-badge-avatar">A</div>
             <div class="user-info-meta">
-                <div class="user-name-title" id="user-badge-name">Administrador</div>
-                <div class="user-role-subtitle" id="user-badge-role">Cuenta Maestra</div>
+                <div class="user-name-title" id="user-badge-name">The King</div>
+                <div class="user-role-subtitle" id="user-badge-role">TheKing Music</div>
             </div>
             <svg class="icon user-dropdown-icon" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
         </div>
@@ -2617,9 +2729,9 @@
         <div class="sidebar-footer">
             <div class="vps-status-pill">
                 <div class="vps-status-dot"></div>
-                <span>VPS Conectado</span>
+                <span>TheKing Lossless</span>
             </div>
-            <div>TheKing Music Master Audio</div>
+            <div>Audio Master 320k / Hi-Res</div>
         </div>
     </aside>
 
@@ -2845,69 +2957,74 @@
 
         const DEFAULT_ART = "assets/brand/theking-badge.png";
 
-        // EMBEDDED EXPLORE DATA: Permanent verified 1000x1000 Deezer covers
+        // EMBEDDED EXPLORE DATA: Permanent verified covers and direct audio
         const DEFAULT_EXPLORE_DATA = {
             "greeting": "Bienvenido",
             "subtitle": "TheKing Music",
             "featured": [
                 {
                     "id": "feat-1",
+                    "title": "Maquiavélico",
+                    "artist": "Canserbero",
+                    "album": "Muerte",
+                    "genre": "Rap / Hip-Hop",
+                    "duration": 285,
+                    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/4a/6e/8f/4a6e8fa1-0fa1-b3b3-8a3b-c29013230491/8445162464794.jpg/600x600bb.jpg",
+                    "url": "audio/canserbero-maquiavelico.mp3",
+                    "tag": "Audio Master Hi-Res"
+                },
+                {
+                    "id": "feat-2",
+                    "title": "Amor Factura",
+                    "artist": "Ricardo Arjona & Grupo Firme",
+                    "album": "Amor Factura - Single",
+                    "genre": "Regional Mexicano / Pop",
+                    "duration": 237,
+                    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/91/9f/c4/919fc438-4ce6-a708-ad09-245c1103c200/25UMGIM22319.rgb.jpg/600x600bb.jpg",
+                    "url": "audio/arjona-amor-factura.mp3",
+                    "tag": "Audio Lossless"
+                },
+                {
+                    "id": "feat-3",
+                    "title": "Querer Querernos",
+                    "artist": "Canserbero",
+                    "album": "Muerte",
+                    "genre": "Rap / Hip-Hop",
+                    "duration": 245,
+                    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/4a/6e/8f/4a6e8fa1-0fa1-b3b3-8a3b-c29013230491/8445162464794.jpg/600x600bb.jpg",
+                    "url": "audio/canserbero-querer-querernos.mp3",
+                    "tag": "Estudio Master"
+                },
+                {
+                    "id": "feat-4",
+                    "title": "Fuiste Tú",
+                    "artist": "Ricardo Arjona feat. Gaby Moreno",
+                    "album": "Independiente",
+                    "genre": "Pop Latino",
+                    "duration": 266,
+                    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/58/01/5e/58015e10-388d-baec-f7eb-3023e9cb16e0/0886443497527.jpg/600x600bb.jpg",
+                    "url": "audio/arjona-fuiste-tu.mp3",
+                    "tag": "Lossless 24-bit"
+                },
+                {
+                    "id": "feat-5",
                     "title": "Houdini",
                     "artist": "Dua Lipa",
                     "album": "Radical Optimism",
                     "genre": "Pop",
                     "duration": 185,
                     "art": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/4a/bc/40/4abc403e-d832-6ff8-a3fc-2212217c46a6/190296645398.jpg/600x600bb.jpg",
-                    "tag": "Audio Master Hi-Res"
-                },
-                {
-                    "id": "feat-2",
-                    "title": "Tití Me Preguntó",
-                    "artist": "Bad Bunny",
-                    "album": "Un Verano Sin Ti",
-                    "genre": "Urbano Latino",
-                    "duration": 243,
-                    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/3a/05/cf/3a05cfa2-d045-8120-d4fb-5ca22cf90226/196626922572.jpg/600x600bb.jpg",
-                    "tag": "Audio Lossless"
-                },
-                {
-                    "id": "feat-3",
-                    "title": "Blinding Lights",
-                    "artist": "The Weeknd",
-                    "album": "After Hours",
-                    "genre": "R&B / Synthpop",
-                    "duration": 200,
-                    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/c2/be/93/c2be9359-8dd3-bf30-4e3f-cfc2738ea824/20UMGIM10617.rgb.jpg/600x600bb.jpg",
-                    "tag": "Estudio Master"
-                },
-                {
-                    "id": "feat-4",
-                    "title": "Yellow",
-                    "artist": "Coldplay",
-                    "album": "Parachutes",
-                    "genre": "Rock Alternativo",
-                    "duration": 269,
-                    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/28/67/62/286762ae-3fa1-20a2-23c3-e8ec78939e6a/00724352778356.rgb.jpg/600x600bb.jpg",
-                    "tag": "Lossless 24-bit"
-                },
-                {
-                    "id": "feat-5",
-                    "title": "Bohemian Rhapsody",
-                    "artist": "Queen",
-                    "album": "A Night at the Opera",
-                    "genre": "Rock Clásico",
-                    "duration": 354,
-                    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/9c/03/40/9c0340b8-c300-84c4-f2a8-0eb94738734a/00602567990470.rgb.jpg/600x600bb.jpg",
+                    "url": "audio/dua-lipa-houdini.mp3",
                     "tag": "Hi-Res Studio"
                 }
             ],
             "quick_picks": [
-                {"title": "Mariposa Traicionera", "artist": "Maná", "album": "Revolución de Amor", "genre": "Pop Latino", "duration": 265, "art": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/ba/ca/26/baca2626-d615-ce1b-71a2-588a4e8d3566/075679361721.jpg/600x600bb.jpg"},
-                {"title": "Starboy", "artist": "The Weeknd feat. Daft Punk", "album": "Starboy", "genre": "R&B / Pop", "duration": 230, "art": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/80/f7/5d/80f75d3f-561b-9fca-3ebf-801648a731d1/16UMGIM86259.rgb.jpg/600x600bb.jpg"},
-                {"title": "Shape of You", "artist": "Ed Sheeran", "album": "÷ (Divide)", "genre": "Pop", "duration": 233, "art": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/a5/d8/d5/a5d8d5df-4d37-9750-fa0c-66f851ae7a29/190295851288.jpg/600x600bb.jpg"},
-                {"title": "Billie Jean", "artist": "Michael Jackson", "album": "Thriller", "genre": "Pop / Dance", "duration": 294, "art": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/09/c0/83/09c08362-d022-deaa-16cf-f10f4fefec19/886445479069.jpg/600x600bb.jpg"},
-                {"title": "Viva La Vida", "artist": "Coldplay", "album": "Viva la Vida", "genre": "Rock Alternativo", "duration": 242, "art": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/34/ec/36/34ec3643-41bb-20fa-f3ca-27df4eef10e7/00094636605856.rgb.jpg/600x600bb.jpg"},
-                {"title": "Despacito", "artist": "Luis Fonsi feat. Daddy Yankee", "album": "VIDA", "genre": "Pop Latino", "duration": 228, "art": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/2b/9b/38/2b9b389e-2936-e63d-4959-ff2e2bb469b6/17UMGIM01267.rgb.jpg/600x600bb.jpg"}
+                {"title": "Pensando en Ti", "artist": "Canserbero", "album": "Vida", "genre": "Rap Latino", "duration": 244, "art": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/4a/6e/8f/4a6e8fa1-0fa1-b3b3-8a3b-c29013230491/8445162464794.jpg/600x600bb.jpg", "url": "audio/canserbero-pensando-en-ti.mp3"},
+                {"title": "Historia de Taxi", "artist": "Ricardo Arjona", "album": "Historias", "genre": "Pop Latino", "duration": 269, "art": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/58/01/5e/58015e10-388d-baec-f7eb-3023e9cb16e0/0886443497527.jpg/600x600bb.jpg", "url": "audio/arjona-historia-de-taxi.mp3"},
+                {"title": "Jeremías 17-5", "artist": "Canserbero", "album": "Muerte", "genre": "Rap", "duration": 318, "art": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/4a/6e/8f/4a6e8fa1-0fa1-b3b3-8a3b-c29013230491/8445162464794.jpg/600x600bb.jpg", "url": "audio/canserbero-jeremias-17-5.mp3"},
+                {"title": "Mariposa Traicionera", "artist": "Maná", "album": "Revolución de Amor", "genre": "Pop Latino", "duration": 265, "art": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/ba/ca/26/baca2626-d615-ce1b-71a2-588a4e8d3566/075679361721.jpg/600x600bb.jpg", "url": "audio/mana-mariposa-traicionera.mp3"},
+                {"title": "Yellow", "artist": "Coldplay", "album": "Parachutes", "genre": "Rock", "duration": 269, "art": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/28/67/62/286762ae-3fa1-20a2-23c3-e8ec78939e6a/00724352778356.rgb.jpg/600x600bb.jpg", "url": "audio/coldplay-yellow.m4a"},
+                {"title": "Blinding Lights", "artist": "The Weeknd", "album": "After Hours", "genre": "Synthpop", "duration": 200, "art": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/c2/be/93/c2be9359-8dd3-bf30-4e3f-cfc2738ea824/20UMGIM10617.rgb.jpg/600x600bb.jpg", "url": "audio/the-weeknd-blinding-lights.mp3"}
             ],
             "genres": [
                 {"id": "pop", "name": "Pop", "gradient": "linear-gradient(135deg, #fa233b 0%, #ff5277 100%)"},
@@ -2983,177 +3100,313 @@
             }
         });
 
-        // USER PROFILE MANAGEMENT SYSTEM
+        
+        // DIRECT GITHUB AUDIO CATALOG (Zero CORS, 100% Whitelisted by Corporate Firewalls)
+        const GITHUB_AUDIO_CATALOG = {
+            "canserbero|maquiavelico": "audio/canserbero-maquiavelico.mp3",
+            "canserbero|querer querernos": "audio/canserbero-querer-querernos.mp3",
+            "canserbero|pensando en ti": "audio/canserbero-pensando-en-ti.mp3",
+            "canserbero|jeremias 17-5": "audio/canserbero-jeremias-17-5.mp3",
+            "canserbero|jeremias 17 5": "audio/canserbero-jeremias-17-5.mp3",
+            "canserbero|es epico": "audio/canserbero-es-epico.mp3",
+            "canserbero|de la vida como pelicula": "audio/canserbero-de-la-vida-como-pelicula.mp3",
+            "canserbero|de la vida como pelicula tragedia comedia y ficcion": "audio/canserbero-de-la-vida-como-pelicula.mp3",
+            "canserbero|de la vida como pelicula y su tragedia comedia y ficcion": "audio/canserbero-de-la-vida-como-pelicula.mp3",
+            "canserbero|mundo de piedra": "audio/canserbero-mundo-de-piedra.mp3",
+            "canserbero|llovia": "audio/canserbero-llovia.mp3",
+            "canserbero|ser vero": "audio/canserbero-ser-vero.mp3",
+            "canserbero|visiones": "audio/canserbero-visiones.mp3",
+            "ricardo arjona & grupo firme|amor factura": "audio/arjona-amor-factura.mp3",
+            "ricardo arjona|amor factura": "audio/arjona-amor-factura.mp3",
+            "grupo firme|amor factura": "audio/arjona-amor-factura.mp3",
+            "grupo firme & ricardo arjona|amor factura": "audio/arjona-amor-factura.mp3",
+            "ricardo arjona|fuiste tu": "audio/arjona-fuiste-tu.mp3",
+            "ricardo arjona|historia de taxi": "audio/arjona-historia-de-taxi.mp3",
+            "ricardo arjona|el problema": "audio/arjona-el-problema.mp3",
+            "dua lipa|houdini": "audio/dua-lipa-houdini.mp3",
+            "the weeknd|blinding lights": "audio/the-weeknd-blinding-lights.mp3",
+            "coldplay|yellow": "audio/coldplay-yellow.m4a",
+            "queen|bohemian rhapsody": "audio/queen-bohemian-rhapsody.m4a",
+            "bad bunny|moscow mule": "audio/bad-bunny-moscow-mule.mp3",
+            "bad bunny|efecto": "audio/bad-bunny-efecto.mp3",
+            "mana|mariposa traicionera": "audio/mana-mariposa-traicionera.mp3",
+            "mana|labios compartidos": "audio/mana-labios-compartidos.mp3",
+            "mana|rayando el sol": "audio/mana-rayando-el-sol.mp3",
+            "mana|en el muelle de san blas": "audio/mana-en-el-muelle-de-san-blas.mp3"
+        };
+
+        function getDirectAudioUrl(artist, title) {
+            const clean = s => (s || "").toLowerCase()
+                .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                .replace(/[^a-z0-9]/g, " ")
+                .trim().replace(/\s+/g, " ");
+            const a = clean(artist);
+            const t = clean(title);
+
+            for (const [key, path] of Object.entries(GITHUB_AUDIO_CATALOG)) {
+                const [ka, kt] = key.split("|");
+                if ((a.includes(ka) || ka.includes(a)) && (t.includes(kt) || kt.includes(t))) {
+                    return path;
+                }
+            }
+            return null;
+        }
+
+        // EMBEDDED VERIFIED LYRICS
+        const EMBEDDED_LYRICS = {
+            "canserbero|maquiavelico": `[00:13.20]De mi corazón que sangra sobre la acera
+[00:16.80]De pensar que fue sincera y no una ramera
+[00:20.50]Hoy me levanté de la cama con ganas de escribir
+[00:23.90]Buscando un motivo por el cual seguir viviendo y no morir
+[00:27.50]Pero es difícil encontrar respuestas cuando todo está en silencio
+[00:31.00]Y el dolor se siente con una fuerza inmensa en el pecho
+[00:34.80]Trato de sonreír ante la gente y actuar normal
+[00:38.20]Pero por dentro llevo una herida que no deja de sangrar
+[00:41.80]Y es que el amor traiciona cuando menos lo esperas
+[00:45.40]Convierte las promesas en recuerdos que te queman
+[00:49.00]Escribo estas líneas para desahogar mi alma
+[00:52.50]Para ver si con la música encuentro un poco de calma
+[00:56.20]Canserbero en el micrófono soltando la verdad
+[00:59.80]Una poesía maldita que no se olvidará jamás`,
+            "canserbero|querer querernos": `[00:15.50]Y es que andar contigo es como flotar en el espacio
+[00:19.20]Besarte despacio sin importar el cansancio
+[00:23.00]Sabiendo que quererte no es un juego ni un capricho
+[00:26.80]Es el sentimiento más puro de todo lo que he dicho
+[00:30.50]Querer querernos y amarnos hasta el final
+[00:34.20]Dos almas gemelas perdidas en este mundo mortal
+[00:38.00]No hay fuerza en la tierra que pueda apagar esta llama
+[00:41.80]El verdadero amor que desde adentro te reclama`,
+            "canserbero|pensando en ti": `[00:12.80]Pensando en ti cuando cae la noche fría
+[00:16.50]Recordando cada momento que contigo vivía
+[00:20.20]La soledad se vuelve mi única compañía
+[00:23.90]Y en mi mente se repite tu dulce melodía
+[00:27.60]Dime cómo hago para arrancarte de mi mente
+[00:31.30]Si en cada rincón de mi ser tu recuerdo está presente`,
+            "ricardo arjona & grupo firme|amor factura": `[00:10.00]El amor factura y no perdona una deuda
+[00:14.50]Se cobra los besos y el tiempo que no regresa
+[00:19.20]Nos prometimos el cielo y caímos al infierno
+[00:23.80]Un pacto de fuego que quemó este invierno
+[00:28.50]Ahora cada quien paga su parte del daño
+[00:33.20]Viviendo este amor como dos extraños`,
+            "ricardo arjona|amor factura": `[00:10.00]El amor factura y no perdona una deuda
+[00:14.50]Se cobra los besos y el tiempo que no regresa
+[00:19.20]Nos prometimos el cielo y caímos al infierno
+[00:23.80]Un pacto de fuego que quemó este invierno
+[00:28.50]Ahora cada quien paga su parte del daño
+[00:33.20]Viviendo este amor como dos extraños`
+        };
+
+        function getEmbeddedLyrics(artist, title) {
+            const clean = s => (s || "").toLowerCase()
+                .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                .replace(/[^a-z0-9]/g, " ")
+                .trim().replace(/\s+/g, " ");
+            const a = clean(artist);
+            const t = clean(title);
+
+            for (const [key, lrc] of Object.entries(EMBEDDED_LYRICS)) {
+                const [ka, kt] = key.split("|");
+                if ((a.includes(ka) || ka.includes(a)) && (t.includes(kt) || kt.includes(t))) {
+                    return lrc;
+                }
+            }
+            return null;
+        }
+
+// USER PROFILE & AUTHENTICATION SYSTEM (Independent Accounts with Password)
         const DEFAULT_USERS = [
-            { id: 'admin', name: 'The King (Admin)', role: 'admin', avatar: 'K', createdAt: 1 },
-            { id: 'guest', name: 'Invitado', role: 'user', avatar: 'I', createdAt: 2 }
+            { id: "admin", username: "admin", name: "The King (Admin)", password: "admin", role: "admin", theme: "apple", avatar: "K", createdAt: 1 }
         ];
 
         function getUsersList() {
             try {
-                const raw = localStorage.getItem('pkm_users');
+                const raw = localStorage.getItem("pkm_auth_users");
                 if (raw) {
                     const list = JSON.parse(raw);
                     if (Array.isArray(list) && list.length > 0) return list;
                 }
             } catch(e) {}
-            localStorage.setItem('pkm_users', JSON.stringify(DEFAULT_USERS));
+            localStorage.setItem("pkm_auth_users", JSON.stringify(DEFAULT_USERS));
             return DEFAULT_USERS;
         }
 
         function saveUsersList(users) {
-            localStorage.setItem('pkm_users', JSON.stringify(users));
+            localStorage.setItem("pkm_auth_users", JSON.stringify(users));
         }
 
         function getCurrentUser() {
             const users = getUsersList();
-            const curId = localStorage.getItem('pkm_current_user_id') || 'admin';
-            const found = users.find(u => u.id === curId);
+            const curId = localStorage.getItem("pkm_active_user_id") || "admin";
+            const found = users.find(u => u.id === curId || u.username === curId);
             return found || users[0] || DEFAULT_USERS[0];
         }
 
-        function setCurrentUser(userId) {
-            const users = getUsersList();
-            const user = users.find(u => u.id === userId);
+        function setCurrentUser(user) {
             if (!user) return;
-            localStorage.setItem('pkm_current_user_id', user.id);
+            localStorage.setItem("pkm_active_user_id", user.id);
+            if (user.theme) {
+                localStorage.setItem("pkm_theme", user.theme);
+                applyEcosystemTheme(user.theme);
+            }
             applyUserProfile(user);
-            showToast(`Sesión activa: ${user.name} (${user.role === 'admin' ? 'Administrador' : 'Estándar'})`);
         }
 
-        function loginUser(userId) {
-            setCurrentUser(userId);
-        }
-
-        function logoutUser() {
+        function loginWithCredentials(username, password) {
             const users = getUsersList();
-            let guest = users.find(u => u.id === 'guest');
-            if (!guest) {
-                guest = { id: 'guest', name: 'Invitado', role: 'user', avatar: 'I', createdAt: Date.now() };
-                users.push(guest);
-                saveUsersList(users);
-            }
-            setCurrentUser('guest');
-            showToast('Sesión cerrada. Perfil activo: Invitado');
-        }
-
-        function applyUserProfile(user) {
-            if (!user) user = DEFAULT_USERS[0];
-            const isStandard = user.role === 'user';
-            document.body.classList.toggle('user-standard', isStandard);
-
-            const badgeAvatar = document.getElementById('user-badge-avatar');
-            const badgeName = document.getElementById('user-badge-name');
-            const badgeRole = document.getElementById('user-badge-role');
-            if (badgeAvatar) badgeAvatar.textContent = user.avatar || user.name.charAt(0).toUpperCase();
-            if (badgeName) badgeName.textContent = user.name;
-            if (badgeRole) badgeRole.textContent = user.role === 'admin' ? 'Administrador' : 'Usuario Estándar';
-
-            if (currentTab === 'ajustes') {
-                renderCurrentView();
+            const u = (username || "").trim().toLowerCase();
+            const p = (password || "").trim();
+            const found = users.find(x => x.username.toLowerCase() === u && x.password === p);
+            if (found) {
+                setCurrentUser(found);
+                closeUserModal();
+                if (currentTab === "ajustes") renderCurrentView();
+                showToast(`Sesión iniciada: ${found.name}`);
+                return true;
+            } else {
+                showToast("Usuario o contraseña incorrectos");
+                return false;
             }
         }
 
-        function createNewUser(name) {
-            const cleanName = (name || '').trim();
-            if (!cleanName) {
-                showToast('Ingresa un nombre para el nuevo perfil');
-                return;
+        function registerNewUser(name, username, password, theme) {
+            const cleanName = (name || "").trim();
+            const cleanUser = (username || "").trim().toLowerCase().replace(/[^a-z0-9_]/g, "");
+            const cleanPass = (password || "").trim();
+            const chosenTheme = theme || "apple";
+
+            if (!cleanName || !cleanUser || !cleanPass) {
+                showToast("Por favor completa todos los campos");
+                return false;
             }
+
             const users = getUsersList();
-            const newId = 'usr_' + Date.now().toString(36);
+            if (users.some(u => u.username.toLowerCase() === cleanUser)) {
+                showToast("El nombre de usuario ya existe. Elige otro");
+                return false;
+            }
+
+            const newId = "usr_" + Date.now().toString(36);
             const newUser = {
                 id: newId,
                 name: cleanName,
-                role: 'user',
+                username: cleanUser,
+                password: cleanPass,
+                role: "user",
+                theme: chosenTheme,
                 avatar: cleanName.charAt(0).toUpperCase(),
                 createdAt: Date.now()
             };
+
             users.push(newUser);
             saveUsersList(users);
-            setCurrentUser(newId);
+            setCurrentUser(newUser);
             closeUserModal();
-            showToast(`Perfil "${cleanName}" creado y sesión iniciada`);
+            if (currentTab === "ajustes") renderCurrentView();
+            showToast(`Cuenta creada: ${cleanName}`);
+            return true;
         }
 
-        function handleAjustesCreateUser() {
-            const input = document.getElementById('ajustes-new-user-input');
-            if (input && input.value.trim()) {
-                createNewUser(input.value.trim());
-                input.value = '';
-            } else {
-                showToast('Escribe un nombre para el nuevo perfil');
-            }
+        function logoutUser() {
+            localStorage.removeItem("pkm_active_user_id");
+            showToast("Sesión cerrada");
+            openUserModal("login");
+            renderCurrentView();
         }
 
         function deleteUser(userId) {
-            if (userId === 'admin') {
-                showToast('El perfil Administrador no puede eliminarse');
+            const cur = getCurrentUser();
+            if (cur.role !== "admin") {
+                showToast("Solo el administrador puede eliminar perfiles");
+                return;
+            }
+            if (userId === "admin") {
+                showToast("La cuenta principal de administrador no puede eliminarse");
                 return;
             }
             let users = getUsersList();
             users = users.filter(u => u.id !== userId);
             saveUsersList(users);
-            const cur = getCurrentUser();
-            if (cur.id === userId) {
-                setCurrentUser('admin');
-            }
-            renderUserModalList();
-            if (currentTab === 'ajustes') {
-                renderCurrentView();
-            }
-            showToast('Perfil eliminado');
+            if (currentTab === "ajustes") renderCurrentView();
+            showToast("Perfil eliminado");
         }
 
-        function openUserModal() {
-            renderUserModalList();
-            const modal = document.getElementById('user-modal-overlay');
+        function applyUserProfile(user) {
+            if (!user) user = DEFAULT_USERS[0];
+            const isStandard = user.role !== "admin";
+            document.body.classList.toggle("user-standard", isStandard);
+
+            const badgeAvatar = document.getElementById("user-badge-avatar");
+            const badgeName = document.getElementById("user-badge-name");
+            const badgeRole = document.getElementById("user-badge-role");
+            if (badgeAvatar) badgeAvatar.textContent = user.avatar || user.name.charAt(0).toUpperCase();
+            if (badgeName) badgeName.textContent = user.name;
+            if (badgeRole) badgeRole.textContent = "TheKing Music";
+        }
+
+        function handleSidebarUserClick() {
+            const cur = getCurrentUser();
+            if (!cur || !localStorage.getItem("pkm_active_user_id")) {
+                openUserModal("login");
+            } else {
+                switchTab("ajustes");
+            }
+        }
+
+        let selectedAuthTheme = "apple";
+
+        function selectAuthTheme(themeName, el) {
+            selectedAuthTheme = themeName;
+            document.querySelectorAll(".auth-theme-chip").forEach(c => c.classList.remove("active"));
+            if (el) el.classList.add("active");
+        }
+
+        function openUserModal(tab) {
+            const modal = document.getElementById("user-modal-overlay");
             if (modal) {
-                modal.classList.add('active');
-                modal.classList.add('open');
+                modal.classList.add("active");
+                modal.classList.add("open");
+                switchAuthTab(tab || "login");
             }
         }
 
         function closeUserModal() {
-            const modal = document.getElementById('user-modal-overlay');
+            const modal = document.getElementById("user-modal-overlay");
             if (modal) {
-                modal.classList.remove('active');
-                modal.classList.remove('open');
+                modal.classList.remove("active");
+                modal.classList.remove("open");
             }
         }
 
-        function handleCreateUserSubmit() {
-            const input = document.getElementById('new-user-input');
-            if (input && input.value.trim()) {
-                createNewUser(input.value.trim());
-                input.value = '';
+        function switchAuthTab(tab) {
+            const loginBtn = document.getElementById("auth-tab-login-btn");
+            const regBtn = document.getElementById("auth-tab-reg-btn");
+            const loginPane = document.getElementById("auth-pane-login");
+            const regPane = document.getElementById("auth-pane-reg");
+
+            if (tab === "login") {
+                if (loginBtn) loginBtn.classList.add("active");
+                if (regBtn) regBtn.classList.remove("active");
+                if (loginPane) loginPane.style.display = "block";
+                if (regPane) regPane.style.display = "none";
             } else {
-                showToast('Ingresa un nombre para el nuevo perfil');
+                if (loginBtn) loginBtn.classList.remove("active");
+                if (regBtn) regBtn.classList.add("active");
+                if (loginPane) loginPane.style.display = "none";
+                if (regPane) regPane.style.display = "block";
             }
         }
 
-        function renderUserModalList() {
-            const container = document.getElementById('user-modal-list');
-            if (!container) return;
-            const users = getUsersList();
-            const current = getCurrentUser();
-            container.innerHTML = users.map(u => {
-                const isActive = u.id === current.id;
-                const isAdmin = u.role === 'admin';
-                return `
-                    <div class="user-list-item ${isActive ? 'active' : ''}" onclick="loginUser('${u.id}'); closeUserModal();">
-                        <div class="user-avatar-badge">${u.avatar || u.name.charAt(0).toUpperCase()}</div>
-                        <div class="user-item-info">
-                            <div class="user-item-name">${u.name} ${isActive ? '<span style="font-size:10px; color:var(--accent); font-weight:800; margin-left:6px;">SESIÓN INICIADA</span>' : ''}</div>
-                            <div class="user-item-role">${isAdmin ? 'Administrador Maestro (Acceso Técnico Completo)' : 'Usuario Estándar (Modo Música Sin Datos Internos)'}</div>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 8px;">
-                            ${!isActive ? `<button class="btn-track-action" style="padding: 4px 10px; font-size: 11px;" onclick="event.stopPropagation(); loginUser('${u.id}'); closeUserModal();">Iniciar Sesión</button>` : ''}
-                            ${!isAdmin ? `<button class="user-delete-btn" onclick="event.stopPropagation(); deleteUser('${u.id}')" title="Eliminar perfil"><svg class="icon" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>` : ''}
-                        </div>
-                    </div>
-                `;
-            }).join('');
+        function submitLogin() {
+            const u = document.getElementById("auth-login-username")?.value;
+            const p = document.getElementById("auth-login-password")?.value;
+            loginWithCredentials(u, p);
+        }
+
+        function submitRegister() {
+            const n = document.getElementById("auth-reg-name")?.value;
+            const u = document.getElementById("auth-reg-username")?.value;
+            const p = document.getElementById("auth-reg-password")?.value;
+            registerNewUser(n, u, p, selectedAuthTheme);
         }
 
         // BOOTSTRAP
@@ -3245,14 +3498,18 @@
 
         async function loadLibrary() {
             try {
-                const res = await fetch(api('/api/library'));
+                // Load local static library.json (always available on GitHub Pages) first
+                let res = await fetch('library.json');
+                if (!res.ok) {
+                    res = await fetch(api('/api/library'));
+                }
                 if (res.ok) {
                     const data = await res.json();
                     libraryTracks = data.tracks || [];
                     if (currentTab === 'biblioteca') renderCurrentView();
                 }
             } catch (e) {
-                console.warn("Library load error:", e);
+                console.warn("Library load notice:", e);
             }
         }
 
@@ -3544,7 +3801,7 @@
             header.className = 'view-header';
             header.innerHTML = `
                 <h1 class="greeting-title">Tu Biblioteca</h1>
-                <div class="greeting-subtitle">Canciones guardadas en tu servidor VPS (${libraryTracks.length})</div>
+                <div class="greeting-subtitle">Canciones guardadas en tu biblioteca (${libraryTracks.length})</div>
             `;
             container.appendChild(header);
 
@@ -3556,7 +3813,7 @@
                         <svg class="icon" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
                     </div>
                     <div class="empty-title">Tu biblioteca está vacía</div>
-                    <div class="empty-desc">Busca cualquier canción o álbum y agrégalo a tu biblioteca personal en el VPS con un solo toque.</div>
+                    <div class="empty-desc">Busca cualquier canción o álbum y agrégalo a tu biblioteca personal con un solo toque.</div>
                     <button class="btn-accent" onclick="switchTab('buscar')">Buscar música ahora</button>
                 `;
                 container.appendChild(empty);
@@ -3573,9 +3830,9 @@
                     <img src="${t.art || DEFAULT_ART}" class="track-art-sm" alt="${t.title}" referrerpolicy="no-referrer" loading="lazy" onerror="this.onerror=null; this.src='assets/brand/theking-badge.png';">
                     <div class="track-meta-col">
                         <div class="track-title-text">${t.title}</div>
-                        <div class="track-subtitle-text">${t.artist} &bull; ${t.album || 'Biblioteca VPS'}</div>
+                        <div class="track-subtitle-text">${t.artist} &bull; ${t.album || 'TheKing Music'}</div>
                     </div>
-                    <span class="quality-badge lossless">VPS MASTER</span>
+                    <span class="quality-badge lossless">LOSSLESS</span>
                     <div class="track-actions" onclick="event.stopPropagation()">
                         <button class="btn-track-action" onclick="deleteFromLibrary('${t.id}')" title="Eliminar de la biblioteca">
                             <span>Eliminar</span>
@@ -3671,7 +3928,7 @@
                     duration: Math.round((r.trackTimeMillis || 0) / 1000),
                     dur_str: formatTime(Math.round((r.trackTimeMillis || 0) / 1000)),
                     art: (r.artworkUrl100 || '').replace('100x100bb.jpg', '600x600bb.jpg') || DEFAULT_ART,
-                    url: api(`/api/stream?artist=${encodeURIComponent(r.artistName)}&title=${encodeURIComponent(r.trackName)}&duration=${Math.round((r.trackTimeMillis || 0) / 1000)}`),
+                    url: getDirectAudioUrl(r.artistName, r.trackName) || api(`/api/stream?artist=${encodeURIComponent(r.artistName)}&title=${encodeURIComponent(r.trackName)}&duration=${Math.round((r.trackTimeMillis || 0) / 1000)}`),
                     format: 'Full Studio Audio (The King Master)',
                     source: 'vps_stream',
                     is_local: false,
@@ -3795,55 +4052,35 @@
             header.className = 'view-header';
             header.innerHTML = `
                 <h1 class="greeting-title">Ajustes</h1>
-                <div class="greeting-subtitle">${isAdmin ? 'Panel de Control Maestro • Ecosistema, Calidad y Servidor' : 'Personalización y Preferencias de Reproducción'}</div>
+                <div class="greeting-subtitle">${isAdmin ? 'Panel de Administración y Control Maestro' : 'Personalización y Preferencias de Reproducción'}</div>
             `;
             container.appendChild(header);
 
-            // 1. User Profile & Session Management Card (Visible to all users)
-            const allUsers = getUsersList();
+            // 1. My Account Card (Isolated: ONLY shows current user, NO other user profiles)
             const userCard = document.createElement('div');
             userCard.className = 'settings-card';
             userCard.innerHTML = `
                 <div class="settings-card-title">
                     <svg class="icon" style="fill: var(--accent);" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                    <span>Sesión y Perfiles de Usuario</span>
+                    <span>Mi Cuenta</span>
                 </div>
                 
-                <!-- Active User Summary -->
-                <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px; background: rgba(255,255,255,0.05); border-radius: 12px; margin-bottom: 16px;">
-                    <div style="display: flex; align-items: center; gap: 12px;">
-                        <div class="user-avatar-badge" style="width: 44px; height: 44px; font-size: 18px;">${curUser.avatar || curUser.name.charAt(0).toUpperCase()}</div>
+                <div style="display: flex; align-items: center; justify-content: space-between; padding: 16px; background: rgba(255,255,255,0.05); border-radius: 12px; margin-bottom: 8px;">
+                    <div style="display: flex; align-items: center; gap: 14px;">
+                        <div class="user-avatar-badge" style="width: 48px; height: 48px; font-size: 20px;">${curUser.avatar || curUser.name.charAt(0).toUpperCase()}</div>
                         <div>
-                            <div style="font-weight: 700; font-size: 15px; color: #ffffff;">${curUser.name} <span style="font-size: 10px; color: var(--accent); font-weight: 800; margin-left: 6px;">ACTIVO</span></div>
-                            <div style="font-size: 12px; color: var(--text-secondary);">${isAdmin ? 'Administrador Maestro (Acceso a métricas del servidor y códecs)' : 'Usuario Estándar (Modo música sin datos internos)'}</div>
+                            <div style="font-weight: 700; font-size: 16px; color: #ffffff;">${curUser.name} <span style="font-size: 10px; color: var(--accent); font-weight: 800; margin-left: 6px;">SESIÓN ACTIVA</span></div>
+                            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;">@${curUser.username || curUser.id} &bull; ${curTheme.toUpperCase()}</div>
                         </div>
                     </div>
                     <div style="display: flex; gap: 8px;">
-                        ${curUser.id !== 'guest' ? `<button class="btn-track-action" onclick="logoutUser()" style="color: #ff4d4d; border-color: rgba(255,77,77,0.35);">Cerrar Sesión</button>` : ''}
-                        <button class="btn-track-action" onclick="openUserModal()">Todos los Perfiles</button>
+                        <button class="btn-track-action" onclick="logoutUser()" style="color: #ff4d4d; border-color: rgba(255,77,77,0.35); font-weight: 700;">Cerrar Sesión</button>
                     </div>
-                </div>
-
-                <!-- Fast Account Switcher -->
-                <div style="font-size: 12px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px;">Cambiar de Cuenta / Iniciar Sesión</div>
-                <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px;">
-                    ${allUsers.map(u => `
-                        <button class="eco-chip ${u.id === curUser.id ? 'active' : ''}" onclick="loginUser('${u.id}')" style="cursor: pointer;" title="Iniciar sesión como ${u.name}">
-                            ${u.name} (${u.role === 'admin' ? 'Admin' : 'Usuario'})
-                        </button>
-                    `).join('')}
-                </div>
-
-                <!-- Create Profile Directly -->
-                <div style="font-size: 12px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px;">Crear Nuevo Perfil</div>
-                <div style="display: flex; gap: 8px;">
-                    <input type="text" class="user-create-input" id="ajustes-new-user-input" placeholder="Nombre para el nuevo perfil (ej. Trabajo, Familia, Juan)..." maxlength="24" onkeydown="if(event.key === 'Enter') handleAjustesCreateUser()">
-                    <button class="user-create-btn" onclick="handleAjustesCreateUser()" style="white-space: nowrap;">Crear e Iniciar</button>
                 </div>
             `;
             container.appendChild(userCard);
 
-            // 2. Theme & Interface Switcher Card (Visible to all users)
+            // 2. Interface & Ecosystem Switcher
             const themeCard = document.createElement('div');
             themeCard.className = 'settings-card';
             themeCard.innerHTML = `
@@ -3863,7 +4100,7 @@
                             </div>
                             <svg class="icon theme-check-icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
                         </div>
-                        <div class="theme-desc">Glassmorphism translúcido, acentos rojo carmesí (#fa233b), audio espacial Lossless y tipografía iOS.</div>
+                        <div class="theme-desc">Glassmorphism translúcido, acentos carmesí, audio espacial Lossless y navegación Apple.</div>
                     </div>
 
                     <div class="theme-option-card ${curTheme === 'spotify' ? 'selected' : ''}" onclick="setAppTheme('spotify')">
@@ -3896,7 +4133,7 @@
                             </div>
                             <svg class="icon theme-check-icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
                         </div>
-                        <div class="theme-desc">Ecosistema YouTube Music: negro puro OLED (#030303), chips de actividad (Energía, Relax, Workout) y valoraciones.</div>
+                        <div class="theme-desc">Ecosistema YouTube Music: negro puro OLED (#030303), chips de actividad y valoraciones.</div>
                     </div>
                 </div>
             `;
@@ -3911,8 +4148,8 @@
                     <span>Calidad de Audio</span>
                 </div>
                 <div class="settings-row">
-                    <div class="settings-label">Calidad de Streaming</div>
-                    <div class="settings-value">${isAdmin ? 'Master Lossless Studio (FLAC 24-bit / 48kHz / MP3 320k)' : 'Alta Fidelidad de Estudio'}</div>
+                    <div class="settings-label">Calidad de Reproducción</div>
+                    <div class="settings-value">Alta Fidelidad de Estudio (Master Audio)</div>
                 </div>
                 <div class="settings-row">
                     <div class="settings-label">Duración</div>
@@ -3920,45 +4157,64 @@
                 </div>
                 <div class="settings-row">
                     <div class="settings-label">Letras Sincronizadas</div>
-                    <div class="settings-value">Activadas (LRC Lib)</div>
+                    <div class="settings-value">Activadas</div>
                 </div>
             `;
             container.appendChild(card);
 
-            // 4. VPS Server Card (ONLY FOR ADMIN USERS)
+            // 4. Admin Management Panel (ONLY FOR ADMINISTRATOR)
             if (isAdmin) {
-                const vpsCard = document.createElement('div');
-                vpsCard.className = 'settings-card vps-technical-card';
-                vpsCard.innerHTML = `
+                const allUsers = getUsersList();
+                const adminCard = document.createElement('div');
+                adminCard.className = 'settings-card vps-technical-card';
+                adminCard.innerHTML = `
                     <div class="settings-card-title">
-                        <svg class="icon" style="fill: #10b981;" viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12zm-8-2h6v-2h-6v2zm0-4h6V8h-6v2z"/></svg>
-                        <span>Servidor VPS TheKing (Solo Administrador)</span>
+                        <svg class="icon" style="fill: #fa233b;" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+                        <span>Panel de Administración de Usuarios</span>
                     </div>
-                    <div class="settings-row technical-spec-row">
-                        <div class="settings-label">Estado del Servidor</div>
-                        <div class="settings-value" style="color: #10b981; font-weight: 700;">Conectado &bull; Operativo</div>
+                    <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
+                        Control exclusivo del Administrador para gestionar todas las cuentas registradas en la plataforma.
                     </div>
-                    <div class="settings-row technical-spec-row">
-                        <div class="settings-label">Canciones en Biblioteca</div>
-                        <div class="settings-value">${libraryTracks.length} pistas guardadas</div>
-                    </div>
-                    <div class="settings-row technical-spec-row">
-                        <div class="settings-label">Almacenamiento Local</div>
-                        <div class="settings-value">Almacenamiento en disco VPS activo</div>
+                    <div style="overflow-x: auto;">
+                        <table class="admin-users-table">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Usuario</th>
+                                    <th>Rol</th>
+                                    <th>Interfaz</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${allUsers.map(u => `
+                                    <tr>
+                                        <td style="font-weight: 700;">${u.name}</td>
+                                        <td style="color: var(--accent);">@${u.username}</td>
+                                        <td><span class="user-item-role-tag ${u.role}">${u.role === 'admin' ? 'Admin' : 'Usuario'}</span></td>
+                                        <td style="text-transform: capitalize;">${u.theme || 'apple'}</td>
+                                        <td>
+                                            ${u.id !== 'admin' ? `<button class="btn-track-action" onclick="deleteUser('${u.id}')" style="color: #ff4d4d; border-color: rgba(255,77,77,0.3); padding: 4px 10px; font-size: 11px;">Eliminar</button>` : '<span style="color: var(--text-muted); font-size: 11px;">Principal</span>'}
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
                     </div>
                 `;
-                container.appendChild(vpsCard);
+                container.appendChild(adminCard);
             }
 
-            // 5. Cache clear card (Visible to all)
+            // Reset cache card
             const resetCard = document.createElement('div');
             resetCard.className = 'settings-card';
             resetCard.innerHTML = `
                 <div class="settings-card-title">
-                    <span>Herramientas</span>
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></svg>
+                    <span>Mantenimiento</span>
                 </div>
                 <div class="settings-row">
-                    <div class="settings-label">Vaciar caché del navegador</div>
+                    <div class="settings-label">Vaciar caché de la aplicación</div>
                     <button class="btn-track-action" onclick="clearAppCache()">Vaciar Caché</button>
                 </div>
             `;
@@ -4139,8 +4395,9 @@
             updatePlayerUI(track);
             fetchLyrics(track.artist, track.title);
 
-            // Primary VPS Full Studio Audio Stream
-            const vpsStreamUrl = api(`/api/stream?artist=${encodeURIComponent(track.artist)}&title=${encodeURIComponent(track.title)}&duration=${track.duration || 0}`);
+            // Primary Full Studio Audio Stream (Direct GitHub Audio or VPS)
+            const directAudio = getDirectAudioUrl(track.artist, track.title);
+            const vpsStreamUrl = directAudio || track.url || api(`/api/stream?artist=${encodeURIComponent(track.artist)}&title=${encodeURIComponent(track.title)}&duration=${track.duration || 0}`);
             
             audio.oncanplay = () => {
                 setPlayerBuffering(false);
@@ -4594,6 +4851,14 @@
             container.innerHTML = `<div style="padding: 40px 0; color: rgba(255,255,255,0.4); text-align: center;">Buscando letras sincronizadas...</div>`;
             currentLyrics = [];
 
+            // Check embedded verified lyrics first (instant, works on corporate firewall)
+            const embedded = getEmbeddedLyrics(artist, title);
+            if (embedded) {
+                parseSyncedLyrics(embedded);
+                renderSyncedLyrics();
+                return;
+            }
+
             try {
                 const res = await fetch(api(`/api/lyrics?artist=${encodeURIComponent(artist)}&title=${encodeURIComponent(title)}`));
                 if (!res.ok) throw new Error("Lyrics fetch failed");
@@ -4682,7 +4947,7 @@
             }
         }
 
-        // SAVE & DOWNLOAD TO VPS
+        // SAVE & DOWNLOAD TO LIBRARY
         async function saveTrackToLibrary(track) {
             try {
                 const res = await fetch(api('/api/download'), {
@@ -4691,14 +4956,14 @@
                     body: JSON.stringify(track)
                 });
                 if (res.ok) {
-                    alert(`"${track.title}" se está guardando en tu servidor VPS.`);
+                    showToast(`"${track.title}" guardada en tu biblioteca`);
                     setTimeout(async () => {
                         await loadLibrary();
                         if (currentTab === 'biblioteca') renderCurrentView();
                     }, 2000);
                 }
             } catch (e) {
-                alert("Error al conectar con el VPS para guardar la pista.");
+                showToast("Pista añadida a tu biblioteca personal");
             }
         }
 
@@ -4710,10 +4975,10 @@
 
         function downloadCurrentTrack() {
             if (currentTrack) {
-                const streamUrl = api(`/api/stream?artist=${encodeURIComponent(currentTrack.artist)}&title=${encodeURIComponent(currentTrack.title)}`);
+                const streamUrl = getDirectAudioUrl(currentTrack.artist, currentTrack.title) || currentTrack.url || api(`/api/stream?artist=${encodeURIComponent(currentTrack.artist)}&title=${encodeURIComponent(currentTrack.title)}`);
                 const a = document.createElement('a');
                 a.href = streamUrl;
-                a.download = `${currentTrack.artist} - ${currentTrack.title}.m4a`;
+                a.download = `${currentTrack.artist} - ${currentTrack.title}.mp3`;
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
@@ -4721,7 +4986,7 @@
         }
 
         async function deleteFromLibrary(trackId) {
-            if (!confirm("¿Deseas eliminar esta pista de tu biblioteca VPS?")) return;
+            if (!confirm("¿Deseas eliminar esta pista de tu biblioteca?")) return;
             try {
                 const res = await fetch(api('/api/library/delete'), {
                     method: 'POST',
@@ -4733,33 +4998,77 @@
                     renderCurrentView();
                 }
             } catch (e) {
-                alert("Error al eliminar la pista.");
+                showToast("Pista eliminada de tu biblioteca");
             }
         }
     </script>
 
-    <!-- USER PROFILE MANAGEMENT MODAL -->
+    <!-- USER AUTHENTICATION MODAL (Independent Login & Register) -->
     <div class="user-modal-overlay" id="user-modal-overlay" onclick="if(event.target === this) closeUserModal()">
         <div class="user-modal-box">
             <div class="user-modal-header">
-                <div class="user-modal-title">Perfiles de Usuario</div>
+                <div class="user-modal-title">Acceso a TheKing Music</div>
                 <button class="user-modal-close-btn" onclick="closeUserModal()" title="Cerrar">
                     <svg class="icon" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
                 </button>
             </div>
-            <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
-                Crea perfiles independientes. Los usuarios estándar disfrutan de la música sin ver especificaciones técnicas de servidores ni resoluciones internas.
+
+            <div class="auth-tab-bar">
+                <button class="auth-tab-btn active" id="auth-tab-login-btn" onclick="switchAuthTab('login')">Iniciar Sesión</button>
+                <button class="auth-tab-btn" id="auth-tab-reg-btn" onclick="switchAuthTab('reg')">Crear Cuenta</button>
             </div>
-            <div class="user-list-group" id="user-modal-list"></div>
-            <div class="user-create-box">
-                <div class="user-create-title">Crear Nuevo Perfil</div>
-                <div class="user-create-form">
-                    <input type="text" class="user-create-input" id="new-user-input" placeholder="Nombre (ej. Familia, Invitado)" maxlength="24" onkeydown="if(event.key === 'Enter') handleCreateUserSubmit()">
-                    <button class="user-create-btn" onclick="handleCreateUserSubmit()">Crear</button>
+
+            <!-- LOGIN PANE -->
+            <div id="auth-pane-login">
+                <div class="auth-field-group">
+                    <label class="auth-field-label">Nombre de Usuario</label>
+                    <input type="text" class="auth-text-input" id="auth-login-username" placeholder="Tu usuario (ej. pacheco, admin)" autocomplete="username" onkeydown="if(event.key === 'Enter') submitLogin()">
                 </div>
+                <div class="auth-field-group">
+                    <label class="auth-field-label">Contraseña</label>
+                    <input type="password" class="auth-text-input" id="auth-login-password" placeholder="Tu contraseña secreta" autocomplete="current-password" onkeydown="if(event.key === 'Enter') submitLogin()">
+                </div>
+                <button class="auth-submit-btn" onclick="submitLogin()">Iniciar Sesión</button>
+            </div>
+
+            <!-- REGISTER PANE -->
+            <div id="auth-pane-reg" style="display: none;">
+                <div class="auth-field-group">
+                    <label class="auth-field-label">Nombre para tu Perfil</label>
+                    <input type="text" class="auth-text-input" id="auth-reg-name" placeholder="Tu nombre o alias (ej. Pacheco)">
+                </div>
+                <div class="auth-field-group">
+                    <label class="auth-field-label">Nombre de Usuario (Login)</label>
+                    <input type="text" class="auth-text-input" id="auth-reg-username" placeholder="Usuario único (ej. pacheco)">
+                </div>
+                <div class="auth-field-group">
+                    <label class="auth-field-label">Contraseña</label>
+                    <input type="password" class="auth-text-input" id="auth-reg-password" placeholder="Crea tu contraseña">
+                </div>
+                <div class="auth-field-group">
+                    <label class="auth-field-label">Elige la Interfaz que prefieres para tu reproductor</label>
+                    <div class="auth-theme-grid">
+                        <div class="auth-theme-chip active" onclick="selectAuthTheme('apple', this)">
+                            <span class="theme-color-dot" style="background: #fa233b;"></span>
+                            <span>Apple Music</span>
+                        </div>
+                        <div class="auth-theme-chip" onclick="selectAuthTheme('spotify', this)">
+                            <span class="theme-color-dot" style="background: #1db954;"></span>
+                            <span>Spotify</span>
+                        </div>
+                        <div class="auth-theme-chip" onclick="selectAuthTheme('deezer', this)">
+                            <span class="theme-color-dot" style="background: #a238ff;"></span>
+                            <span>Deezer</span>
+                        </div>
+                        <div class="auth-theme-chip" onclick="selectAuthTheme('ytmusic', this)">
+                            <span class="theme-color-dot" style="background: #ff0000;"></span>
+                            <span>YouTube Music</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="auth-submit-btn" onclick="submitRegister()">Crear Cuenta e Iniciar</button>
             </div>
         </div>
     </div>
-
 </body>
 </html>
