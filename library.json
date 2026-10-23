@@ -1,5 +1,5 @@
 {
- "updated": 1792737135,
+ "updated": 1792737138,
  "tracks": [
   {
    "id": "st-1792733778",
@@ -375,6 +375,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792737135
+  },
+  {
+   "id": "st-1792737125",
+   "title": "c",
+   "artist": "MRD",
+   "album": "",
+   "genre": "Otros",
+   "duration": 175,
+   "dur_str": "2:55 min",
+   "art": "",
+   "url": "/api/stream?artist=MRD&title=c",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/MRD/MRD - c.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792737138
   }
  ]
 }
