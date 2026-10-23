@@ -1,5 +1,5 @@
 {
- "updated": 1792739301,
+ "updated": 1792739309,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -615,6 +615,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792739301
+  },
+  {
+   "id": "st-1792739289",
+   "title": "Take Me Higher",
+   "artist": "Shaprostyle",
+   "album": "",
+   "genre": "Otros",
+   "duration": 185,
+   "dur_str": "3:04 min",
+   "art": "",
+   "url": "/api/stream?artist=Shaprostyle&title=Take%20Me%20Higher",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Shaprostyle/Shaprostyle - Take Me Higher.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792739309
   }
  ]
 }
