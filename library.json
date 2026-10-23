@@ -1,5 +1,5 @@
 {
- "updated": 1792722825,
+ "updated": 1792722869,
  "tracks": [
   {
    "id": "itunes-423021874",
@@ -1181,6 +1181,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792722825
+  },
+  {
+   "id": "sc-1792722860",
+   "title": "Fix You",
+   "artist": "Coldplay",
+   "album": "",
+   "genre": "Otros",
+   "duration": 347,
+   "dur_str": "5:46 min",
+   "art": "",
+   "url": "/api/stream?artist=Coldplay&title=Fix%20You",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Coldplay/Coldplay - Fix You.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792722869
   }
  ]
 }
