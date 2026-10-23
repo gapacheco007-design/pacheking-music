@@ -1,5 +1,5 @@
 {
- "updated": 1792737127,
+ "updated": 1792737130,
  "tracks": [
   {
    "id": "st-1792733778",
@@ -345,6 +345,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792737127
+  },
+  {
+   "id": "st-1792737123",
+   "title": "Burbujas de Cristal",
+   "artist": "Cartel De Santa",
+   "album": "",
+   "genre": "Otros",
+   "duration": 163,
+   "dur_str": "2:43 min",
+   "art": "",
+   "url": "/api/stream?artist=Cartel%20De%20Santa&title=Burbujas%20de%20Cristal",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Cartel De Santa/Cartel De Santa - Burbujas de Cristal.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792737130
   }
  ]
 }
