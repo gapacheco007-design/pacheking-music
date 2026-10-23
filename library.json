@@ -1,5 +1,5 @@
 {
- "updated": 1792764469,
+ "updated": 1792764470,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -1230,6 +1230,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792764468
+  },
+  {
+   "id": "st-1792764454",
+   "title": "decadent",
+   "artist": "Dead Cartel",
+   "album": "",
+   "genre": "Otros",
+   "duration": 220,
+   "dur_str": "3:40 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/e224d74551665803ea69241e3caf4328/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Dead%20Cartel&title=decadent",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Dead Cartel/Dead Cartel - decadent.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792764469
   }
  ]
 }
