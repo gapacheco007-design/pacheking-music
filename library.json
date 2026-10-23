@@ -1,5 +1,5 @@
 {
- "updated": 1792739344,
+ "updated": 1792739346,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -810,6 +810,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792739344
+  },
+  {
+   "id": "st-1792739329",
+   "title": "Perfect",
+   "artist": "Ed Sheeran",
+   "album": "",
+   "genre": "Otros",
+   "duration": 262,
+   "dur_str": "4:21 min",
+   "art": "",
+   "url": "/api/stream?artist=Ed%20Sheeran&title=Perfect",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Ed Sheeran/Ed Sheeran - Perfect.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792739345
   }
  ]
 }
