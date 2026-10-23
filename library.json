@@ -1,5 +1,5 @@
 {
- "updated": 1792739176,
+ "updated": 1792739178,
  "tracks": [
   {
    "id": "st-1792733778",
@@ -630,6 +630,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792739176
+  },
+  {
+   "id": "st-1792739166",
+   "title": "Pensando en Ti",
+   "artist": "Canserbero",
+   "album": "",
+   "genre": "Otros",
+   "duration": 244,
+   "dur_str": "4:04 min",
+   "art": "",
+   "url": "/api/stream?artist=Canserbero&title=Pensando%20en%20Ti",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Canserbero/Canserbero - Pensando en Ti.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792739177
   }
  ]
 }
