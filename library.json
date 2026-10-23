@@ -1,5 +1,5 @@
 {
- "updated": 1792762937,
+ "updated": 1792762959,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -1080,6 +1080,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792762937
+  },
+  {
+   "id": "st-1792762949",
+   "title": "Crazy In Love (Remix)",
+   "artist": "Rr",
+   "album": "",
+   "genre": "Otros",
+   "duration": 293,
+   "dur_str": "4:52 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/ca0bc3a8c14155ae58963e769292ca17/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Rr&title=Crazy%20In%20Love%20%28Remix%29",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Rr/Rr - Crazy In Love (Remix).mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792762959
   }
  ]
 }
