@@ -1,5 +1,5 @@
 {
- "updated": 1792786495,
+ "updated": 1792786496,
  "tracks": [
   {
    "id": "st-1792735492",
@@ -1879,6 +1879,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792786494
+  },
+  {
+   "id": "st-1792786483",
+   "title": "Guns And Roses",
+   "artist": "Tory Lanez",
+   "album": "",
+   "genre": "Otros",
+   "duration": 227,
+   "dur_str": "3:47 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/87fc9529b168e4085459c5ccc0eb5ade/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Tory%20Lanez&title=Guns%20And%20Roses",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Tory Lanez/Tory Lanez - Guns And Roses.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792786495
   }
  ]
 }
