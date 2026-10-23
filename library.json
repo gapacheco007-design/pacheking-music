@@ -1,5 +1,5 @@
 {
- "updated": 1792783188,
+ "updated": 1792783200,
  "tracks": [
   {
    "id": "af-arjona-grupo-firme",
@@ -1761,6 +1761,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792783188
+  },
+  {
+   "id": "st-1792783193",
+   "title": "Waiting For A Girl",
+   "artist": "NeiRodey",
+   "album": "",
+   "genre": "Otros",
+   "duration": 241,
+   "dur_str": "4:01 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/cdfb9a78bd0731dbb67fba5a1e8c6dec/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=NeiRodey&title=Waiting%20For%20A%20Girl",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/NeiRodey/NeiRodey - Waiting For A Girl.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792783200
   }
  ]
 }
