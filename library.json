@@ -1,5 +1,5 @@
 {
- "updated": 1792775271,
+ "updated": 1792775443,
  "tracks": [
   {
    "id": "af-arjona-grupo-firme",
@@ -1446,6 +1446,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792775271
+  },
+  {
+   "id": "st-1792775433",
+   "title": "De la Vida Como Película, Tragedia, Comedia y Ficción",
+   "artist": "Canserbero",
+   "album": "",
+   "genre": "Otros",
+   "duration": 481,
+   "dur_str": "8:01 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/109f9fe5b573033e11aabd72700b3d1a/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Canserbero&title=De%20la%20Vida%20Como%20Pel%C3%ADcula%2C%20Tragedia%2C%20Comedia%20y%20Ficci%C3%B3n",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Canserbero/Canserbero - De la Vida Como Película, Tragedia, Comedia y Ficción.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792775443
   }
  ]
 }
