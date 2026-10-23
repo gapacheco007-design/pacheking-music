@@ -1,5 +1,5 @@
 {
- "updated": 1792735496,
+ "updated": 1792735500,
  "tracks": [
   {
    "id": "st-1792733778",
@@ -165,6 +165,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792735496
+  },
+  {
+   "id": "st-1792735492",
+   "title": "Rayando el Sol",
+   "artist": "Mana",
+   "album": "",
+   "genre": "Otros",
+   "duration": 255,
+   "dur_str": "4:14 min",
+   "art": "",
+   "url": "/api/stream?artist=Mana&title=Rayando%20el%20Sol",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Mana/Mana - Rayando el Sol.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792735500
   }
  ]
 }
