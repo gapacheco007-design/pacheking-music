@@ -1,5 +1,5 @@
 {
- "updated": 1792778175,
+ "updated": 1792778176,
  "tracks": [
   {
    "id": "af-arjona-grupo-firme",
@@ -1518,6 +1518,21 @@
    "art": "https://cdn-images.dzcdn.net/images/cover/431967fe63cfd6f28e750522d5f822b4/1000x1000-000000-80-0-0.jpg",
    "url": "/api/stream?artist=Canserbero&title=Ma%C3%B1ana%20Ser%C3%A1%20Otro%20D%C3%ADa",
    "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Canserbero/Canserbero - Mañana Será Otro Día.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792778175
+  },
+  {
+   "id": "st-1792778164",
+   "title": "Y la Felicidad Qué",
+   "artist": "Canserbero",
+   "album": "",
+   "genre": "Otros",
+   "duration": 296,
+   "dur_str": "4:56 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/109f9fe5b573033e11aabd72700b3d1a/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Canserbero&title=Y%20la%20Felicidad%20Qu%C3%A9",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Canserbero/Canserbero - Y la Felicidad Qué.mp3",
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792778175
