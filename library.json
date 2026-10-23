@@ -1,5 +1,5 @@
 {
- "updated": 1792742042,
+ "updated": 1792742043,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -1125,6 +1125,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792742040
+  },
+  {
+   "id": "st-1792742023",
+   "title": "Don't Stop The Music",
+   "artist": "Rihanna",
+   "album": "",
+   "genre": "Otros",
+   "duration": 270,
+   "dur_str": "4:30 min",
+   "art": "",
+   "url": "/api/stream?artist=Rihanna&title=Don%27t%20Stop%20The%20Music",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Rihanna/Rihanna - Don't Stop The Music.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792742041
   }
  ]
 }
