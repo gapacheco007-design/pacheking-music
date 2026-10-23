@@ -1,5 +1,5 @@
 {
- "updated": 1792786894,
+ "updated": 1792786944,
  "tracks": [
   {
    "id": "st-1792735492",
@@ -1999,6 +1999,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792786893
+  },
+  {
+   "id": "st-1792786939",
+   "title": "Miedo a las Alturas",
+   "artist": "PXNDX",
+   "album": "",
+   "genre": "Otros",
+   "duration": 194,
+   "dur_str": "3:14 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/52868825b14ca76b229b11b1a9627929/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=PXNDX&title=Miedo%20a%20las%20Alturas",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/PXNDX/PXNDX - Miedo a las Alturas.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792786944
   }
  ]
 }
