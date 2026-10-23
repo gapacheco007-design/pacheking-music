@@ -1,5 +1,5 @@
 {
- "updated": 1792741942,
+ "updated": 1792741946,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -915,6 +915,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792741941
+  },
+  {
+   "id": "st-1792741931",
+   "title": "Es Épico",
+   "artist": "Canserbero",
+   "album": "",
+   "genre": "Otros",
+   "duration": 362,
+   "dur_str": "6:02 min",
+   "art": "",
+   "url": "/api/stream?artist=Canserbero&title=Es%20%C3%89pico",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Canserbero/Canserbero - Es Épico.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792741946
   }
  ]
 }
