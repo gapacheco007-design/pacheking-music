@@ -1,5 +1,5 @@
 {
- "updated": 1792722269,
+ "updated": 1792722825,
  "tracks": [
   {
    "id": "itunes-423021874",
@@ -1166,6 +1166,21 @@
    "format": "FLAC / MP3 320k Master",
    "source": "vps_library",
    "added": 1792722269
+  },
+  {
+   "id": "sc-1792722820",
+   "title": "A Sky Full of Stars",
+   "artist": "Coldplay",
+   "album": "",
+   "genre": "Otros",
+   "duration": 237,
+   "dur_str": "3:57 min",
+   "art": "",
+   "url": "/api/stream?artist=Coldplay&title=A%20Sky%20Full%20of%20Stars",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Coldplay/Coldplay - A Sky Full of Stars.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792722825
   }
  ]
 }
