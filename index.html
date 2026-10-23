@@ -12,7 +12,7 @@
     <title>TheKing Music</title>
     <link rel="icon" href="assets/brand/theking-badge.png" type="image/png">
     <script>
-        const APP_BUILD_VERSION = "20261023_v28_full_song_streaming_and_auth_profiles";
+        const APP_BUILD_VERSION = "20261023_v29_clean_cors_and_instant_playback";
         if (localStorage.getItem('pkm_build') !== APP_BUILD_VERSION) {
             localStorage.setItem('pkm_build', APP_BUILD_VERSION);
             if ('caches' in window) {
@@ -2944,7 +2944,6 @@
 
         const audio = new Audio();
         audio.preload = "auto";
-        audio.crossOrigin = "anonymous";
 
         // SVG ICONS (NO EMOJIS)
         const SVG_PLAY = '<svg class="icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
@@ -3159,12 +3158,27 @@
 
         // BOOTSTRAP
         window.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('pkm_theme') || 'apple';
-            const curUser = getCurrentUser();
-            applyUserProfile(curUser);
-            applyEcosystemTheme(savedTheme);
-            setupAudioListeners();
-            renderCurrentView(); // Render instantly with 0ms delay!
+            try {
+                const savedTheme = localStorage.getItem('pkm_theme') || 'apple';
+                const curUser = getCurrentUser();
+                applyUserProfile(curUser);
+                applyEcosystemTheme(savedTheme);
+            } catch(e) {
+                console.warn("Theme init notice:", e);
+            }
+
+            try {
+                renderCurrentView(); // Render instantly with 0ms delay!
+            } catch(e) {
+                console.error("renderCurrentView initial error:", e);
+            }
+
+            try {
+                setupAudioListeners();
+            } catch(e) {
+                console.warn("setupAudioListeners notice:", e);
+            }
+
             loadLibrary();
             loadExploreFeed();
         });
@@ -3218,8 +3232,11 @@
             try {
                 const res = await fetch(api('/api/explore'));
                 if (res.ok) {
-                    exploreData = await res.json();
-                    if (currentTab === 'inicio') renderCurrentView();
+                    const data = await res.json();
+                    if (data && (Array.isArray(data.featured) && data.featured.length > 0 || Array.isArray(data.quick_picks) && data.quick_picks.length > 0)) {
+                        exploreData = data;
+                        if (currentTab === 'inicio') renderCurrentView();
+                    }
                 }
             } catch (e) {
                 console.warn("Using embedded explore catalog:", e);
@@ -3343,175 +3360,181 @@
 
         // 1. INICIO (EXPLORE)
         function renderInicio(container) {
-            const curTheme = localStorage.getItem('pkm_theme') || 'apple';
-            renderEcosystemTopBar(container, curTheme);
+            try {
+                const curTheme = localStorage.getItem('pkm_theme') || 'apple';
+                renderEcosystemTopBar(container, curTheme);
 
-            const hour = new Date().getHours();
-            let greeting = "Buenos días";
-            if (hour >= 12 && hour < 19) greeting = "Buenas tardes";
-            else if (hour >= 19 || hour < 5) greeting = "Buenas noches";
+                const hour = new Date().getHours();
+                let greeting = "Buenos días";
+                if (hour >= 12 && hour < 19) greeting = "Buenas tardes";
+                else if (hour >= 19 || hour < 5) greeting = "Buenas noches";
 
-            const header = document.createElement('div');
-            header.className = 'view-header';
-            if (curTheme === 'spotify') {
-                header.innerHTML = `
-                    <h1 class="greeting-title">${greeting}</h1>
-                    <div class="greeting-subtitle">Spotify TheKing Master Audio &bull; Calidad Máxima 320kbps / FLAC</div>
-                `;
-            } else if (curTheme === 'deezer') {
-                header.innerHTML = `
-                    <h1 class="greeting-title">${greeting}</h1>
-                    <div class="greeting-subtitle">Deezer HiFi Experience &bull; Sonido de Alta Fidelidad</div>
-                `;
-            } else if (curTheme === 'ytmusic') {
-                header.innerHTML = `
-                    <h1 class="greeting-title">${greeting}</h1>
-                    <div class="greeting-subtitle">YouTube Music TheKing &bull; Todo el catálogo oficial sin límites</div>
-                `;
-            } else {
-                header.innerHTML = `
-                    <div class="apple-pre-title">AUDIO ESPACIAL Y SIN PÉRDIDA</div>
-                    <h1 class="greeting-title">Escuchar</h1>
-                    <div class="greeting-subtitle">TheKing Music &bull; Apple Music Master Lossless 24-bit / 48kHz</div>
-                `;
-            }
-            container.appendChild(header);
+                const header = document.createElement('div');
+                header.className = 'view-header';
+                if (curTheme === 'spotify') {
+                    header.innerHTML = `
+                        <h1 class="greeting-title">${greeting}</h1>
+                        <div class="greeting-subtitle">Spotify TheKing Master Audio &bull; Calidad Máxima 320kbps / FLAC</div>
+                    `;
+                } else if (curTheme === 'deezer') {
+                    header.innerHTML = `
+                        <h1 class="greeting-title">${greeting}</h1>
+                        <div class="greeting-subtitle">Deezer HiFi Experience &bull; Sonido de Alta Fidelidad</div>
+                    `;
+                } else if (curTheme === 'ytmusic') {
+                    header.innerHTML = `
+                        <h1 class="greeting-title">${greeting}</h1>
+                        <div class="greeting-subtitle">YouTube Music TheKing &bull; Todo el catálogo oficial sin límites</div>
+                    `;
+                } else {
+                    header.innerHTML = `
+                        <div class="apple-pre-title">AUDIO ESPACIAL Y SIN PÉRDIDA</div>
+                        <h1 class="greeting-title">Escuchar</h1>
+                        <div class="greeting-subtitle">TheKing Music &bull; Apple Music Master Lossless 24-bit / 48kHz</div>
+                    `;
+                }
+                container.appendChild(header);
 
-            // If Spotify ecosystem: Render signature 6-card quick grid
-            if (curTheme === 'spotify') {
-                const quickPool = (libraryTracks && libraryTracks.length >= 6) ? libraryTracks.slice(0, 6) : (exploreData.quick_picks || []).slice(0, 6);
-                if (quickPool.length > 0) {
-                    const grid = document.createElement('div');
-                    grid.className = 'spotify-quick-grid';
-                    quickPool.forEach(item => {
+                const data = (exploreData && exploreData.featured && exploreData.featured.length > 0) ? exploreData : DEFAULT_EXPLORE_DATA;
+
+                // If Spotify ecosystem: Render signature 6-card quick grid
+                if (curTheme === 'spotify') {
+                    const quickPool = (libraryTracks && libraryTracks.length >= 6) ? libraryTracks.slice(0, 6) : (data.quick_picks || []).slice(0, 6);
+                    if (quickPool.length > 0) {
+                        const grid = document.createElement('div');
+                        grid.className = 'spotify-quick-grid';
+                        quickPool.forEach(item => {
+                            const card = document.createElement('div');
+                            card.className = 'spotify-quick-card';
+                            card.onclick = () => playSingleTrack(item);
+                            card.innerHTML = `
+                                <img src="${item.art || DEFAULT_ART}" class="spotify-quick-thumb" alt="${item.title}" referrerpolicy="no-referrer" loading="lazy" onerror="this.onerror=null; this.src='assets/brand/theking-badge.png';">
+                                <div class="spotify-quick-title">${item.title}</div>
+                                <button class="spotify-quick-play-btn" onclick="event.stopPropagation(); playSingleTrack(${JSON.stringify(item).replace(/"/g, '&quot;')})" title="Reproducir">
+                                    <svg class="icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                </button>
+                            `;
+                            grid.appendChild(card);
+                        });
+                        container.appendChild(grid);
+                    }
+                }
+
+                // Featured Carousel
+                if (data.featured && data.featured.length > 0) {
+                    const featuredHead = document.createElement('div');
+                    featuredHead.className = 'shelf-header';
+                    const shelfTitle = curTheme === 'spotify' ? 'Hecho para ti' :
+                                       curTheme === 'deezer' ? 'Novedades para descubrir' :
+                                       curTheme === 'ytmusic' ? 'Vuelve a escuchar' : 'Lanzamientos Destacados';
+                    featuredHead.innerHTML = `<h2 class="shelf-title">${shelfTitle}</h2>`;
+                    container.appendChild(featuredHead);
+
+                    const carousel = document.createElement('div');
+                    carousel.className = 'featured-carousel';
+                    data.featured.forEach(item => {
                         const card = document.createElement('div');
-                        card.className = 'spotify-quick-card';
+                        card.className = 'featured-card';
                         card.onclick = () => playSingleTrack(item);
                         card.innerHTML = `
-                            <img src="${item.art || DEFAULT_ART}" class="spotify-quick-thumb" alt="${item.title}" referrerpolicy="no-referrer" loading="lazy" onerror="this.onerror=null; this.src='assets/brand/theking-badge.png';">
-                            <div class="spotify-quick-title">${item.title}</div>
-                            <button class="spotify-quick-play-btn" onclick="event.stopPropagation(); playSingleTrack(${JSON.stringify(item).replace(/"/g, '&quot;')})" title="Reproducir">
+                            <img src="${item.art || DEFAULT_ART}" class="featured-card-bg" alt="${item.title}" referrerpolicy="no-referrer" loading="lazy" onerror="this.onerror=null; this.src='assets/brand/theking-badge.png';">
+                            <div class="featured-card-content">
+                                <span class="featured-pill">${item.tag || item.genre || 'Destacado'}</span>
+                                <div class="featured-track-title">${item.title}</div>
+                                <div class="featured-track-artist">${item.artist} &bull; ${item.album}</div>
+                            </div>
+                            <button class="featured-play-btn" onclick="event.stopPropagation(); playSingleTrack(${JSON.stringify(item).replace(/"/g, '&quot;')})" title="Reproducir">
                                 <svg class="icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                             </button>
                         `;
-                        grid.appendChild(card);
+                        carousel.appendChild(card);
                     });
-                    container.appendChild(grid);
+                    container.appendChild(carousel);
                 }
-            }
 
-            // Featured Carousel
-            if (exploreData.featured && exploreData.featured.length > 0) {
-                const featuredHead = document.createElement('div');
-                featuredHead.className = 'shelf-header';
-                const shelfTitle = curTheme === 'spotify' ? 'Hecho para ti' :
-                                   curTheme === 'deezer' ? 'Novedades para descubrir' :
-                                   curTheme === 'ytmusic' ? 'Vuelve a escuchar' : 'Lanzamientos Destacados';
-                featuredHead.innerHTML = `<h2 class="shelf-title">${shelfTitle}</h2>`;
-                container.appendChild(featuredHead);
-
-                const carousel = document.createElement('div');
-                carousel.className = 'featured-carousel';
-                exploreData.featured.forEach(item => {
-                    const card = document.createElement('div');
-                    card.className = 'featured-card';
-                    card.onclick = () => playSingleTrack(item);
-                    card.innerHTML = `
-                        <img src="${item.art || DEFAULT_ART}" class="featured-card-bg" alt="${item.title}" referrerpolicy="no-referrer" loading="lazy" onerror="this.onerror=null; this.src='assets/brand/theking-badge.png';">
-                        <div class="featured-card-content">
-                            <span class="featured-pill">${item.tag || item.genre || 'Destacado'}</span>
-                            <div class="featured-track-title">${item.title}</div>
-                            <div class="featured-track-artist">${item.artist} &bull; ${item.album}</div>
-                        </div>
-                        <button class="featured-play-btn" onclick="event.stopPropagation(); playSingleTrack(${JSON.stringify(item).replace(/"/g, '&quot;')})" title="Reproducir">
-                            <svg class="icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                        </button>
+                // Quick Picks Shelf
+                if (data.quick_picks && data.quick_picks.length > 0) {
+                    const qpHead = document.createElement('div');
+                    qpHead.className = 'shelf-header';
+                    qpHead.innerHTML = `
+                        <h2 class="shelf-title">Selección Rápida</h2>
                     `;
-                    carousel.appendChild(card);
-                });
-                container.appendChild(carousel);
-            }
+                    container.appendChild(qpHead);
 
-            // Quick Picks Shelf
-            if (exploreData.quick_picks && exploreData.quick_picks.length > 0) {
-                const qpHead = document.createElement('div');
-                qpHead.className = 'shelf-header';
-                qpHead.innerHTML = `
-                    <h2 class="shelf-title">Selección Rápida</h2>
-                `;
-                container.appendChild(qpHead);
+                    const qpGrid = document.createElement('div');
+                    qpGrid.className = 'quick-picks-grid';
+                    data.quick_picks.forEach(item => {
+                        const tile = document.createElement('div');
+                        tile.className = 'quick-pick-tile';
+                        tile.onclick = () => playSingleTrack(item);
+                        tile.innerHTML = `
+                            <img src="${item.art || DEFAULT_ART}" class="quick-pick-art" alt="${item.title}" referrerpolicy="no-referrer" loading="lazy" onerror="this.onerror=null; this.src='assets/brand/theking-badge.png';">
+                            <div class="quick-pick-meta">
+                                <div class="quick-pick-title">${item.title}</div>
+                                <div class="quick-pick-sub">${item.artist} &bull; ${item.album}</div>
+                                <span class="quick-pick-badge">LOSSLESS</span>
+                            </div>
+                        `;
+                        qpGrid.appendChild(tile);
+                    });
+                    container.appendChild(qpGrid);
+                }
 
-                const qpGrid = document.createElement('div');
-                qpGrid.className = 'quick-picks-grid';
-                exploreData.quick_picks.forEach(item => {
-                    const tile = document.createElement('div');
-                    tile.className = 'quick-pick-tile';
-                    tile.onclick = () => playSingleTrack(item);
-                    tile.innerHTML = `
-                        <img src="${item.art || DEFAULT_ART}" class="quick-pick-art" alt="${item.title}" referrerpolicy="no-referrer" loading="lazy" onerror="this.onerror=null; this.src='assets/brand/theking-badge.png';">
-                        <div class="quick-pick-meta">
-                            <div class="quick-pick-title">${item.title}</div>
-                            <div class="quick-pick-sub">${item.artist} &bull; ${item.album}</div>
-                            <span class="quick-pick-badge">LOSSLESS</span>
-                        </div>
+                // Genres Shelf
+                if (data.genres && data.genres.length > 0) {
+                    const genreHead = document.createElement('div');
+                    genreHead.className = 'shelf-header';
+                    genreHead.innerHTML = `
+                        <h2 class="shelf-title">Explorar por Género</h2>
                     `;
-                    qpGrid.appendChild(tile);
-                });
-                container.appendChild(qpGrid);
-            }
+                    container.appendChild(genreHead);
 
-            // Genres Shelf
-            if (exploreData.genres && exploreData.genres.length > 0) {
-                const genreHead = document.createElement('div');
-                genreHead.className = 'shelf-header';
-                genreHead.innerHTML = `
-                    <h2 class="shelf-title">Explorar por Género</h2>
-                `;
-                container.appendChild(genreHead);
+                    const gGrid = document.createElement('div');
+                    gGrid.className = 'genres-grid';
+                    data.genres.forEach(g => {
+                        const gCard = document.createElement('div');
+                        gCard.className = 'genre-card';
+                        gCard.style.background = g.gradient;
+                        gCard.onclick = () => openGenreSearch(g.name);
+                        gCard.innerHTML = `
+                            <div class="genre-card-title">${g.name}</div>
+                        `;
+                        gGrid.appendChild(gCard);
+                    });
+                    container.appendChild(gGrid);
+                }
 
-                const gGrid = document.createElement('div');
-                gGrid.className = 'genres-grid';
-                exploreData.genres.forEach(g => {
-                    const gCard = document.createElement('div');
-                    gCard.className = 'genre-card';
-                    gCard.style.background = g.gradient;
-                    gCard.onclick = () => openGenreSearch(g.name);
-                    gCard.innerHTML = `
-                        <div class="genre-card-title">${g.name}</div>
+                // Albums Shelf
+                if (data.albums && data.albums.length > 0) {
+                    const albHead = document.createElement('div');
+                    albHead.className = 'shelf-header';
+                    albHead.innerHTML = `
+                        <h2 class="shelf-title">Top Álbumes</h2>
                     `;
-                    gGrid.appendChild(gCard);
-                });
-                container.appendChild(gGrid);
-            }
+                    container.appendChild(albHead);
 
-            // Albums Shelf
-            if (exploreData.albums && exploreData.albums.length > 0) {
-                const albHead = document.createElement('div');
-                albHead.className = 'shelf-header';
-                albHead.innerHTML = `
-                    <h2 class="shelf-title">Top Álbumes</h2>
-                `;
-                container.appendChild(albHead);
-
-                const aShelf = document.createElement('div');
-                aShelf.className = 'albums-shelf';
-                exploreData.albums.forEach(alb => {
-                    const aCard = document.createElement('div');
-                    aCard.className = 'album-card';
-                    aCard.onclick = () => openGenreSearch(alb.title + " " + alb.artist);
-                    aCard.innerHTML = `
-                        <div class="album-art-wrap">
-                            <img src="${alb.art || DEFAULT_ART}" class="album-art" alt="${alb.title}" referrerpolicy="no-referrer" loading="lazy" onerror="this.onerror=null; this.src='assets/brand/theking-badge.png';">
-                            <button class="album-play-btn" onclick="event.stopPropagation(); openGenreSearch('${alb.title.replace(/'/g, "\\'")} ${alb.artist.replace(/'/g, "\\'")}')" title="Reproducir álbum">
-                                <svg class="icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                            </button>
-                        </div>
-                        <div class="album-name">${alb.title}</div>
-                        <div class="album-artist">${alb.artist} &bull; ${alb.year}</div>
-                    `;
-                    aShelf.appendChild(aCard);
-                });
-                container.appendChild(aShelf);
+                    const aShelf = document.createElement('div');
+                    aShelf.className = 'albums-shelf';
+                    data.albums.forEach(alb => {
+                        const aCard = document.createElement('div');
+                        aCard.className = 'album-card';
+                        aCard.onclick = () => openGenreSearch(alb.title + " " + alb.artist);
+                        aCard.innerHTML = `
+                            <div class="album-art-wrap">
+                                <img src="${alb.art || DEFAULT_ART}" class="album-art" alt="${alb.title}" referrerpolicy="no-referrer" loading="lazy" onerror="this.onerror=null; this.src='assets/brand/theking-badge.png';">
+                                <button class="album-play-btn" onclick="event.stopPropagation(); openGenreSearch('${alb.title.replace(/'/g, "\\'")} ${alb.artist.replace(/'/g, "\\'")}')" title="Reproducir álbum">
+                                    <svg class="icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                </button>
+                            </div>
+                            <div class="album-name">${alb.title}</div>
+                            <div class="album-artist">${alb.artist} &bull; ${alb.year}</div>
+                        `;
+                        aShelf.appendChild(aCard);
+                    });
+                    container.appendChild(aShelf);
+                }
+            } catch (err) {
+                console.error("renderInicio error handled:", err);
             }
         }
 
@@ -4140,11 +4163,18 @@
             };
 
             audio.src = vpsStreamUrl;
+            audio.load();
 
             try {
-                await audio.play();
-                setPlayerBuffering(false);
-                updatePlayPauseIcons(true);
+                const playPromise = audio.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        setPlayerBuffering(false);
+                        updatePlayPauseIcons(true);
+                    }).catch(err => {
+                        console.warn("Audio play() buffer wait notice:", err);
+                    });
+                }
             } catch (err) {
                 console.warn("Playback notice (waiting for audio buffer):", err);
             }
@@ -4397,6 +4427,16 @@
                 updateLyricsHighlight(cur);
             });
 
+            audio.addEventListener('loadedmetadata', () => {
+                const tot = audio.duration || currentTrack?.duration || 0;
+                if (tot > 0) {
+                    const dockTot = document.getElementById('dock-time-tot');
+                    if (dockTot) dockTot.textContent = formatTime(tot);
+                    const npTot = document.getElementById('np-time-tot');
+                    if (npTot) npTot.textContent = formatTime(tot);
+                }
+            });
+
             audio.addEventListener('ended', () => {
                 if (!isRepeat) {
                     playNext();
@@ -4414,10 +4454,12 @@
             audio.addEventListener('pause', () => updatePlayPauseIcons(false));
 
             if ('mediaSession' in navigator) {
-                navigator.mediaSession.setActionHandler('play', () => togglePlayPause());
-                navigator.mediaSession.setActionHandler('pause', () => togglePlayPause());
-                navigator.mediaSession.setActionHandler('previoustrack', () => playPrevious());
-                navigator.mediaSession.setActionHandler('nexttrack', () => playNext());
+                try {
+                    navigator.mediaSession.setActionHandler('play', () => togglePlayPause());
+                    navigator.mediaSession.setActionHandler('pause', () => togglePlayPause());
+                    navigator.mediaSession.setActionHandler('previoustrack', () => playPrevious());
+                    navigator.mediaSession.setActionHandler('nexttrack', () => playNext());
+                } catch(e) {}
             }
         }
 
@@ -4471,6 +4513,15 @@
             // Dynamic ambient background
             const backdrop = document.getElementById('np-ambient-backdrop');
             if (backdrop) backdrop.style.backgroundImage = `url('${art}')`;
+
+            // Immediate duration display
+            const totSec = track.duration || 0;
+            if (totSec > 0) {
+                const dockTot = document.getElementById('dock-time-tot');
+                if (dockTot) dockTot.textContent = formatTime(totSec);
+                const npTot = document.getElementById('np-time-tot');
+                if (npTot) npTot.textContent = formatTime(totSec);
+            }
         }
 
         function formatTime(secs) {
