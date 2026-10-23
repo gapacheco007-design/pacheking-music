@@ -1,5 +1,5 @@
 {
- "updated": 1792775268,
+ "updated": 1792775271,
  "tracks": [
   {
    "id": "af-arjona-grupo-firme",
@@ -1431,6 +1431,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792775268
+  },
+  {
+   "id": "st-1792775264",
+   "title": "Ser Vero",
+   "artist": "Canserbero",
+   "album": "",
+   "genre": "Otros",
+   "duration": 217,
+   "dur_str": "3:36 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/d9dc3fbbb6b4c6c0f2c25f8d33341a7d/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Canserbero&title=Ser%20Vero",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Canserbero/Canserbero - Ser Vero.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792775271
   }
  ]
 }
