@@ -1,5 +1,5 @@
 {
- "updated": 1792786439,
+ "updated": 1792786441,
  "tracks": [
   {
    "id": "st-1792735492",
@@ -1789,6 +1789,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792786439
+  },
+  {
+   "id": "st-1792786429",
+   "title": "El Primer Trago",
+   "artist": "Canserbero",
+   "album": "",
+   "genre": "Otros",
+   "duration": 383,
+   "dur_str": "6:22 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/d9dc3fbbb6b4c6c0f2c25f8d33341a7d/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Canserbero&title=El%20Primer%20Trago",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Canserbero/Canserbero - El Primer Trago.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792786440
   }
  ]
 }
