@@ -1,5 +1,5 @@
 {
- "updated": 1792783155,
+ "updated": 1792783188,
  "tracks": [
   {
    "id": "af-arjona-grupo-firme",
@@ -1746,6 +1746,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792783155
+  },
+  {
+   "id": "st-1792783179",
+   "title": "Waiting for a Girl like You",
+   "artist": "Foreigner",
+   "album": "",
+   "genre": "Otros",
+   "duration": 328,
+   "dur_str": "5:28 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/b3ab620c10b7556c122272e8c89ba701/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Foreigner&title=Waiting%20for%20a%20Girl%20like%20You",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Foreigner/Foreigner - Waiting for a Girl like You.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792783188
   }
  ]
 }
