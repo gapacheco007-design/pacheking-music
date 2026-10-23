@@ -1,5 +1,5 @@
 {
- "updated": 1792762925,
+ "updated": 1792762937,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -1065,6 +1065,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792762925
+  },
+  {
+   "id": "st-1792762932",
+   "title": "late at night",
+   "artist": "Roddy Ricch",
+   "album": "",
+   "genre": "Otros",
+   "duration": 181,
+   "dur_str": "3:01 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/c91b7a478d014ec3baeca954d4bed778/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Roddy%20Ricch&title=late%20at%20night",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Roddy Ricch/Roddy Ricch - late at night.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792762937
   }
  ]
 }
