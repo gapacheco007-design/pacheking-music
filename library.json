@@ -1,5 +1,5 @@
 {
- "updated": 1792778178,
+ "updated": 1792778458,
  "tracks": [
   {
    "id": "af-arjona-grupo-firme",
@@ -1536,6 +1536,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792778176
+  },
+  {
+   "id": "st-1792778454",
+   "title": "Monotonia",
+   "artist": "Shakira",
+   "album": "",
+   "genre": "Otros",
+   "duration": 175,
+   "dur_str": "2:54 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/05ba08c8bc9de7e2e1b545916c7d1078/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Shakira&title=Monotonia",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Shakira/Shakira - Monotonia.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792778458
   }
  ]
 }
