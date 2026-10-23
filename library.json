@@ -1,5 +1,5 @@
 {
- "updated": 1792734420,
+ "updated": 1792734685,
  "tracks": [
   {
    "id": "st-1792733778",
@@ -45,6 +45,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792734420
+  },
+  {
+   "id": "st-1792734679",
+   "title": "Cosas de la Vida",
+   "artist": "Cartel de Santa",
+   "album": "",
+   "genre": "Otros",
+   "duration": 232,
+   "dur_str": "3:52 min",
+   "art": "",
+   "url": "/api/stream?artist=Cartel%20de%20Santa&title=Cosas%20de%20la%20Vida",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Cartel de Santa/Cartel de Santa - Cosas de la Vida.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792734685
   }
  ]
 }
