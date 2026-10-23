@@ -1,5 +1,5 @@
 {
- "updated": 1792775263,
+ "updated": 1792775266,
  "tracks": [
   {
    "id": "af-arjona-grupo-firme",
@@ -1401,6 +1401,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792775263
+  },
+  {
+   "id": "st-1792775258",
+   "title": "Mundo de Piedra",
+   "artist": "Canserbero",
+   "album": "",
+   "genre": "Otros",
+   "duration": 285,
+   "dur_str": "4:45 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/344c1074e402fd7f1f4189857e721a89/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Canserbero&title=Mundo%20de%20Piedra",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Canserbero/Canserbero - Mundo de Piedra.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792775266
   }
  ]
 }
