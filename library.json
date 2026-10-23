@@ -1,5 +1,5 @@
 {
- "updated": 1792739166,
+ "updated": 1792739168,
  "tracks": [
   {
    "id": "st-1792733778",
@@ -585,6 +585,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792739166
+  },
+  {
+   "id": "st-1792739156",
+   "title": "Maquiavélico",
+   "artist": "Canserbero",
+   "album": "",
+   "genre": "Otros",
+   "duration": 285,
+   "dur_str": "4:44 min",
+   "art": "",
+   "url": "/api/stream?artist=Canserbero&title=Maquiav%C3%A9lico",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Canserbero/Canserbero - Maquiavélico.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792739168
   }
  ]
 }
