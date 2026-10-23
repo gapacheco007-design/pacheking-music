@@ -1720,6 +1720,7 @@
         const REQ_URL = `https://ntfy.sh/${TOPIC}-req`;
         const EVT_URL = `https://ntfy.sh/${TOPIC}-evt`;
         const DEFAULT_ART = 'assets/brand/theking-badge.png';
+        const VPS_API_BASE = window.location.origin.includes('thekinghub.com') ? '' : 'https://music.thekinghub.com';
 
         let catalog = [];
         let currentPlaylist = [];
@@ -2145,7 +2146,6 @@
 
         // 4. PLAYBACK ENGINE & FULL STUDIO STREAM RESOLUTION
         let hlsPlayer = null;
-        const VPS_API_BASE = window.location.origin.includes('thekinghub.com') ? '' : 'https://music.thekinghub.com';
 
         function playTrackById(id) {
             const t = catalog.find(x => x.id === id);
@@ -2310,19 +2310,20 @@
             if (currentPlaylist[currentIndex]?.id !== reqTrackId) return;
 
             if (resolvedData && resolvedData.url) {
-                track.url = resolvedData.url;
-                track.source = resolvedData.source || 'full_stream';
-                track.format = resolvedData.format || 'Full Audio Stream';
+                const streamUrl = resolvedData.url.startsWith('http') ? resolvedData.url : (VPS_API_BASE + resolvedData.url);
+                track.url = streamUrl;
+                track.source = resolvedData.source || 'vps_stream';
+                track.format = resolvedData.format || 'Full Studio Audio (VPS Master)';
                 track.is_preview = false;
 
-                loadAndPlayAudio(resolvedData.url, track);
+                loadAndPlayAudio(streamUrl, track);
                 barPill.className = 'quality-pill';
                 barPill.innerText = 'CANCIÓN COMPLETA';
                 showToast(`Reproduciendo completa: ${track.title}`);
                 return;
             }
 
-            // 4. Fallback only if no full stream could be found on the internet:
+            // Fallback only if no full stream could be found on the internet:
             if (track.previewUrl) {
                 track.is_preview = true;
                 loadAndPlayAudio(track.previewUrl, track);
