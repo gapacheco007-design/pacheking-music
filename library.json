@@ -1,1 +1,20 @@
-{"updated": 0, "tracks": []}
+{
+ "updated": 1792733784,
+ "tracks": [
+  {
+   "id": "st-1792733778",
+   "title": "Oye Mi Amor",
+   "artist": "Mana",
+   "album": "",
+   "genre": "Otros",
+   "duration": 268,
+   "dur_str": "4:27 min",
+   "art": "",
+   "url": "/api/stream?artist=Mana&title=Oye%20Mi%20Amor",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Mana/Mana - Oye Mi Amor.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792733784
+  }
+ ]
+}
