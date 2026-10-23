@@ -1,5 +1,5 @@
 {
- "updated": 1792737141,
+ "updated": 1792737143,
  "tracks": [
   {
    "id": "st-1792733778",
@@ -402,6 +402,21 @@
    "art": "",
    "url": "/api/stream?artist=Cartel%20De%20Santa&title=Si%20Te%20Vienen%20a%20Contar",
    "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Cartel De Santa/Cartel De Santa - Si Te Vienen a Contar.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792737141
+  },
+  {
+   "id": "st-1792737126",
+   "title": "Si Estuviera en Dubái",
+   "artist": "Cartel De Santa",
+   "album": "",
+   "genre": "Otros",
+   "duration": 202,
+   "dur_str": "3:22 min",
+   "art": "",
+   "url": "/api/stream?artist=Cartel%20De%20Santa&title=Si%20Estuviera%20en%20Dub%C3%A1i",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Cartel De Santa/Cartel De Santa - Si Estuviera en Dubái.mp3",
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792737141
