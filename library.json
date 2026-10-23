@@ -1,5 +1,5 @@
 {
- "updated": 1792787669,
+ "updated": 1792787672,
  "tracks": [
   {
    "id": "st-1792735492",
@@ -2209,6 +2209,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792787669
+  },
+  {
+   "id": "st-1792787667",
+   "title": "Me Vas a Extrañar",
+   "artist": "Banda MS de Sergio Lizárraga",
+   "album": "",
+   "genre": "Otros",
+   "duration": 167,
+   "dur_str": "2:47 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/d0e89ce143f1dbe4f7e034b40477f495/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Banda%20MS%20de%20Sergio%20Liz%C3%A1rraga&title=Me%20Vas%20a%20Extra%C3%B1ar",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Banda MS de Sergio Lizárraga/Banda MS de Sergio Lizárraga - Me Vas a Extrañar.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792787672
   }
  ]
 }
