@@ -1,5 +1,5 @@
 {
- "updated": 1792763218,
+ "updated": 1792763223,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -1125,6 +1125,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792763218
+  },
+  {
+   "id": "st-1792763216",
+   "title": "You Give Love A Bad Name",
+   "artist": "Bon Jovi",
+   "album": "",
+   "genre": "Otros",
+   "duration": 224,
+   "dur_str": "3:43 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/58ca1d20e8d19c1e5f8e821d07412c74/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Bon%20Jovi&title=You%20Give%20Love%20A%20Bad%20Name",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Bon Jovi/Bon Jovi - You Give Love A Bad Name.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792763223
   }
  ]
 }
