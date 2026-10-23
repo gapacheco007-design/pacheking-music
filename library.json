@@ -1,5 +1,5 @@
 {
- "updated": 1792763223,
+ "updated": 1792763233,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -1140,6 +1140,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792763223
+  },
+  {
+   "id": "st-1792763228",
+   "title": "Because We Can",
+   "artist": "Bon Jovi",
+   "album": "",
+   "genre": "Otros",
+   "duration": 243,
+   "dur_str": "4:02 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/f1560bfc210ad4d6733ad0daf6e12c9f/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Bon%20Jovi&title=Because%20We%20Can",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Bon Jovi/Bon Jovi - Because We Can.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792763233
   }
  ]
 }
