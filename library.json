@@ -1,5 +1,5 @@
 {
- "updated": 1792741968,
+ "updated": 1792741979,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -1020,6 +1020,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792741968
+  },
+  {
+   "id": "st-1792741970",
+   "title": "Tripolar",
+   "artist": "Canserbero",
+   "album": "",
+   "genre": "Otros",
+   "duration": 386,
+   "dur_str": "6:25 min",
+   "art": "",
+   "url": "/api/stream?artist=Canserbero&title=Tripolar",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Canserbero/Canserbero - Tripolar.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792741979
   }
  ]
 }
