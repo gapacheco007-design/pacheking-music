@@ -1,5 +1,5 @@
 {
- "updated": 1792739393,
+ "updated": 1792739396,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -870,6 +870,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792739393
+  },
+  {
+   "id": "st-1792739389",
+   "title": "Amor Factura",
+   "artist": "Ricardo Arjona",
+   "album": "",
+   "genre": "Otros",
+   "duration": 263,
+   "dur_str": "4:23 min",
+   "art": "",
+   "url": "/api/stream?artist=Ricardo%20Arjona&title=Amor%20Factura",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Ricardo Arjona/Ricardo Arjona - Amor Factura.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792739396
   }
  ]
 }
