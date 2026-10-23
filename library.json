@@ -1,5 +1,5 @@
 {
- "updated": 1792735494,
+ "updated": 1792735496,
  "tracks": [
   {
    "id": "st-1792733778",
@@ -150,6 +150,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792735494
+  },
+  {
+   "id": "st-1792735486",
+   "title": "Labios Compartidos",
+   "artist": "Mana",
+   "album": "",
+   "genre": "Otros",
+   "duration": 318,
+   "dur_str": "5:17 min",
+   "art": "",
+   "url": "/api/stream?artist=Mana&title=Labios%20Compartidos",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Mana/Mana - Labios Compartidos.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792735496
   }
  ]
 }
