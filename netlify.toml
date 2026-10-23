@@ -1,0 +1,24 @@
+# Netlify Configuration for TheKing Music
+# Provides instant proxy rewrites for streaming audio on corporate networks
+
+[build]
+  publish = "."
+
+[[redirects]]
+  from = "/api/*"
+  to = "https://music.thekinghub.com/api/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Methods = "GET, POST, OPTIONS, HEAD"
+    Access-Control-Allow-Headers = "Range, Content-Type, Authorization"
+    Access-Control-Expose-Headers = "Content-Range, Accept-Ranges, Content-Length"

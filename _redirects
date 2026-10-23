@@ -1,0 +1,6 @@
+# Netlify Proxy Configuration for TheKing Music
+# Proxies all API requests to the VPS backend to bypass corporate firewalls and ISP restrictions
+/api/*  https://music.thekinghub.com/api/:splat  200!
+
+# SPA Routing Fallback
+/*  /index.html  200

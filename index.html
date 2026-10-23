@@ -15,7 +15,7 @@
     <title>TheKing Music</title>
     <link rel="icon" href="assets/brand/theking-badge.png" type="image/png">
     <script>
-        const APP_BUILD_VERSION = "20261023_v33_personal_libraries_and_network_protection";
+        const APP_BUILD_VERSION = "20261023_v34_netlify_ready_corporate_proxy";
         if (localStorage.getItem('pkm_build') !== APP_BUILD_VERSION) {
             localStorage.setItem('pkm_build', APP_BUILD_VERSION);
             if (localStorage.getItem('pkm_active_user_id') === 'admin' && !sessionStorage.getItem('pkm_admin_authed')) {
@@ -2952,8 +2952,10 @@
     </div>
 
     <script>
-        // VPS API ROUTING (Supports both direct Cloudflare domain and GitHub Pages origin)
-        const API_BASE = (window.location.hostname.includes('thekinghub.com') || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.port === '8082') 
+        // VPS API ROUTING (Supports direct domain, Netlify Proxy, and GitHub Pages origin)
+        const isLocalOrDirect = window.location.hostname.includes('thekinghub.com') || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.port === '8082';
+        const isNetlify = window.location.hostname.includes('netlify.app');
+        const API_BASE = (isLocalOrDirect || isNetlify) 
             ? '' 
             : 'https://music.thekinghub.com';
 
@@ -4716,7 +4718,7 @@
 
             // Watchdog timer to prevent indefinite "CONECTANDO..." on corporate networks
             let connectWatchdog = null;
-            if (!playUrl.includes('github.com') && !playUrl.includes('audio/')) {
+            if (!playUrl.includes('github.com') && !playUrl.includes('audio/') && !window.location.hostname.includes('netlify.app')) {
                 connectWatchdog = setTimeout(() => {
                     if (audio.readyState === 0 && isPlaying) {
                         setPlayerBuffering(false);
