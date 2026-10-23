@@ -1,5 +1,5 @@
 {
- "updated": 1792762959,
+ "updated": 1792763044,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -1095,6 +1095,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792762959
+  },
+  {
+   "id": "deezer-3175296431",
+   "title": "Sin Ti... Sin Mi",
+   "artist": "Ricardo Arjona",
+   "album": "5to Piso",
+   "genre": "Otros",
+   "duration": 267,
+   "dur_str": "4:26 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/1f9434f99e1109280d166d2dd50066b6/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Ricardo%20Arjona&title=Sin%20Ti...%20Sin%20Mi",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Ricardo Arjona/Ricardo Arjona - Sin Ti... Sin Mi.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792763044
   }
  ]
 }
