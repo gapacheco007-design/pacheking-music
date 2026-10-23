@@ -1,5 +1,5 @@
 {
- "updated": 1792773924,
+ "updated": 1792773929,
  "tracks": [
   {
    "id": "af-arjona-grupo-firme",
@@ -1334,6 +1334,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792773924
+  },
+  {
+   "id": "st-1792773921",
+   "title": "Amor Natural",
+   "artist": "Sampa Crew",
+   "album": "",
+   "genre": "Otros",
+   "duration": 237,
+   "dur_str": "3:56 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/fab95a2a1020b03cddd7a038f68441d6/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Sampa%20Crew&title=Amor%20Natural",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Sampa Crew/Sampa Crew - Amor Natural.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792773928
   }
  ]
 }
