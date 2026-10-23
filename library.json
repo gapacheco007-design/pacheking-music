@@ -1,5 +1,5 @@
 {
- "updated": 1792762918,
+ "updated": 1792762921,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -1035,6 +1035,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792762918
+  },
+  {
+   "id": "st-1792762908",
+   "title": "Stay",
+   "artist": "Rihanna",
+   "album": "",
+   "genre": "Otros",
+   "duration": 241,
+   "dur_str": "4:01 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/ef56383d2dae5f46c71a77f556b3d6df/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Rihanna&title=Stay",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Rihanna/Rihanna - Stay.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792762921
   }
  ]
 }
