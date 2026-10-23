@@ -1,5 +1,5 @@
 {
- "updated": 1792739334,
+ "updated": 1792739336,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -747,6 +747,21 @@
    "art": "",
    "url": "/api/stream?artist=Sophie%20Hunger&title=Shape",
    "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Sophie Hunger/Sophie Hunger - Shape.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792739334
+  },
+  {
+   "id": "st-1792739311",
+   "title": "Shape of you (Acoustic)",
+   "artist": "Lola Rhodes",
+   "album": "",
+   "genre": "Otros",
+   "duration": 198,
+   "dur_str": "3:18 min",
+   "art": "",
+   "url": "/api/stream?artist=Lola%20Rhodes&title=Shape%20of%20you%20%28Acoustic%29",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Lola Rhodes/Lola Rhodes - Shape of you (Acoustic).mp3",
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792739334
