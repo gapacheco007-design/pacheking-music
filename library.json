@@ -1,5 +1,5 @@
 {
- "updated": 1792739336,
+ "updated": 1792739340,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -765,6 +765,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792739334
+  },
+  {
+   "id": "st-1792739316",
+   "title": "Shape Of My Heart",
+   "artist": "Sting",
+   "album": "",
+   "genre": "Otros",
+   "duration": 275,
+   "dur_str": "4:34 min",
+   "art": "",
+   "url": "/api/stream?artist=Sting&title=Shape%20Of%20My%20Heart",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Sting/Sting - Shape Of My Heart.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792739340
   }
  ]
 }
