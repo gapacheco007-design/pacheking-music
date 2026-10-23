@@ -1,5 +1,5 @@
 {
- "updated": 1792787676,
+ "updated": 1792788848,
  "tracks": [
   {
    "id": "st-1792735492",
@@ -2254,6 +2254,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792787676
+  },
+  {
+   "id": "st-1792788843",
+   "title": "Guns And Roses",
+   "artist": "Maxsta",
+   "album": "",
+   "genre": "Otros",
+   "duration": 184,
+   "dur_str": "3:03 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/a275cc8c42c8bb79d66f90d2fcff30bc/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Maxsta&title=Guns%20And%20Roses",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Maxsta/Maxsta - Guns And Roses.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792788848
   }
  ]
 }
