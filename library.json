@@ -1,5 +1,5 @@
 {
- "updated": 1792788848,
+ "updated": 1792788850,
  "tracks": [
   {
    "id": "st-1792735492",
@@ -2269,6 +2269,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792788848
+  },
+  {
+   "id": "st-1792788845",
+   "title": "Guns And Roses",
+   "artist": "Scorey",
+   "album": "",
+   "genre": "Otros",
+   "duration": 184,
+   "dur_str": "3:03 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/b2b6116d2a7b7e7e050345015fd9909b/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Scorey&title=Guns%20And%20Roses",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Scorey/Scorey - Guns And Roses.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792788850
   }
  ]
 }
