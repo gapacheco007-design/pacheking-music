@@ -1,5 +1,5 @@
 {
- "updated": 1792739389,
+ "updated": 1792739393,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -855,6 +855,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792739389
+  },
+  {
+   "id": "st-1792739386",
+   "title": "Cómo Duele",
+   "artist": "Ricardo Arjona",
+   "album": "",
+   "genre": "Otros",
+   "duration": 205,
+   "dur_str": "3:24 min",
+   "art": "",
+   "url": "/api/stream?artist=Ricardo%20Arjona&title=C%C3%B3mo%20Duele",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Ricardo Arjona/Ricardo Arjona - Cómo Duele.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792739393
   }
  ]
 }
