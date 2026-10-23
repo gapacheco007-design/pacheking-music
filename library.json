@@ -1,5 +1,5 @@
 {
- "updated": 1792734729,
+ "updated": 1792735141,
  "tracks": [
   {
    "id": "st-1792733778",
@@ -105,6 +105,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792734729
+  },
+  {
+   "id": "st-1792735136",
+   "title": "Mañanitas De Sol",
+   "artist": "Florencia Altieri Artista",
+   "album": "",
+   "genre": "Otros",
+   "duration": 171,
+   "dur_str": "2:50 min",
+   "art": "",
+   "url": "/api/stream?artist=Florencia%20Altieri%20Artista&title=Ma%C3%B1anitas%20De%20Sol",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Florencia Altieri Artista/Florencia Altieri Artista - Mañanitas De Sol.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792735141
   }
  ]
 }
