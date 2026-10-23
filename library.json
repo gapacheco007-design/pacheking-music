@@ -1,5 +1,5 @@
 {
- "updated": 1792762911,
+ "updated": 1792762914,
  "tracks": [
   {
    "id": "st-1792735486",
@@ -1005,6 +1005,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792762911
+  },
+  {
+   "id": "st-1792762898",
+   "title": "High Fashion (feat. Mustard)",
+   "artist": "Roddy Ricch",
+   "album": "",
+   "genre": "Otros",
+   "duration": 221,
+   "dur_str": "3:40 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/4cecb47ae25837b9dd022004b5cacbdc/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=Roddy%20Ricch&title=High%20Fashion%20%28feat.%20Mustard%29",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/Roddy Ricch/Roddy Ricch - High Fashion (feat. Mustard).mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792762914
   }
  ]
 }
