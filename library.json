@@ -1,5 +1,5 @@
 {
- "updated": 1792789204,
+ "updated": 1792815144,
  "tracks": [
   {
    "id": "st-1792735492",
@@ -2464,6 +2464,21 @@
    "format": "FLAC / MP3 320k Master (VPS)",
    "source": "vps_library",
    "added": 1792789204
+  },
+  {
+   "id": "st-1792815139",
+   "title": "Narcisista por excelencia",
+   "artist": "PXNDX",
+   "album": "",
+   "genre": "Otros",
+   "duration": 226,
+   "dur_str": "3:46 min",
+   "art": "https://cdn-images.dzcdn.net/images/cover/00e026a89fb2824d2baed8220f12b9fd/1000x1000-000000-80-0-0.jpg",
+   "url": "/api/stream?artist=PXNDX&title=Narcisista%20por%20excelencia",
+   "local_path": "/home/ubuntu/PacheKingMusic/Biblioteca/Otros/PXNDX/PXNDX - Narcisista por excelencia.mp3",
+   "format": "FLAC / MP3 320k Master (VPS)",
+   "source": "vps_library",
+   "added": 1792815144
   }
  ]
 }
