@@ -532,6 +532,11 @@
         #netlify-badge,
         [class*="netlify-badge"],
         [id*="netlify-badge"],
+        [class*="netlify"],
+        [id*="netlify"],
+        a[href*="netlify.com"],
+        a[href*="netlify.app"],
+        img[src*="netlify"],
         iframe[src*="netlify"],
         div[style*="netlify"] {
             display: none !important;
@@ -540,6 +545,8 @@
             pointer-events: none !important;
             width: 0 !important;
             height: 0 !important;
+            position: absolute !important;
+            left: -9999px !important;
             overflow: hidden !important;
         }
 
@@ -2925,9 +2932,18 @@
             <div class="np-view-lyrics" id="np-view-lyrics">
                 <div id="lyrics-container"></div>
                 <div class="lyrics-floating-nav">
+                    <button class="lyrics-nav-pill" onclick="adjustLyricsOffset(-0.5)" title="Adelantar letra 0.5s">
+                        <span>-0.5s</span>
+                    </button>
+                    <button class="lyrics-nav-pill" id="lyrics-offset-val" onclick="resetLyricsOffset()" title="Restablecer sincronización">
+                        <span>0.0s</span>
+                    </button>
+                    <button class="lyrics-nav-pill" onclick="adjustLyricsOffset(0.5)" title="Retrasar letra 0.5s">
+                        <span>+0.5s</span>
+                    </button>
                     <button class="lyrics-nav-pill" onclick="toggleNowPlayingLyrics(false)" title="Volver a la carátula">
                         <svg class="icon" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-                        <span>Volver a la carátula</span>
+                        <span>Carátula</span>
                     </button>
                     <button class="lyrics-nav-pill" onclick="closeNowPlaying()" title="Minimizar">
                         <svg class="icon" viewBox="0 0 24 24"><path d="M19 13H5v-2h14v2z"/></svg>
@@ -3862,9 +3878,18 @@
 
             // Strictly suppress any Netlify badge element injected into DOM
             function purgeNetlifyBadge() {
-                document.querySelectorAll('[data-netlify-badge], .netlify-badge, #netlify-badge, [class*="netlify-badge"], iframe[src*="netlify"]').forEach(el => el.remove());
+                document.querySelectorAll('[data-netlify-badge], .netlify-badge, #netlify-badge, [class*="netlify"], [id*="netlify"], a[href*="netlify.com"], a[href*="netlify.app"], iframe[src*="netlify"]').forEach(el => el.remove());
+                document.querySelectorAll('a, div, span, button').forEach(el => {
+                    if (el.textContent && el.textContent.toLowerCase().includes('powered by netlify')) {
+                        el.remove();
+                    }
+                });
             }
             purgeNetlifyBadge();
+            try {
+                const netlifyObs = new MutationObserver(() => purgeNetlifyBadge());
+                netlifyObs.observe(document.documentElement, { childList: true, subtree: true });
+            } catch(e) {}
             setInterval(purgeNetlifyBadge, 400);
         });
 
@@ -4484,23 +4509,42 @@
                     </div>
                     <span class="quality-badge lossless">LOSSLESS</span>
                     <div class="track-actions" onclick="event.stopPropagation()">
-                        <button class="btn-fav-track" onclick="toggleFavorite(${JSON.stringify(t).replace(/"/g, '&quot;')})" title="${isFav ? 'Quitar de Favoritos' : 'Añadir a Favoritos'}">
-                            ${isFav ? `<svg class="icon" style="fill: #ff2d55; width: 18px; height: 18px;" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>` : `<svg class="icon" style="fill: var(--text-secondary); width: 18px; height: 18px;" viewBox="0 0 24 24"><path d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35zM12 18.55l-.1-.09C7.14 14.24 4 11.39 4 8.5 4 6.5 5.5 5 7.5 5c1.54 0 3.04.99 3.57 2.36h1.87C13.46 5.99 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5 0 2.89-3.14 5.74-7.9 10.05l-.1.1z"/></svg>`}
+                        <button class="btn-fav-track" title="${isFav ? 'Quitar de Favoritos' : 'Añadir a Favoritos'}">
+                            ${isFav ? `<svg class="icon" style="fill: #ff2d55; width: 18px; height: 18px;" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>` : `<svg class="icon" style="fill: var(--text-secondary); width: 18px; height: 18px;" viewBox="0 0 24 24"><path d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35l-.1-.09C7.14 14.24 4 11.39 4 8.5 4 6.5 5.5 5 7.5 5c1.54 0 3.04.99 3.57 2.36h1.87C13.46 5.99 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5 0 2.89-3.14 5.74-7.9 10.05l-.1.1z"/></svg>`}
                         </button>
                         ${isMasterView ? `
-                            <button class="btn-track-action" onclick="addToUserLibrary(${JSON.stringify(t).replace(/"/g, '&quot;')})" title="Agregar a mi biblioteca personal">
+                            <button class="btn-track-action btn-lib-action" title="Agregar a mi biblioteca personal">
                                 <span>${inPersonal ? 'En Mi Biblioteca' : '+ Mi Biblioteca'}</span>
                             </button>
                         ` : (currentLibraryTab === 'favoritos' && !inPersonal) ? `
-                            <button class="btn-track-action" onclick="addToUserLibrary(${JSON.stringify(t).replace(/"/g, '&quot;')})" title="Agregar a mi biblioteca personal">
+                            <button class="btn-track-action btn-lib-action" title="Agregar a mi biblioteca personal">
                                 <span>+ Biblioteca</span>
                             </button>
                         ` : `
-                            <button class="btn-track-action" onclick="removeFromUserLibrary('${t.id}')" title="Eliminar de mi biblioteca" style="color: #ff4d4d; border-color: rgba(255,77,77,0.3);">
+                            <button class="btn-track-action btn-lib-action" title="Eliminar de mi biblioteca" style="color: #ff4d4d; border-color: rgba(255,77,77,0.3);">
                                 <span>Eliminar</span>
                             </button>
                         `}
                     </div>
+                `;
+                const favBtn = row.querySelector('.btn-fav-track');
+                if (favBtn) {
+                    favBtn.onclick = (e) => {
+                        e.stopPropagation();
+                        toggleFavorite(t);
+                    };
+                }
+                const libBtn = row.querySelector('.btn-lib-action');
+                if (libBtn) {
+                    libBtn.onclick = (e) => {
+                        e.stopPropagation();
+                        if (isMasterView || (currentLibraryTab === 'favoritos' && !inPersonal)) {
+                            addToUserLibrary(t);
+                        } else {
+                            removeFromUserLibrary(t.id);
+                        }
+                    };
+                }
                 `;
                 list.appendChild(row);
             });
@@ -4689,22 +4733,32 @@
                     </div>
                     <span class="quality-badge lossless">LOSSLESS</span>
                     <div class="track-actions" onclick="event.stopPropagation()">
-                        <button class="btn-fav-track" onclick="toggleFavorite(${JSON.stringify(t).replace(/"/g, '&quot;')})" title="${isFav ? 'Quitar de Favoritos' : 'Añadir a Favoritos'}">
-                            ${isFav ? `<svg class="icon" style="fill: #ff2d55; width: 18px; height: 18px;" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>` : `<svg class="icon" style="fill: var(--text-secondary); width: 18px; height: 18px;" viewBox="0 0 24 24"><path d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35zM12 18.55l-.1-.09C7.14 14.24 4 11.39 4 8.5 4 6.5 5.5 5 7.5 5c1.54 0 3.04.99 3.57 2.36h1.87C13.46 5.99 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5 0 2.89-3.14 5.74-7.9 10.05l-.1.1z"/></svg>`}
+                        <button class="btn-fav-track" title="${isFav ? 'Quitar de Favoritos' : 'Añadir a Favoritos'}">
+                            ${isFav ? `<svg class="icon" style="fill: #ff2d55; width: 18px; height: 18px;" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>` : `<svg class="icon" style="fill: var(--text-secondary); width: 18px; height: 18px;" viewBox="0 0 24 24"><path d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35l-.1-.09C7.14 14.24 4 11.39 4 8.5 4 6.5 5.5 5 7.5 5c1.54 0 3.04.99 3.57 2.36h1.87C13.46 5.99 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5 0 2.89-3.14 5.74-7.9 10.05l-.1.1z"/></svg>`}
                         </button>
-                        ${inLib ? `
-                            <button class="btn-track-action" onclick="removeFromUserLibrary('${t.id}')" style="color: var(--accent); border-color: var(--accent);" title="Guardada en tu biblioteca (clic para quitar)">
-                                <svg class="icon" style="width: 14px; height: 14px; fill: var(--accent);" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                                <span>En Biblioteca</span>
-                            </button>
-                        ` : `
-                            <button class="btn-track-action" onclick="addToUserLibrary(${JSON.stringify(t).replace(/"/g, '&quot;')})" title="Guardar en tu biblioteca personal">
-                                <svg class="icon" style="width: 14px; height: 14px;" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-                                <span>+ Biblioteca</span>
-                            </button>
-                        `}
+                        <button class="btn-track-action btn-lib-action" title="${inLib ? 'Guardada en tu biblioteca (clic para quitar)' : 'Guardar en tu biblioteca personal'}" style="${inLib ? 'color: var(--accent); border-color: var(--accent);' : ''}">
+                            ${inLib ? `<svg class="icon" style="width: 14px; height: 14px; fill: var(--accent);" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg><span>En Biblioteca</span>` : `<svg class="icon" style="width: 14px; height: 14px;" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg><span>+ Biblioteca</span>`}
+                        </button>
                     </div>
                 `;
+                const favBtn = row.querySelector('.btn-fav-track');
+                if (favBtn) {
+                    favBtn.onclick = (e) => {
+                        e.stopPropagation();
+                        toggleFavorite(t);
+                    };
+                }
+                const libBtn = row.querySelector('.btn-lib-action');
+                if (libBtn) {
+                    libBtn.onclick = (e) => {
+                        e.stopPropagation();
+                        if (inLib) {
+                            removeFromUserLibrary(t.id);
+                        } else {
+                            addToUserLibrary(t);
+                        }
+                    };
+                }
                 list.appendChild(row);
             });
             box.appendChild(list);
@@ -5508,43 +5562,68 @@
         }
 
         function updatePlayerUI(track) {
-            const art = track.art || DEFAULT_ART;
+            let art = track.art || '';
+            if (art.includes('dzcdn.net') && !art.startsWith('/api/cover') && !art.includes('/api/cover')) {
+                art = api('/api/cover?url=' + encodeURIComponent(art));
+            }
+            if (!art) art = DEFAULT_ART;
 
-            // Desktop Dock
             const dockTitle = document.getElementById('dock-title');
             const dockArtist = document.getElementById('dock-artist');
             const dockArt = document.getElementById('dock-art');
-            if (dockTitle) dockTitle.textContent = track.title;
-            if (dockArtist) dockArtist.textContent = track.artist;
-            if (dockArt) {
-                dockArt.onerror = () => { dockArt.src = DEFAULT_ART; };
-                dockArt.src = art;
-            }
-
-            // Mobile Mini-Player
             const miniTitle = document.getElementById('mini-title');
             const miniArtist = document.getElementById('mini-artist');
             const miniArt = document.getElementById('mini-art');
-            if (miniTitle) miniTitle.textContent = track.title;
-            if (miniArtist) miniArtist.textContent = track.artist;
-            if (miniArt) {
-                miniArt.onerror = () => { miniArt.src = DEFAULT_ART; };
-                miniArt.src = art;
-            }
-
-            // Fullscreen Modal
             const npTitle = document.getElementById('np-title');
             const npArtist = document.getElementById('np-artist');
             const npCover = document.getElementById('np-cover');
+            const backdrop = document.getElementById('np-ambient-backdrop');
+
+            if (dockTitle) dockTitle.textContent = track.title;
+            if (dockArtist) dockArtist.textContent = track.artist;
+            if (miniTitle) miniTitle.textContent = track.title;
+            if (miniArtist) miniArtist.textContent = track.artist;
             if (npTitle) npTitle.textContent = track.title;
             if (npArtist) npArtist.textContent = track.artist;
-            if (npCover) {
-                npCover.onerror = () => { npCover.src = DEFAULT_ART; };
-                npCover.src = art;
+
+            let triedAppleFallback = false;
+            async function fallbackToAppleArt() {
+                if (triedAppleFallback) return;
+                triedAppleFallback = true;
+                try {
+                    const cleanT = (track.title || '').replace(/[\(\[].*?[\)\]]/g, '').trim();
+                    const itUrl = `https://itunes.apple.com/search?term=${encodeURIComponent(track.artist + ' ' + cleanT)}&media=music&entity=song&limit=1`;
+                    const res = await fetch(itUrl);
+                    if (res.ok) {
+                        const d = await res.json();
+                        if (d.results && d.results.length > 0 && d.results[0].artworkUrl100) {
+                            const appleArt = d.results[0].artworkUrl100.replace('100x100bb.jpg', '600x600bb.jpg');
+                            track.art = appleArt;
+                            if (dockArt) dockArt.src = appleArt;
+                            if (miniArt) miniArt.src = appleArt;
+                            if (npCover) npCover.src = appleArt;
+                            if (backdrop) backdrop.style.backgroundImage = `url('${appleArt}')`;
+                            return;
+                        }
+                    }
+                } catch(e) {}
+                if (dockArt) dockArt.src = DEFAULT_ART;
+                if (miniArt) miniArt.src = DEFAULT_ART;
+                if (npCover) npCover.src = DEFAULT_ART;
             }
 
-            // Dynamic ambient background
-            const backdrop = document.getElementById('np-ambient-backdrop');
+            if (dockArt) {
+                dockArt.onerror = fallbackToAppleArt;
+                dockArt.src = art;
+            }
+            if (miniArt) {
+                miniArt.onerror = fallbackToAppleArt;
+                miniArt.src = art;
+            }
+            if (npCover) {
+                npCover.onerror = fallbackToAppleArt;
+                npCover.src = art;
+            }
             if (backdrop) backdrop.style.backgroundImage = `url('${art}')`;
 
             // Immediate duration display
@@ -5674,24 +5753,62 @@
             container.innerHTML = `<div style="padding: 40px 0; color: rgba(255,255,255,0.4); text-align: center;">Letras no disponibles para esta versión</div>`;
         }
 
+        let lyricsUserOffset = 0;
+
+        function adjustLyricsOffset(delta) {
+            lyricsUserOffset += delta;
+            const str = `${lyricsUserOffset > 0 ? '+' : ''}${lyricsUserOffset.toFixed(1)}s`;
+            showToast(`Sincronización de letra: ${str}`);
+            const btn = document.getElementById('lyrics-offset-val');
+            if (btn) btn.textContent = str;
+            if (audio && audio.currentTime) updateLyricsHighlight(audio.currentTime, true);
+        }
+
+        function resetLyricsOffset() {
+            lyricsUserOffset = 0;
+            showToast("Sincronización restablecida a 0.0s");
+            const btn = document.getElementById('lyrics-offset-val');
+            if (btn) btn.textContent = "0.0s";
+            if (audio && audio.currentTime) updateLyricsHighlight(audio.currentTime, true);
+        }
+
         function parseSyncedLyrics(lrcText) {
             currentLyrics = [];
+            lyricsUserOffset = 0;
+            const btn = document.getElementById('lyrics-offset-val');
+            if (btn) btn.textContent = "0.0s";
+
             const lines = lrcText.split('\n');
-            const regex = /\[(\d{2}):(\d{2})\.(\d{2,3})\](.*)/;
+            let lrcOffsetMs = 0;
+            const offsetRegex = /\[offset:\s*([+-]?\d+)\]/i;
+            const timeTagRegex = /\[(\d{2}):(\d{2})(?:[.:](\d{2,3}))?\]/g;
 
             for (let line of lines) {
-                const m = line.match(regex);
-                if (m) {
-                    const min = parseInt(m[1]);
-                    const sec = parseInt(m[2]);
-                    const ms = parseInt(m[3].padEnd(3, '0').slice(0, 3));
-                    const time = min * 60 + sec + ms / 1000;
-                    const text = m[4].trim();
-                    if (text) {
-                        currentLyrics.push({ time, text });
+                const offMatch = line.match(offsetRegex);
+                if (offMatch) {
+                    lrcOffsetMs = parseInt(offMatch[1], 10) || 0;
+                    continue;
+                }
+                const times = [];
+                let match;
+                while ((match = timeTagRegex.exec(line)) !== null) {
+                    const min = parseInt(match[1], 10);
+                    const sec = parseInt(match[2], 10);
+                    let ms = 0;
+                    if (match[3]) {
+                        ms = parseInt(match[3].padEnd(3, '0').slice(0, 3), 10);
                     }
+                    times.push(min * 60 + sec + ms / 1000);
+                }
+                const text = line.replace(/\[\d{2}:\d{2}(?:[.:]\d{2,3})?\]/g, '').trim();
+                if (times.length > 0 && text) {
+                    times.forEach(t => {
+                        const finalTime = Math.max(0, t - (lrcOffsetMs / 1000));
+                        currentLyrics.push({ time: finalTime, text });
+                    });
                 }
             }
+            currentLyrics.sort((a, b) => a.time - b.time);
         }
 
         function renderSyncedLyrics() {
@@ -5716,8 +5833,9 @@
             if (!currentLyrics || currentLyrics.length === 0) return;
 
             let foundIdx = -1;
+            const effectiveTime = curTime + 0.25 + lyricsUserOffset;
             for (let i = 0; i < currentLyrics.length; i++) {
-                if (curTime >= currentLyrics[i].time) {
+                if (effectiveTime >= currentLyrics[i].time) {
                     foundIdx = i;
                 } else {
                     break;
