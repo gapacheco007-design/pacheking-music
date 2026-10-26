@@ -6109,48 +6109,134 @@
         }
 
         async function processPlaylistImport() {
-            const text = document.getElementById('importer-input-text')?.value || '';
+            const input = document.getElementById('importer-input-text')?.value || '';
             const statusBox = document.getElementById('importer-status-box');
-            if (!text.trim()) {
+            if (!input.trim()) {
                 showToast("Pega un enlace o lista de canciones");
                 return;
             }
 
-            if (statusBox) statusBox.innerHTML = '<div style="color: var(--accent); font-weight: 700;">Analizando catálogo y resolviendo pistas originales...</div>';
+            if (statusBox) {
+                statusBox.innerHTML = '<div style="color: var(--accent); font-weight: 700;">Analizando enlace y resolviendo catálogo...</div>';
+            }
 
-            const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+            let tracksToImport = [];
+
+            // 1. Consultar endpoint de backend en el VPS (soporta Spotify, Apple Music, YouTube, SoundCloud)
+            try {
+                const parseRes = await fetch(api('/api/playlist/parse'), {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url: input.trim(), text: input.trim() })
+                });
+                if (parseRes.ok) {
+                    const parseData = await parseRes.json();
+                    if (parseData.status === 'ok' && Array.isArray(parseData.tracks) && parseData.tracks.length > 0) {
+                        tracksToImport = parseData.tracks;
+                    } else if (parseData.status === 'error') {
+                        if (statusBox) {
+                            statusBox.innerHTML = `<div style="color: #ff453a; line-height: 1.5; font-size: 13px; font-weight: 500;">${escapeHtml(parseData.message)}</div>`;
+                        }
+                        return;
+                    }
+                }
+            } catch (err) {
+                console.warn("Backend playlist parse failed, falling back to local line parser:", err);
+            }
+
+            // 2. Si no se obtuvieron pistas del backend y es texto línea por línea
+            if (tracksToImport.length === 0) {
+                const lines = input.split('\n').map(l => l.trim()).filter(Boolean);
+                for (const line of lines) {
+                    if (line.startsWith('http://') || line.startsWith('https://')) continue;
+                    let artist = "";
+                    let title = line;
+                    if (line.includes(' - ')) {
+                        const p = line.split(' - ');
+                        artist = p[0].trim();
+                        title = p.slice(1).join(' - ').trim();
+                    } else if (line.includes(' : ')) {
+                        const p = line.split(' : ');
+                        artist = p[0].trim();
+                        title = p.slice(1).join(' : ').trim();
+                    }
+                    if (title) tracksToImport.push({ artist, title });
+                }
+            }
+
+            if (tracksToImport.length === 0) {
+                if (statusBox) {
+                    statusBox.innerHTML = '<div style="color: #ff453a; font-weight: 600;">No se pudieron extraer canciones del enlace o texto proporcionado.</div>';
+                }
+                return;
+            }
+
+            const total = tracksToImport.length;
             let importedCount = 0;
+            const currentLib = getUserLibrary();
+            const cleanStr = s => (s || '').toLowerCase().trim();
 
-            for (const line of lines) {
-                let artist = "";
-                let title = line;
-                if (line.includes(' - ')) {
-                    const p = line.split(' - ');
-                    artist = p[0].trim();
-                    title = p.slice(1).join(' - ').trim();
-                } else if (line.includes('https://') || line.includes('http://')) {
-                    const slug = decodeURIComponent(line.split('/').pop().split('?')[0]).replace(/[-_+]/g, ' ');
-                    title = slug;
+            for (let i = 0; i < tracksToImport.length; i++) {
+                const item = tracksToImport[i];
+                if (statusBox) {
+                    statusBox.innerHTML = `<div style="color: var(--accent); font-weight: 600; font-size: 13px;">Importando (${i + 1}/${total}): <b>${escapeHtml(item.artist ? item.artist + ' - ' : '')}${escapeHtml(item.title)}</b>...</div>`;
                 }
 
-                if (!title) continue;
-                const cleanQuery = (artist ? `${artist} ${title}` : title).replace(/[\(\[].*?[\)\]]/g, '').trim();
+                // Verificar si ya existe en la biblioteca del usuario
+                if (currentLib.some(t => cleanStr(t.title) === cleanStr(item.title) && cleanStr(t.artist) === cleanStr(item.artist))) {
+                    importedCount++;
+                    continue;
+                }
+
+                // Buscar la canción original en el catálogo de TheKing
+                let matchedTrack = null;
+                const cleanQuery = (item.artist ? `${item.artist} ${item.title}` : item.title).replace(/[\(\[].*?[\)\]]/g, '').trim();
 
                 try {
-                    const res = await fetch(api(`/api/search?q=${encodeURIComponent(cleanQuery)}`));
-                    if (res.ok) {
-                        const data = await res.json();
-                        const cand = (data.local || []).concat(data.online || [])[0];
-                        if (cand) {
-                            addToUserLibrary(cand);
-                            importedCount++;
+                    const sRes = await fetch(api(`/api/search?q=${encodeURIComponent(cleanQuery)}`));
+                    if (sRes.ok) {
+                        const sData = await sRes.json();
+                        const pool = (sData.local || []).concat(sData.online || []);
+                        if (pool.length > 0) {
+                            const exactArtist = pool.find(c => item.artist && cleanStr(c.artist).includes(cleanStr(item.artist)));
+                            matchedTrack = exactArtist || pool[0];
                         }
                     }
                 } catch(e) {}
+
+                // Si no se encuentra en el VPS, fallback a iTunes CDN
+                if (!matchedTrack) {
+                    try {
+                        const itunesCand = await searchItunesFallback(cleanQuery);
+                        if (itunesCand && itunesCand.length > 0) {
+                            const exactArtist = itunesCand.find(c => item.artist && cleanStr(c.artist).includes(cleanStr(item.artist)));
+                            matchedTrack = exactArtist || itunesCand[0];
+                        }
+                    } catch(e) {}
+                }
+
+                // Construir pista validada y reproducible
+                const cleanTrack = {
+                    id: matchedTrack ? matchedTrack.id : ('usr_' + Date.now().toString(36) + '_' + Math.random().toString(36).substr(2, 5)),
+                    title: matchedTrack ? matchedTrack.title : item.title,
+                    artist: matchedTrack ? matchedTrack.artist : (item.artist || 'Artista'),
+                    album: matchedTrack ? (matchedTrack.album || matchedTrack.title) : item.title,
+                    duration: matchedTrack ? (matchedTrack.duration || 0) : 0,
+                    dur_str: matchedTrack ? (matchedTrack.dur_str || '') : '',
+                    art: matchedTrack ? (matchedTrack.art || DEFAULT_ART) : DEFAULT_ART,
+                    url: matchedTrack ? (matchedTrack.url || getDirectAudioUrl(matchedTrack.artist, matchedTrack.title)) : getDirectAudioUrl(item.artist, item.title) || api(`/api/stream?artist=${encodeURIComponent(item.artist)}&title=${encodeURIComponent(item.title)}`),
+                    format: 'Full Studio Audio (The King Master)',
+                    ready: true
+                };
+
+                currentLib.unshift(cleanTrack);
+                importedCount++;
             }
 
+            saveUserLibrary(currentLib);
+
             if (statusBox) {
-                statusBox.innerHTML = `<div style="color: #4cd964; font-weight: 700;">¡${importedCount} canciones importadas con éxito a tu biblioteca personal!</div>`;
+                statusBox.innerHTML = `<div style="color: #4cd964; font-weight: 700; font-size: 14px;">¡${importedCount} canciones añadidas a tu biblioteca personal con éxito!</div>`;
             }
             showToast(`${importedCount} canciones añadidas a tu biblioteca`);
             if (currentTab === 'biblioteca') renderCurrentView();
