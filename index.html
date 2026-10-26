@@ -2731,6 +2731,198 @@
             color: #ffffff;
         }
 
+    
+        /* RIFF-STYLE AUDIO SUITE & DSP MODAL */
+        .audio-suite-modal-box {
+            background: rgba(18, 18, 22, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 680px;
+            padding: 24px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9);
+            color: #ffffff;
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+        }
+        .audio-suite-canvas {
+            width: 100%;
+            height: 90px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 16px;
+            display: block;
+        }
+        .eq-presets-row {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 12px;
+            margin-bottom: 14px;
+            scrollbar-width: none;
+        }
+        .eq-presets-row::-webkit-scrollbar { display: none; }
+        .eq-preset-chip {
+            padding: 6px 14px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+        .eq-preset-chip:hover, .eq-preset-chip.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            box-shadow: 0 2px 10px var(--accent-glow);
+        }
+        .eq-sliders-wrap {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.25);
+            padding: 16px 12px;
+            border-radius: 14px;
+            margin-bottom: 18px;
+            height: 180px;
+        }
+        .eq-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            height: 100%;
+            flex: 1;
+        }
+        .eq-slider {
+            -webkit-appearance: slider-vertical;
+            writing-mode: vertical-lr;
+            direction: rtl;
+            width: 24px;
+            height: 110px;
+            background: transparent;
+            cursor: pointer;
+            accent-color: var(--accent);
+        }
+        .eq-freq-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            margin-top: 8px;
+            text-align: center;
+        }
+        .eq-gain-val {
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 4px;
+        }
+        .dsp-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+        .dsp-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 12px 16px;
+        }
+        .dsp-card-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+        .dsp-card-val {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--accent);
+        }
+        .dsp-slider {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(255, 255, 255, 0.15);
+            outline: none;
+            cursor: pointer;
+            accent-color: var(--accent);
+        }
+        .speed-chips {
+            display: flex;
+            gap: 6px;
+            margin-top: 6px;
+        }
+        .speed-chip {
+            flex: 1;
+            padding: 4px 0;
+            text-align: center;
+            font-size: 11px;
+            font-weight: 700;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            cursor: pointer;
+        }
+        .speed-chip.active {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+        /* ACCENT COLOR PALETTE SWATCHES */
+        .accent-palette-grid {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .accent-swatch {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        .accent-swatch:hover {
+            transform: scale(1.15);
+        }
+        .accent-swatch.active {
+            border-color: #ffffff;
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+        }
+        .accent-color-picker-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px dashed rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            background: transparent;
+            padding: 0;
+            overflow: hidden;
+            position: relative;
+        }
+        .accent-color-picker-btn input[type="color"] {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            width: 60px;
+            height: 60px;
+            opacity: 0;
+            cursor: pointer;
+        }
+
     </style>
 </head>
 <body>
@@ -2845,6 +3037,9 @@
         </div>
 
         <div class="dock-right">
+                        <button class="btn-ctrl" id="dock-btn-eq" onclick="openAudioSuiteModal()" title="Audio Suite y Ecualizador (DSP)">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/></svg>
+            </button>
             <button class="btn-ctrl" id="dock-btn-lyrics" onclick="toggleNowPlayingLyrics()" title="Letras">
                 <svg class="icon" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
             </button>
@@ -2995,6 +3190,9 @@
                     <button class="np-bottom-btn" id="np-btn-fav" onclick="toggleCurrentFavorite(event)" title="Añadir a Favoritos">
                         <svg class="icon" style="fill: var(--text-secondary); width: 22px; height: 22px;" viewBox="0 0 24 24"><path d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35zM12 18.55l-.1-.09C7.14 14.24 4 11.39 4 8.5 4 6.5 5.5 5 7.5 5c1.54 0 3.04.99 3.57 2.36h1.87C13.46 5.99 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5 0 2.89-3.14 5.74-7.9 10.05l-.1.1z"/></svg>
                     </button>
+                                        <button class="np-bottom-btn" id="np-btn-eq" onclick="openAudioSuiteModal()" title="Audio Suite y Ecualizador (DSP)">
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/></svg>
+                    </button>
                     <button class="np-bottom-btn" id="np-btn-save-lib" onclick="saveCurrentToLibrary()" title="Guardar en Biblioteca">
                         <svg class="icon" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
                     </button>
@@ -3128,6 +3326,7 @@
 
         const audio = new Audio();
         audio.preload = "auto";
+        audio.crossOrigin = "anonymous";
 
         // SVG ICONS (NO EMOJIS)
         const SVG_PLAY = '<svg class="icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
@@ -4446,19 +4645,27 @@
                 header.innerHTML = `
                     <h1 class="greeting-title">Biblioteca</h1>
                     <div class="greeting-subtitle">Colección personalizada &bull; ${userName}</div>
-                    <div style="display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap;">
+                    <div style="display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; align-items: center;">
                         <button class="eco-chip ${currentLibraryTab === 'guardadas' ? 'active' : ''}" onclick="setLibraryTab('guardadas')">Mi Biblioteca (${userLib.length})</button>
                         <button class="eco-chip ${currentLibraryTab === 'favoritos' ? 'active' : ''}" onclick="setLibraryTab('favoritos')">Favoritos (${userFavs.length})</button>
                         <button class="eco-chip ${currentLibraryTab === 'master' ? 'active' : ''}" onclick="setLibraryTab('master')">Catálogo Servidor (${libraryTracks.length})</button>
+                        <button class="eco-chip" onclick="openPlaylistImporterModal()" style="border-color: var(--accent); color: var(--accent); font-weight: 700;">
+                            <svg class="icon" style="width: 14px; height: 14px; fill: var(--accent); margin-right: 4px; vertical-align: -2px;" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                            <span>Importar Playlist</span>
+                        </button>
                     </div>
                 `;
             } else {
                 header.innerHTML = `
                     <h1 class="greeting-title">Tu Biblioteca</h1>
                     <div class="greeting-subtitle">Colección personal de ${userName}</div>
-                    <div style="display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap;">
+                    <div style="display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; align-items: center;">
                         <button class="eco-chip ${currentLibraryTab === 'guardadas' ? 'active' : ''}" onclick="setLibraryTab('guardadas')">Canciones Guardadas (${userLib.length})</button>
                         <button class="eco-chip ${currentLibraryTab === 'favoritos' ? 'active' : ''}" onclick="setLibraryTab('favoritos')">Favoritos (${userFavs.length})</button>
+                        <button class="eco-chip" onclick="openPlaylistImporterModal()" style="border-color: var(--accent); color: var(--accent); font-weight: 700;">
+                            <svg class="icon" style="width: 14px; height: 14px; fill: var(--accent); margin-right: 4px; vertical-align: -2px;" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                            <span>Importar Playlist</span>
+                        </button>
                     </div>
                 `;
             }
@@ -4913,6 +5120,50 @@
             `;
             container.appendChild(themeCard);
 
+            // 2.1 Color Customizer (Riff Style: "Dress it up - Pick a color. It changes this whole page.")
+            const colorCard = document.createElement('div');
+            colorCard.className = 'settings-card';
+            const curAccent = localStorage.getItem('pkm_accent_color') || '#fa233b';
+            colorCard.innerHTML = `
+                <div class="settings-card-title">
+                    <svg class="icon" style="fill: var(--accent);" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 19.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l1.9-1.9C9.22 19.64 10.57 20 12 20c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 16c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg>
+                    <span>Color de Acento y Personalización (Riff Style)</span>
+                </div>
+                <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
+                    Personaliza el color de acento de toda la plataforma. Afecta botones, resaltes, barras de progreso e iluminación ambiental.
+                </div>
+                <div class="accent-palette-grid">
+                    ${ACCENT_COLORS.map(c => `
+                        <div class="accent-swatch ${curAccent.toLowerCase() === c.color.toLowerCase() ? 'active' : ''}" style="background: ${c.color};" onclick="setAppAccentColor('${c.color}')" title="${c.name}"></div>
+                    `).join('')}
+                    <button class="accent-color-picker-btn" title="Elige un color personalizado">
+                        <div style="width: 100%; height: 100%; background: ${curAccent}; border-radius: 50%;"></div>
+                        <input type="color" value="${curAccent}" onchange="setAppAccentColor(this.value)">
+                    </button>
+                </div>
+            `;
+            container.appendChild(colorCard);
+
+            // 2.2 Audio Suite & Equalizer Card
+            const eqCard = document.createElement('div');
+            eqCard.className = 'settings-card';
+            eqCard.innerHTML = `
+                <div class="settings-card-title">
+                    <svg class="icon" style="fill: var(--accent);" viewBox="0 0 24 24"><path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/></svg>
+                    <span>TheKing Audio Suite & Ecualizador DSP</span>
+                </div>
+                <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
+                    Ecualizador gráfico de 10 bandas de grado de estudio, refuerzo sub-grave, reverberación espacial y calidez analógica en tiempo real.
+                </div>
+                <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                    <button class="btn-accent" onclick="openAudioSuiteModal()" style="padding: 10px 22px; border-radius: 10px; font-weight: 700;">
+                        Abrir Ecualizador de Estudio
+                    </button>
+                    <span style="font-size: 12px; color: var(--text-secondary);">Procesamiento Web Audio API 64-bit punto flotante</span>
+                </div>
+            `;
+            container.appendChild(eqCard);
+
             // 3. Audio Quality Card (Admin only)
             if (isAdmin) {
                 const card = document.createElement('div');
@@ -5188,6 +5439,7 @@
         }
 
         async function loadAndPlayTrack(track) {
+            try { audioEngine.init(); } catch(e) {}
             if (!track) return;
             resetPlaybackProgress();
             currentTrack = track;
@@ -5475,6 +5727,439 @@
                 audio.currentTime = pos * audio.duration;
                 updateLyricsHighlight(audio.currentTime, true);
             }
+        }
+
+        
+        // ========================================================
+        // THEKING AUDIO SUITE & DSP ENGINE (RIFF OPEN-SOURCE SUITE)
+        // ========================================================
+        const EQ_FREQUENCIES = [32, 64, 125, 250, 500, 1000, 2000, 4000, 8000, 16000];
+        const EQ_PRESETS = {
+            'plano': { name: 'Plano (Flat)', bands: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], bass: 0, reverb: 0, dist: 0 },
+            'bassboost': { name: 'Bass Boost Extremo', bands: [8, 6, 4, 2, 0, 0, 0, 0, 1, 2], bass: 6, reverb: 0, dist: 0 },
+            'rock': { name: 'Rock Potente', bands: [5, 4, 2, -1, -2, -1, 2, 4, 5, 5], bass: 2, reverb: 10, dist: 15 },
+            'pop': { name: 'Pop Brillante', bands: [-1, 1, 3, 4, 4, 2, -1, 0, 3, 4], bass: 1, reverb: 5, dist: 0 },
+            'edm': { name: 'Club / EDM', bands: [6, 5, 3, 0, -2, 1, 3, 4, 5, 6], bass: 5, reverb: 15, dist: 5 },
+            'vocal': { name: 'Voz Clara', bands: [-2, -3, -1, 3, 5, 5, 4, 2, 1, -1], bass: 0, reverb: 5, dist: 0 },
+            'acustico': { name: 'Acústico Cálido', bands: [3, 2, 1, 1, 2, 3, 3, 3, 2, 1], bass: 2, reverb: 20, dist: 5 }
+        };
+
+        const ACCENT_COLORS = [
+            { name: 'Apple Crimson', color: '#fa233b' },
+            { name: 'Spotify Emerald', color: '#1db954' },
+            { name: 'Deezer Violet', color: '#a238ff' },
+            { name: 'Riff Electric Blue', color: '#0071e3' },
+            { name: 'Sunset Amber', color: '#ff9500' },
+            { name: 'Cyber Cyan', color: '#00f2fe' },
+            { name: 'Neon Pink', color: '#ff2d55' }
+        ];
+
+        function setAppAccentColor(hex) {
+            if (!hex) return;
+            localStorage.setItem('pkm_accent_color', hex);
+            applyAccentColor(hex);
+            showToast(`Color de acento actualizado`);
+            if (currentTab === 'ajustes') renderCurrentView();
+        }
+
+        function applyAccentColor(hex) {
+            document.documentElement.style.setProperty('--accent', hex);
+            document.documentElement.style.setProperty('--accent-glow', `${hex}59`);
+            document.documentElement.style.setProperty('--play-gradient', `linear-gradient(135deg, ${hex} 0%, color-mix(in srgb, ${hex} 75%, #ffffff) 100%)`);
+        }
+
+        class TheKingAudioEngine {
+            constructor() {
+                this.ctx = null;
+                this.source = null;
+                this.analyser = null;
+                this.eqNodes = [];
+                this.bassFilter = null;
+                this.convolver = null;
+                this.reverbGain = null;
+                this.dryGain = null;
+                this.distortionNode = null;
+                this.distortionGain = null;
+                this.masterGain = null;
+                this.initialized = false;
+                this.activePreset = 'plano';
+
+                this.settings = {
+                    bands: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    bass: 0,
+                    reverb: 0,
+                    dist: 0,
+                    speed: 1.0
+                };
+                this.loadSavedSettings();
+            }
+
+            loadSavedSettings() {
+                try {
+                    const raw = localStorage.getItem('pkm_audio_suite');
+                    if (raw) {
+                        const parsed = JSON.parse(raw);
+                        if (parsed && Array.isArray(parsed.bands)) {
+                            this.settings = Object.assign(this.settings, parsed);
+                        }
+                    }
+                } catch(e) {}
+            }
+
+            saveSettings() {
+                try {
+                    localStorage.setItem('pkm_audio_suite', JSON.stringify(this.settings));
+                } catch(e) {}
+            }
+
+            init() {
+                if (this.initialized) {
+                    if (this.ctx && this.ctx.state === 'suspended') {
+                        this.ctx.resume().catch(() => {});
+                    }
+                    return;
+                }
+                try {
+                    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                    if (!AudioContextClass) return;
+                    this.ctx = new AudioContextClass();
+
+                    this.source = this.ctx.createMediaElementSource(audio);
+
+                    this.bassFilter = this.ctx.createBiquadFilter();
+                    this.bassFilter.type = 'lowshelf';
+                    this.bassFilter.frequency.value = 80;
+                    this.bassFilter.gain.value = this.settings.bass;
+
+                    this.eqNodes = EQ_FREQUENCIES.map((freq, i) => {
+                        const node = this.ctx.createBiquadFilter();
+                        node.type = 'peaking';
+                        node.frequency.value = freq;
+                        node.Q.value = 1.2;
+                        node.gain.value = this.settings.bands[i] || 0;
+                        return node;
+                    });
+
+                    this.distortionNode = this.ctx.createWaveShaper();
+                    this.distortionNode.curve = this.makeDistortionCurve(this.settings.dist / 100);
+                    this.distortionNode.oversample = '4x';
+
+                    this.distortionGain = this.ctx.createGain();
+                    this.distortionGain.gain.value = (this.settings.dist / 100) * 0.8;
+
+                    this.convolver = this.ctx.createConvolver();
+                    this.convolver.buffer = this.createReverbImpulse(1.2, 2.0);
+
+                    this.reverbGain = this.ctx.createGain();
+                    this.reverbGain.gain.value = (this.settings.reverb / 100) * 0.6;
+
+                    this.dryGain = this.ctx.createGain();
+                    this.dryGain.gain.value = 1.0;
+
+                    this.analyser = this.ctx.createAnalyser();
+                    this.analyser.fftSize = 128;
+                    this.analyser.smoothingTimeConstant = 0.85;
+
+                    this.masterGain = this.ctx.createGain();
+                    this.masterGain.gain.value = 1.0;
+
+                    this.source.connect(this.bassFilter);
+                    let lastNode = this.bassFilter;
+                    for (let eq of this.eqNodes) {
+                        lastNode.connect(eq);
+                        lastNode = eq;
+                    }
+
+                    lastNode.connect(this.dryGain);
+                    this.dryGain.connect(this.masterGain);
+
+                    lastNode.connect(this.distortionNode);
+                    this.distortionNode.connect(this.distortionGain);
+                    this.distortionGain.connect(this.masterGain);
+
+                    lastNode.connect(this.convolver);
+                    this.convolver.connect(this.reverbGain);
+                    this.reverbGain.connect(this.masterGain);
+
+                    this.masterGain.connect(this.analyser);
+                    this.analyser.connect(this.ctx.destination);
+
+                    if (this.settings.speed !== 1.0) {
+                        audio.playbackRate = this.settings.speed;
+                    }
+
+                    this.initialized = true;
+                    this.startVisualizerLoop();
+                } catch(e) {
+                    console.warn("TheKingAudioEngine initialization notice:", e);
+                }
+            }
+
+            createReverbImpulse(duration, decay) {
+                const sampleRate = this.ctx.sampleRate;
+                const length = sampleRate * duration;
+                const impulse = this.ctx.createBuffer(2, length, sampleRate);
+                const left = impulse.getChannelData(0);
+                const right = impulse.getChannelData(1);
+                for (let i = 0; i < length; i++) {
+                    const n = i / length;
+                    const envelope = Math.pow(1 - n, decay);
+                    left[i] = (Math.random() * 2 - 1) * envelope;
+                    right[i] = (Math.random() * 2 - 1) * envelope;
+                }
+                return impulse;
+            }
+
+            makeDistortionCurve(amount) {
+                const k = amount * 50;
+                const n_samples = 44100;
+                const curve = new Float32Array(n_samples);
+                const deg = Math.PI / 180;
+                for (let i = 0; i < n_samples; ++i) {
+                    const x = i * 2 / n_samples - 1;
+                    if (k === 0) {
+                        curve[i] = x;
+                    } else {
+                        curve[i] = (3 + k) * x * 20 * deg / (Math.PI + k * Math.abs(x));
+                    }
+                }
+                return curve;
+            }
+
+            setBand(index, gain) {
+                gain = Math.max(-12, Math.min(12, parseFloat(gain) || 0));
+                this.settings.bands[index] = gain;
+                if (this.eqNodes[index] && this.ctx) {
+                    this.eqNodes[index].gain.setTargetAtTime(gain, this.ctx.currentTime, 0.02);
+                }
+                const label = document.getElementById(`eq-val-${index}`);
+                if (label) label.textContent = `${gain > 0 ? '+' : ''}${gain}dB`;
+                this.saveSettings();
+            }
+
+            setBassBoost(val) {
+                val = Math.max(0, Math.min(12, parseFloat(val) || 0));
+                this.settings.bass = val;
+                if (this.bassFilter && this.ctx) {
+                    this.bassFilter.gain.setTargetAtTime(val, this.ctx.currentTime, 0.02);
+                }
+                const label = document.getElementById('dsp-val-bass');
+                if (label) label.textContent = `+${val} dB`;
+                const slider = document.getElementById('dsp-slider-bass');
+                if (slider) slider.value = val;
+                this.saveSettings();
+            }
+
+            setReverb(val) {
+                val = Math.max(0, Math.min(100, parseFloat(val) || 0));
+                this.settings.reverb = val;
+                if (this.reverbGain && this.ctx) {
+                    this.reverbGain.gain.setTargetAtTime((val / 100) * 0.6, this.ctx.currentTime, 0.02);
+                }
+                const label = document.getElementById('dsp-val-reverb');
+                if (label) label.textContent = `${val}%`;
+                const slider = document.getElementById('dsp-slider-reverb');
+                if (slider) slider.value = val;
+                this.saveSettings();
+            }
+
+            setDistortion(val) {
+                val = Math.max(0, Math.min(100, parseFloat(val) || 0));
+                this.settings.dist = val;
+                if (this.distortionNode && this.distortionGain && this.ctx) {
+                    this.distortionNode.curve = this.makeDistortionCurve(val / 100);
+                    this.distortionGain.gain.setTargetAtTime((val / 100) * 0.8, this.ctx.currentTime, 0.02);
+                }
+                const label = document.getElementById('dsp-val-dist');
+                if (label) label.textContent = `${val}%`;
+                const slider = document.getElementById('dsp-slider-dist');
+                if (slider) slider.value = val;
+                this.saveSettings();
+            }
+
+            setSpeed(speed) {
+                speed = Math.max(0.5, Math.min(2.0, parseFloat(speed) || 1.0));
+                this.settings.speed = speed;
+                audio.playbackRate = speed;
+                const label = document.getElementById('dsp-val-speed');
+                if (label) label.textContent = `${speed}x`;
+                document.querySelectorAll('.speed-chip').forEach(c => {
+                    c.classList.toggle('active', c.textContent.trim() === `${speed}x`);
+                });
+                this.saveSettings();
+            }
+
+            applyPreset(presetKey, btnEl) {
+                const preset = EQ_PRESETS[presetKey];
+                if (!preset) return;
+                this.activePreset = presetKey;
+                for (let i = 0; i < 10; i++) {
+                    this.setBand(i, preset.bands[i] || 0);
+                    const slider = document.getElementById(`eq-slider-${i}`);
+                    if (slider) slider.value = preset.bands[i] || 0;
+                }
+                this.setBassBoost(preset.bass || 0);
+                this.setReverb(preset.reverb || 0);
+                this.setDistortion(preset.dist || 0);
+                document.querySelectorAll('.eq-preset-chip').forEach(c => c.classList.remove('active'));
+                if (btnEl) btnEl.classList.add('active');
+                showToast(`Preset: ${preset.name}`);
+            }
+
+            startVisualizerLoop() {
+                const canvas = document.getElementById('audio-visualizer-canvas');
+                if (!canvas || !this.analyser) return;
+                const canvasCtx = canvas.getContext('2d');
+                const bufferLength = this.analyser.frequencyBinCount;
+                const dataArray = new Uint8Array(bufferLength);
+
+                const draw = () => {
+                    requestAnimationFrame(draw);
+                    if (!this.analyser || !canvas) return;
+                    this.analyser.getByteFrequencyData(dataArray);
+
+                    canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+                    const barWidth = (canvas.width / bufferLength) * 1.8;
+                    let x = 0;
+
+                    const curAccent = localStorage.getItem('pkm_accent_color') || '#fa233b';
+
+                    for (let i = 0; i < bufferLength; i++) {
+                        const barHeight = (dataArray[i] / 255) * canvas.height;
+                        const grad = canvasCtx.createLinearGradient(0, canvas.height, 0, 0);
+                        grad.addColorStop(0, curAccent);
+                        grad.addColorStop(1, '#ffffff');
+
+                        canvasCtx.fillStyle = grad;
+                        canvasCtx.fillRect(x, canvas.height - barHeight, barWidth - 1, barHeight);
+                        x += barWidth;
+                    }
+                };
+                draw();
+            }
+        }
+
+        const audioEngine = new TheKingAudioEngine();
+
+        function renderEqSliders() {
+            const container = document.getElementById('eq-sliders-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            EQ_FREQUENCIES.forEach((freq, idx) => {
+                const col = document.createElement('div');
+                col.className = 'eq-col';
+                const labelStr = freq >= 1000 ? `${freq/1000}k` : `${freq}`;
+                const curVal = audioEngine.settings.bands[idx] || 0;
+
+                col.innerHTML = `
+                    <div class="eq-gain-val" id="eq-val-${idx}">${curVal > 0 ? '+' : ''}${curVal}dB</div>
+                    <input type="range" class="eq-slider" id="eq-slider-${idx}" min="-12" max="12" step="1" value="${curVal}" oninput="audioEngine.setBand(${idx}, this.value)">
+                    <div class="eq-freq-label">${labelStr}</div>
+                `;
+                container.appendChild(col);
+            });
+        }
+
+        function updateAudioSuiteUI() {
+            renderEqSliders();
+            audioEngine.setBassBoost(audioEngine.settings.bass);
+            audioEngine.setReverb(audioEngine.settings.reverb);
+            audioEngine.setDistortion(audioEngine.settings.dist);
+            audioEngine.setSpeed(audioEngine.settings.speed);
+        }
+
+        function openAudioSuiteModal() {
+            audioEngine.init();
+            const modal = document.getElementById('audio-suite-modal-overlay');
+            if (modal) {
+                modal.classList.add('active');
+                modal.classList.add('open');
+                updateAudioSuiteUI();
+            }
+        }
+
+        function closeAudioSuiteModal() {
+            const modal = document.getElementById('audio-suite-modal-overlay');
+            if (modal) {
+                modal.classList.remove('active');
+                modal.classList.remove('open');
+            }
+        }
+
+        // ==========================================
+        // 1-CLICK PLAYLIST IMPORTER (RIFF SWITCH EASY)
+        // ==========================================
+        function openPlaylistImporterModal() {
+            const modal = document.getElementById('playlist-importer-modal-overlay');
+            if (modal) {
+                modal.classList.add('active');
+                modal.classList.add('open');
+                const sb = document.getElementById('importer-status-box');
+                if (sb) sb.innerHTML = '';
+            }
+        }
+
+        function closePlaylistImporterModal() {
+            const modal = document.getElementById('playlist-importer-modal-overlay');
+            if (modal) {
+                modal.classList.remove('active');
+                modal.classList.remove('open');
+            }
+        }
+
+        async function processPlaylistImport() {
+            const text = document.getElementById('importer-input-text')?.value || '';
+            const statusBox = document.getElementById('importer-status-box');
+            if (!text.trim()) {
+                showToast("Pega un enlace o lista de canciones");
+                return;
+            }
+
+            if (statusBox) statusBox.innerHTML = '<div style="color: var(--accent); font-weight: 700;">Analizando catálogo y resolviendo pistas originales...</div>';
+
+            const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+            let importedCount = 0;
+
+            for (const line of lines) {
+                let artist = "";
+                let title = line;
+                if (line.includes(' - ')) {
+                    const p = line.split(' - ');
+                    artist = p[0].trim();
+                    title = p.slice(1).join(' - ').trim();
+                } else if (line.includes('https://') || line.includes('http://')) {
+                    const slug = decodeURIComponent(line.split('/').pop().split('?')[0]).replace(/[-_+]/g, ' ');
+                    title = slug;
+                }
+
+                if (!title) continue;
+                const cleanQuery = (artist ? `${artist} ${title}` : title).replace(/[\(\[].*?[\)\]]/g, '').trim();
+
+                try {
+                    const res = await fetch(api(`/api/search?q=${encodeURIComponent(cleanQuery)}`));
+                    if (res.ok) {
+                        const data = await res.json();
+                        const cand = (data.local || []).concat(data.online || [])[0];
+                        if (cand) {
+                            addToUserLibrary(cand);
+                            importedCount++;
+                        }
+                    }
+                } catch(e) {}
+            }
+
+            if (statusBox) {
+                statusBox.innerHTML = `<div style="color: #4cd964; font-weight: 700;">¡${importedCount} canciones importadas con éxito a tu biblioteca personal!</div>`;
+            }
+            showToast(`${importedCount} canciones añadidas a tu biblioteca`);
+            if (currentTab === 'biblioteca') renderCurrentView();
+        }
+
+        // Apply saved accent on boot
+        const bootAccent = localStorage.getItem('pkm_accent_color');
+        if (bootAccent) {
+            applyAccentColor(bootAccent);
         }
 
         function setupAudioListeners() {
@@ -5895,6 +6580,114 @@
             removeFromUserLibrary(trackId);
         }
     </script>
+
+    
+    <!-- RIFF-STYLE AUDIO SUITE & DSP MODAL -->
+    <div class="user-modal-overlay" id="audio-suite-modal-overlay" onclick="if(event.target === this) closeAudioSuiteModal()">
+        <div class="audio-suite-modal-box">
+            <div class="user-modal-header">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <svg class="icon" style="fill: var(--accent); width: 22px; height: 22px;" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+                    <div class="user-modal-title">TheKing Audio Suite (DSP & Ecualizador)</div>
+                </div>
+                <button class="user-modal-close-btn" onclick="closeAudioSuiteModal()" title="Cerrar">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                </button>
+            </div>
+
+            <!-- Real-Time Spectrum Visualizer Canvas -->
+            <canvas id="audio-visualizer-canvas" class="audio-suite-canvas" width="630" height="90"></canvas>
+
+            <!-- Presets Row -->
+            <div class="eq-presets-row" id="eq-presets-container">
+                <button class="eq-preset-chip active" onclick="audioEngine.applyPreset('plano', this)">Plano</button>
+                <button class="eq-preset-chip" onclick="audioEngine.applyPreset('bassboost', this)">Bass Boost Extremo</button>
+                <button class="eq-preset-chip" onclick="audioEngine.applyPreset('rock', this)">Rock Potente</button>
+                <button class="eq-preset-chip" onclick="audioEngine.applyPreset('pop', this)">Pop Brillante</button>
+                <button class="eq-preset-chip" onclick="audioEngine.applyPreset('edm', this)">Club / EDM</button>
+                <button class="eq-preset-chip" onclick="audioEngine.applyPreset('vocal', this)">Voz Clara</button>
+                <button class="eq-preset-chip" onclick="audioEngine.applyPreset('acustico', this)">Acústico Cálido</button>
+            </div>
+
+            <!-- 10-Band Graphic Equalizer -->
+            <div class="eq-sliders-wrap" id="eq-sliders-container">
+                <!-- Sliders dynamically injected or static 10 bands -->
+            </div>
+
+            <!-- DSP Audio Effects (Bass Boost, Reverb, Distortion, Speed) -->
+            <div class="dsp-grid">
+                <div class="dsp-card">
+                    <div class="dsp-card-title">
+                        <span>Sub-Bass Boost</span>
+                        <span class="dsp-card-val" id="dsp-val-bass">+0 dB</span>
+                    </div>
+                    <input type="range" class="dsp-slider" min="0" max="12" step="0.5" value="0" id="dsp-slider-bass" oninput="audioEngine.setBassBoost(this.value)">
+                </div>
+
+                <div class="dsp-card">
+                    <div class="dsp-card-title">
+                        <span>Espacio / Reverb</span>
+                        <span class="dsp-card-val" id="dsp-val-reverb">0%</span>
+                    </div>
+                    <input type="range" class="dsp-slider" min="0" max="100" step="1" value="0" id="dsp-slider-reverb" oninput="audioEngine.setReverb(this.value)">
+                </div>
+
+                <div class="dsp-card">
+                    <div class="dsp-card-title">
+                        <span>Calidez / Distorsión</span>
+                        <span class="dsp-card-val" id="dsp-val-dist">0%</span>
+                    </div>
+                    <input type="range" class="dsp-slider" min="0" max="100" step="1" value="0" id="dsp-slider-dist" oninput="audioEngine.setDistortion(this.value)">
+                </div>
+
+                <div class="dsp-card">
+                    <div class="dsp-card-title">
+                        <span>Velocidad (Tempo)</span>
+                        <span class="dsp-card-val" id="dsp-val-speed">1.0x</span>
+                    </div>
+                    <div class="speed-chips">
+                        <button class="speed-chip" onclick="audioEngine.setSpeed(0.75)">0.75x</button>
+                        <button class="speed-chip active" onclick="audioEngine.setSpeed(1.0)">1.0x</button>
+                        <button class="speed-chip" onclick="audioEngine.setSpeed(1.25)">1.25x</button>
+                        <button class="speed-chip" onclick="audioEngine.setSpeed(1.5)">1.5x</button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                <button class="btn-track-action" onclick="audioEngine.applyPreset('plano')" style="font-weight: 700;">Restablecer a Plano</button>
+                <button class="btn-accent" onclick="closeAudioSuiteModal()" style="padding: 8px 24px; border-radius: 8px;">Listo</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 1-CLICK PLAYLIST IMPORTER MODAL (RIFF "SWITCH EASY") -->
+    <div class="user-modal-overlay" id="playlist-importer-modal-overlay" onclick="if(event.target === this) closePlaylistImporterModal()">
+        <div class="user-modal-box" style="max-width: 520px;">
+            <div class="user-modal-header">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <svg class="icon" style="fill: var(--accent); width: 22px; height: 22px;" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                    <div class="user-modal-title">Importar Playlist (Switch Easy)</div>
+                </div>
+                <button class="user-modal-close-btn" onclick="closePlaylistImporterModal()" title="Cerrar">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                </button>
+            </div>
+
+            <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px; line-height: 1.5;">
+                Pega el enlace público de tu playlist de Spotify, Apple Music, YouTube o SoundCloud, o pega directamente una lista de canciones en formato <b>Artista - Canción</b> (una por línea).
+            </div>
+
+            <textarea id="importer-input-text" class="search-main-input" rows="6" placeholder="https://open.spotify.com/playlist/...&#10;o pega canciones:&#10;Coldplay - Yellow&#10;José José - El Triste&#10;PXNDX - Narcisista por excelencia" style="width: 100%; border-radius: 12px; font-family: inherit; font-size: 13px; resize: vertical; padding: 12px; margin-bottom: 12px;"></textarea>
+
+            <div id="importer-status-box" style="margin-bottom: 14px; font-size: 13px;"></div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 8px;">
+                <button class="btn-track-action" onclick="closePlaylistImporterModal()">Cancelar</button>
+                <button class="btn-accent" onclick="processPlaylistImport()" style="padding: 8px 20px; border-radius: 8px; font-weight: 700;">Analizar e Importar</button>
+            </div>
+        </div>
+    </div>
 
     <!-- USER AUTHENTICATION MODAL (Independent Login & Register) -->
     <div class="user-modal-overlay" id="user-modal-overlay" onclick="if(event.target === this) closeUserModal()">
